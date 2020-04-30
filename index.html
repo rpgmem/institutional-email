@@ -78,12 +78,14 @@
 			text-align: right;
 			margin: 3px 0 0;
 		}
-		.btnCopy a {
+		.btnCopy button {
 			font-size: 14px;
 			color: #0003ff;
 			text-decoration: none;
 			padding: 5px;
-			width: 100px;
+            width: 126px;
+            background: no-repeat;
+            border: none;
 		}
 		#messageCopyEmail,
 		#messageCopyPassword {
@@ -117,13 +119,17 @@
 			O e-mail do aluno é: <br /><span id="email"></span>
 
 			<div class="btnCopy">
-				<a href="javascript:void(0)" id="copyemail"> <i class="fas fa-copy"></i> copiar e-mail </a>
+                <button type="button" name="copyemail" id="copyemail">
+                    <i class="fas fa-copy"></i> copiar e-mail </a>
+                </button>
 				<span id="messageCopyEmail" class="hide">E-mail Copiado</span>
 			</div>
 
 			A senha inicial do e-mail é: <span id="password">12345678</span>
 			<div class="btnCopy">
-				<a href="javascript:void()" id="copypassword"><i class="fas fa-copy"></i> copiar senha </a>
+                <button type="button" name="copypassword" id="copypassword">
+                    <i class="fas fa-copy"></i> copiar senha </a>
+                </button>
 				<span id="messageCopyPassword" class="hide">Senha Copiada</span>
 			</div>
 		</div>
@@ -420,7 +426,6 @@
 
 		// copia o e-mail para o clipboard
 		document.getElementById("copyemail").addEventListener("click", (event) => {
-			e.preventDefault();
 
 			let element = document.getElementById("messageCopyEmail");
 			element.classList.remove("show");
@@ -438,7 +443,6 @@
 
 		// copia a senha para o clipboard
 		document.getElementById("copypassword").addEventListener("click", (event) => {
-			e.preventDefault();
 
 			let element = document.getElementById("messageCopyPassword");
 			element.classList.remove("show");
