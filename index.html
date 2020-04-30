@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- Desenvolvido com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger -->
+<!-- Desenvolvido pela equipe de Informática Educativa da E.M.E.F. José Américo de Almeida com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger -->
 <html lang="pt-br" dir="ltr">
     <script type="text/javascript">
-    
+// Remover caracteres especiais
     function removeDiacritics (str) {
 
         var defaultDiacriticsRemovalMap = [
@@ -99,7 +99,7 @@
         return str;
 
     }
-
+// Abrevia nomes do meio
     function abrevia(str) {
         const nome = str.replace(/\s+/gi, ' ').trim();
         var array_nome = nome.split(' ');
@@ -109,7 +109,7 @@
           return str;
         }
     }
-
+// Converte letras com acentos em letras sem, retira particulas de ligação de nomes, retira espaços entre palavras
     function formatName(name){        
         let string = removeDiacritics(name);
         string = string.replace(/[^a-zA-Z\ ]/g,'');
@@ -118,17 +118,17 @@
         string = abrevia(string);
         return string.replace(/\ /g,'');
     }    
-
+// Formata a data e coloca na sequencia correta
     function formatDate(date){       
         let array_date = date.split('-');
         return `${array_date[2]}${array_date[1]}${array_date[0]}`;
     }    
-
+// Concatena valores
     function formatEmail(name, birthDate){       
         
         return `${name}.${birthDate}@edu.sme.prefeitura.sp.gov.br`;
     }   
-
+// Lógica para exibição de erro
     function showError() {
         let element = document.getElementById('messageError'); 
         element.classList.remove("hide");
@@ -178,6 +178,7 @@
 
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Estilos, Fontes e Cores -->
     <style type="text/css">
         html {
             font-family: 'Roboto', sans-serif;
