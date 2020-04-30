@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Desenvolvido pela equipe de Informática Educativa da E.M.E.F. José Américo de Almeida com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger -->
+<!-- Desenvolvido pela equipe de Informática Educativa da E.M.E.F. José Américo de Almeida - DRE/MP - SME/SP, com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger -->
 <html lang="pt-br" dir="ltr">
 	<link
 		rel="stylesheet"
@@ -350,7 +350,7 @@
 				return str;
 			}
 		}
-		// Converte letras com acentos em letras sem, retira particulas de ligação de nomes, retira espaços entre palavras
+		// Converte letras com acentos em letras sem, retira particulas de ligação de nomes e retira espaços entre palavras
 		function formatName(name) {
 			let string = removeDiacritics(name);
 			string = string.replace(/[^a-zA-Z\ ]/g, "");
@@ -393,7 +393,7 @@
 			element.classList.add("hide");
 		}
 
-		//funcao para mandar para o input escondido e fazer a copia
+		// Função para mandar para o input escondido e fazer a copia
 		function copyText(text) {
 			let copyText = document.getElementById("copyText");
 			copyText.value = text;
@@ -405,7 +405,7 @@
 			document.execCommand("copy");
 		}
 
-		// envia os dados para calcular o e-mail do usuário
+		// Envia os dados para calcular o e-mail do usuário
 		document.getElementById("submit").addEventListener("click", (event) => {
 			hideError();
 			hideReturn();
@@ -424,7 +424,7 @@
 			}
 		});
 
-		// copia o e-mail para o clipboard
+		// Copia o e-mail para o clipboard
 		document.getElementById("copyemail").addEventListener("click", (event) => {
 
 			let element = document.getElementById("messageCopyEmail");
@@ -441,7 +441,7 @@
 			return false;
 		});
 
-		// copia a senha para o clipboard
+		// Copia a senha para o clipboard
 		document.getElementById("copypassword").addEventListener("click", (event) => {
 
 			let element = document.getElementById("messageCopyPassword");
