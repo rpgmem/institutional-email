@@ -1,1 +1,41 @@
-commit
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<!- – Desenvolvido com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger – ->
+<script type="text/javascript">
+  function middleName(item){
+        return ['de', 'da', 'do', 'dos', 'das', 'e'].includes(item) ? '' : item[0]
+  }
+  function convert(){
+    let name = document.getElementById('name').value.toLowerCase()
+    let birth = document.getElementById('birth').value
+    name = name.split(" ")
+    let mail = ''
+    const size = name.length
+    const ye = birth.split('-')[0]
+    const mo = birth.split('-')[1]
+    const da = birth.split('-')[2]
+    name.forEach((item , i) => {
+      i ===0 || i+1 === size
+      ? mail += item
+      : mail += middleName(item)
+    });
+
+    document.getElementById('email').innerHTML = `${mail}.${da}${mo}${ye}@edu.sme.prefeitura.sp.gov.br`
+  }
+</script>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <p>Nome completo do aluno: <input type="text" id="name" placeholder="Nome completo" required></p>
+      <p>Data de nascimento do aluno: <input type="date" id="birth" placeholder="Data de Nascimento" required></p>
+      <p><button type="button" name="button"
+      onclick="convert()"
+      >Enviar</button></p>
+      <p>O e-mail do aluno é: <b style="color:red"><span id='email'></b></span></p>
+      <p>A senha inicial do e-mail é: <b style="color:red">12345678</b></p>
+      <p>Após <b>anotar</b> o e-mail e senha do aluno, clique no link ao lado para ter acesso a plataforma: <a href="https://classroom.google.com/welcome" target="_blank">Google Sala de Aula</a></p>
+      <p>Faça login com o e-mail e senha anotados. Caso não apareça as turmas verifique se fez login com a conta correta (<b>não irá</b> aparecer caso esteja com seu e-mail pessoal, deve ser o e-mail/senha acima)</p>
+  </body>
+</html>
