@@ -420,6 +420,8 @@
 
 		// copia o e-mail para o clipboard
 		document.getElementById("copyemail").addEventListener("click", (event) => {
+			e.preventDefault();
+
 			let element = document.getElementById("messageCopyEmail");
 			element.classList.remove("show");
 			element.classList.add("hide");
@@ -436,6 +438,8 @@
 
 		// copia a senha para o clipboard
 		document.getElementById("copypassword").addEventListener("click", (event) => {
+			e.preventDefault();
+
 			let element = document.getElementById("messageCopyPassword");
 			element.classList.remove("show");
 			element.classList.add("hide");
