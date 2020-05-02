@@ -3,7 +3,7 @@
 Desenvolvido pela equipe de Informática Educativa da E.M.E.F. José Américo de Almeida - DRE/MP - SME/SP, com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger.
 
 Para ver funcionando, acesse:  
-[E.M.E.F. José Américo de Almeida / DRE-MP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)
+[E.M.E.F. José Américo de Almeida - DRE/MP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)
 
 Para implementar em um site próprio (da escola, por exemplo):  
 1- Acesse: [https://github.com/rpgmem/institutional-email/blob/master/index.html](index.html)  
@@ -23,10 +23,13 @@ Atenção: Ferramentas gratuitas em geral tem limitações a implementação de 
 
 DREs que implementaram o código em suas páginas:
 
-[DIPED / DRE-Ipiranga](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
+[DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
 
-Escolas que implementaram o código em suas páginas:  
-[E.M.E.F. José Américo de Almeida / DRE-MP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
-[E.M.E.F. Gonzaguinha / DRE-](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
-[E.M.E.F. Saturnino Pereira / DRE-](https://sites.google.com/view/emef-saturnino-pereira/)  
-[E.M.E.F. Prof. Jurandi Gomes de Araújo / DRE-MP](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)
+Escolas que implementaram o código em suas páginas (por DRE):
+
+Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)  
+[E.M.E.F. José Américo de Almeida - DRE/MP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
+[E.M.E.F. Prof. Jurandi Gomes de Araújo - DRE/MP](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)
+
+[E.M.E.F. Gonzaguinha - DRE/](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
+[E.M.E.F. Saturnino Pereira - DRE/](https://sites.google.com/view/emef-saturnino-pereira/) 
