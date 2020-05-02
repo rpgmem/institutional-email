@@ -1,6 +1,6 @@
 **Desenvolvido pela equipe de Informática Educativa da E.M.E.F. José Américo de Almeida - DRE/MP - SME/SP, com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger.**
 
-Código visa a implementação de formulário simples e acessível (inclusive a leitores de tela) para conversão de e-mails institucionais de alunos da Rede Municipal de Educação de São Paulo (RME, com base em seus nomes completos e datas de nascimento.
+Código visa a implementação de formulário simples e acessível (inclusive a leitores de tela) para conversão de e-mails institucionais de alunos da Rede Municipal de Educação de São Paulo (RME/SP), com base em seus nomes completos e datas de nascimento.
 
 **Para ver funcionando, acesse:**  
 [E.M.E.F. José Américo de Almeida - DRE/MP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)
