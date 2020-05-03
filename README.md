@@ -27,12 +27,15 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 
 **Escolas que implementaram o código em suas páginas ou o compartilharam (por DRE):**
 
+**Escolas da Diretoria Regional de Educação de Guaianases (DRE/G)**  
+[E.M.E.F. Claudia Bartolomazi - DRE/G](https://www.facebook.com/emefclaudia.bartolomazi)  
+[E.M.E.F. Saturnino Pereira - DRE/G](https://sites.google.com/view/emef-saturnino-pereira/) 
+
 **Escolas da Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)**  
 [E.M.E.F. José Américo de Almeida - DRE/MP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
 [E.M.E.F. Prof. Jurandi Gomes de Araújo - DRE/MP](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)
 
-**Escolas da Diretoria Regional de Educação de Guaianases (DRE/G)**  
-[E.M.E.F. Claudia Bartolomazi - DRE/G](https://www.facebook.com/emefclaudia.bartolomazi)  
-[E.M.E.F. Saturnino Pereira - DRE/G](https://sites.google.com/view/emef-saturnino-pereira/) 
+**Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
+[E.M.E.F. Prof. Luiz David Sobrinho - DRE/PJ](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
 
 [E.M.E.F. Gonzaguinha - DRE/](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
