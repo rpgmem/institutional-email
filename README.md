@@ -38,7 +38,11 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
 [E.M.E.F. Prof. Jurandi Gomes de Araújo](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)
 
+**Escolas da Diretoria Regional de Educação da Penha (DRE/PE)**  
+[E.M.E.F. Anália Franco Bastos](https://sites.google.com/view/emefanaliafrancobastos/p%C3%A1gina-inicial)
+
 **Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
 [E.M.E.F. Prof. Luiz David Sobrinho](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
 
 [E.M.E.F. Gonzaguinha - DRE/?](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
+
