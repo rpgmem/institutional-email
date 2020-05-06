@@ -31,8 +31,9 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 [C.E.U. E.M.E.F. Paraisópolis](https://sites.google.com/edu.sme.prefeitura.sp.gov.br/ceuemefparaispolis/)  
 
 **Escolas da Diretoria Regional de Educação de Guaianases (DRE/G)**  
-[E.M.E.F. Claudia Bartolomazi](https://www.facebook.com/emefclaudia.bartolomazi)  
-[E.M.E.F. Saturnino Pereira](https://sites.google.com/view/emef-saturnino-pereira/) 
+[E.M.E.F. Pres. Juscelino Kubitschek De Oliveira](https://sites.google.com/view/emefjk/in%C3%ADcio)  
+[E.M.E.F. Prof. Claudia Bartolomazi](https://sites.google.com/edu.sme.prefeitura.sp.gov.br/emefprofclaudiabartolomazi)  
+[E.M.E.F. Saturnino Pereira](https://sites.google.com/view/emef-saturnino-pereira/)  
 
 **Escolas da Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)**  
 [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
