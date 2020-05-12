@@ -1,125 +1,109 @@
 <!DOCTYPE html>
 <!-- Desenvolvido pela equipe de Informática Educativa da E.M.E.F. José Américo de Almeida - DRE/MP - SME/SP, com a colaboração de Ricardo Fukui, Rafael Meusburger e Alex Meusburger -->
 <html lang="pt-br" dir="ltr">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-    integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
-<!-- Estilos, Fontes e Cores -->
-<style type="text/css">
-    html {
-        font-family: "Roboto", sans-serif;
-    }
-
-    button {
-        cursor: pointer;
-    }
-
-    .fieldlabel {
-        font-size: 16px;
-        font-weight: bold;
-        padding: 5px 0;
-        margin: 0;
-    }
-
-    .fieldcpf,
-    .fieldname,
-    .fielddate {
-        width: calc(100% - 15px);
-        padding: 5px;
-        font-size: 16px;
-        margin-top: 10px;
-    }
-
-    .fieldbutton {
-        width: 100%;
-        padding: 5px;
-        font-size: 20px;
-        margin-top: 10px;
-    }
-
-    .show {
-        display: block !important;
-    }
-
-    .hide {
-        display: none !important;
-    }
-
-    .error {
-        display: none;
-        font-size: 32px;
-        color: white;
-        background-color: #cd0707;
-        padding: 16px 0;
-        text-align: center;
-        font-weight: bold;
-        margin: 0 0 10px;
-    }
-
-    .linkclass {
-        color: #0032ff;
-        display: initial;
-        padding: 5px;
-        text-decoration: none;
-    }
-
-    .message {
-        border: 1px #939393 solid;
-        padding: 10px 10px;
-        background-color: #f2f2f2;
-        margin: 15px 0 0 0;
-    }
-
-    #messageReturn {
-        border: 1px #939393 solid;
-        padding: 10px 10px;
-        margin: 15px 0 0 0;
-        background-color: #bbfcc0;
-    }
-
-    #email,
-    #password {
-        display: block;
-        border: 1px #4e4e4e solid;
-        padding: 5px;
-        border-radius: 6px;
-        font-weight: bold;
-        text-align: center;
-        background: #e2e2e2;
-        margin: 5px 0 0 0;
-    }
-
-    .btnCopy {
-        text-align: right;
-        margin: 3px 0 0;
-    }
-
-    .btnCopy button {
-        font-size: 14px;
-        color: #0003ff;
-        text-decoration: none;
-        padding: 5px;
-        width: 126px;
-        background: no-repeat;
-        border: none;
-    }
-
-    #messageCopyEmail,
-    #messageCopyPassword {
-        display: block;
-        text-align: left;
-        margin: -22px 0 10px 10px;
-        color: #e60707;
-        font-weight: bold;
-    }
-</style>
-
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-
-<body>
+	<link
+		rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+		integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
+		crossorigin="anonymous"
+	/>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+	<!-- Estilos, Fontes e Cores -->
+	<style type="text/css">
+		html {
+			font-family: "Roboto", sans-serif;
+		}
+		.fieldlabel {
+			font-size: 16px;
+			font-weight: bold;
+			padding: 5px 0;
+			margin: 0;
+		}
+		.fieldname,
+		.fielddate {
+			width: calc(100% - 15px);
+			padding: 5px;
+			font-size: 16px;
+			margin-top: 10px;
+		}
+		.fieldbutton {
+			width: 100%;
+			padding: 5px;
+			font-size: 20px;
+			margin-top: 10px;
+		}
+		.show {
+			display: block !important;
+		}
+		.hide {
+			display: none !important;
+		}
+		.error {
+			display: none;
+			font-size: 32px;
+			color: white;
+			background-color: #cd0707;
+			padding: 16px 0;
+			text-align: center;
+			font-weight: bold;
+			margin: 0 0 10px;
+		}
+		.linkclass {
+            color: #0032ff;
+            display: initial;
+            padding: 5px;
+            text-decoration: none;
+		}
+		.message {
+			border: 1px #939393 solid;
+			padding: 10px 10px;
+			background-color: #f2f2f2;
+			margin: 15px 0 0 0;
+		}
+		#messageReturn {
+			border: 1px #939393 solid;
+			padding: 10px 10px;
+			margin: 15px 0 0 0;
+			background-color: #bbfcc0;
+		}
+		#email,
+		#password {
+			display: block;
+			border: 1px #4e4e4e solid;
+			padding: 5px;
+			border-radius: 6px;
+			font-weight: bold;
+			text-align: center;
+			background: #e2e2e2;
+			margin: 5px 0 0 0;
+		}
+		.btnCopy {
+			text-align: right;
+			margin: 3px 0 0;
+		}
+		.btnCopy button {
+			font-size: 14px;
+			color: #0003ff;
+			text-decoration: none;
+			padding: 5px;
+            width: 126px;
+            background: no-repeat;
+            border: none;
+		}
+		#messageCopyEmail,
+		#messageCopyPassword {
+			display: block;
+			text-align: left;
+			margin: -22px 0 10px 10px;
+			color: #e60707;
+			font-weight: bold;
+		}
+	</style>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
     <div id="errors">
         <div id="formError" class="error"><i class="fas fa-exclamation-triangle"></i> Preencha TODOS os campos</div>
         <div id="cpfError" class="error"><i class="fas fa-exclamation-triangle"></i> Informe um CPF válido</div>
