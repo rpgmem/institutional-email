@@ -357,7 +357,11 @@
 		function formatName(name) {
 			let string = removeDiacritics(name);
 			string = string.replace(/[^a-zA-Z\ ]/g, "");
-			string = string.replace(/(\bde\b)|(\bda\b)|(\bdo\b)|(\bdos\b)|(\bdas\b)|(\be\b)/g, "");
+    //ignore nomes do meio com tamanhos 3, 2 e 1
+			string = string.replace(/\ [a-zA-Z][a-zA-Z][a-zA-Z]\ /g, " ");
+			string = string.replace(/\ [a-zA-Z][a-zA-Z]\ /g, " ");
+			string = string.replace(/\ [a-zA-Z]\ /g, " ");
+//			string = string.replace(/(\bde\b)|(\bda\b)|(\bdo\b)|(\bdos\b)|(\bdas\b)|(\be\b)/g, "");
 			string = string.replace(/(\s\s+)/g, " ");
 			string = abrevia(string);
 			return string.replace(/\ /g, "");
