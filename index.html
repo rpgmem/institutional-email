@@ -356,7 +356,8 @@
 		// Converte letras com acentos em letras sem, retira particulas de ligação de nomes e retira espaços entre palavras
 		function formatName(name) {
 			let string = removeDiacritics(name);
-      //ignore nomes do meio com tamanhos 3, 2 e 1
+			string = string.replace(/[^a-zA-Z\ ]/g, " ");
+    //ignore nomes do meio com tamanhos 3, 2 e 1
       while(string.match(/\ [a-zA-Z]{1,3}\ /)){
   			string = string.replace(/\ [a-zA-Z]{1,3}\ /g, " ");
       }
