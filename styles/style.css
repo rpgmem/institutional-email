@@ -1,0 +1,88 @@
+html {
+	font-family: "Roboto", sans-serif;
+}
+.fieldlabel {
+	font-size: 16px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin: 0;
+}
+.fieldname,
+.fielddate {
+	width: calc(100% - 15px);
+	padding: 5px;
+	font-size: 16px;
+	margin-top: 10px;
+}
+.fieldbutton {
+	width: 100%;
+	padding: 5px;
+	font-size: 20px;
+	margin-top: 10px;
+}
+.show {
+	display: block !important;
+}
+.hide {
+	display: none !important;
+}
+.error {
+	display: none;
+	font-size: 32px;
+	color: white;
+	background-color: #cd0707;
+	padding: 16px 0;
+	text-align: center;
+	font-weight: bold;
+	margin: 0 0 10px;
+}
+.linkclass {
+	color: #0032ff;
+	display: initial;
+	padding: 5px;
+	text-decoration: none;
+}
+.message {
+	border: 1px #939393 solid;
+	padding: 10px 10px;
+	background-color: #f2f2f2;
+	margin: 15px 0 0 0;
+}
+#messageReturn {
+	border: 1px #939393 solid;
+	padding: 10px 10px;
+	margin: 15px 0 0 0;
+	background-color: #bbfcc0;
+}
+#email,
+#password {
+	display: block;
+	border: 1px #4e4e4e solid;
+	padding: 5px;
+	border-radius: 6px;
+	font-weight: bold;
+	text-align: center;
+	background: #e2e2e2;
+	margin: 5px 0 0 0;
+}
+.btnCopy {
+	text-align: right;
+	margin: 3px 0 0;
+}
+.btnCopy button {
+	font-size: 14px;
+	color: #0003ff;
+	text-decoration: none;
+	padding: 5px;
+	width: 126px;
+	background: no-repeat;
+	border: none;
+}
+#messageCopyEmail,
+#messageCopyPassword {
+	display: block;
+	text-align: left;
+	margin: -22px 0 10px 10px;
+	color: #e60707;
+	font-weight: bold;
+}
