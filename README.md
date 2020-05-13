@@ -62,7 +62,7 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 ---
 **Escolas que implementaram o código em suas páginas ou o compartilharam (por DRE):**
 
-<details>
+<details markdown="1">
 <summary>Clique para expandir</summary>
 
 **Escolas da Diretoria Regional de Educação de Campo Limpo (DRE/CL)**  
