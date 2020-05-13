@@ -189,36 +189,35 @@ function removeDiacritics(str) {
 
 	return str;
 }
-// Abrevia nomes do meio
-function abrevia(str) {
-	const nome = str.replace(/\s+/gi, " ").trim();
-	var array_nome = nome.split(" ");
-	if (array_nome.length > 2) {
-		return array_nome
-			.map((parte, index, nomes) => (index == 0 || index == array_nome.length - 1 ? parte : `${parte[0]}`))
-			.join(" ");
-	} else {
-		return str;
-	}
-}
+
 // Converte letras com acentos em letras sem, retira particulas de ligação de nomes e retira espaços entre palavras
 function formatName(name) {
-	let string = removeDiacritics(name);
-	string = string.replace(/[^a-zA-Z\ ]/g, "");
-	string = string.replace(/(\bde\b)|(\bda\b)|(\bdo\b)|(\bdos\b)|(\bdas\b)|(\be\b)/g, "");
-	string = string.replace(/(\s\s+)/g, " ");
-	string = abrevia(string);
-	return string.replace(/\ /g, "");
+	let arrName = removeDiacritics(name).split(" ");
+
+	var filteredName = arrName.filter((item, idx) => {
+		return idx == 0 || item.length > 3 || idx == arrName.length - 1;
+	});
+
+	filteredName.forEach((element, idx) => {
+		if (idx > 0 && idx != filteredName.length - 1) {
+			filteredName[idx] = element.charAt(0);
+		}
+	});
+
+	return filteredName.join("");
 }
+
 // Formata a data e coloca na sequencia correta
 function formatDate(date) {
 	let array_date = date.split("-");
 	return `${array_date[2]}${array_date[1]}${array_date[0]}`;
 }
+
 // Concatena valores
 function formatEmail(name, birthDate) {
 	return `${name}.${birthDate}@edu.sme.prefeitura.sp.gov.br`;
 }
+
 // Lógica para exibição de erro
 function showError() {
 	let element = document.getElementById("messageError");
