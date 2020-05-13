@@ -15,8 +15,8 @@ Este projeto visa a implementação de formulário simples e acessível (inclusi
 
 ---
 
-**Para ver funcionando o forumulário de ***ALUNOS***, acesse:**  
-[ex. Formulário de Alunos](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)
+**Para ver funcionando o formulário de ***ALUNOS***, acesse:**  
+[ex. Formulário de Alunos](https://institutional-email.herokuapp.com/email-alunos.php)
 
 **Para implementar o formulário de ***ALUNOS*** em um site próprio (da escola, por exemplo):**  
 
@@ -26,7 +26,7 @@ Este projeto visa a implementação de formulário simples e acessível (inclusi
 ```
 ---
 **Para ver funcionando o formulário de ***PROFESSORES***, acesse:**  
-[ex. Formulário de Professores](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-professor)
+[ex. Formulário de Professores](https://institutional-email.herokuapp.com/email-professores.php)
 
 **Para implementar o formulário de ***PROFESSORES*** em um site próprio (da escola, por exemplo):**  
 
