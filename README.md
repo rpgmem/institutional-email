@@ -55,10 +55,8 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 
 <details>
 <summary>Clique para expandir</summary>
-
 [DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
-
-</details>  
+</details>
 
 ---
 **Escolas que implementaram o código em suas páginas ou o compartilharam (por DRE):**
