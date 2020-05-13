@@ -53,7 +53,7 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 ---
 **Setores de DREs que implementaram o código em suas páginas:**
 
-<details>
+<details markdown="1">
 <summary>Clique para expandir</summary>
 
 [DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
