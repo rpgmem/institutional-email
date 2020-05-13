@@ -261,9 +261,10 @@ document.getElementById("submit").addEventListener("click", (event) => {
 	hideReturn();
 
 	let name = document.getElementById("name").value.toLowerCase();
+
 	let birthDate = document.getElementById("birthDate").value;
 
-	if (birthDate == undefined || birthDate == "" || name == undefined || name == "") {
+	if (birthDate == undefined || birthDate == "" || name == undefined || name == "" || name.split(" ").length <= 1) {
 		showError();
 	} else {
 		name = formatName(name);
