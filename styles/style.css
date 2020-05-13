@@ -20,8 +20,23 @@ html {
 	font-size: 20px;
 	margin-top: 10px;
 }
+.fieldname.radio {
+	border: 1px #c9c6c6 solid;
+	margin: 0 0 15px 0;
+	padding: 10px;
+	font-size: 16px;
+}
+.fieldname.radio label {
+	padding: 0 50px 0 0;
+}
 
-#submit {
+#submit-student,
+#submit-teacher {
+	display: none;
+}
+
+.rede-direta,
+.rede-conveniada {
 	display: none;
 }
 
