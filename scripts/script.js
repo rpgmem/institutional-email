@@ -1,4 +1,6 @@
-// Remover caracteres especiais
+"use strict";
+
+// Remover caracteres especiais e converte letras com acentos em letras sem
 function removeDiacritics(str) {
 	var defaultDiacriticsRemovalMap = [
 		{
@@ -190,7 +192,7 @@ function removeDiacritics(str) {
 	return str;
 }
 
-// Converte letras com acentos em letras sem, retira particulas de ligação de nomes e retira espaços entre palavras
+// formata o nome preservando o primeiro e ultimo nome, removendo os nomes do meio com menos de 4 caracteres e oque tiverem mais que 3 caracteres pega a primeira letra
 function formatName(name) {
 	let arrName = removeDiacritics(name).split(" ");
 
@@ -207,102 +209,57 @@ function formatName(name) {
 	return filteredName.join("");
 }
 
-// Formata a data e coloca na sequencia correta
+// Formata a data de nascimento e coloca na sequencia correta
 function formatDate(date) {
 	let array_date = date.split("-");
 	return `${array_date[2]}${array_date[1]}${array_date[0]}`;
 }
 
-// Concatena valores
+// Concatena valores para formatar o e-mail
 function formatEmail(name, birthDate) {
 	return `${name}.${birthDate}@edu.sme.prefeitura.sp.gov.br`;
 }
 
-// Lógica para exibição de erro
-function showError() {
-	let element = document.getElementById("messageError");
-	element.classList.remove("hide");
-	element.classList.add("show");
-}
-
-function hideError() {
-	let element = document.getElementById("messageError");
-	element.classList.remove("show");
-	element.classList.add("hide");
-}
-
-function showReturn() {
-	let element = document.getElementById("messageReturn");
-	element.classList.remove("hide");
-	element.classList.add("show");
-}
-
-function hideReturn() {
-	let element = document.getElementById("messageReturn");
-	element.classList.remove("show");
-	element.classList.add("hide");
-}
-
-// Função para mandar para o input escondido e fazer a copia
-function copyText(text) {
-	let copyText = document.getElementById("copyText");
-	copyText.value = text;
-	/* seleciona */
-	copyText.select();
-	copyText.setSelectionRange(0, 99999); /*Para mobiles*/
-
-	/* Copia o texto */
-	document.execCommand("copy");
-}
-
-// Envia os dados para calcular o e-mail do usuário
-document.getElementById("submit").addEventListener("click", (event) => {
-	hideError();
-	hideReturn();
-
-	let name = document.getElementById("name").value.toLowerCase();
-
-	let birthDate = document.getElementById("birthDate").value;
-
-	if (birthDate == undefined || birthDate == "" || name == undefined || name == "" || name.split(" ").length <= 1) {
-		showError();
-	} else {
-		name = formatName(name);
-		birthDate = formatDate(birthDate);
-		email = formatEmail(name, birthDate);
-		document.getElementById("email").innerHTML = email;
-		showReturn();
+//documento pronto, arquivos externos carregados
+$(function () {
+	if ($("#cpf").length) {
+		$("#cpf").mask("000.000.000-00", { reverse: true });
 	}
-});
 
-// Copia o e-mail para o clipboard
-document.getElementById("copyemail").addEventListener("click", (event) => {
-	let element = document.getElementById("messageCopyEmail");
-	element.classList.remove("show");
-	element.classList.add("hide");
-	/* pega o e-mail */
-	let email = document.getElementById("email").innerHTML;
+	// Envia os dados para calcular o e-mail do usuário
+	$("#submit")
+		.show()
+		.click(function () {
+			$("#messageError").hide();
+			$("#messageReturn").hide();
 
-	copyText(email);
+			let name = $("input#name").val().toLowerCase();
+			let birthDate = $("input#birthDate").val();
 
-	element.classList.remove("hide");
-	element.classList.add("show");
+			if (birthDate == undefined || birthDate == "" || name == undefined || name == "" || name.split(" ").length <= 1) {
+				$("#messageError").show();
+			} else {
+				name = formatName(name);
+				birthDate = formatDate(birthDate);
+				let email = formatEmail(name, birthDate);
+				$("#email").html(email);
+				$("#messageReturn").show();
+			}
+		});
 
-	return false;
-});
+	//setar o botao para copiar o e-mail para a area de treansferencia
+	let copyemail = new ClipboardJS("#copyemail");
+	copyemail.on("success", function (e) {
+		$("#messageCopyEmail").hide();
+		$("#messageCopyEmail").show();
+		e.clearSelection();
+	});
 
-// Copia a senha para o clipboard
-document.getElementById("copypassword").addEventListener("click", (event) => {
-	let element = document.getElementById("messageCopyPassword");
-	element.classList.remove("show");
-	element.classList.add("hide");
-	/* pega a senha */
-	let password = document.getElementById("password").innerHTML;
-
-	copyText(password);
-
-	element.classList.remove("hide");
-	element.classList.add("show");
-
-	return false;
+	//setar o botao para copiar o e-mail para a area de treansferencia
+	let copypassword = new ClipboardJS("#copypassword");
+	copypassword.on("success", function (e) {
+		$("#messageCopyPassword").hide();
+		$("#messageCopyPassword").show();
+		e.clearSelection();
+	});
 });
