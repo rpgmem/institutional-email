@@ -55,6 +55,7 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 
 <details>
 <summary>Clique para expandir</summary>
+
 [DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
 </details>
 
@@ -84,5 +85,4 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 [E.M.E.F. Prof. Luiz David Sobrinho](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
 
 [E.M.E.F. Gonzaguinha - DRE/?](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
-
 </details>
