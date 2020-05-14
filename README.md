@@ -56,8 +56,8 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 <details markdown="1">
 <summary>Clique para expandir</summary>
 
-[DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
-[DIPED - DRE/MP](https://dipedmp.wixsite.com/meusite/descubra-em-login-no-classroom)
+[DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)  
+[DIPED - DRE/MP](https://dipedmp.wixsite.com/meusite/descubra-em-login-no-classroom)  
 </details>
 
 ---
@@ -96,7 +96,7 @@ E.M.E.F.M. Darcy Ribeiro
 
 **Escolas da Diretoria Regional de Educação da Penha (DRE/PE)**  
 C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira  
-[E.M.E.F. Anália Franco Bastos](https://sites.google.com/view/emefanaliafrancobastos/p%C3%A1gina-inicial)
+[E.M.E.F. Anália Franco Bastos](https://sites.google.com/view/emefanaliafrancobastos/p%C3%A1gina-inicial)  
 
 **Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
 [E.M.E.F. Prof. Luiz David Sobrinho](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
