@@ -95,7 +95,7 @@ E.M.E.F. Vicente Amato
 E.M.E.F.M. Darcy Ribeiro  
 
 **Escolas da Diretoria Regional de Educação da Penha (DRE/PE)**  
-C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira
+C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira  
 [E.M.E.F. Anália Franco Bastos](https://sites.google.com/view/emefanaliafrancobastos/p%C3%A1gina-inicial)
 
 **Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
