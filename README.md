@@ -75,6 +75,7 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 
 **Escolas da Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)**  
 [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
+[E.M.E.F. Madre Maria Imilda do Santíssimo Sacramento](http://madreonline3.webnode.com/)  
 [E.M.E.F. Prof. Jurandi Gomes de Araújo](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)  
 [E.M.E.F. Raimundo Correia](https://www.facebook.com/emefraimundocorreia/)  
 
