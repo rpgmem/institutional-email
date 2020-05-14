@@ -57,6 +57,7 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 <summary>Clique para expandir</summary>
 
 [DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)
+[DIPED - DRE/MP](https://dipedmp.wixsite.com/meusite/descubra-em-login-no-classroom)
 </details>
 
 ---
@@ -74,13 +75,28 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 [E.M.E.F. Saturnino Pereira](https://sites.google.com/view/emef-saturnino-pereira/)  
 
 **Escolas da Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)**  
+E.M.E.F. Armando Cridey Righetti  
+E.M.E.F. Alm. Pedro de Frontim  
+E.M.E.F. Arq. Luis Saia  
+E.M.E.F. Chico Falconi  
+E.M.E.F. Dr. José  Pedro Leite Cordeiro  
+E.M.E.F. Héllio Tavares  
+E.M.E.F. Henrique Felipe da Costa  
 [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
+E.M.E.F. Marisa Moretti Câmara  
 [E.M.E.F. Madre Maria Imilda do Santíssimo Sacramento](http://madreonline3.webnode.com/)  
+E.M.E.F. Mururés  
+E.M.E.F. Prof Carlos Pasquale  
+E.M.E.F. Prof. José Bento de Assis  
 [E.M.E.F. Prof. Jurandi Gomes de Araújo](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)  
 [E.M.E.F. Raimundo Correia](https://www.facebook.com/emefraimundocorreia/)  
+E.M.E.F. Sud Mennuci  
+E.M.E.F. Vicente Amato  
+E.M.E.F.M. Darcy Ribeiro  
 
 **Escolas da Diretoria Regional de Educação da Penha (DRE/PE)**  
-[E.M.E.F. Anália Franco Bastos](https://sites.google.com/view/>emefanaliafrancobastos/p%C3%A1gina-inicial)
+C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira
+[E.M.E.F. Anália Franco Bastos](https://sites.google.com/view/emefanaliafrancobastos/p%C3%A1gina-inicial)
 
 **Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
 [E.M.E.F. Prof. Luiz David Sobrinho](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
