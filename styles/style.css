@@ -20,12 +20,26 @@ html {
 	font-size: 20px;
 	margin-top: 10px;
 }
-.show {
-	display: block !important;
+.fieldname.radio {
+	border: 1px #c9c6c6 solid;
+	margin: 0 0 15px 0;
+	padding: 10px;
+	font-size: 16px;
 }
-.hide {
-	display: none !important;
+.fieldname.radio label {
+	padding: 0 50px 0 0;
 }
+
+#submit-student,
+#submit-teacher {
+	display: none;
+}
+
+.rede-direta,
+.rede-conveniada {
+	display: none;
+}
+
 .error {
 	display: none;
 	font-size: 32px;
@@ -49,6 +63,7 @@ html {
 	margin: 15px 0 0 0;
 }
 #messageReturn {
+	display: none;
 	border: 1px #939393 solid;
 	padding: 10px 10px;
 	margin: 15px 0 0 0;
@@ -80,9 +95,31 @@ html {
 }
 #messageCopyEmail,
 #messageCopyPassword {
-	display: block;
+	display: none;
 	text-align: left;
 	margin: -22px 0 10px 10px;
 	color: #e60707;
 	font-weight: bold;
+}
+
+.footer {
+	font-size: 12px;
+	margin: 15px 0 0 0;
+	padding: 0 15px;
+}
+.footer .privacy {
+	text-align: left;
+}
+.footer .privacy p {
+	padding: 0;
+	margin: 10px 0 5px 0;
+	font-weight: bold;
+}
+.footer .privacy ul {
+	padding: 0 0 0 15px;
+	margin: 0;
+}
+.footer .privacy ul li {
+	list-style: none;
+	padding: 0 0 10px;
 }

@@ -1,4 +1,8 @@
-// Remover caracteres especiais
+"use strict";
+
+let typeTeacher = "conveniada";
+
+// Remover caracteres especiais e converte letras com acentos em letras sem
 function removeDiacritics(str) {
 	var defaultDiacriticsRemovalMap = [
 		{
@@ -190,8 +194,42 @@ function removeDiacritics(str) {
 	return str;
 }
 
-// Converte letras com acentos em letras sem, retira particulas de ligação de nomes e retira espaços entre palavras
-function formatName(name) {
+//validação de CPF
+function isCpfValid(cpf) {
+	cpf = cpf.replace(/[^\d]+/g, "");
+	if (cpf == "") return false;
+	// Elimina CPFs invalidos conhecidos
+	if (
+		cpf.length != 11 ||
+		cpf == "00000000000" ||
+		cpf == "11111111111" ||
+		cpf == "22222222222" ||
+		cpf == "33333333333" ||
+		cpf == "44444444444" ||
+		cpf == "55555555555" ||
+		cpf == "66666666666" ||
+		cpf == "77777777777" ||
+		cpf == "88888888888" ||
+		cpf == "99999999999"
+	)
+		return false;
+	// Valida 1o digito
+	let add = 0;
+	for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+	let rev = 11 - (add % 11);
+	if (rev == 10 || rev == 11) rev = 0;
+	if (rev != parseInt(cpf.charAt(9))) return false;
+	// Valida 2o digito
+	add = 0;
+	for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+	rev = 11 - (add % 11);
+	if (rev == 10 || rev == 11) rev = 0;
+	if (rev != parseInt(cpf.charAt(10))) return false;
+	return true;
+}
+
+// formata o nome do aluno preservando o primeiro e ultimo nome, removendo os nomes do meio com menos de 4 caracteres e oque tiverem mais que 3 caracteres pega a primeira letra
+function formatStudentName(name) {
 	let arrName = removeDiacritics(name).split(" ");
 
 	var filteredName = arrName.filter((item, idx) => {
@@ -207,101 +245,154 @@ function formatName(name) {
 	return filteredName.join("");
 }
 
-// Formata a data e coloca na sequencia correta
-function formatDate(date) {
+// Formata a data de nascimento do aluno e coloca na sequencia correta
+function formatBirthDate(date) {
 	let array_date = date.split("-");
 	return `${array_date[2]}${array_date[1]}${array_date[0]}`;
 }
 
-// Concatena valores
-function formatEmail(name, birthDate) {
+// Concatena valores para formatar o e-mail do aluno
+function formatStudentEmail(name, birthDate) {
 	return `${name}.${birthDate}@edu.sme.prefeitura.sp.gov.br`;
 }
 
-// Lógica para exibição de erro
-function showError() {
-	let element = document.getElementById("messageError");
-	element.classList.remove("hide");
-	element.classList.add("show");
+// formata o nome do professor preservando o primeiro e ultimo nome, removendo os nomes do meio
+function formatTeacherName(name) {
+	let arrName = removeDiacritics(name).split(" ");
+
+	var filteredName = arrName.filter((item, idx) => {
+		return idx == 0 || idx == arrName.length - 1;
+	});
+
+	return filteredName.join("");
 }
 
-function hideError() {
-	let element = document.getElementById("messageError");
-	element.classList.remove("show");
-	element.classList.add("hide");
-}
-
-function showReturn() {
-	let element = document.getElementById("messageReturn");
-	element.classList.remove("hide");
-	element.classList.add("show");
-}
-
-function hideReturn() {
-	let element = document.getElementById("messageReturn");
-	element.classList.remove("show");
-	element.classList.add("hide");
-}
-
-// Função para mandar para o input escondido e fazer a copia
-function copyText(text) {
-	let copyText = document.getElementById("copyText");
-	copyText.value = text;
-	/* seleciona */
-	copyText.select();
-	copyText.setSelectionRange(0, 99999); /*Para mobiles*/
-
-	/* Copia o texto */
-	document.execCommand("copy");
-}
-
-// Envia os dados para calcular o e-mail do usuário
-document.getElementById("submit").addEventListener("click", (event) => {
-	hideError();
-	hideReturn();
-
-	let name = document.getElementById("name").value.toLowerCase();
-	let birthDate = document.getElementById("birthDate").value;
-
-	if (birthDate == undefined || birthDate == "" || name == undefined || name == "") {
-		showError();
-	} else {
-		name = formatName(name);
-		birthDate = formatDate(birthDate);
-		email = formatEmail(name, birthDate);
-		document.getElementById("email").innerHTML = email;
-		showReturn();
+// Concatena valores para formatar o e-mail do professor
+function formatTeacherEmail(name, rf, cpf) {
+	if (typeTeacher == "direta") {
+		return `${name}.${rf}@edu.sme.prefeitura.sp.gov.br`;
 	}
-});
+	if (typeTeacher == "conveniada") {
+		return `${name}.${cpf}@edu.sme.prefeitura.sp.gov.br`;
+	}
+}
 
-// Copia o e-mail para o clipboard
-document.getElementById("copyemail").addEventListener("click", (event) => {
-	let element = document.getElementById("messageCopyEmail");
-	element.classList.remove("show");
-	element.classList.add("hide");
-	/* pega o e-mail */
-	let email = document.getElementById("email").innerHTML;
+function showRedeDireta() {
+	$(".rede-direta").show();
+	$(".rede-conveniada").hide();
+	$("#messageError").hide();
+	$("#messageReturn").hide();
+}
 
-	copyText(email);
+function showRedeConveniada() {
+	$(".rede-conveniada").show();
+	$(".rede-direta").hide();
+	$("#messageError").hide();
+	$("#messageReturn").hide();
+}
 
-	element.classList.remove("hide");
-	element.classList.add("show");
+function validTeacher(name, rf, cpf) {
+	if (typeTeacher == "direta") {
+		return (
+			name == undefined || name == "" || name.split(" ").length <= 1 || rf == undefined || rf == "" || rf.length < 7
+		);
+	}
+	if (typeTeacher == "conveniada") {
+		return (
+			name == undefined ||
+			name == "" ||
+			name.split(" ").length <= 1 ||
+			cpf == undefined ||
+			cpf == "" ||
+			cpf.length < 14 ||
+			!isCpfValid(cpf)
+		);
+	}
+}
 
-	return false;
-});
+function hideAllMessages() {
+	$("#messageError").hide();
+	$("#messageReturn").hide();
+	$("#messageCopyEmail").hide();
+	$("#messageCopyPassword").hide();
+}
 
-// Copia a senha para o clipboard
-document.getElementById("copypassword").addEventListener("click", (event) => {
-	let element = document.getElementById("messageCopyPassword");
-	element.classList.remove("show");
-	element.classList.add("hide");
-	/* pega a senha */
-	let password = document.getElementById("password").innerHTML;
+//documento pronto, arquivos externos carregados
+$(function () {
+	//so vai formatar o campo de CPF se ele existir
+	if ($("#cpf").length) {
+		$("#cpf").mask("000.000.000-00", { reverse: true });
+	}
 
-	copyText(password);
+	showRedeConveniada();
 
-	element.classList.remove("hide");
-	element.classList.add("show");
+	$(':radio[name="typeteacher"]').change(function () {
+		typeTeacher = $(this).filter(":checked").val();
+		if (typeTeacher == "direta") {
+			showRedeDireta();
+		}
+		if (typeTeacher == "conveniada") {
+			showRedeConveniada();
+		}
+	});
 
-	return false;
+	// Envia os dados para calcular o e-mail do aluno
+	$("#submit-student")
+		.show()
+		.click(function () {
+			hideAllMessages();
+
+			let name = $("input#name").val().toLowerCase();
+			let birthDate = $("input#birthDate").val();
+
+			if (birthDate == undefined || birthDate == "" || name == undefined || name == "" || name.split(" ").length <= 1) {
+				$("#messageError").show();
+			} else {
+				name = formatStudentName(name);
+				birthDate = formatBirthDate(birthDate);
+				let email = formatStudentEmail(name, birthDate);
+				$("#email").html(email);
+				$("#messageReturn").show();
+			}
+		});
+
+	// Envia os dados para calcular o e-mail do professor
+	$("#submit-teacher")
+		.show()
+		.click(function () {
+			hideAllMessages();
+
+			let name = $("input#name").val().toLowerCase();
+			let rf = $("input#rf").val();
+			let cpf = $("input#cpf").val();
+
+			if (validTeacher(name, rf, cpf)) {
+				$("#messageError").show();
+			} else {
+				name = formatTeacherName(name);
+				rf = rf.replace(/\D/g, "");
+				cpf = cpf.replace(/\D/g, "");
+				let email = formatTeacherEmail(name, rf, cpf);
+				$("#email").html(email);
+				$("#messageReturn").show();
+			}
+		});
+
+	//setar o botao para copiar o e-mail para a area de treansferencia
+	let copyemail = new ClipboardJS("#copyemail");
+	copyemail.on("success", function (e) {
+		$("#messageCopyPassword").hide();
+		$("#messageCopyEmail").hide();
+		$("#messageCopyEmail").show();
+		e.clearSelection();
+	});
+
+	//setar o botao para copiar o e-mail para a area de treansferencia
+	let copypassword = new ClipboardJS("#copypassword");
+	copypassword.on("success", function (e) {
+		$("#messageCopyEmail").hide();
+		$("#messageCopyPassword").hide();
+		$("#messageCopyPassword").show();
+		e.clearSelection();
+	});
 });
