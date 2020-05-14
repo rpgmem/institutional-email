@@ -15,24 +15,24 @@ Este projeto visa a implementação de formulário simples e acessível (inclusi
 
 ---
 
-**Para ver funcionando o formulário de ***ALUNOS***, acesse:**  
+**Para ver funcionando o formulário de** ***ALUNOS,*** **acesse:**  
 [ex. Formulário de Alunos](https://institutional-email.herokuapp.com/email-alunos.php)
 
-**Para implementar o formulário de ***ALUNOS*** em um site próprio (da escola, por exemplo):**  
+**Para implementar o formulário de** ***ALUNOS*** **em um site próprio (da escola, por exemplo):**  
 
 **1-** Copie TODO o código HTML abaixo;  
 ```html
-<iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-alunos.php"</iframe>
+<iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-alunos.php"></iframe>
 ```
 ---
-**Para ver funcionando o formulário de ***PROFESSORES***, acesse:**  
+**Para ver funcionando o formulário de** ***PROFESSORES,*** **acesse:**  
 [ex. Formulário de Professores](https://institutional-email.herokuapp.com/email-professores.php)
 
-**Para implementar o formulário de ***PROFESSORES*** em um site próprio (da escola, por exemplo):**  
+**Para implementar o formulário de** ***PROFESSORES*** **em um site próprio (da escola, por exemplo):**  
 
 **1-** Copie TODO o código HTML abaixo;  
 ```html
-<iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-professores.php"</iframe>
+<iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-professores.php"></iframe>
 ```
 ---
 
