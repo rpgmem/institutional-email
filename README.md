@@ -101,6 +101,10 @@ C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira
 **Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
 [E.M.E.F. Prof. Luiz David Sobrinho](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
 
+**Escolas da Diretoria Regional de Educação de Santo Amaro (DRE/SA)**  
+[C.E.U. E.M.E.F. Prof. Paulo Gonçalo dos Santos - Site 1](https://sites.google.com/edu.sme.prefeitura.sp.gov.br/emefceualvarenga/cria%C3%A7%C3%A3o-de-email-institucional-do-alunoa)  
+[C.E.U. E.M.E.F. Prof. Paulo Gonçalo dos Santos - Site 2](https://emefceualvarenga.blogspot.com/)  
+
 **Escolas da Diretoria Regional de Educação de São Mateus (DRE/SM)**  
 [E.M.E.F. Emílio Ribas](https://conexaoemilio.wixsite.com/emilioribas/orientacoes-covid-19)  
 
