@@ -76,17 +76,17 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 
 **Escolas da Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)**  
 [E.M.E.F. Armando Cridey Righetti](https://sites.google.com/view/emefarmandocrideyrighetti/in%C3%ADcio)  
-E.M.E.F. Alm. Pedro de Frontin  
+[E.M.E.F. Alm. Pedro de Frontin](https://sites.google.com/view/almirantepedrodefrontin/e-mail-do-aluno)  
 [E.M.E.F. Arq. Luis Saia](https://arquitetoluisaia.blogspot.com/)  
 [E.M.E.F. Chico Falconi](https://www.facebook.com/EMEF-Padre-Chico-Falconi-482489571772521)  
 [E.M.E.F. Dr. José  Pedro Leite Cordeiro](https://sites.google.com/edu.sme.prefeitura.sp.gov.br/emefdrjosepedroleitecordeiro/p%C3%A1gina-inicial/descubra-seu-email-do-classroom)  
 [E.M.E.F. Hélio Tavares](http://helliotavares.blogspot.com/)  
 [E.M.E.F. Henrique Felipe da Costa](https://sites.google.com/view/henricao/menu/google-classroom/descubra-seu-e-mail)  
 [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno)  
-E.M.E.F. Marisa Moretti Câmara  
+[E.M.E.F. Marisa Moretti Câmara](https://emefmarisamoretti.wixsite.com/meusite)  
 [E.M.E.F. Madre Maria Imilda do Santíssimo Sacramento](http://madreonline3.webnode.com/)  
 E.M.E.F. Mururés  
-E.M.E.F. Prof Carlos Pasquale  
+[E.M.E.F. Prof Carlos Pasquale](https://sites.google.com/view/pasquale20)  
 [E.M.E.F. Prof. José Bento de Assis](https://sites.google.com/view/emefjosebentoprof/descubra-o-seu-emailaluno)  
 [E.M.E.F. Prof. Jurandi Gomes de Araújo](https://sites.google.com/view/emefjurandigomes/in%C3%ADcio)  
 [E.M.E.F. Raimundo Correia](https://www.facebook.com/emefraimundocorreia/)  
@@ -100,6 +100,9 @@ C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira
 
 **Escolas da Diretoria Regional de Educação de Pirituba/Jaragua (DRE/PJ)**  
 [E.M.E.F. Prof. Luiz David Sobrinho](https://sites.google.com/escolaluizdavid.com/capa/e-mail-edu-prefeitura)  
+
+**Escolas da Diretoria Regional de Educação de São Mateus (DRE/SM)**  
+[E.M.E.F. Emílio Ribas](https://conexaoemilio.wixsite.com/emilioribas/orientacoes-covid-19)  
 
 [E.M.E.F. Gonzaguinha - DRE/?](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
 </details>
