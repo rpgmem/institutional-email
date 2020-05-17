@@ -74,6 +74,9 @@ Faça testes de incorporação adicionando código nas páginas que quer.
 [E.M.E.F. Prof. Claudia Bartolomazi](https://sites.google.com/edu.sme.prefeitura.sp.gov.br/emefprofclaudiabartolomazi)  
 [E.M.E.F. Saturnino Pereira](https://sites.google.com/view/emef-saturnino-pereira/)  
 
+**Escolas da Diretoria Regional de Educação Ipiranga (DRE/IP)**  
+[E.M.E.F. José Maria Lisboa](http://emeflisboa.blogspot.com/2020/04/saiba-qual-e-o-seu-email-para-acessar.html) 
+
 **Escolas da Diretoria Regional de Educação de São Miguel Paulista (DRE/MP)**  
 [E.M.E.F. Armando Cridey Righetti](https://sites.google.com/view/emefarmandocrideyrighetti/in%C3%ADcio)  
 [E.M.E.F. Alm. Pedro de Frontin](https://sites.google.com/view/almirantepedrodefrontin/e-mail-do-aluno)  
@@ -107,6 +110,5 @@ C.E.U. E.M.E.F. Prof. Rosangela Rodrigues Vieira
 
 **Escolas da Diretoria Regional de Educação de São Mateus (DRE/SM)**  
 [E.M.E.F. Emílio Ribas](https://conexaoemilio.wixsite.com/emilioribas/orientacoes-covid-19)  
-
-[E.M.E.F. Gonzaguinha - DRE/?](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
+[E.M.E.F. Luiz Gonzaga do Nascimento Jr. Gonzaguinha](https://tgcairo.wixsite.com/emefgonzaguinha/e-mail-google/)  
 </details>
