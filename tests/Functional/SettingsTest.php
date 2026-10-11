@@ -72,6 +72,18 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertStringContainsString( 'data-ie-network="city"', do_shortcode( '[institutional_email network="city"]' ) );
 	}
 
+	public function test_google_analytics_loads_only_when_switched_on_with_an_id(): void {
+		// A fresh script registry, so no earlier test's enqueue answers for this one.
+		$GLOBALS['wp_scripts'] = null;
+		do_shortcode( '[institutional_email]' );
+		self::assertFalse( wp_script_is( Shortcode::GTAG_HANDLE, 'enqueued' ), 'Off by default.' );
+
+		update_option( Settings::OPTION, array( 'analytics' => '1', 'analytics_id' => 'G-TEST1234' ) );
+		do_shortcode( '[institutional_email]' );
+		self::assertTrue( wp_script_is( Shortcode::GTAG_HANDLE, 'enqueued' ) );
+		self::assertStringContainsString( 'G-TEST1234', wp_scripts()->registered[ Shortcode::GTAG_HANDLE ]->src );
+	}
+
 	public function test_the_form_width_reaches_the_container(): void {
 		update_option( Settings::OPTION, array( 'form_width' => '900' ) );
 		self::assertStringContainsString( 'style="--ie-form-width: 900px"', do_shortcode( '[institutional_email]' ) );
@@ -116,6 +128,8 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[network]" value="state"', $html );
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[form_width]" value="640"', $html );
 		self::assertStringContainsString( 'data-ie-autosave="check_rf_digit"', $html );
+		self::assertStringContainsString( 'data-ie-autosave="analytics"', $html );
+		self::assertStringContainsString( 'name="' . Settings::OPTION . '[analytics_id]"', $html );
 		self::assertSame( count( Config::TEACHER_NETWORKS ), substr_count( $html, 'data-ie-autosave="teacher_networks"' ) );
 	}
 

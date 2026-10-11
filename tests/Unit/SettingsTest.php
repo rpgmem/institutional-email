@@ -109,6 +109,19 @@ final class SettingsTest extends TestCase {
 		self::assertSame( 3, Settings::sanitize( array( 'middle_min' => '3' ) )['middle_min'] );
 	}
 
+	public function test_analytics_is_off_by_default_and_takes_only_a_measurement_id(): void {
+		$defaults = Settings::sanitize( array() );
+		self::assertFalse( $defaults['analytics'] );
+		self::assertSame( '', $defaults['analytics_id'] );
+		self::assertSame( 'G-ABC1234XYZ', Settings::analyticsId( ' g-abc1234xyz ' ) );
+		foreach ( array( 'UA-12345-1', '<script>', 'G-', 'G-ABC 123', "G-ABC1234');alert(1);//" ) as $bad ) {
+			self::assertSame( '', Settings::analyticsId( $bad ), $bad );
+		}
+		self::assertFalse( Settings::analyticsOn( Settings::sanitize( array( 'analytics' => '1' ) ) ), 'On without an ID loads nothing.' );
+		self::assertFalse( Settings::analyticsOn( Settings::sanitize( array( 'analytics' => '0', 'analytics_id' => 'G-ABC1234' ) ) ) );
+		self::assertTrue( Settings::analyticsOn( Settings::sanitize( array( 'analytics' => '1', 'analytics_id' => 'G-ABC1234' ) ) ) );
+	}
+
 	public function test_the_form_width_stays_in_range_and_a_cleared_field_keeps_the_default(): void {
 		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array() )['form_width'] );
 		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array( 'form_width' => '' ) )['form_width'], 'A cleared field is not zero pixels.' );

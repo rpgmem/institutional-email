@@ -259,6 +259,31 @@ final class SettingsPage {
 			);
 		}
 		echo '</fieldset></td></tr>';
+		echo '</tbody></table></div>';
+
+		self::openCard( __( 'Google Analytics', 'institutional-email' ), 'chart' );
+		echo '<table class="form-table" role="presentation"><tbody>';
+		printf(
+			'<tr><th scope="row">%1$s</th><td><input type="hidden" name="%2$s[analytics]" value="0">',
+			esc_html__( 'Tracking', 'institutional-email' ),
+			esc_attr( $name )
+		);
+		self::toggle(
+			array(
+				'name'    => $name . '[analytics]',
+				'checked' => $settings['analytics'],
+				'label'   => __( 'Load Google Analytics on the pages that show a form', 'institutional-email' ),
+				'key'     => 'analytics',
+			)
+		);
+		echo '<p class="description">' . esc_html__( 'Off, nothing of Google\'s reaches the page. On, the page loads Google\'s tag with the ID below and records each address worked out, with only the form and the school network: never a name, a number or the address. Google then receives each visit, so say so in the site\'s privacy policy. Leave it off if the site already loads Google Analytics on every page.', 'institutional-email' ) . '</p></td></tr>';
+		printf(
+			'<tr><th scope="row"><label for="ie-analytics-id">%1$s</label></th><td><input type="text" id="ie-analytics-id" class="regular-text code" name="%2$s[analytics_id]" value="%3$s" placeholder="G-XXXXXXXXXX" autocomplete="off"><p class="description">%4$s</p></td></tr>',
+			esc_html__( 'Measurement ID', 'institutional-email' ),
+			esc_attr( $name ),
+			esc_attr( $settings['analytics_id'] ),
+			esc_html__( 'From Google Analytics: Admin, Data streams, the site\'s stream. Only the ID, not the code snippet. Without an ID nothing is loaded, even switched on.', 'institutional-email' )
+		);
 		echo '</tbody></table></div></div>';
 
 		// Rules.

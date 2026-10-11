@@ -640,6 +640,11 @@
 			}
 			result.hidden = false;
 			status.textContent = s.ready;
+			// Only which form and network, never what was typed or the address;
+			// and only when the settings load Google's tag for this form.
+			if ( config.analytics && 'function' === typeof window.gtag ) {
+				window.gtag( 'event', 'institutional_email_generated', { form: kind, network: state ? 'state' : 'city' } );
+			}
 			return true;
 		}
 

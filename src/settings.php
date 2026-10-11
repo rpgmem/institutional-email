@@ -36,6 +36,11 @@ final class Settings {
 
 	public const NAME_MAX = 60;
 
+	/**
+	 * A Google Analytics 4 measurement ID, as Google shows it: G-XXXXXXXXXX.
+	 */
+	public const ANALYTICS_ID_PATTERN = '/^G-[A-Z0-9]{4,20}$/';
+
 	public const TEXT_MAX = 300;
 
 	/**
@@ -47,7 +52,7 @@ final class Settings {
 	/**
 	 * The stored settings, completed with their defaults.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function get(): array {
 		$stored = get_option( self::OPTION, array() );
@@ -57,7 +62,7 @@ final class Settings {
 	/**
 	 * The settings an install starts with.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
@@ -71,6 +76,10 @@ final class Settings {
 			// The RF's check digit is checked unless an administrator turns it off.
 			'check_rf_digit'   => true,
 			'teacher_networks' => Config::TEACHER_NETWORKS,
+			// Off by default: nothing of Google's reaches the page until an
+			// administrator turns it on and gives a measurement ID.
+			'analytics'        => false,
+			'analytics_id'     => '',
 			// Empty means the translated default name.
 			'platform_name'    => '',
 			'platform_url'     => Config::PLATFORM_URL,
@@ -85,7 +94,7 @@ final class Settings {
 	 * value written by an older version still yields a usable configuration.
 	 *
 	 * @param mixed $input Raw settings.
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
@@ -129,6 +138,8 @@ final class Settings {
 			// hidden 0 before the checkbox, so unticking it is never absent.
 			'check_rf_digit'   => array_key_exists( 'check_rf_digit', $input ) ? ! empty( $input['check_rf_digit'] ) : true,
 			'teacher_networks' => $teachers,
+			'analytics'        => ! empty( $input['analytics'] ),
+			'analytics_id'     => self::analyticsId( $input['analytics_id'] ?? '' ),
 			'platform_name'    => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
 			// Absent means "never saved": keep the default. An emptied field
 			// is a choice: the form then shows no next step.
@@ -174,6 +185,18 @@ final class Settings {
 			);
 		}
 
+		$analytics_id = is_scalar( $input['analytics_id'] ?? null ) ? trim( (string) $input['analytics_id'] ) : '';
+		if ( '' !== $analytics_id && '' === self::analyticsId( $analytics_id ) ) {
+			self::notice(
+				'analytics_id_rejected',
+				sprintf(
+					/* translators: %s: the ID typed. */
+					__( 'The Google Analytics ID was not saved, because it is not a measurement ID such as G-XXXXXXXXXX: %s', 'institutional-email' ),
+					sanitize_text_field( $analytics_id )
+				)
+			);
+		}
+
 		return self::sanitize( $input );
 	}
 
@@ -191,6 +214,7 @@ final class Settings {
 		$config['network']         = (string) $settings['network'];
 		$config['checkRfDigit']    = (bool) $settings['check_rf_digit'];
 		$config['teacherNetworks'] = $settings['teacher_networks'];
+		$config['analytics']       = self::analyticsOn( $settings );
 		$config['platformUrl']     = (string) $settings['platform_url'];
 		if ( '' !== $settings['platform_name'] ) {
 			$config['platformName'] = (string) $settings['platform_name'];
@@ -211,6 +235,25 @@ final class Settings {
 	 */
 	public static function siteConfig(): array {
 		return self::apply( Config::defaults(), self::get() );
+	}
+
+	/**
+	 * Whether the page loads Google Analytics: switched on and given an ID.
+	 *
+	 * @param array<string, mixed> $settings Sanitized settings.
+	 */
+	public static function analyticsOn( array $settings ): bool {
+		return ! empty( $settings['analytics'] ) && '' !== ( $settings['analytics_id'] ?? '' );
+	}
+
+	/**
+	 * A measurement ID as stored: upper case; '' when it is not one.
+	 *
+	 * @param mixed $raw Typed ID.
+	 */
+	public static function analyticsId( $raw ): string {
+		$id = is_scalar( $raw ) ? strtoupper( trim( (string) $raw ) ) : '';
+		return 1 === preg_match( self::ANALYTICS_ID_PATTERN, $id ) ? $id : '';
 	}
 
 	/**
