@@ -5,6 +5,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **São Paulo state schools (SEDUC-SP)** (#13). Settings → General chooses the school network; `network="state"` on a shortcode, or `?network=state` on the standalone page, serves it on one page. State students give their RA (padded with zeros to 12 digits), its check digit and their date of birth, which is also the initial password; state teachers are pointed to the SED, where their address is created.
+- **The RF's check digit is checked** (#13), with Free Form Certificate's rule; a mistyped RF is refused with its own message instead of becoming an address that does not exist. On by default, with a switch on the Address rules tab.
+
+### Changed
+
+- **RF and CPF are masked as they are typed,** `000.000-0` and `000.000.000-00`, with Free Form Certificate's masks (#13).
+
+### Fixed
+
+- **The RF hint said "without the check digit"** (#13). The seventh digit is the check digit; the hint now says so, with Free Form Certificate's example RF, 518.178-0.
+
 ## [1.0.0] (2026-10-11)
 
 The forms become a WordPress plugin, with a standalone page for iframes.

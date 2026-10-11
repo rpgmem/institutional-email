@@ -1,6 +1,9 @@
 /**
- * Institutional Email: works out the RME/SP institutional address of a
- * student (name + date of birth) or a teacher (name + RF or CPF).
+ * Institutional Email: works out the institutional address of a São Paulo
+ * student or teacher. City schools (RME/SP): a student from name + date of
+ * birth, a teacher from name + RF or CPF. State schools (SEDUC-SP): a student
+ * from the RA + check digit, with the date of birth as the password; a
+ * teacher creates the address on the SED, so the form only points there.
  *
  * Runs in the WordPress plugin (the configuration comes from the shortcode's
  * data-ie-config attribute) and in the standalone HTML (the same attribute,
@@ -13,6 +16,13 @@
 	'use strict';
 
 	var FORMS = [ 'students', 'teachers' ];
+
+	var NETWORKS = [ 'city', 'state' ];
+
+	/**
+	 * Digits in a state student's RA, as the SED writes it.
+	 */
+	var RA_LENGTH = 12;
 
 	/**
 	 * Letters NFD does not decompose into a base letter plus a mark.
@@ -134,16 +144,77 @@
 	}
 
 	/**
-	 * A CPF as it is usually written, 000.000.000-00, for the field.
+	 * The check digit the first six digits of an RF imply: the seventh digit
+	 * of a valid RF. Weights 7 to 2, sum mod 11, then (11 - r) mod 10.
+	 *
+	 * The rule is Free Form Certificate's (DocumentFormatter::rf_check_digit),
+	 * derived from 3,036 RFs and confirmed at 100% on 96 of independent
+	 * provenance. Its one blind spot: r = 0 and r = 10 both give 1.
+	 *
+	 * @param {string} rf RF, with or without punctuation.
+	 * @return {number|null} The expected seventh digit, or null when it is not seven digits.
+	 */
+	function rfCheckDigit( rf ) {
+		var n = digits( rf );
+		if ( 7 !== n.length ) {
+			return null;
+		}
+		var sum = 0;
+		[ 7, 6, 5, 4, 3, 2 ].forEach( function ( weight, i ) {
+			sum += +n.charAt( i ) * weight;
+		} );
+		return ( 11 - ( sum % 11 ) ) % 10;
+	}
+
+	/**
+	 * Whether an RF's seventh digit is the one its first six imply.
+	 *
+	 * @param {string} rf RF, with or without punctuation.
+	 * @return {boolean} Valid.
+	 */
+	function isRf( rf ) {
+		var expected = rfCheckDigit( rf );
+		return null !== expected && expected === +digits( rf ).charAt( 6 );
+	}
+
+	/**
+	 * A CPF as it is usually written, 000.000.000-00, as far as the digits go.
+	 * The mask is Free Form Certificate's (ffc-field-behaviours.js), so a
+	 * person sees the same format in both plugins.
 	 *
 	 * @param {string} value Typed value.
-	 * @return {string} Formatted, as far as the digits go.
+	 * @return {string} Formatted.
 	 */
 	function formatCpf( value ) {
-		var n = digits( value ).slice( 0, 11 );
-		return n.replace( /^(\d{3})(\d)/, '$1.$2' )
-			.replace( /^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3' )
-			.replace( /\.(\d{3})(\d)/, '.$1-$2' );
+		var v = digits( value ).slice( 0, 11 );
+		if ( v.length > 9 ) {
+			return v.replace( /(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4' );
+		}
+		if ( v.length > 6 ) {
+			return v.replace( /(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3' );
+		}
+		if ( v.length > 3 ) {
+			return v.replace( /(\d{3})(\d{1,3})/, '$1.$2' );
+		}
+		return v;
+	}
+
+	/**
+	 * An RF as it is usually written, 000.000-0, as far as the digits go.
+	 * Free Form Certificate's mask, like formatCpf().
+	 *
+	 * @param {string} value Typed value.
+	 * @return {string} Formatted.
+	 */
+	function formatRf( value ) {
+		var v = digits( value ).slice( 0, 7 );
+		if ( v.length > 6 ) {
+			return v.replace( /(\d{3})(\d{3})(\d{1})/, '$1.$2-$3' );
+		}
+		if ( v.length > 3 ) {
+			return v.replace( /(\d{3})(\d{1,3})/, '$1.$2' );
+		}
+		return v;
 	}
 
 	/**
@@ -170,12 +241,18 @@
 	/**
 	 * A teacher's address, or the problems that stop it.
 	 *
+	 * An RF whose seventh digit does not match is refused unless the
+	 * configuration turns the check off (checkRfDigit: false); the reason is
+	 * reported apart, so the form can say "check the number" rather than
+	 * "type seven digits".
+	 *
 	 * @param {Object} values { network: 'direct'|'partner', name, rf, cpf }.
-	 * @param {Object} config Configuration (domain).
-	 * @return {{email: string, errors: string[]}} The address, or the keys of the fields in error.
+	 * @param {Object} config Configuration (domain, checkRfDigit).
+	 * @return {{email: string, errors: string[], reasons: Object}} The address, or the keys of the fields in error and why.
 	 */
 	function teacherEmail( values, config ) {
 		var errors = [];
+		var reasons = {};
 		var name = teacherName( values.name );
 		var direct = 'direct' === values.network;
 		var id = direct ? digits( values.rf ) : digits( values.cpf );
@@ -184,11 +261,52 @@
 		}
 		if ( direct && 7 !== id.length ) {
 			errors.push( 'rf' );
+		} else if ( direct && false !== config.checkRfDigit && ! isRf( id ) ) {
+			errors.push( 'rf' );
+			reasons.rf = 'checkDigit';
 		}
 		if ( ! direct && ! isCpf( id ) ) {
 			errors.push( 'cpf' );
 		}
-		return { email: errors.length ? '' : name + '.' + id + '@' + config.domain, errors: errors };
+		return { email: errors.length ? '' : name + '.' + id + '@' + config.domain, errors: errors, reasons: reasons };
+	}
+
+	/**
+	 * A state student's address and password, or the problems that stop them.
+	 *
+	 * The RA is padded with zeros to its 12 digits, as the SED shows it, so a
+	 * student who types it without the leading zeros still gets the address.
+	 *
+	 * @param {Object} values { ra, raDigit, birthDate }.
+	 * @param {Object} config Configuration (state.domain, state.suffix).
+	 * @param {Date}   [today] Reference day, for the tests.
+	 * @return {{email: string, password: string, errors: string[]}} The address and password, or the keys of the fields in error.
+	 */
+	function stateStudentEmail( values, config, today ) {
+		var errors = [];
+		var ra = digits( values.ra );
+		var check = String( values.raDigit || '' ).trim().toLowerCase();
+		var date = birthDate( values.birthDate, today );
+		if ( ! ra || ra.length > RA_LENGTH ) {
+			errors.push( 'ra' );
+		}
+		if ( ! /^[0-9x]$/.test( check ) ) {
+			errors.push( 'raDigit' );
+		}
+		if ( ! date ) {
+			errors.push( 'birthDate' );
+		}
+		if ( errors.length ) {
+			return { email: '', password: '', errors: errors };
+		}
+		while ( ra.length < RA_LENGTH ) {
+			ra = '0' + ra;
+		}
+		return {
+			email: ra + check + config.state.suffix + '@' + config.state.domain,
+			password: date,
+			errors: errors,
+		};
 	}
 
 	/**
@@ -273,19 +391,71 @@
 	}
 
 	/**
+	 * Which school network a container serves: its data-ie-network, or in the
+	 * standalone page the `?network=` of its address, else the configured one.
+	 *
+	 * @param {HTMLElement} container Container.
+	 * @param {Object}      [config]  Configuration (network).
+	 * @return {string} 'city' or 'state'.
+	 */
+	function networkOf( container, config ) {
+		var network = container.getAttribute( 'data-ie-network' ) || ( config && config.network ) || '';
+		var param = container.getAttribute( 'data-ie-network-param' );
+		var win = container.ownerDocument.defaultView;
+		if ( param && win && win.location ) {
+			var asked = new win.URLSearchParams( win.location.search ).get( param );
+			if ( -1 !== NETWORKS.indexOf( asked ) ) {
+				network = asked;
+			}
+		}
+		return -1 !== NETWORKS.indexOf( network ) ? network : 'city';
+	}
+
+	/**
+	 * Draw the state teachers' panel: there is no rule to apply, so it says
+	 * where the address is created and links there.
+	 *
+	 * @param {HTMLElement} container Container.
+	 * @param {Object}      config    Configuration.
+	 * @return {Object} Handles for the tests.
+	 */
+	function mountStateTeachers( container, config ) {
+		var doc = container.ownerDocument;
+		var s = config.strings;
+		container.textContent = '';
+		container.appendChild( el( doc, 'div', { class: 'ie-info' }, [
+			el( doc, 'p', { text: s.stateTeacherIntro } ),
+			el( doc, 'p', {}, [
+				el( doc, 'a', { class: 'ie-button ie-link-button', href: config.state.teacherUrl, target: '_blank', rel: 'noopener noreferrer', text: s.stateTeacherLink } ),
+			] ),
+		] ) );
+		return { form: 'teachers', network: 'state', generate: function () {
+			return false;
+		}, inputs: {}, email: function () {
+			return '';
+		} };
+	}
+
+	/**
 	 * Draw a form inside a container and wire it.
 	 *
 	 * @param {HTMLElement} container Container.
 	 * @param {Object}      config    Configuration.
 	 * @param {string}      [form]    'students' or 'teachers'; read from the container when absent.
+	 * @param {string}      [system]  'city' or 'state'; read from the container and the configuration when absent.
 	 * @return {Object} Handles for the tests.
 	 */
-	function mount( container, config, form ) {
+	function mount( container, config, form, system ) {
 		var doc = container.ownerDocument;
 		var s = config.strings;
 		var kind = form || formOf( container );
+		var state = 'state' === ( system || networkOf( container, config ) );
 		var uid = 'ie-' + Math.random().toString( 36 ).slice( 2, 8 );
 		var inputs = {};
+
+		if ( state && 'teachers' === kind ) {
+			return mountStateTeachers( container, config );
+		}
 
 		function field( key, label, attrs, hint ) {
 			var id = uid + '-' + key;
@@ -319,8 +489,16 @@
 			} );
 			formEl.appendChild( network );
 			formEl.appendChild( field( 'name', s.teacherName, { type: 'text', autocomplete: 'name', required: true } ) );
-			formEl.appendChild( field( 'rf', s.rf, { type: 'text', inputmode: 'numeric', maxlength: 7, autocomplete: 'off' }, s.rfHint ) );
+			formEl.appendChild( field( 'rf', s.rf, { type: 'text', inputmode: 'numeric', maxlength: 9, autocomplete: 'off', placeholder: '000.000-0' }, s.rfHint ) );
 			formEl.appendChild( field( 'cpf', s.cpf, { type: 'text', inputmode: 'numeric', maxlength: 14, autocomplete: 'off', placeholder: '000.000.000-00' } ) );
+		} else if ( state ) {
+			formEl.appendChild( field( 'ra', s.stateRa, { type: 'text', inputmode: 'numeric', maxlength: RA_LENGTH, autocomplete: 'off', required: true }, s.stateRaHint ) );
+			formEl.appendChild( field( 'raDigit', s.stateRaDigit, { type: 'text', maxlength: 1, autocomplete: 'off', required: true, class: 'ie-input ie-input-short' }, s.stateRaDigitHint ) );
+			formEl.appendChild( field( 'birthDate', s.birthDate, { type: 'date', required: true } ) );
+			formEl.appendChild( el( doc, 'p', { class: 'ie-hint ie-lookup' }, [
+				doc.createTextNode( s.stateRaLookup + ' ' ),
+				el( doc, 'a', { href: config.state.raUrl, target: '_blank', rel: 'noopener noreferrer', text: config.state.raUrl.replace( /^https?:\/\//, '' ).split( '/' )[ 0 ] } ),
+			] ) );
 		} else {
 			formEl.appendChild( field( 'name', s.studentName, { type: 'text', autocomplete: 'name', required: true } ) );
 			formEl.appendChild( field( 'birthDate', s.birthDate, { type: 'date', required: true } ) );
@@ -337,7 +515,7 @@
 		var result = el( doc, 'div', { class: 'ie-result', hidden: true }, [
 			el( doc, 'p', { class: 'ie-result-label', text: 'teachers' === kind ? s.teacherResult : s.studentResult } ),
 			el( doc, 'p', { class: 'ie-result-row' }, [ emailOut, copyEmail ] ),
-			el( doc, 'p', { class: 'ie-result-label', text: s.passwordResult } ),
+			el( doc, 'p', { class: 'ie-result-label', text: state ? s.statePasswordResult : s.passwordResult } ),
 			el( doc, 'p', { class: 'ie-result-row' }, [ passwordOut, copyPassword ] ),
 		] );
 
@@ -372,14 +550,19 @@
 			reset();
 		}
 
-		function showErrors( keys ) {
+		function showErrors( keys, reasons ) {
 			Object.keys( inputs ).forEach( function ( key ) {
 				var input = inputs[ key ];
 				var error = doc.getElementById( input.getAttribute( 'aria-describedby' ) );
 				var bad = -1 !== keys.indexOf( key );
+				var checkDigit = reasons && 'checkDigit' === reasons[ key ];
 				input.setAttribute( 'aria-invalid', bad ? 'true' : 'false' );
 				error.hidden = ! bad;
-				error.textContent = bad ? s[ 'error_' + key ] : '';
+				if ( ! bad ) {
+					error.textContent = '';
+				} else {
+					error.textContent = checkDigit ? s.error_rfCheck : s[ 'error_' + key ];
+				}
 			} );
 			if ( keys.length ) {
 				inputs[ keys[ 0 ] ].focus();
@@ -392,16 +575,24 @@
 			status.textContent = '';
 		}
 
-		function generate() {
-			var outcome = 'teachers' === kind ?
-				teacherEmail( {
+		function outcomeOf() {
+			if ( 'teachers' === kind ) {
+				return teacherEmail( {
 					network: networkValue(),
 					name: inputs.name.value,
 					rf: inputs.rf.value,
 					cpf: inputs.cpf.value,
-				}, config ) :
-				studentEmail( { name: inputs.name.value, birthDate: inputs.birthDate.value }, config );
-			showErrors( outcome.errors );
+				}, config );
+			}
+			if ( state ) {
+				return stateStudentEmail( { ra: inputs.ra.value, raDigit: inputs.raDigit.value, birthDate: inputs.birthDate.value }, config );
+			}
+			return studentEmail( { name: inputs.name.value, birthDate: inputs.birthDate.value }, config );
+		}
+
+		function generate() {
+			var outcome = outcomeOf();
+			showErrors( outcome.errors, outcome.reasons );
 			if ( outcome.errors.length ) {
 				reset();
 				status.textContent = s.fixErrors;
@@ -417,6 +608,9 @@
 				}
 				emailOut.appendChild( doc.createTextNode( part ) );
 			} );
+			if ( outcome.password ) {
+				passwordOut.textContent = outcome.password;
+			}
 			result.hidden = false;
 			status.textContent = s.ready;
 			return true;
@@ -434,7 +628,16 @@
 				}
 			}
 			if ( inputs.rf && event.target === inputs.rf ) {
-				inputs.rf.value = digits( inputs.rf.value ).slice( 0, 7 );
+				var rf = formatRf( inputs.rf.value );
+				if ( rf !== inputs.rf.value ) {
+					inputs.rf.value = rf;
+				}
+			}
+			if ( inputs.ra && event.target === inputs.ra ) {
+				inputs.ra.value = digits( inputs.ra.value ).slice( 0, RA_LENGTH );
+			}
+			if ( inputs.raDigit && event.target === inputs.raDigit ) {
+				inputs.raDigit.value = inputs.raDigit.value.replace( /[^0-9xX]/g, '' ).slice( 0, 1 ).toUpperCase();
 			}
 			if ( ! result.hidden ) {
 				reset();
@@ -455,7 +658,7 @@
 			} );
 		} );
 
-		return { form: kind, generate: generate, inputs: inputs, email: function () {
+		return { form: kind, network: state ? 'state' : 'city', generate: generate, inputs: inputs, email: function () {
 			return emailOut.textContent;
 		} };
 	}
@@ -481,10 +684,15 @@
 		teacherName: teacherName,
 		birthDate: birthDate,
 		isCpf: isCpf,
+		rfCheckDigit: rfCheckDigit,
+		isRf: isRf,
 		formatCpf: formatCpf,
+		formatRf: formatRf,
 		studentEmail: studentEmail,
 		teacherEmail: teacherEmail,
+		stateStudentEmail: stateStudentEmail,
 		formOf: formOf,
+		networkOf: networkOf,
 		mount: mount,
 		boot: boot,
 	};

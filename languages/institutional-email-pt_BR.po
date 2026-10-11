@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 03:31+0000\n"
+"POT-Creation-Date: 2026-10-11 04:10+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: bin/build-standalone.php:90 src/admin/settings-page.php:59
-#: src/admin/settings-page.php:60 src/admin/settings-page.php:132
+#: bin/build-standalone.php:91 src/admin/settings-page.php:59
+#: src/admin/settings-page.php:60 src/admin/settings-page.php:144
 msgid "Institutional Email"
 msgstr "E-mail Institucional"
 
-#: bin/build-standalone.php:109 src/shortcode.php:63
+#: bin/build-standalone.php:110 src/shortcode.php:71
 msgid "This form needs JavaScript."
 msgstr "Este formulário precisa de JavaScript."
 
@@ -41,8 +41,8 @@ msgid "Overview"
 msgstr "Visão geral"
 
 #: src/admin/documentation.php:36
-msgid "Forms that work out the institutional email address of RME/SP students and teachers. The address is worked out in the visitor's browser, so nothing typed reaches the site."
-msgstr "Formulários que descobrem o e-mail institucional de alunos e professores da RME/SP. O endereço é calculado no navegador do visitante, então nada do que é digitado chega ao site."
+msgid "Forms that work out the institutional email address of São Paulo students and teachers, of the city schools (RME/SP) or of the state schools (SEDUC-SP). The address is worked out in the visitor's browser, so nothing typed reaches the site."
+msgstr "Formulários que descobrem o e-mail institucional de alunos e professores de São Paulo, da rede municipal (RME/SP) ou da rede estadual (SEDUC-SP). O endereço é calculado no navegador do visitante, então nada do que é digitado chega ao site."
 
 #: src/admin/documentation.php:38
 msgid "Places the students' form on any page or post. The Copy button on the General tab copies it."
@@ -53,202 +53,248 @@ msgid "Places the teachers' form instead. form=\"students\" is the default."
 msgstr "Coloca o formulário de professores. form=\"students\" é o padrão."
 
 #: src/admin/documentation.php:40
-msgid "Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers' form. It uses the built-in defaults, not these settings."
-msgstr "Cada versão também publica um único arquivo HTML com os dois formulários, para um iframe em um site sem WordPress; acrescente ?form=teachers ao endereço para o formulário de professores. Ele usa os padrões embutidos, não estas configurações."
+msgid "Serves the state schools on that page, whatever the General tab says; network=\"city\" serves the city schools."
+msgstr "Atende a rede estadual naquela página, independentemente da aba Geral; network=\"city\" atende a rede municipal."
 
-#: src/admin/documentation.php:40
+#: src/admin/documentation.php:41
+msgid "Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers' form and ?network=state for the state schools. It uses the built-in defaults, not these settings."
+msgstr "Cada versão também publica um único arquivo HTML com os formulários, para um iframe em um site sem WordPress; acrescente ?form=teachers ao endereço para o formulário de professores e ?network=state para a rede estadual. Ele usa os padrões embutidos, não estas configurações."
+
+#: src/admin/documentation.php:41
 msgid "Standalone HTML"
 msgstr "HTML avulso"
 
-#: src/admin/documentation.php:44
+#: src/admin/documentation.php:45
 msgid "Using the form"
 msgstr "Usando o formulário"
 
-#: src/admin/documentation.php:46
+#: src/admin/documentation.php:47
 msgid "What a person sees on the page."
 msgstr "O que a pessoa vê na página."
 
-#: src/admin/documentation.php:48
+#: src/admin/documentation.php:49
 msgid "Full name and date of birth."
 msgstr "Nome completo e data de nascimento."
 
-#: src/admin/documentation.php:48 src/admin/documentation.php:71
+#: src/admin/documentation.php:49 src/admin/documentation.php:75
+#: src/admin/settings-page.php:279
 msgid "Students"
 msgstr "Alunos"
 
-#: src/admin/documentation.php:49
+#: src/admin/documentation.php:50
 msgid "Full name, then the network: the CPF for the partner network, or the 7 digits of the RF for the direct network."
 msgstr "Nome completo e, depois, a rede: o CPF para a rede conveniada, ou os 7 dígitos do RF para a rede direta."
 
-#: src/admin/documentation.php:49 src/admin/documentation.php:72
+#: src/admin/documentation.php:50 src/admin/documentation.php:76
+#: src/admin/settings-page.php:291
 msgid "Teachers"
 msgstr "Professores"
 
-#: src/admin/documentation.php:50
+#: src/admin/documentation.php:51
+msgid "State students"
+msgstr "Alunos da rede estadual"
+
+#: src/admin/documentation.php:51
+msgid "The RA and its check digit, as the SED shows them, and the date of birth, which is also the initial password. A link points to the SED page that looks the RA up."
+msgstr "O RA e seu dígito, como a SED mostra, e a data de nascimento, que também é a senha inicial. Um link leva à página da SED que consulta o RA."
+
+#: src/admin/documentation.php:52
+msgid "No form: an explanation that the address is created on the first access to the SED, and a link there."
+msgstr "Sem formulário: uma explicação de que o endereço é criado no primeiro acesso à SED, e um link para lá."
+
+#: src/admin/documentation.php:52
+msgid "State teachers"
+msgstr "Professores da rede estadual"
+
+#: src/admin/documentation.php:53
 msgid "Each field says what is wrong, and a status line announces it to screen readers."
 msgstr "Cada campo diz o que está errado, e uma linha de status anuncia isso aos leitores de tela."
 
-#: src/admin/documentation.php:50
+#: src/admin/documentation.php:53
 msgid "Errors"
 msgstr "Erros"
 
-#: src/admin/documentation.php:51
+#: src/admin/documentation.php:54
 msgid "Result"
 msgstr "Resultado"
 
-#: src/admin/documentation.php:51
+#: src/admin/documentation.php:54
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr "O endereço e a senha inicial, cada um com um botão Copiar, e um link para a plataforma onde são usados primeiro. Alterar um campo esconde o resultado até que seja calculado de novo."
 
-#: src/admin/documentation.php:55 src/admin/settings-page.php:302
+#: src/admin/documentation.php:58 src/admin/settings-page.php:367
 msgid "General"
 msgstr "Geral"
 
-#: src/admin/documentation.php:58
-msgid "Which forms the site offers and who may use them."
-msgstr "Quais formulários o site oferece e quem pode usá-los."
+#: src/admin/documentation.php:61
+msgid "Which school network the site serves, which forms it offers and who may use them."
+msgstr "Qual rede de ensino o site atende, quais formulários oferece e quem pode usá-los."
 
-#: src/admin/documentation.php:60
+#: src/admin/documentation.php:63
+msgid "City schools (RME/SP) or state schools (SEDUC-SP). A shortcode's network=\"…\" can choose the other one for a single page."
+msgstr "Rede municipal (RME/SP) ou rede estadual (SEDUC-SP). O network=\"…\" de um shortcode pode escolher a outra em uma página."
+
+#: src/admin/documentation.php:63 src/admin/settings-page.php:176
+msgid "School network"
+msgstr "Rede de ensino"
+
+#: src/admin/documentation.php:64
 msgid "A shortcode that asks for a form that is not offered shows the first one that is."
 msgstr "Um shortcode que pede um formulário não oferecido mostra o primeiro que é."
 
-#: src/admin/documentation.php:60 src/admin/settings-page.php:163
+#: src/admin/documentation.php:64 src/admin/settings-page.php:189
 msgid "Forms offered"
 msgstr "Formulários oferecidos"
 
-#: src/admin/documentation.php:61
+#: src/admin/documentation.php:65
 msgid "Everyone who can see the page, or logged-in users only; the others see a link to log in."
 msgstr "Todos que podem ver a página, ou só usuários conectados; os demais veem um link para entrar."
 
-#: src/admin/documentation.php:61 src/admin/settings-page.php:180
+#: src/admin/documentation.php:65 src/admin/settings-page.php:206
 msgid "Who can use the form"
 msgstr "Quem pode usar o formulário"
 
-#: src/admin/documentation.php:63
+#: src/admin/documentation.php:67
 msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
 msgstr "As chaves liga/desliga salvam assim que são acionadas. O restante é salvo com \"Salvar alterações\"."
 
-#: src/admin/documentation.php:66 src/admin/settings-page.php:306
+#: src/admin/documentation.php:70 src/admin/settings-page.php:371
 msgid "Address rules"
 msgstr "Regras do endereço"
 
-#: src/admin/documentation.php:69
-msgid "How the address is built. Accents are dropped, and only the letters a to z of each name reach it."
-msgstr "Como o endereço é montado. Os acentos são removidos, e só as letras de a a z de cada nome entram nele."
+#: src/admin/documentation.php:73
+msgid "How the address is built. In the city schools accents are dropped, and only the letters a to z of each name reach it."
+msgstr "Como o endereço é montado. Na rede municipal os acentos são removidos, e só as letras de a a z de cada nome entram nele."
 
-#: src/admin/documentation.php:71
+#: src/admin/documentation.php:75
 msgid "First name, the initial of each middle name that is long enough, last name, a dot, and the date of birth as DDMMYYYY. Maria Aparecida da Silva, born on 7 March 2012: mariaasilva.07032012."
 msgstr "Primeiro nome, a inicial de cada nome do meio longo o bastante, último nome, um ponto e a data de nascimento como DDMMAAAA. Maria Aparecida da Silva, nascida em 7 de março de 2012: mariaasilva.07032012."
 
-#: src/admin/documentation.php:72
-msgid "First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 1234567: mariasilva.1234567."
-msgstr "Primeiro e último nome, um ponto e os dígitos do RF ou do CPF. Maria da Silva, RF 1234567: mariasilva.1234567."
+#: src/admin/documentation.php:76
+msgid "First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 5181780: mariasilva.5181780."
+msgstr "Primeiro e último nome, um ponto e os dígitos do RF ou do CPF. Maria da Silva, RF 5181780: mariasilva.5181780."
 
-#: src/admin/documentation.php:74 src/admin/settings-page.php:212
+#: src/admin/documentation.php:78 src/admin/settings-page.php:238
 msgid "Middle names that count"
 msgstr "Nomes do meio que contam"
 
 #. translators: 1: minimum, 2: maximum, 3: default number of letters.
-#: src/admin/documentation.php:77
+#: src/admin/documentation.php:81
 #, php-format
 msgid "From %1$d to %2$d letters (%3$d by default). Shorter middle names, such as \"da\" and \"dos\", are left out of a student's address."
 msgstr "De %1$d a %2$d letras (%3$d por padrão). Nomes do meio mais curtos, como \"da\" e \"dos\", ficam fora do endereço do aluno."
 
-#: src/admin/documentation.php:83
+#: src/admin/documentation.php:87
 msgid "Domain and password"
 msgstr "Domínio e senha"
 
-#: src/admin/documentation.php:83
+#: src/admin/documentation.php:87
 msgid "What comes after the \"@\", and the password a new account starts with. The password is public: everyone who opens the form sees it."
 msgstr "O que vem depois do \"@\", e a senha com que uma conta nova começa. A senha é pública: todos que abrem o formulário a veem."
 
-#: src/admin/documentation.php:87 src/admin/documentation.php:93
-#: src/admin/settings-page.php:257 src/admin/settings-page.php:310
+#: src/admin/documentation.php:88 src/admin/settings-page.php:249
+msgid "RF check digit"
+msgstr "Dígito verificador do RF"
+
+#: src/admin/documentation.php:88
+msgid "The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist."
+msgstr "O sétimo dígito do RF é um dígito verificador. Ligado por padrão, um RF cujo dígito não confere é recusado, para que um erro de digitação não vire um endereço que não existe."
+
+#: src/admin/documentation.php:89
+msgid "A student's address is the RA padded with zeros to 12 digits, its check digit and \"sp\", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set."
+msgstr "O endereço do aluno é o RA completado com zeros até 12 dígitos, seu dígito e \"sp\", em al.educacao.sp.gov.br; a senha inicial é a data de nascimento (DDMMAAAA). Essas regras não têm o que configurar."
+
+#: src/admin/documentation.php:89
+msgid "State schools"
+msgstr "Rede estadual"
+
+#: src/admin/documentation.php:93 src/admin/documentation.php:99
+#: src/admin/settings-page.php:322 src/admin/settings-page.php:375
 msgid "Texts"
 msgstr "Textos"
 
-#: src/admin/documentation.php:90
+#: src/admin/documentation.php:96
 msgid "What the form says."
 msgstr "O que o formulário diz."
 
-#: src/admin/documentation.php:92 src/admin/settings-page.php:237
+#: src/admin/documentation.php:98 src/admin/settings-page.php:302
 msgid "Next step"
 msgstr "Próximo passo"
 
-#: src/admin/documentation.php:92
+#: src/admin/documentation.php:98
 msgid "The platform the form links to below the result. Without an address, no next step is shown."
 msgstr "A plataforma para a qual o formulário aponta abaixo do resultado. Sem endereço, nenhum próximo passo é mostrado."
 
-#: src/admin/documentation.php:93
+#: src/admin/documentation.php:99
 msgid "Any label, hint or message. An empty field keeps the built-in text, which follows the site's language."
 msgstr "Qualquer rótulo, dica ou mensagem. Um campo vazio mantém o texto embutido, que acompanha o idioma do site."
 
-#: src/admin/documentation.php:97
+#: src/admin/documentation.php:103
 msgid "Privacy"
 msgstr "Privacidade"
 
-#: src/admin/documentation.php:99
+#: src/admin/documentation.php:105
 msgid "Nothing typed in the form is sent to the site, and the plugin stores no personal data."
 msgstr "Nada do que é digitado no formulário é enviado ao site, e o plugin não guarda dados pessoais."
 
-#: src/admin/documentation.php:101
+#: src/admin/documentation.php:107
 msgid "In the browser"
 msgstr "No navegador"
 
-#: src/admin/documentation.php:101
+#: src/admin/documentation.php:107
 msgid "The address is worked out on the visitor's device, and nothing is kept after the page is closed."
 msgstr "O endereço é calculado no dispositivo do visitante, e nada é guardado depois que a página é fechada."
 
-#: src/admin/documentation.php:102
+#: src/admin/documentation.php:108
 msgid "On the site"
 msgstr "No site"
 
-#: src/admin/documentation.php:102
+#: src/admin/documentation.php:108
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr "Só estas configurações são guardadas, em uma opção que é apagada junto com o plugin."
 
-#: src/admin/documentation.php:106
+#: src/admin/documentation.php:112
 msgid "Updates"
 msgstr "Atualizações"
 
-#: src/admin/documentation.php:108
+#: src/admin/documentation.php:114
 msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
 msgstr "As novas versões chegam pela tela de atualizações do WordPress, a partir das versões do plugin no GitHub."
 
-#: src/admin/documentation.php:110
+#: src/admin/documentation.php:116
 msgid "Checked package"
 msgstr "Pacote verificado"
 
-#: src/admin/documentation.php:110
+#: src/admin/documentation.php:116
 msgid "Each package is checked against its published SHA-256 before it is installed."
 msgstr "Cada pacote é conferido com o SHA-256 publicado antes de ser instalado."
 
-#: src/admin/documentation.php:111
+#: src/admin/documentation.php:117
 msgid "Automatic updates"
 msgstr "Atualizações automáticas"
 
-#: src/admin/documentation.php:111
+#: src/admin/documentation.php:117
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr "Ligadas ou desligadas pelo próprio link do WordPress na tela de Plugins."
 
-#: src/admin/documentation.php:123
+#: src/admin/documentation.php:129
 msgid "Contents"
 msgstr "Conteúdo"
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:150
+#: src/admin/documentation.php:156
 #, php-format
 msgid "Open the %s tab"
 msgstr "Abrir a aba %s"
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:176
+#: src/admin/documentation.php:182
 #, php-format
 msgid "Developed by %s."
 msgstr "Desenvolvido por %s."
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:182
+#: src/admin/documentation.php:188
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr "Código-fonte e registro de problemas: %s"
@@ -281,239 +327,321 @@ msgstr "Alunos: nome completo e data de nascimento"
 msgid "Teachers: full name and CPF or RF"
 msgstr "Professores: nome completo e CPF ou RF"
 
-#: src/admin/settings-page.php:133
+#: src/admin/settings-page.php:126
+msgid "São Paulo city schools (RME/SP)"
+msgstr "Rede municipal de São Paulo (RME/SP)"
+
+#: src/admin/settings-page.php:127
+msgid "São Paulo state schools (SEDUC-SP)"
+msgstr "Rede estadual de São Paulo (SEDUC-SP)"
+
+#: src/admin/settings-page.php:145
 msgid "These settings apply to every form on the site. The standalone HTML page keeps the built-in defaults."
 msgstr "Estas configurações valem para todos os formulários do site. A página HTML avulsa mantém os padrões embutidos."
 
-#: src/admin/settings-page.php:145
+#: src/admin/settings-page.php:157
 msgid "Form"
 msgstr "Formulário"
 
-#: src/admin/settings-page.php:150
+#: src/admin/settings-page.php:162
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: src/admin/settings-page.php:152
+#: src/admin/settings-page.php:164
 msgid "Copy"
 msgstr "Copiar"
 
-#. translators: %s: the teachers' shortcode.
-#: src/admin/settings-page.php:156
+#. translators: 1: the teachers' shortcode, 2: the state schools' shortcode.
+#: src/admin/settings-page.php:168
 #, php-format
-msgid "Paste it into any page or post: it shows the students' form. For the teachers' form, use %s."
-msgstr "Cole-o em qualquer página ou post: ele mostra o formulário de alunos. Para o formulário de professores, use %s."
+msgid "Paste it into any page or post: it shows the students' form. For the teachers' form, use %1$s. To serve the other school network on one page, add network=\"state\" or network=\"city\", as in %2$s."
+msgstr "Cole-o em qualquer página ou post: ele mostra o formulário de alunos. Para o formulário de professores, use %1$s. Para atender a outra rede em uma página, acrescente network=\"state\" ou network=\"city\", como em %2$s."
 
-#: src/admin/settings-page.php:177
+#: src/admin/settings-page.php:186
+msgid "Which addresses the forms work out on this site. City schools: students from name and date of birth, teachers from RF or CPF. State schools: students from the RA and its check digit; teachers are pointed to the SED, where their address is created."
+msgstr "Quais endereços os formulários descobrem neste site. Rede municipal: alunos por nome e data de nascimento, professores por RF ou CPF. Rede estadual: alunos pelo RA e seu dígito; professores são encaminhados à SED, onde o endereço é criado."
+
+#: src/admin/settings-page.php:203
 msgid "A shortcode that asks for a form that is not offered shows the first one that is. With none ticked, both are offered."
 msgstr "Um shortcode que pede um formulário não oferecido mostra o primeiro que é. Sem nenhum marcado, os dois são oferecidos."
 
-#: src/admin/settings-page.php:182
+#: src/admin/settings-page.php:208
 msgid "Everyone who can see the page"
 msgstr "Todos que podem ver a página"
 
-#: src/admin/settings-page.php:183
+#: src/admin/settings-page.php:209
 msgid "Logged-in users only"
 msgstr "Só usuários conectados"
 
-#: src/admin/settings-page.php:198
-msgid "Address"
-msgstr "Endereço"
+#: src/admin/settings-page.php:224
+msgid "City schools (RME/SP)"
+msgstr "Rede municipal (RME/SP)"
 
-#: src/admin/settings-page.php:199
+#: src/admin/settings-page.php:225
 msgid "A student's address is the first name, the initial of each longer middle name and the last name, then a dot and the date of birth (DDMMYYYY). A teacher's is the first and the last name, then a dot and the RF or the CPF."
 msgstr "O endereço do aluno é o primeiro nome, a inicial de cada nome do meio mais longo e o último nome, depois um ponto e a data de nascimento (DDMMAAAA). O do professor é o primeiro e o último nome, depois um ponto e o RF ou o CPF."
 
-#: src/admin/settings-page.php:203
+#: src/admin/settings-page.php:229
 msgid "Domain"
 msgstr "Domínio"
 
 #. translators: %s: the default domain.
-#: src/admin/settings-page.php:208
+#: src/admin/settings-page.php:234
 #, php-format
 msgid "What comes after the \"@\". Default: %s."
 msgstr "O que vem depois do \"@\". Padrão: %s."
 
-#: src/admin/settings-page.php:217
+#: src/admin/settings-page.php:243
 msgid "letters or more"
 msgstr "letras ou mais"
 
 #. translators: %d: the default number of letters.
-#: src/admin/settings-page.php:219
+#: src/admin/settings-page.php:245
 #, php-format
 msgid "Only for students. A middle name this long or longer gives its initial to the address; shorter ones, such as \"da\" and \"dos\", are left out. Default: %d."
 msgstr "Só para alunos. Um nome do meio com este tamanho ou maior dá sua inicial ao endereço; os mais curtos, como \"da\" e \"dos\", ficam de fora. Padrão: %d."
 
-#: src/admin/settings-page.php:223
-msgid "Initial password"
-msgstr "Senha inicial"
+#: src/admin/settings-page.php:256
+msgid "Refuse an RF whose seventh digit does not match the first six"
+msgstr "Recusar um RF cujo sétimo dígito não confere com os seis primeiros"
 
-#: src/admin/settings-page.php:227
+#: src/admin/settings-page.php:260
+msgid "Catches a mistyped RF before it becomes an address that does not exist. The rule is the one Free Form Certificate uses; turn it off only if a genuine RF is refused."
+msgstr "Pega um RF digitado errado antes que vire um endereço que não existe. A regra é a mesma do Free Form Certificate; desligue só se um RF verdadeiro for recusado."
+
+#: src/admin/settings-page.php:263
+msgid "Initial password (city schools)"
+msgstr "Senha inicial (rede municipal)"
+
+#: src/admin/settings-page.php:267
 msgid "Password"
 msgstr "Senha"
 
-#: src/admin/settings-page.php:231
+#: src/admin/settings-page.php:271
 msgid "The password a new account starts with, shown beside the address. It is public: everyone who opens the form sees it."
 msgstr "A senha com que uma conta nova começa, mostrada ao lado do endereço. Ela é pública: todos que abrem o formulário a veem."
 
-#: src/admin/settings-page.php:241
+#: src/admin/settings-page.php:275
+msgid "State schools (SEDUC-SP)"
+msgstr "Rede estadual (SEDUC-SP)"
+
+#. translators: 1: the address suffix, 2: the domain.
+#: src/admin/settings-page.php:283
+#, php-format
+msgid "The RA, padded with zeros to 12 digits, its check digit (0 to 9 or X), then \"%1$s\" @ %2$s. The initial password is the date of birth (DDMMYYYY)."
+msgstr "O RA, completado com zeros até 12 dígitos, seu dígito (0 a 9 ou X), depois \"%1$s\" @ %2$s. A senha inicial é a data de nascimento (DDMMAAAA)."
+
+#: src/admin/settings-page.php:292
+msgid "No rule to apply: the address is created on the first access to the SED, with the SED password. The form explains this and links to"
+msgstr "Não há regra a aplicar: o endereço é criado no primeiro acesso à SED, com a senha da SED. O formulário explica isso e aponta para"
+
+#: src/admin/settings-page.php:297
+msgid "These follow the state rules and have nothing to set; their texts are on the Texts tab."
+msgstr "Estas seguem as regras do Estado e não têm o que configurar; os textos estão na aba Textos."
+
+#: src/admin/settings-page.php:306
 msgid "Platform name"
 msgstr "Nome da plataforma"
 
-#: src/admin/settings-page.php:249
+#: src/admin/settings-page.php:314
 msgid "Platform address"
 msgstr "Endereço da plataforma"
 
-#: src/admin/settings-page.php:253
+#: src/admin/settings-page.php:318
 msgid "Where the new account is used first; the form links to it below the result. Leave it empty to show no next step."
 msgstr "Onde a conta nova é usada primeiro; o formulário aponta para ela abaixo do resultado. Deixe vazio para não mostrar próximo passo."
 
 #. translators: %d: maximum number of characters.
-#: src/admin/settings-page.php:261
+#: src/admin/settings-page.php:326
 #, php-format
 msgid "Change any text the form shows, up to %d characters. Leave a field empty to keep the built-in text, which follows the site's language."
 msgstr "Altere qualquer texto que o formulário mostra, com até %d caracteres. Deixe um campo vazio para manter o texto embutido, que acompanha o idioma do site."
 
-#: src/admin/settings-page.php:266
+#: src/admin/settings-page.php:331
 msgid "Built-in text"
 msgstr "Texto embutido"
 
-#: src/admin/settings-page.php:267
+#: src/admin/settings-page.php:332
 msgid "Text on this site"
 msgstr "Texto neste site"
 
-#: src/admin/settings-page.php:314
+#: src/admin/settings-page.php:379
 msgid "Documentation"
 msgstr "Documentação"
 
-#: src/config.php:55
+#: src/config.php:86
 msgid "Google Classroom"
 msgstr "Google Sala de Aula"
 
-#: src/config.php:68
+#: src/config.php:99
 msgid "Student's full name"
 msgstr "Nome completo do aluno"
 
-#: src/config.php:69
+#: src/config.php:100
 msgid "Student's date of birth"
 msgstr "Data de nascimento do aluno"
 
-#: src/config.php:70
+#: src/config.php:101
 msgid "Teacher's full name"
 msgstr "Nome completo do professor(a)"
 
-#: src/config.php:71
+#: src/config.php:102
 msgid "Network"
 msgstr "Rede"
 
-#: src/config.php:72
+#: src/config.php:103
 msgid "Direct network for public servants; partner network for staff who are not public servants."
 msgstr "Rede Direta para servidores públicos; Rede Conveniada para funcionários que não são servidores."
 
-#: src/config.php:73
+#: src/config.php:104
 msgid "Partner network (CPF)"
 msgstr "Rede Conveniada (CPF)"
 
-#: src/config.php:74
+#: src/config.php:105
 msgid "Direct network (RF)"
 msgstr "Rede Direta (RF)"
 
-#: src/config.php:75
+#: src/config.php:106
 msgid "Registro Funcional (RF)"
 msgstr "Registro Funcional (RF)"
 
-#: src/config.php:76
-msgid "The 7 digits, without the check digit."
-msgstr "Os 7 dígitos, sem o dígito verificador."
+#: src/config.php:107
+msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
+msgstr "Os 7 dígitos, com o dígito verificador: 518.178-0 é 5181780."
 
-#: src/config.php:77
+#: src/config.php:108
 msgid "CPF"
 msgstr "CPF"
 
-#: src/config.php:78
+#: src/config.php:109
 msgid "Find the email"
 msgstr "Gerar e-mail"
 
-#: src/config.php:79
+#: src/config.php:110
 msgid "The student's email is:"
 msgstr "O e-mail do aluno é:"
 
-#: src/config.php:80
+#: src/config.php:111
 msgid "The teacher's email is:"
 msgstr "O e-mail do professor(a) é:"
 
-#: src/config.php:81
+#: src/config.php:112
 msgid "The initial password is:"
 msgstr "A senha inicial do e-mail é:"
 
-#: src/config.php:82
+#: src/config.php:113
 msgid "Copy email"
 msgstr "Copiar e-mail"
 
-#: src/config.php:83
+#: src/config.php:114
 msgid "Copy password"
 msgstr "Copiar senha"
 
-#: src/config.php:84
+#: src/config.php:115
 msgid "Email copied."
 msgstr "E-mail copiado."
 
-#: src/config.php:85
+#: src/config.php:116
 msgid "Password copied."
 msgstr "Senha copiada."
 
-#: src/config.php:86
+#: src/config.php:117
 msgid "Could not copy; select the text and copy it by hand."
 msgstr "Não foi possível copiar; selecione o texto e copie manualmente."
 
-#: src/config.php:87
+#: src/config.php:118
 msgid "Email found. Write it down with the password."
 msgstr "E-mail gerado. Anote-o junto com a senha."
 
-#: src/config.php:88
+#: src/config.php:119
 msgid "Check the marked fields."
 msgstr "Confira os campos indicados."
 
-#: src/config.php:89
+#: src/config.php:120
 msgid "Type the full name, with at least a first and a last name."
 msgstr "Digite o nome completo, com pelo menos nome e sobrenome."
 
-#: src/config.php:90
+#: src/config.php:121
 msgid "Choose a valid date of birth."
 msgstr "Informe uma data de nascimento válida."
 
-#: src/config.php:91
+#: src/config.php:122
 msgid "Type the 7 digits of the RF."
 msgstr "Digite os 7 dígitos do RF."
 
-#: src/config.php:92
+#: src/config.php:123
+msgid "This RF's check digit does not match: check the number."
+msgstr "O dígito verificador deste RF não confere: confira o número."
+
+#: src/config.php:124
 msgid "Type a valid CPF."
 msgstr "Digite um CPF válido."
 
-#: src/config.php:93
+#: src/config.php:125
+msgid "Student's RA (Registro do Aluno)"
+msgstr "RA do aluno (Registro do Aluno)"
+
+#: src/config.php:126
+msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
+msgstr "Os dígitos antes do dígito verificador, como a SED mostra; os zeros à esquerda podem ser omitidos."
+
+#: src/config.php:127
+msgid "RA check digit"
+msgstr "Dígito do RA"
+
+#: src/config.php:128
+msgid "A number from 0 to 9, or X."
+msgstr "Um número de 0 a 9, ou X."
+
+#: src/config.php:129
+msgid "Do not know the RA? Look it up on the SED:"
+msgstr "Não sabe o RA? Consulte na SED:"
+
+#: src/config.php:130
+msgid "The initial password is the date of birth:"
+msgstr "A senha inicial é a data de nascimento:"
+
+#: src/config.php:131
+msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
+msgstr "Os professores da rede estadual criam o e-mail institucional no primeiro acesso à SED, e a senha é a mesma da SED."
+
+#: src/config.php:132
+msgid "Get your access on the SED"
+msgstr "Obtenha seu acesso na SED"
+
+#: src/config.php:133
+msgid "Type the RA's digits, up to 12."
+msgstr "Digite os dígitos do RA, até 12."
+
+#: src/config.php:134
+msgid "Type the check digit: a number from 0 to 9, or X."
+msgstr "Digite o dígito: um número de 0 a 9, ou X."
+
+#: src/config.php:135
 msgid "Then sign in with this email and password, not a personal account, at:"
 msgstr "Depois, entre com este e-mail e senha (não com uma conta pessoal) em:"
 
-#: src/config.php:94
+#: src/config.php:136
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr "O e-mail é gerado no seu navegador: nada do que você digita é enviado ou guardado em lugar algum."
 
 #. translators: %s: the domain typed.
-#: src/settings.php:132
+#: src/settings.php:141
 #, php-format
 msgid "The domain was not saved, because it is not a domain name: %s"
 msgstr "O domínio não foi salvo, porque não é um nome de domínio: %s"
 
 #. translators: %s: the address typed.
-#: src/settings.php:144
+#: src/settings.php:153
 #, php-format
 msgid "The platform address was not saved, because it is not an http or https address: %s"
 msgstr "O endereço da plataforma não foi salvo, porque não é um endereço http ou https: %s"
 
-#: src/shortcode.php:49
+#: src/shortcode.php:56
 msgid "Log in to find an institutional email."
 msgstr "Entre para descobrir um e-mail institucional."
 
-#: src/shortcode.php:51
+#: src/shortcode.php:58
 msgid "Log in"
 msgstr "Entrar"
 
@@ -525,3 +653,30 @@ msgstr "A verificação de integridade (SHA-256) do pacote de atualização falh
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."
 msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP) a partir do nome e da data de nascimento, RF ou CPF."
 
+#~ msgid "Forms that work out the institutional email address of RME/SP students and teachers. The address is worked out in the visitor's browser, so nothing typed reaches the site."
+#~ msgstr "Formulários que descobrem o e-mail institucional de alunos e professores da RME/SP. O endereço é calculado no navegador do visitante, então nada do que é digitado chega ao site."
+
+#~ msgid "Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers' form. It uses the built-in defaults, not these settings."
+#~ msgstr "Cada versão também publica um único arquivo HTML com os dois formulários, para um iframe em um site sem WordPress; acrescente ?form=teachers ao endereço para o formulário de professores. Ele usa os padrões embutidos, não estas configurações."
+
+#~ msgid "Which forms the site offers and who may use them."
+#~ msgstr "Quais formulários o site oferece e quem pode usá-los."
+
+#~ msgid "How the address is built. Accents are dropped, and only the letters a to z of each name reach it."
+#~ msgstr "Como o endereço é montado. Os acentos são removidos, e só as letras de a a z de cada nome entram nele."
+
+#~ msgid "First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 1234567: mariasilva.1234567."
+#~ msgstr "Primeiro e último nome, um ponto e os dígitos do RF ou do CPF. Maria da Silva, RF 1234567: mariasilva.1234567."
+
+#, php-format
+#~ msgid "Paste it into any page or post: it shows the students' form. For the teachers' form, use %s."
+#~ msgstr "Cole-o em qualquer página ou post: ele mostra o formulário de alunos. Para o formulário de professores, use %s."
+
+#~ msgid "Address"
+#~ msgstr "Endereço"
+
+#~ msgid "Initial password"
+#~ msgstr "Senha inicial"
+
+#~ msgid "The 7 digits, without the check digit."
+#~ msgstr "Os 7 dígitos, sem o dígito verificador."

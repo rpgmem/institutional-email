@@ -38,6 +38,29 @@ final class Config {
 	public const MIDDLE_MIN = 4;
 
 	/**
+	 * The school networks a form can serve: São Paulo city schools (RME/SP)
+	 * and São Paulo state schools (SEDUC-SP).
+	 */
+	public const NETWORKS = array( 'city', 'state' );
+
+	/**
+	 * A state student's address: RA + check digit + "sp" @ this domain.
+	 */
+	public const STATE_DOMAIN = 'al.educacao.sp.gov.br';
+
+	public const STATE_SUFFIX = 'sp';
+
+	/**
+	 * Where a state student looks up the RA.
+	 */
+	public const STATE_RA_URL = 'https://sed.educacao.sp.gov.br/NCA/CadastroAluno/ConsultaRAAluno';
+
+	/**
+	 * Where a state teacher creates the address, on the first access to the SED.
+	 */
+	public const STATE_TEACHER_URL = 'https://sed.educacao.sp.gov.br/obtenha-seu-acesso';
+
+	/**
 	 * The forms the shortcode and the standalone page offer.
 	 */
 	public const FORMS = array( 'students', 'teachers' );
@@ -45,13 +68,21 @@ final class Config {
 	/**
 	 * The configuration the script reads.
 	 *
-	 * @return array{domain: string, password: string, middleMin: int, platformName: string, platformUrl: string, strings: array<string, string>}
+	 * @return array{network: string, domain: string, password: string, middleMin: int, checkRfDigit: bool, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
+			'network'      => self::NETWORKS[0],
 			'domain'       => self::DOMAIN,
 			'password'     => self::PASSWORD,
 			'middleMin'    => self::MIDDLE_MIN,
+			'checkRfDigit' => true,
+			'state'        => array(
+				'domain'     => self::STATE_DOMAIN,
+				'suffix'     => self::STATE_SUFFIX,
+				'raUrl'      => self::STATE_RA_URL,
+				'teacherUrl' => self::STATE_TEACHER_URL,
+			),
 			'platformName' => __( 'Google Classroom', 'institutional-email' ),
 			'platformUrl'  => self::PLATFORM_URL,
 			'strings'      => self::strings(),
@@ -65,33 +96,44 @@ final class Config {
 	 */
 	public static function strings(): array {
 		return array(
-			'studentName'     => __( 'Student\'s full name', 'institutional-email' ),
-			'birthDate'       => __( 'Student\'s date of birth', 'institutional-email' ),
-			'teacherName'     => __( 'Teacher\'s full name', 'institutional-email' ),
-			'networkLegend'   => __( 'Network', 'institutional-email' ),
-			'networkHint'     => __( 'Direct network for public servants; partner network for staff who are not public servants.', 'institutional-email' ),
-			'networkPartner'  => __( 'Partner network (CPF)', 'institutional-email' ),
-			'networkDirect'   => __( 'Direct network (RF)', 'institutional-email' ),
-			'rf'              => __( 'Registro Funcional (RF)', 'institutional-email' ),
-			'rfHint'          => __( 'The 7 digits, without the check digit.', 'institutional-email' ),
-			'cpf'             => __( 'CPF', 'institutional-email' ),
-			'submit'          => __( 'Find the email', 'institutional-email' ),
-			'studentResult'   => __( 'The student\'s email is:', 'institutional-email' ),
-			'teacherResult'   => __( 'The teacher\'s email is:', 'institutional-email' ),
-			'passwordResult'  => __( 'The initial password is:', 'institutional-email' ),
-			'copyEmail'       => __( 'Copy email', 'institutional-email' ),
-			'copyPassword'    => __( 'Copy password', 'institutional-email' ),
-			'emailCopied'     => __( 'Email copied.', 'institutional-email' ),
-			'passwordCopied'  => __( 'Password copied.', 'institutional-email' ),
-			'copyFailed'      => __( 'Could not copy; select the text and copy it by hand.', 'institutional-email' ),
-			'ready'           => __( 'Email found. Write it down with the password.', 'institutional-email' ),
-			'fixErrors'       => __( 'Check the marked fields.', 'institutional-email' ),
-			'error_name'      => __( 'Type the full name, with at least a first and a last name.', 'institutional-email' ),
-			'error_birthDate' => __( 'Choose a valid date of birth.', 'institutional-email' ),
-			'error_rf'        => __( 'Type the 7 digits of the RF.', 'institutional-email' ),
-			'error_cpf'       => __( 'Type a valid CPF.', 'institutional-email' ),
-			'nextStep'        => __( 'Then sign in with this email and password, not a personal account, at:', 'institutional-email' ),
-			'privacy'         => __( 'The email is worked out in your browser: nothing you type is sent or stored anywhere.', 'institutional-email' ),
+			'studentName'         => __( 'Student\'s full name', 'institutional-email' ),
+			'birthDate'           => __( 'Student\'s date of birth', 'institutional-email' ),
+			'teacherName'         => __( 'Teacher\'s full name', 'institutional-email' ),
+			'networkLegend'       => __( 'Network', 'institutional-email' ),
+			'networkHint'         => __( 'Direct network for public servants; partner network for staff who are not public servants.', 'institutional-email' ),
+			'networkPartner'      => __( 'Partner network (CPF)', 'institutional-email' ),
+			'networkDirect'       => __( 'Direct network (RF)', 'institutional-email' ),
+			'rf'                  => __( 'Registro Funcional (RF)', 'institutional-email' ),
+			'rfHint'              => __( 'The 7 digits, check digit included: 518.178-0 is 5181780.', 'institutional-email' ),
+			'cpf'                 => __( 'CPF', 'institutional-email' ),
+			'submit'              => __( 'Find the email', 'institutional-email' ),
+			'studentResult'       => __( 'The student\'s email is:', 'institutional-email' ),
+			'teacherResult'       => __( 'The teacher\'s email is:', 'institutional-email' ),
+			'passwordResult'      => __( 'The initial password is:', 'institutional-email' ),
+			'copyEmail'           => __( 'Copy email', 'institutional-email' ),
+			'copyPassword'        => __( 'Copy password', 'institutional-email' ),
+			'emailCopied'         => __( 'Email copied.', 'institutional-email' ),
+			'passwordCopied'      => __( 'Password copied.', 'institutional-email' ),
+			'copyFailed'          => __( 'Could not copy; select the text and copy it by hand.', 'institutional-email' ),
+			'ready'               => __( 'Email found. Write it down with the password.', 'institutional-email' ),
+			'fixErrors'           => __( 'Check the marked fields.', 'institutional-email' ),
+			'error_name'          => __( 'Type the full name, with at least a first and a last name.', 'institutional-email' ),
+			'error_birthDate'     => __( 'Choose a valid date of birth.', 'institutional-email' ),
+			'error_rf'            => __( 'Type the 7 digits of the RF.', 'institutional-email' ),
+			'error_rfCheck'       => __( 'This RF\'s check digit does not match: check the number.', 'institutional-email' ),
+			'error_cpf'           => __( 'Type a valid CPF.', 'institutional-email' ),
+			'stateRa'             => __( 'Student\'s RA (Registro do Aluno)', 'institutional-email' ),
+			'stateRaHint'         => __( 'The digits before the check digit, as the SED shows them; leading zeros may be left out.', 'institutional-email' ),
+			'stateRaDigit'        => __( 'RA check digit', 'institutional-email' ),
+			'stateRaDigitHint'    => __( 'A number from 0 to 9, or X.', 'institutional-email' ),
+			'stateRaLookup'       => __( 'Do not know the RA? Look it up on the SED:', 'institutional-email' ),
+			'statePasswordResult' => __( 'The initial password is the date of birth:', 'institutional-email' ),
+			'stateTeacherIntro'   => __( 'State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one.', 'institutional-email' ),
+			'stateTeacherLink'    => __( 'Get your access on the SED', 'institutional-email' ),
+			'error_ra'            => __( 'Type the RA\'s digits, up to 12.', 'institutional-email' ),
+			'error_raDigit'       => __( 'Type the check digit: a number from 0 to 9, or X.', 'institutional-email' ),
+			'nextStep'            => __( 'Then sign in with this email and password, not a personal account, at:', 'institutional-email' ),
+			'privacy'             => __( 'The email is worked out in your browser: nothing you type is sent or stored anywhere.', 'institutional-email' ),
 		);
 	}
 }

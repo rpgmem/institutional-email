@@ -11,7 +11,8 @@
  * iframe: the stylesheet and the script are inlined, and the configuration
  * is the plugin's own default (`Config::defaults()`), translated into
  * <locale> (default pt_BR) from the bundled catalogue. It shows the
- * students' form, or the teachers' with `?form=teachers` in its address.
+ * students' form, or the teachers' with `?form=teachers` in its address, for
+ * city schools, or state schools with `?network=state`.
  *
  * Runs without WordPress: the one function Config needs is shimmed below.
  *
@@ -106,7 +107,7 @@ body { margin: 0; padding: 16px; background: #ffffff; color: #1d2327; }
 </head>
 <body>
 <!-- Institutional Email ' . $ie_e( $ie_version ) . ', standalone build. https://github.com/rpgmem/institutional-email -->
-<div class="ie-generator" data-ie-form="students" data-ie-form-param="form" data-ie-config="' . $ie_e( $ie_json ) . '"><noscript>' . $ie_e( __( 'This form needs JavaScript.', 'institutional-email' ) ) . '</noscript></div>
+<div class="ie-generator" data-ie-form="students" data-ie-form-param="form" data-ie-network="city" data-ie-network-param="network" data-ie-config="' . $ie_e( $ie_json ) . '"><noscript>' . $ie_e( __( 'This form needs JavaScript.', 'institutional-email' ) ) . '</noscript></div>
 <script>
 ' . $ie_js . '
 </script>

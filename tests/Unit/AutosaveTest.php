@@ -50,8 +50,17 @@ final class AutosaveTest extends TestCase {
 		self::assertSame( Config::FORMS, $saved['forms'] );
 	}
 
+	public function test_the_rf_check_digit_toggle_saves_on_its_own(): void {
+		$off = Autosave::apply( Settings::defaults(), 'check_rf_digit', '0' );
+		self::assertIsArray( $off );
+		self::assertFalse( $off['check_rf_digit'] );
+		$on = Autosave::apply( $off, 'check_rf_digit', '1' );
+		self::assertIsArray( $on );
+		self::assertTrue( $on['check_rf_digit'] );
+	}
+
 	public function test_a_key_that_is_not_a_toggle_is_refused(): void {
-		foreach ( array( 'domain', 'password', '', 'forms.x' ) as $key ) {
+		foreach ( array( 'domain', 'password', 'network', '', 'forms.x' ) as $key ) {
 			self::assertInstanceOf( WP_Error::class, Autosave::apply( Settings::defaults(), $key, '1' ), $key );
 		}
 	}

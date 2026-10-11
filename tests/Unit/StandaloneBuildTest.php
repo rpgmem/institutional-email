@@ -43,6 +43,7 @@ final class StandaloneBuildTest extends TestCase {
 		self::assertStringContainsString( (string) file_get_contents( self::ROOT . '/assets/css/institutional-email.css' ), $html, 'The stylesheet is inlined.' );
 		self::assertStringContainsString( 'function studentEmail', $html, 'The script is inlined.' );
 		self::assertStringContainsString( 'data-ie-form-param="form"', $html, 'The address can choose the form.' );
+		self::assertStringContainsString( 'data-ie-network="city" data-ie-network-param="network"', $html, 'The address can choose the network.' );
 		self::assertDoesNotMatchRegularExpression( '/<(?:script|link)[^>]+(?:src|href)=/i', $html, 'Nothing is fetched.' );
 
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', $html, $m ) );

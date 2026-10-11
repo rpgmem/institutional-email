@@ -75,11 +75,56 @@ describe( 'CPF', () => {
 		expect( gen.isCpf( '1234' ) ).toBe( false );
 	} );
 
+	it( 'formats an RF as far as the digits go, as Free Form Certificate does', () => {
+		expect( gen.formatRf( '518' ) ).toBe( '518' );
+		expect( gen.formatRf( '5181' ) ).toBe( '518.1' );
+		expect( gen.formatRf( '518178' ) ).toBe( '518.178' );
+		expect( gen.formatRf( '5181780999' ) ).toBe( '518.178-0' );
+	} );
+
 	it( 'formats as far as the digits go', () => {
 		expect( gen.formatCpf( '529' ) ).toBe( '529' );
 		expect( gen.formatCpf( '5299' ) ).toBe( '529.9' );
 		expect( gen.formatCpf( '5299822' ) ).toBe( '529.982.2' );
 		expect( gen.formatCpf( '52998224725999' ) ).toBe( '529.982.247-25' );
+	} );
+} );
+
+describe( 'RF check digit', () => {
+	it( 'is the rule Free Form Certificate uses', () => {
+		// Free Form Certificate's example RF, 518.178-0:
+		// 5*7 + 1*6 + 8*5 + 1*4 + 7*3 + 8*2 = 122; 122 mod 11 = 1; (11 - 1) mod 10 = 0.
+		expect( gen.rfCheckDigit( '123456' ) ).toBe( null );
+		expect( gen.rfCheckDigit( '5181780' ) ).toBe( 0 );
+		expect( gen.isRf( '518.178-0' ) ).toBe( true );
+		expect( gen.isRf( '1234567' ) ).toBe( false );
+		expect( gen.isRf( '12345' ) ).toBe( false );
+		// 1*7 + 6*2 = 19; 19 mod 11 = 8; (11 - 8) mod 10 = 3.
+		expect( gen.rfCheckDigit( '1000060' ) ).toBe( 3 );
+	} );
+
+	it( 'reports a wrong check digit apart, and can be turned off', () => {
+		const wrong = gen.teacherEmail( { network: 'direct', name: 'A B', rf: '1234567' }, config );
+		expect( wrong.errors ).toEqual( [ 'rf' ] );
+		expect( wrong.reasons ).toEqual( { rf: 'checkDigit' } );
+		expect( gen.teacherEmail( { network: 'direct', name: 'A B', rf: '123' }, config ).reasons ).toEqual( {} );
+		expect( gen.teacherEmail( { network: 'direct', name: 'A B', rf: '1234567' }, Object.assign( {}, config, { checkRfDigit: false } ) ).email )
+			.toBe( 'ab.1234567@edu.sme.prefeitura.sp.gov.br' );
+	} );
+} );
+
+describe( 'state students', () => {
+	it( 'build the address from the RA padded to 12 digits and its check digit', () => {
+		expect( gen.stateStudentEmail( { ra: '123456789', raDigit: 'X', birthDate: '2012-03-07' }, config, TODAY ) )
+			.toEqual( { email: '000123456789xsp@al.educacao.sp.gov.br', password: '07032012', errors: [] } );
+		expect( gen.stateStudentEmail( { ra: '000123456789', raDigit: '5', birthDate: '2012-03-07' }, config, TODAY ).email )
+			.toBe( '0001234567895sp@al.educacao.sp.gov.br' );
+	} );
+
+	it( 'report every field in error', () => {
+		expect( gen.stateStudentEmail( { ra: '', raDigit: 'Y', birthDate: '' }, config, TODAY ).errors ).toEqual( [ 'ra', 'raDigit', 'birthDate' ] );
+		expect( gen.stateStudentEmail( { ra: '1234567890123', raDigit: '1', birthDate: '2012-03-07' }, config, TODAY ).errors ).toEqual( [ 'ra' ] );
+		expect( gen.stateStudentEmail( { ra: '1', raDigit: '12', birthDate: '2012-03-07' }, config, TODAY ).errors ).toEqual( [ 'raDigit' ] );
 	} );
 } );
 
@@ -97,8 +142,8 @@ describe( 'addresses', () => {
 	it( 'builds a teacher address from the CPF or the RF', () => {
 		expect( gen.teacherEmail( { network: 'partner', name: 'Maria da Silva', cpf: '529.982.247-25' }, config ).email )
 			.toBe( 'mariasilva.52998224725@edu.sme.prefeitura.sp.gov.br' );
-		expect( gen.teacherEmail( { network: 'direct', name: 'Maria da Silva', rf: '1234567' }, config ).email )
-			.toBe( 'mariasilva.1234567@edu.sme.prefeitura.sp.gov.br' );
+		expect( gen.teacherEmail( { network: 'direct', name: 'Maria da Silva', rf: '5181780' }, config ).email )
+			.toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
 	it( 'reports the teacher fields in error', () => {
@@ -112,8 +157,8 @@ describe( 'addresses', () => {
 	} );
 
 	it( 'uses the configured domain', () => {
-		expect( gen.teacherEmail( { network: 'direct', name: 'A B', rf: '1234567' }, { domain: 'example.org' } ).email )
-			.toBe( 'ab.1234567@example.org' );
+		expect( gen.teacherEmail( { network: 'direct', name: 'A B', rf: '5181780' }, { domain: 'example.org' } ).email )
+			.toBe( 'ab.5181780@example.org' );
 	} );
 } );
 
@@ -167,6 +212,60 @@ describe( 'formOf', () => {
 		expect( gen.formOf( container( { 'data-ie-form': 'students' } ) ) ).toBe( 'students' );
 		window.history.replaceState( null, '', '/?form=bogus' );
 		expect( gen.formOf( container( { 'data-ie-form': 'students', 'data-ie-form-param': 'form' } ) ) ).toBe( 'students' );
+	} );
+} );
+
+describe( 'networkOf', () => {
+	it( 'reads data-ie-network, then the configuration, and falls back to the city', () => {
+		expect( gen.networkOf( container( { 'data-ie-network': 'state' } ) ) ).toBe( 'state' );
+		expect( gen.networkOf( container(), { network: 'state' } ) ).toBe( 'state' );
+		expect( gen.networkOf( container( { 'data-ie-network': 'nope' } ) ) ).toBe( 'city' );
+		expect( gen.networkOf( container() ) ).toBe( 'city' );
+	} );
+
+	it( 'lets the address choose in the standalone page', () => {
+		window.history.replaceState( null, '', '/?network=state' );
+		expect( gen.networkOf( container( { 'data-ie-network': 'city', 'data-ie-network-param': 'network' } ) ) ).toBe( 'state' );
+		expect( gen.networkOf( container( { 'data-ie-network': 'city' } ) ) ).toBe( 'city' );
+	} );
+} );
+
+describe( 'state student form', () => {
+	it( 'asks for the RA, its check digit and the date of birth, and shows the password', () => {
+		const div = container();
+		const ui = gen.mount( div, config, 'students', 'state' );
+		expect( ui.network ).toBe( 'state' );
+		expect( Object.keys( ui.inputs ) ).toEqual( [ 'ra', 'raDigit', 'birthDate' ] );
+		expect( div.querySelector( '.ie-lookup a' ).getAttribute( 'href' ) ).toBe( config.state.raUrl );
+
+		submit( div );
+		expect( div.querySelector( '[data-ie-field="raDigit"] .ie-field-error' ).textContent ).toBe( config.strings.error_raDigit );
+
+		type( ui.inputs.ra, '12a3456789012345' );
+		expect( ui.inputs.ra.value ).toBe( '123456789012' );
+		type( ui.inputs.ra, '123456789' );
+		type( ui.inputs.raDigit, 'x9' );
+		expect( ui.inputs.raDigit.value ).toBe( 'X' );
+		type( ui.inputs.birthDate, '2012-03-07' );
+		submit( div );
+
+		expect( ui.email() ).toBe( '000123456789xsp@al.educacao.sp.gov.br' );
+		expect( div.querySelectorAll( '.ie-value' )[ 1 ].textContent ).toBe( '07032012' );
+		expect( div.querySelectorAll( '.ie-result-label' )[ 1 ].textContent ).toBe( config.strings.statePasswordResult );
+	} );
+} );
+
+describe( 'state teachers', () => {
+	it( 'see an explanation and the SED link, no form', () => {
+		const div = container( { 'data-ie-network': 'state' } );
+		const ui = gen.mount( div, config, 'teachers' );
+		expect( ui.network ).toBe( 'state' );
+		expect( div.querySelector( 'form' ) ).toBeNull();
+		expect( div.textContent ).toContain( config.strings.stateTeacherIntro );
+		const link = div.querySelector( '.ie-info a' );
+		expect( link.getAttribute( 'href' ) ).toBe( config.state.teacherUrl );
+		expect( link.getAttribute( 'rel' ) ).toBe( 'noopener noreferrer' );
+		expect( ui.generate() ).toBe( false );
 	} );
 } );
 
@@ -242,9 +341,14 @@ describe( 'teacher form', () => {
 		expect( ui.email() ).toBe( '' );
 
 		type( ui.inputs.rf, '12a34567890' );
-		expect( ui.inputs.rf.value ).toBe( '1234567' );
+		expect( ui.inputs.rf.value ).toBe( '123.456-7' );
 		submit( div );
-		expect( ui.email() ).toBe( 'mariasilva.1234567@edu.sme.prefeitura.sp.gov.br' );
+		expect( ui.email() ).toBe( '' );
+		expect( div.querySelector( '[data-ie-field="rf"] .ie-field-error' ).textContent ).toBe( config.strings.error_rfCheck );
+
+		type( ui.inputs.rf, '518.178-0' );
+		submit( div );
+		expect( ui.email() ).toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
 	it( 'marks a wrong CPF', () => {

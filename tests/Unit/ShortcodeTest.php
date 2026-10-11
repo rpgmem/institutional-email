@@ -121,6 +121,24 @@ final class ShortcodeTest extends TestCase {
 		self::assertStringContainsString( 'data-ie-config', Shortcode::render() );
 	}
 
+	public function test_network_takes_the_shortcode_then_the_site(): void {
+		self::assertSame( 'state', Shortcode::network( 'state', 'city' ) );
+		self::assertSame( 'city', Shortcode::network( ' City ', 'state' ) );
+		self::assertSame( 'state', Shortcode::network( '', 'state' ) );
+		self::assertSame( 'state', Shortcode::network( 'federal', 'state' ) );
+		self::assertSame( 'city', Shortcode::network( '', 'nope' ) );
+	}
+
+	public function test_the_shortcode_can_serve_the_state_on_one_page(): void {
+		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_enqueue_script' )->justReturn( null );
+
+		self::assertStringContainsString( 'data-ie-network="state"', Shortcode::render( array( 'network' => 'state' ) ) );
+		$this->stored = array( 'network' => 'state' );
+		self::assertStringContainsString( 'data-ie-network="state"', Shortcode::render() );
+		self::assertStringContainsString( 'data-ie-network="city"', Shortcode::render( array( 'network' => 'city' ) ) );
+	}
+
 	public function test_register_hooks_the_tag(): void {
 		Functions\expect( 'add_shortcode' )->once()->with( 'institutional_email', array( Shortcode::class, 'render' ) );
 		Shortcode::register();
@@ -133,7 +151,7 @@ final class ShortcodeTest extends TestCase {
 		$html = Shortcode::render( array( 'form' => 'teachers' ) );
 
 		self::assertMatchesRegularExpression( '/^' . preg_quote( Plugin::VERSION, '/' ) . '\.\d+$/', Plugin::assetVersion( 'assets/js/institutional-email.js' ) );
-		self::assertStringStartsWith( '<div class="ie-generator" data-ie-form="teachers" data-ie-config="', $html );
+		self::assertStringStartsWith( '<div class="ie-generator" data-ie-form="teachers" data-ie-network="city" data-ie-config="', $html );
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', $html, $m ) );
 		self::assertSame( Config::defaults(), json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true ) );
 		self::assertStringContainsString( '<noscript>This form needs JavaScript.</noscript>', $html );

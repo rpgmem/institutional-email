@@ -27,8 +27,9 @@ Place a form on any page or post:
 
 * `[institutional_email]` or `[institutional_email form="students"]` — students: full name and date of birth.
 * `[institutional_email form="teachers"]` — teachers: full name and CPF (partner network) or RF (direct network).
+* Add `network="state"` for the São Paulo state schools (SEDUC-SP): students give their RA, its check digit and their date of birth; teachers are pointed to the SED.
 
-Settings → Institutional Email chooses the forms offered, who may use them, the domain, the initial password, the platform the result links to and every text the form shows. Its Documentation tab explains each option.
+Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, the domain, the initial password, the platform the result links to and every text the form shows. Its Documentation tab explains each option.
 
 == Privacy ==
 
@@ -43,6 +44,8 @@ The address is worked out in the visitor's browser. The form sends nothing, sets
 5. Settings, Address rules tab: domain, middle names that count, initial password.
 6. Settings, Texts tab: the next-step platform and every text of the form.
 7. Settings, Documentation tab.
+8. The state students' form, with the RA and its check digit.
+9. The state teachers' panel, linking to the SED.
 
 == Changelog ==
 

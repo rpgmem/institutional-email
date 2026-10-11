@@ -346,3 +346,12 @@
 .ie-settings input.code {
 	line-height: 1.5;
 }
+
+.ie-settings .ie-rules dt {
+	margin-top: 8px;
+	font-weight: 600;
+}
+
+.ie-settings .ie-rules dd {
+	margin: 2px 0 0;
+}

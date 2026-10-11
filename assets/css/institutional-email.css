@@ -149,3 +149,29 @@
 .ie-generator [hidden] {
 	display: none;
 }
+
+.ie-generator .ie-input-short {
+	width: 4em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.ie-generator .ie-info {
+	padding: 12px;
+	border: 1px solid var(--ie-border);
+	border-radius: 4px;
+	background: var(--ie-value-bg);
+}
+
+.ie-generator .ie-info p {
+	margin: 0 0 12px;
+}
+
+.ie-generator .ie-info p:last-child {
+	margin-bottom: 0;
+}
+
+.ie-generator .ie-link-button {
+	display: inline-block;
+	text-decoration: none;
+}
