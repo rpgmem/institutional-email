@@ -139,6 +139,17 @@ npm test
 - **Pages serves the release asset, not a build from a branch,** so the page is always the file the release offers for download. `pages.yml` runs from `release.yml` after a tag push (a release created with the workflow token fires no `release` event) and by hand through `workflow_dispatch`. Pages must be enabled with **GitHub Actions** as its source.
 - A historical release published by hand never replaces the page.
 
+## Updates
+
+`Update\GithubUpdater` (ported from Email Signature Generator) feeds WordPress's own update check from `releases/latest`:
+
+- **The asset.** It picks the `institutional-email-*.zip` asset and never the standalone `.html` beside it.
+- **The checksum.** It verifies the asset's SHA-256 digest before WordPress installs it.
+- **The release's own metadata.** `Requires at least`, `Tested up to`, `Requires PHP` and the Upgrade Notice come from the offered release's own `readme.txt`.
+- **Caching.** It caches for 12 hours in the `institutional_email_github_update` site transient, with ETag requests. `uninstall.php` deletes it.
+- **Registration.** It is registered outside `is_admin()`, because WordPress also scans from cron.
+- **The `releases/latest` consequence.** A release published by hand for an old tag must never be marked latest, which is why `release.yml` sets `make_latest: false` for `workflow_dispatch`.
+
 ## Translations
 
 `languages/` holds the `.pot`, and per locale the `.po`, `.mo` and `.l10n.php`. After changing a translatable string, run `bin/i18n.sh` (needs GNU gettext): it re-extracts the `.pot`, merges it into each `.po` and recompiles. Translate the new entries in the `.po`, then run it again.

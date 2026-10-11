@@ -62,6 +62,9 @@ final class Plugin {
 			Admin\SettingsPage::register();
 			Admin\Autosave::register();
 		}
+
+		// Not behind is_admin(): WordPress also scans for updates from cron.
+		Update\GithubUpdater::register();
 	}
 
 	/**

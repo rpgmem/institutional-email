@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 03:25+0000\n"
+"POT-Creation-Date: 2026-10-11 03:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,24 +209,48 @@ msgstr ""
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr ""
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:106
+msgid "Updates"
+msgstr ""
+
+#: src/admin/documentation.php:108
+msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
+msgstr ""
+
+#: src/admin/documentation.php:110
+msgid "Checked package"
+msgstr ""
+
+#: src/admin/documentation.php:110
+msgid "Each package is checked against its published SHA-256 before it is installed."
+msgstr ""
+
+#: src/admin/documentation.php:111
+msgid "Automatic updates"
+msgstr ""
+
+#: src/admin/documentation.php:111
+msgid "Turned on or off with WordPress's own link on the Plugins screen."
+msgstr ""
+
+#: src/admin/documentation.php:123
 msgid "Contents"
 msgstr ""
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:141
+#: src/admin/documentation.php:150
 #, php-format
 msgid "Open the %s tab"
 msgstr ""
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:167
+#: src/admin/documentation.php:176
 #, php-format
 msgid "Developed by %s."
 msgstr ""
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:173
+#: src/admin/documentation.php:182
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr ""
@@ -493,6 +517,10 @@ msgstr ""
 
 #: src/shortcode.php:51
 msgid "Log in"
+msgstr ""
+
+#: src/update/github-updater.php:197
+msgid "Update package integrity check (SHA-256) failed. Installation aborted."
 msgstr ""
 
 #. Plugin header: Description
