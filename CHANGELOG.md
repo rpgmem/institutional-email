@@ -3,11 +3,15 @@
 All notable changes to **Institutional Email** are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui, Rafael Meusburger, Thiago Guttierre and Alex Meusburger, as the pages themselves credit them. Each version below names who wrote it, read from the commits' authors.
+
 ## [Unreleased]
 
 ## [1.0.0] (2026-10-11)
 
 The forms become a WordPress plugin, with a standalone page for iframes.
+
+Built on the 2020 forms credited above; maintained by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
 
 ### Added
 
@@ -33,6 +37,8 @@ The forms become a WordPress plugin, with a standalone page for iframes.
 
 The last version of the HTML pages, published so the download of the pre-plugin forms is complete. It is cut from `legacy/0.x`, not from the plugin's history.
 
+The list of schools is Alex Meusburger's ([@rpgmem](https://github.com/rpgmem)), from 2020; the interns' option was written for this release.
+
 ### Added
 
 - **Interns on the teachers' form** (#14). A third choice next to the two networks: the CPF with an "e" before it (`mariasilva.e52998224725`), and the labels name an intern. `?tipo=estagiario` opens the page on it, and `email-estagiarios.html` now leads there; it had been hosted as a separate page that was never committed and never produced an address.
@@ -44,6 +50,8 @@ The last version of the HTML pages, published so the download of the pre-plugin 
 ## [0.4.0] (2020-05-14) — `cbd1f51`
 
 The last version of the HTML pages served on Heroku.
+
+Code by [@meusburger](https://github.com/meusburger), who closed #9 to #12; the README and the iframe instructions by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
 
 ### Added
 
@@ -57,11 +65,15 @@ The last version of the HTML pages served on Heroku.
 
 ## [0.3.0] (2020-05-13) — `41b8c1e`
 
+The shared script and stylesheet and the Heroku pages by [@meusburger](https://github.com/meusburger); the iframe instructions by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
+
 ### Changed
 
 - **The forms became two pages for an iframe,** `email-alunos.html` and `email-professores.html`, served from Heroku with a shared script and stylesheet. The README told schools to embed them with an `<iframe>` instead of copying the code, so a fix reached every site at once.
 
 ## [0.2.0] (2020-05-11) — `a648d9b`
+
+By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)). The teachers' page credits Ricardo Fukui, Rafael Meusburger, Thiago Guttierre and Alex Meusburger.
 
 ### Added
 
@@ -69,8 +81,10 @@ The last version of the HTML pages served on Heroku.
 
 ## [0.1.0] (2020-05-01) — `f7b4ca3`
 
+By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), with the layout and the copy buttons by [@meusburger](https://github.com/meusburger) (#2 to #6). The page credits the Educational Technology team of E.M.E.F. José Américo de Almeida, Ricardo Fukui, Rafael Meusburger and Alex Meusburger.
+
 ### Added
 
 - **The first form, for students,** one file, `index.html`: full name and date of birth for the address `firstname` + middle initials + `lastname.DDMMYYYY@edu.sme.prefeitura.sp.gov.br`, the initial password `12345678`, buttons to copy both, and a link to Google Classroom. Accents were removed with a character map, and every middle name gave its initial.
 
-These four versions were never tagged at the time: their numbers, dates and commits were assigned afterwards from the repository's history (#14).
+Versions 0.1.0 to 0.4.0 were never tagged at the time: their numbers, dates and commits were assigned afterwards from the repository's history (#14).
