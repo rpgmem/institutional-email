@@ -407,7 +407,16 @@
 				status.textContent = s.fixErrors;
 				return false;
 			}
-			emailOut.textContent = outcome.email;
+			// A break opportunity after "@" and each dot, so a long address
+			// wraps between its parts; <wbr> adds nothing to textContent,
+			// which is what the Copy button copies.
+			emailOut.textContent = '';
+			outcome.email.split( /(?<=[@.])/ ).forEach( function ( part, i ) {
+				if ( i ) {
+					emailOut.appendChild( doc.createElement( 'wbr' ) );
+				}
+				emailOut.appendChild( doc.createTextNode( part ) );
+			} );
 			result.hidden = false;
 			status.textContent = s.ready;
 			return true;

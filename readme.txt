@@ -30,6 +30,20 @@ Place a form on any page or post:
 
 Settings → Institutional Email chooses the forms offered, who may use them, the domain, the initial password, the platform the result links to and every text the form shows. Its Documentation tab explains each option.
 
+== Privacy ==
+
+The address is worked out in the visitor's browser. The form sends nothing, sets no cookie and loads no third-party file; the plugin stores only its own settings, in one option deleted with the plugin.
+
+== Screenshots ==
+
+1. The students' form, with an address worked out from fictitious details.
+2. The teachers' form, direct network, with the RF.
+3. Errors marked on each field.
+4. Settings, General tab: the shortcode, the forms offered and who may use them.
+5. Settings, Address rules tab: domain, middle names that count, initial password.
+6. Settings, Texts tab: the next-step platform and every text of the form.
+7. Settings, Documentation tab.
+
 == Changelog ==
 
 The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem/institutional-email/blob/main/CHANGELOG.md).

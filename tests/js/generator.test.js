@@ -187,6 +187,7 @@ describe( 'student form', () => {
 		submit( div );
 
 		expect( ui.email() ).toBe( 'mariaasilva.07032012@edu.sme.prefeitura.sp.gov.br' );
+		expect( div.querySelectorAll( '.ie-value wbr' ) ).toHaveLength( 7 );
 		expect( ui.inputs.name.getAttribute( 'aria-invalid' ) ).toBe( 'false' );
 		expect( div.querySelector( '.ie-result' ).hidden ).toBe( false );
 		expect( div.querySelectorAll( '.ie-value' )[ 1 ].textContent ).toBe( config.password );

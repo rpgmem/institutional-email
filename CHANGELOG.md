@@ -13,6 +13,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Settings → Institutional Email** (#14). Vertical tabs as in the other plugins: which forms the site offers and who may use them (everyone or logged-in users), the address rules (domain, how long a middle name must be to count, the initial password), the platform the result links to, and every text the form shows. The on/off switches save as soon as they are flipped.
 - **A Documentation tab** in the settings (#14), with the shortcode, the rules with examples, privacy, and credits to the author and the repository.
 - **Updates from GitHub releases** (#14). New versions appear on the WordPress update screen, and each package is checked against its published SHA-256 before it is installed.
+- **A README for the plugin and the iframe** (#14), in English, with the rules, the settings, the iframe code for the GitHub Pages page, screenshots, and the credits and list of schools from the 2020 README; the Heroku links, which no longer work, are gone.
 
 ### Changed
 

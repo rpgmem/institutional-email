@@ -114,7 +114,7 @@
 	background: var(--ie-value-bg);
 	font-family: Consolas, Monaco, monospace;
 	font-weight: 700;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
 }
 
 .ie-generator .ie-copy {

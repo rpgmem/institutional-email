@@ -1,70 +1,83 @@
-**Desenvolvido pela equipe de Informática Educativa da [E.M.E.F. José Américo de Almeida - DRE/MP - SME/SP](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno), com a colaboração de Ricardo Fukui, Rafael Meusburger, Thiago Guttierre, Alex Meusburger e demais usuários do GitHub**
+# Institutional Email
 
-Este projeto visa a implementação de formulário simples e acessível (inclusive a leitores de tela) para conversão de e-mails institucionais da Rede Municipal de Educação de São Paulo (RME/SP) nos cenários:
+Forms that work out the institutional email address of students and teachers of the São Paulo Municipal Education Network (RME/SP), from their name and their date of birth, RF or CPF. The address is worked out in the visitor's browser: nothing typed is sent or stored anywhere.
 
-- De alunos, com base em seus nomes completos e datas de nascimento;  
-- De professores (servidores), com base em seus nomes completos e Registro Funcional;  
-- De professores (rede conveniada), com base em seus nomes completos e CPF;  
+It comes in two forms, both published on every [release](https://github.com/rpgmem/institutional-email/releases/latest):
 
-**Avisos importantes:**
-- O formulário tem código aberto e colaborativo, seu uso é irrestrito desde que seja para fins não-comerciais;  
-- Não armazenamos quaisquer informações pessoais, digitadas neste formulário pelo usuário;  
-- Dados estatísticos de uso e comportamento podem vir a ser coletados com o único fim de melhoria da experiência do usuário;  
-- Como está agora (iframe) o formulário nos permite atualizar o código a qualquer tempo (bugs e implementações) sem que os usuários finais, que implementarem em seus sites, precisem se preocupar com qualquer questão adicional.  
-- Ao usar o código abaixo os usuários finais concordam com estes termos acima de maneira irrestrita e se comprometem a manter sua integridade;  
+- **WordPress plugin** (`institutional-email-X.Y.Z.zip`): place a form on any page with a shortcode. An administrator chooses the forms offered, who may use them, the address rules and every text the form shows. Updates arrive through the normal WordPress update screen.
+- **Standalone HTML** (`institutional-email-X.Y.Z.html`): one self-contained file that needs no WordPress, for an `<iframe>` on any site. The latest one is served at **https://rpgmem.github.io/institutional-email/**.
 
----
+**Requires** WordPress 6.8 or later and PHP 8.3 or later (plugin only) · **License** GPLv3 or later
 
-**Para ver funcionando o formulário de** ***ALUNOS,*** **acesse:**  
-[ex. Formulário de Alunos](https://institutional-email.herokuapp.com/email-alunos.php)
+![The students' form with a result](docs/screenshots/1-students.png)
 
-**Para implementar o formulário de** ***ALUNOS*** **em um site próprio (da escola, por exemplo):**  
+## The rules
 
-**1-** Copie TODO o código HTML abaixo;  
+| Who | Asked for | Address |
+|---|---|---|
+| Student | full name, date of birth | first name + the initial of each middle name of 4 letters or more + last name, a dot, the date as DDMMYYYY |
+| Teacher, direct network | full name, RF (7 digits) | first name + last name, a dot, the RF |
+| Teacher, partner network | full name, CPF (validated) | first name + last name, a dot, the CPF digits |
+
+All at `@edu.sme.prefeitura.sp.gov.br`, with the initial password `12345678`. Accents are dropped and only the letters a to z of each name reach the address. Examples: Maria Aparecida da Silva, born on 7 March 2012 → `mariaasilva.07032012@edu.sme.prefeitura.sp.gov.br`; João dos Santos Oliveira, RF 1234567 → `joaooliveira.1234567@edu.sme.prefeitura.sp.gov.br`.
+
+## How to use it
+
+**In WordPress**, put `[institutional_email]` on any page for the students' form, or `[institutional_email form="teachers"]` for the teachers'.
+
+In **Settings → Institutional Email** an administrator sets, for every form on the site:
+
+- **General:** the forms offered, and who may use them (everyone, or logged-in users only).
+- **Address rules:** the domain, how long a middle name must be to give its initial, and the initial password.
+- **Texts:** the platform the result links to (Google Classroom by default; empty hides the line), and any label, hint or message of the form.
+- **Documentation:** what every option does, with examples.
+
+**In an iframe**, without WordPress:
+
 ```html
-<iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-alunos.php"></iframe>
+<iframe src="https://rpgmem.github.io/institutional-email/" style="width:100%;height:640px;border:0" title="Institutional email"></iframe>
 ```
----
-**Para ver funcionando o formulário de** ***PROFESSORES,*** **acesse:**  
-[ex. Formulário de Professores](https://institutional-email.herokuapp.com/email-professores.php)
 
-**Para implementar o formulário de** ***PROFESSORES*** **em um site próprio (da escola, por exemplo):**  
+Add `?form=teachers` to the address for the teachers' form. The standalone page always uses the built-in rules and texts (in Portuguese). On a Google Site, use Insert → Embed → Embed code.
 
-**1-** Copie TODO o código HTML abaixo;  
-```html
-<iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-professores.php"></iframe>
-```
----
+## Screenshots
 
-**Caso, onde irá incorporar o código, seja um "Google Site":**  
-**2-** Abra o gerenciamento do Google Site e edite a página onde quer inserir o código;  
-**3-** No meu lateral direito (Inserir) localize o elemento "Incorporar" e clique sobre ele;  
-**4-** Na caixa que surgir, mude para "Incorporar Código";  
-**5-** Cole todo o código HTML copiado (em uma das opções "passo 1" acima) na caixa e clique em "Inserir";  
+| | |
+|---|---|
+| ![Teachers' form, direct network](docs/screenshots/2-teachers.png) | ![Errors marked on each field](docs/screenshots/3-errors.png) |
+| ![Settings, General tab](docs/screenshots/4-general.png) | ![Settings, Address rules tab](docs/screenshots/5-rules.png) |
+| ![Settings, Texts tab](docs/screenshots/6-texts.png) | ![Settings, Documentation tab](docs/screenshots/7-documentation.png) |
 
----
+## Privacy
 
-**Caso, onde irá incorporar o código, seja qualquer outra ferramenta de publicação:**  
-Verifique termos como "incorporar", "código html", "código fonte" entre outros;  
-Faça testes de incorporação adicionando código nas páginas que quer.  
+The address is computed by the script on the visitor's device. The form sends nothing, sets no cookie and loads no third-party file. The plugin stores only its own settings, in one option deleted with the plugin.
 
-**Atenção:** Ferramentas gratuitas em geral tem limitações a implementação de códigos de terceiros (que não sejam nativos da ferramenta). Em muitos casos essa opção sequer existe, impossibilitando a inclusão.
+## Development
 
----
-**Setores de DREs que implementaram o código em suas páginas:**
+See [CLAUDE.md](CLAUDE.md) for the workflow (feature branches into `develop`, releases into `main`), the quality gates and the release steps, and [CHANGELOG.md](CHANGELOG.md) for the history, including the 2020 HTML versions (0.1.0–0.4.0).
+
+## Credits
+
+Created in 2020 by the Educational Technology team of [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno) (DRE/MP, SME/SP), with Ricardo Fukui, Rafael Meusburger, Thiago Guttierre, Alex Meusburger and other GitHub contributors. Maintained by [Alex Meusburger](https://github.com/rpgmem).
+
+### Who used the 2020 forms
+
+Regional offices and schools that embedded the original forms on their pages or shared them:
+
+**Regional office departments:**
 
 <details markdown="1">
-<summary>Clique para expandir</summary>
+<summary>Expand</summary>
 
 [DIPED - DRE/IP](https://dipedtpaip.wixsite.com/tecnologia/tutoriais/)  
 [DIPED - DRE/MP](https://dipedmp.wixsite.com/meusite/descubra-em-login-no-classroom)  
 </details>
 
----
-**Escolas que implementaram o código em suas páginas ou o compartilharam (por DRE):**
+
+**Schools, by Regional Education Office (DRE):**
 
 <details markdown="1">
-<summary>Clique para expandir</summary>
+<summary>Expand</summary>
 
 **Escolas da Diretoria Regional de Educação de Campo Limpo (DRE/CL)**  
 [C.E.U. E.M.E.F. Paraisópolis](https://sites.google.com/edu.sme.prefeitura.sp.gov.br/ceuemefparaispolis/)  

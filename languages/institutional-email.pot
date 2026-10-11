@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 03:28+0000\n"
+"POT-Creation-Date: 2026-10-11 03:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -472,7 +472,7 @@ msgid "Email found. Write it down with the password."
 msgstr ""
 
 #: src/config.php:88
-msgid "Check the fields marked below."
+msgid "Check the marked fields."
 msgstr ""
 
 #: src/config.php:89

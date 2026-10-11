@@ -85,7 +85,7 @@ final class Config {
 			'passwordCopied'  => __( 'Password copied.', 'institutional-email' ),
 			'copyFailed'      => __( 'Could not copy; select the text and copy it by hand.', 'institutional-email' ),
 			'ready'           => __( 'Email found. Write it down with the password.', 'institutional-email' ),
-			'fixErrors'       => __( 'Check the fields marked below.', 'institutional-email' ),
+			'fixErrors'       => __( 'Check the marked fields.', 'institutional-email' ),
 			'error_name'      => __( 'Type the full name, with at least a first and a last name.', 'institutional-email' ),
 			'error_birthDate' => __( 'Choose a valid date of birth.', 'institutional-email' ),
 			'error_rf'        => __( 'Type the 7 digits of the RF.', 'institutional-email' ),
