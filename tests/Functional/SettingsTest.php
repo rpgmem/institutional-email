@@ -72,6 +72,11 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertStringContainsString( 'data-ie-network="city"', do_shortcode( '[institutional_email network="city"]' ) );
 	}
 
+	public function test_the_form_width_reaches_the_container(): void {
+		update_option( Settings::OPTION, array( 'form_width' => '900' ) );
+		self::assertStringContainsString( 'style="--ie-form-width: 900px"', do_shortcode( '[institutional_email]' ) );
+	}
+
 	public function test_logged_in_only_keeps_the_form_from_visitors(): void {
 		update_option( Settings::OPTION, array( 'access' => Settings::ACCESS_LOGGED_IN ) );
 
@@ -109,6 +114,7 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertSame( count( Config::strings() ), substr_count( $html, 'name="' . Settings::OPTION . '[strings][' ) );
 		self::assertStringContainsString( 'value="[' . Shortcode::TAG . ']" readonly', $html );
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[network]" value="state"', $html );
+		self::assertStringContainsString( 'name="' . Settings::OPTION . '[form_width]" value="640"', $html );
 		self::assertStringContainsString( 'data-ie-autosave="check_rf_digit"', $html );
 		self::assertSame( count( Config::TEACHER_NETWORKS ), substr_count( $html, 'data-ie-autosave="teacher_networks"' ) );
 	}

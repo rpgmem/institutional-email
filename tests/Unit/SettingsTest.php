@@ -109,6 +109,14 @@ final class SettingsTest extends TestCase {
 		self::assertSame( 3, Settings::sanitize( array( 'middle_min' => '3' ) )['middle_min'] );
 	}
 
+	public function test_the_form_width_stays_in_range_and_a_cleared_field_keeps_the_default(): void {
+		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array() )['form_width'] );
+		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array( 'form_width' => '' ) )['form_width'], 'A cleared field is not zero pixels.' );
+		self::assertSame( Settings::FORM_WIDTH_MIN, Settings::sanitize( array( 'form_width' => '10' ) )['form_width'] );
+		self::assertSame( Settings::FORM_WIDTH_MAX, Settings::sanitize( array( 'form_width' => '99999' ) )['form_width'] );
+		self::assertSame( 800, Settings::sanitize( array( 'form_width' => '800' ) )['form_width'] );
+	}
+
 	public function test_the_password_is_plain_text_bounded_and_never_empty(): void {
 		self::assertSame( 'abc 123', Settings::sanitize( array( 'password' => ' <i>abc</i> 123 ' ) )['password'] );
 		self::assertSame( Config::PASSWORD, Settings::sanitize( array( 'password' => '   ' ) )['password'] );

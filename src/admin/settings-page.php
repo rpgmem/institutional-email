@@ -234,6 +234,17 @@ final class SettingsPage {
 		echo '<p class="description">' . esc_html__( 'Who the teachers\' form serves in the city schools. With only one ticked, the form asks for it without a choice; with none ticked, all three are offered.', 'institutional-email' ) . '</p>';
 		echo '</fieldset></td></tr>';
 
+		printf(
+			'<tr><th scope="row"><label for="ie-form-width">%1$s</label></th><td><input type="number" id="ie-form-width" class="small-text" name="%2$s[form_width]" value="%3$d" min="%4$d" max="%5$d" step="10" required> px<p class="description">%6$s</p></td></tr>',
+			esc_html__( 'Form width', 'institutional-email' ),
+			esc_attr( $name ),
+			(int) $settings['form_width'],
+			(int) Settings::FORM_WIDTH_MIN,
+			(int) Settings::FORM_WIDTH_MAX,
+			/* translators: 1: default width, 2: minimum, 3: maximum, in pixels. */
+			esc_html( sprintf( __( 'The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe.', 'institutional-email' ), Config::FORM_WIDTH, Settings::FORM_WIDTH_MIN, Settings::FORM_WIDTH_MAX ) )
+		);
+
 		echo '<tr><th scope="row">' . esc_html__( 'Who can use the form', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( array(
 			Settings::ACCESS_EVERYONE  => __( 'Everyone who can see the page', 'institutional-email' ),

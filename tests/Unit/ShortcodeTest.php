@@ -151,7 +151,7 @@ final class ShortcodeTest extends TestCase {
 		$html = Shortcode::render( array( 'form' => 'teachers' ) );
 
 		self::assertMatchesRegularExpression( '/^' . preg_quote( Plugin::VERSION, '/' ) . '\.\d+$/', Plugin::assetVersion( 'assets/js/institutional-email.js' ) );
-		self::assertStringStartsWith( '<div class="ie-generator" data-ie-form="teachers" data-ie-network="city" data-ie-config="', $html );
+		self::assertStringStartsWith( '<div class="ie-generator" data-ie-form="teachers" data-ie-network="city" style="--ie-form-width: 640px" data-ie-config="', $html );
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', $html, $m ) );
 		self::assertSame( Config::defaults(), json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true ) );
 		self::assertStringContainsString( '<noscript>This form needs JavaScript.</noscript>', $html );

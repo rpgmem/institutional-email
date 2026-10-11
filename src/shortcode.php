@@ -65,11 +65,12 @@ final class Shortcode {
 		self::enqueue();
 
 		return sprintf(
-			'<div class="ie-generator" data-ie-form="%1$s" data-ie-network="%4$s" data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
+			'<div class="ie-generator" data-ie-form="%1$s" data-ie-network="%4$s" style="--ie-form-width: %5$dpx" data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
 			esc_attr( $form ),
 			esc_attr( (string) wp_json_encode( Settings::apply( Config::defaults(), $settings ) ) ),
 			esc_html__( 'This form needs JavaScript.', 'institutional-email' ),
-			esc_attr( $network )
+			esc_attr( $network ),
+			(int) $settings['form_width']
 		);
 	}
 
