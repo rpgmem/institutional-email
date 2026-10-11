@@ -65,7 +65,7 @@ The address is computed by the script on the visitor's device. The form sends no
 
 ## Development
 
-See [CLAUDE.md](CLAUDE.md) for the workflow (feature branches into `develop`, releases into `main`), the quality gates and the release steps, and [CHANGELOG.md](CHANGELOG.md) for the history, including the 2020 HTML versions (0.1.0–0.4.0).
+See [CLAUDE.md](CLAUDE.md) for the workflow (feature branches into `develop`, releases into `main`), the quality gates and the release steps, and [CHANGELOG.md](CHANGELOG.md) for the history, including the HTML versions from before the plugin (0.1.0–0.5.0).
 
 ## Credits
 
