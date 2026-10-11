@@ -16,9 +16,10 @@
 # Fails when the tag's Version header disagrees with the tag, or when the
 # CHANGELOG has no section for the version.
 #
-# A tag from before the plugin (0.x, when the project was the single page
-# assinatura.html) has no plugin to package: its release is that page,
-# written as <out-dir>/institutional-email-X.Y.Z.html, and the notes.
+# A tag from before the plugin (0.x, 2020, when the project was a few HTML
+# pages) has no plugin to package: its release is those pages, zipped as
+# <out-dir>/institutional-email-X.Y.Z-pages.zip, and the notes. The name
+# keeps it apart from a plugin zip, so nobody uploads it to WordPress.
 
 set -euo pipefail
 
@@ -46,15 +47,19 @@ git -C "$root" worktree add --detach "$work/src" "$tag" >/dev/null 2>&1
 
 legacy=0
 if [ ! -f "$work/src/$slug.php" ]; then
-	if [ ! -f "$work/src/assinatura.html" ]; then
-		echo "::error::Tag $tag has neither $slug.php nor assinatura.html." >&2
+	if ! ls "$work/src/"*.html >/dev/null 2>&1; then
+		echo "::error::Tag $tag has neither $slug.php nor an HTML page." >&2
 		exit 1
 	fi
 	legacy=1
 fi
 
 if [ "$legacy" = 1 ]; then
-	cp "$work/src/assinatura.html" "$out/$slug-$version.html"
+	# The pages as they were, without the repository's own metadata.
+	mkdir -p "$work/stage/$slug-$version"
+	rsync -a --exclude='.git' --exclude='.gitignore' --exclude='.vscode' --exclude='_config.yml' "$work/src/" "$work/stage/$slug-$version/"
+	rm -f "$out/$slug-$version-pages.zip"
+	(cd "$work/stage" && zip -rqX "$out/$slug-$version-pages.zip" "$slug-$version")
 else
 	header=$(grep -m1 -E 'Version:' "$work/src/$slug.php" | sed -E 's/.*Version:[[:space:]]*//; s/[[:space:]]*$//')
 	if [ "$header" != "$version" ]; then
@@ -87,7 +92,7 @@ if ! grep -q '[^[:space:]]' "$out/notes-$version.md"; then
 fi
 
 if [ "$legacy" = 1 ]; then
-	echo "$out/$slug-$version.html"
+	echo "$out/$slug-$version-pages.zip"
 else
 	echo "$out/$slug-$version.zip"
 fi
