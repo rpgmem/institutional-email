@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Institutional Email
  * Plugin URI:        https://github.com/rpgmem/institutional-email
- * Description:       Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF.
+ * Description:       Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo city schools (RME/SP), from their name and date of birth, RF or CPF, and of the state schools (SEDUC-SP), from the student's RA.
  * Version:           1.0.0
  * Requires at least: 6.8
  * Requires PHP:      8.3

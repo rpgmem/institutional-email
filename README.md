@@ -63,7 +63,7 @@ Add `?form=teachers` to the address for the teachers' form, and `?network=state`
 
 ## Privacy
 
-The address is computed by the script on the visitor's device. The form sends nothing, sets no cookie and loads no third-party file. The plugin stores only its own settings, in one option deleted with the plugin.
+The address is computed by the script on the visitor's device: what is typed is never sent anywhere. By default the form sets no cookie and loads no third-party file. If an administrator switches on Google Analytics (off by default), the pages with a form load Google's tag, which sets Google's cookies, and record each address worked out with only the form and the network. The plugin stores only its own settings, in one option deleted with the plugin.
 
 ## Development
 

@@ -8,13 +8,13 @@ Requires PHP: 8.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Forms, placed with a shortcode, that work out the institutional email address of RME/SP students and teachers.
+Forms, placed with a shortcode, that work out the institutional email address of São Paulo city (RME/SP) and state (SEDUC-SP) students and teachers.
 
 == Description ==
 
-Students and teachers of the São Paulo municipal schools (RME/SP) have an institutional email address made from their name and their date of birth, RF or CPF. This plugin's forms work it out in the visitor's browser, so nothing typed is sent to the site.
+Students and teachers of the São Paulo municipal schools (RME/SP) have an institutional email address made from their name and their date of birth, RF or CPF; students of the São Paulo state schools (SEDUC-SP) have one made from their RA. This plugin's forms work it out in the visitor's browser, so nothing typed is sent to the site.
 
-A standalone HTML version, for embedding in an iframe, is published next to the plugin on each GitHub release, and served at https://rpgmem.github.io/institutional-email/ (add `?form=teachers` for the teachers' form).
+A standalone HTML version, for embedding in an iframe, is published next to the plugin on each GitHub release, and served at https://rpgmem.github.io/institutional-email/ (add `?form=teachers` for the teachers' form and `?network=state` for the state schools).
 
 == Installation ==
 
@@ -29,11 +29,11 @@ Place a form on any page or post:
 * `[institutional_email form="teachers"]` — teachers: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
 * Add `network="state"` for the São Paulo state schools (SEDUC-SP): students give their RA, its check digit and their date of birth; teachers are pointed to the SED.
 
-Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, the domain, the initial password, the platform the result links to and every text the form shows. Its Documentation tab explains each option.
+Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font. Its Documentation tab explains each option.
 
 == Privacy ==
 
-The address is worked out in the visitor's browser. The form sends nothing, sets no cookie and loads no third-party file; the plugin stores only its own settings, in one option deleted with the plugin.
+The address is worked out in the visitor's browser, and what is typed is never sent anywhere. By default the form sets no cookie and loads no third-party file; if an administrator switches on Google Analytics, the pages with a form load Google's tag, which sets its cookies, and record each address worked out with only the form and the network. The plugin stores only its own settings, in one option deleted with the plugin.
 
 == Screenshots ==
 
@@ -61,9 +61,9 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 * New: updates from GitHub Releases, each package checked against its SHA-256.
 * New: a standalone HTML page on every release, served on GitHub Pages for iframes.
 * Changed: only the letters a to z of each name reach the address.
-* Removed: the Heroku pages, jQuery, CDN libraries and Google Analytics.
+* Removed: the Heroku pages, jQuery, CDN libraries and the hard-coded Google Analytics (now optional, with the site's own ID).
 
 == Upgrade Notice ==
 
 = 1.0.0 =
-First release as a WordPress plugin: the [institutional_email] shortcode for city and state schools, settings for forms, access, address rules and texts, and updates from GitHub. Details in CHANGELOG.md.
+First release as a WordPress plugin: the [institutional_email] shortcode for city and state schools and interns, settings for forms, access, address rules, texts and design, optional Analytics, and updates from GitHub. Details in CHANGELOG.md.
