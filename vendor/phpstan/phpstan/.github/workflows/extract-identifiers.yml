@@ -1,0 +1,148 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Extract identifiers"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/extract-identifiers.yml'
+      - 'identifier-extractor/**'
+      - '.phar-checksum'
+
+concurrency:
+  group: extract-identifiers-${{ github.ref }} # will be canceled on subsequent pushes
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    name: "Extract identifiers"
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      matrix:
+        repository:
+          - "phpstan/phpstan-src"
+          - "phpstan/phpstan-strict-rules"
+          - "phpstan/phpstan-deprecation-rules"
+          - "phpstan/phpstan-doctrine"
+          - "phpstan/phpstan-symfony"
+          - "phpstan/phpstan-phpunit"
+          - "phpstan/phpstan-nette"
+          - "phpstan/phpstan-dibi"
+          #- "phpstan/phpstan-php-parser"
+          - "phpstan/phpstan-beberlei-assert"
+          - "phpstan/phpstan-webmozart-assert"
+          - "phpstan/phpstan-mockery"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: ${{ matrix.repository }}
+          path: "identifier-extractor/repo"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "8.1"
+
+      - name: "Install Extractor dependencies"
+        uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+        with:
+          working-directory: "identifier-extractor"
+
+      - name: "Repository name"
+        id: repo-name
+        run: echo "name=$(basename "${{ matrix.repository }}")" >> "$GITHUB_OUTPUT"
+
+      - name: "Branch name"
+        id: branch-name
+        working-directory: "identifier-extractor/repo"
+        run: echo "name=$(git branch --show)" >> "$GITHUB_OUTPUT"
+
+      - name: "Extract"
+        working-directory: "identifier-extractor/repo"
+        run: |
+          set -o pipefail
+          ../../phpstan analyse -c ../extractor.neon -a ../vendor/autoload.php | tee ../${{ steps.repo-name.outputs.name }}.json
+        env:
+          REPO: ${{ matrix.repository }}
+          BRANCH: ${{ steps.branch-name.outputs.name }}
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: identifiers-${{ steps.repo-name.outputs.name }}
+          path: identifier-extractor/${{ steps.repo-name.outputs.name }}.json
+
+  merge:
+    permissions:
+      contents: write  # for stefanzweifel/git-auto-commit-action to push code in repo
+    name: "Merge and commit identifiers"
+    needs: extract
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          token: ${{ secrets.PHPSTAN_BOT_TOKEN }}
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "8.1"
+
+      - name: "Install Extractor dependencies"
+        uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+        with:
+          working-directory: "identifier-extractor"
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: identifiers-*
+          path: identifier-extractor/tmp
+
+      - name: "Merge"
+        working-directory: "identifier-extractor"
+        run: "php merge.php > ../website/src/errorsIdentifiers.json"
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd # v7.0.0
+        with:
+          gpg_private_key: ${{ secrets.GPG_PHPSTANBOT_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PHPSTANBOT_KEY_PASSPHRASE }}
+          git_config_global: true
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: "Commit changes"
+        uses: "stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d" # v7.2.0
+        id: "commit"
+        with:
+          commit_message: "Update errors identifiers"
+          commit_user_name: "phpstan-bot"
+          commit_user_email: "ondrej+phpstanbot@mirtes.cz"
+          commit_author: "phpstan-bot <ondrej+phpstanbot@mirtes.cz>"
+          commit_options: "--gpg-sign"

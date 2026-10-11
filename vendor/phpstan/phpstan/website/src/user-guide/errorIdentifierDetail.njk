@@ -1,0 +1,159 @@
+---
+pagination:
+  data: errorIdentifiers
+  size: 1
+  alias: errorIdentifier
+permalink: "/error-identifiers/{{ errorIdentifier.identifier }}.html"
+pageType: documentation
+layout: null
+eleventyComputed:
+  title: "{{ errorIdentifier.identifier }}"
+sectionTitle: User Guide
+---
+
+{% extends "../_layouts/_sidebar.njk" %}
+
+{% block mainTitle %}<h1 class="leading-tight !mb-0">Error Identifier: {{ errorIdentifier.identifier }}</h1>{% endblock %}
+{% block editPageLink %}
+{% if errorIdentifier.doc %}
+<a href="https://github.com/phpstan/phpstan/edit/{{ git.branch }}/website/errors/{{ errorIdentifier.identifier }}.md" class="flex-shrink-0 text-gray-300 hover:text-gray-500 transition duration-150" title="Edit this page on GitHub">
+	<svg fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+</a>
+{% endif %}
+{% endblock %}
+
+{% block algoliaSectionTitle %}Error Identifiers{% endblock %}
+
+{% block metaDescription %}
+{% if errorIdentifier.doc and errorIdentifier.doc.shortDescription %}
+<meta name="description" content="PHPStan error identifier {{ errorIdentifier.identifier }} — {{ errorIdentifier.doc.shortDescription }}">
+{% elif errorIdentifier.doc %}
+<meta name="description" content="PHPStan error identifier {{ errorIdentifier.identifier }} — learn what this error means and how to fix it in your PHP code.">
+{% else %}
+<meta name="description" content="PHPStan error identifier {{ errorIdentifier.identifier }} — use @phpstan-ignore to ignore this error in your PHP code.">
+{% endif %}
+{% endblock %}
+
+{% block metaRobots %}
+{% if errorIdentifier.doc and errorIdentifier.doc.feasible === false %}
+<meta name="robots" content="noindex">
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/error-identifier-detail.ts" type="module"></script>
+{% endblock %}
+
+{% block innerContent %}
+
+<p class="mb-4"><a href="/error-identifiers/{{ errorIdentifier.prefix }}">&larr; Back to {{ errorIdentifier.prefix }}.*</a></p>
+
+{% markdown %}
+
+Every error reported by PHPStan has an error identifier. Here's [a list of all error identifiers](/error-identifiers). In [PHPStan Pro](/blog/introducing-phpstan-pro){.phpstan-pro-label} you can see the error identifier next to each error and filter errors by their identifiers.
+
+{% endmarkdown %}
+
+{% if errorIdentifier.doc %}
+
+{% if errorIdentifier.doc.feasible === false %}
+<div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+This error is not likely to ever be reported in practice. The identifier exists because of an entirely theoretical possible combination of inputs when calling <code>RuleErrorBuilder::identifier()</code>.
+</div>
+{% elif errorIdentifier.doc.unlikely === true %}
+<div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+This error can be reported by PHPStan, but only under circumstances where a more severe error about the code is already reported.
+</div>
+{% endif %}
+
+{{ errorIdentifier.doc.content | renderMarkdown | safe }}
+
+{% if errorIdentifier.doc.ignorable %}
+
+{% markdown %}
+
+## How to ignore this error
+
+You can use the identifier <strong>{{ errorIdentifier.identifier }}</strong> to ignore this error using a comment:
+
+```php
+// @phpstan-ignore {{ errorIdentifier.identifier }}
+codeThatProducesTheError();
+```
+
+You can also use only the `identifier` key to ignore all errors of the same type in your [configuration file](/config-reference) in the `ignoreErrors` parameter:
+
+```yaml
+parameters:
+	ignoreErrors:
+		-
+			identifier: {{ errorIdentifier.identifier }}
+```
+
+{% endmarkdown %}
+
+{% else %}
+
+{% markdown %}
+
+## Non-ignorable error
+
+This error cannot be ignored using `@phpstan-ignore` or the `ignoreErrors` configuration. Non-ignorable errors indicate code that would cause a crash or a fatal error at runtime, or a fundamental problem in the analysed code that must be addressed.
+
+{% endmarkdown %}
+
+{% endif %}
+
+{% else %}
+
+{% markdown %}
+
+<p>Error identifiers like <strong>{{ errorIdentifier.identifier }}</strong> in PHPStan can be used to ignore errors locally using a comment:</p>
+
+```php
+// @phpstan-ignore {{ errorIdentifier.identifier }}
+codeThatProducesTheError();
+```
+
+You can also use only the `identifier` key to ignore all errors of the same type in your [configuration file](/config-reference) in the `ignoreErrors` parameter:
+
+```yaml
+parameters:
+	ignoreErrors:
+		-
+			identifier: {{ errorIdentifier.identifier }}
+```
+
+{% endmarkdown %}
+
+{% endif %}
+
+{% markdown %}
+
+## Rules that report this error
+
+{% endmarkdown %}
+
+<ul>
+
+{% for ruleData in errorIdentifier.rules %}
+
+	{% for links in ruleData.links %}
+	<li>
+		{{ ruleData.ruleName }}
+		{% for ruleLinks in ruleData.links %}
+			{% for link in ruleLinks.links %}
+				<a target="_blank" href="{{ link }}">[{{ loop.index }}]</a>
+			{% endfor %}
+			{% if ruleLinks.repo !== 'phpstan/phpstan-src' %}
+				<span class="inline-block whitespace-nowrap text-xs bg-gray-400 text-white font-semibold rounded py-1 px-2">{{ ruleLinks.repo }}</span>
+			{% endif %}
+		{% endfor %}
+	</li>
+	{% endfor %}
+
+{% endfor %}
+
+</ul>
+
+{% endblock %}

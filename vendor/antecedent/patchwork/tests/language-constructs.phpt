@@ -1,0 +1,61 @@
+--TEST--
+Redefining language constructs like die(), echo, require_once etc. (https://github.com/antecedent/patchwork/issues/59)
+
+--FILE--
+<?php
+
+namespace Patchwork;
+
+ini_set('zend.assertions', 1);
+error_reporting(E_ALL);
+
+$_SERVER['PHP_SELF'] = __FILE__;
+
+require __DIR__ . "/../Patchwork.php";
+
+$calls = [
+    'die' => [],
+    'exit' => [],
+    'echo' => [],
+    'print' => [],
+];
+
+function collect(array &$collection)
+{
+    return function() use (&$collection) {
+        $collection[] = func_get_args();
+    };
+}
+
+redefine('die', collect($calls['die']));
+redefine('exit', collect($calls['exit']));
+redefine('echo', collect($calls['echo']));
+redefine('print', collect($calls['print']));
+
+require __DIR__ . "/includes/LanguageConstructUsages.php";
+
+assert($calls['die'] == [
+    [],
+    [],
+    [],
+]);
+
+assert($calls['exit'] == [
+    ['error'],
+]);
+
+assert($calls['echo'] == [
+    ['This is a string'],
+    ['This is a string', ' and this is another one'],
+    ['Hello ', 'world'],
+]);
+
+assert($calls['print'] == [
+    [404],
+]);
+
+?>
+===DONE===
+
+--EXPECT--
+===DONE===

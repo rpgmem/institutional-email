@@ -1,0 +1,53 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Update playground API"
+
+on:
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/update-playground-api.yml'
+      - 'playground-api/**'
+
+concurrency: playground_api
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: playground-api/package-lock.json
+
+      - name: "Install dependencies"
+        working-directory: ./playground-api
+        run: "npm ci"
+
+      - name: "Check"
+        working-directory: ./playground-api
+        run: "npm run check"
+
+      - name: "Deploy"
+        working-directory: ./playground-api
+        env:
+          AWS_DEFAULT_REGION: "eu-west-1"
+          AWS_ACCESS_KEY_ID: ${{ secrets.PLAYGROUND_RUNNER_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.PLAYGROUND_RUNNER_AWS_SECRET_ACCESS_KEY }}
+        run: "npm run deploy"

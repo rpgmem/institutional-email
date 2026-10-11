@@ -1,0 +1,10 @@
+/composer.lock
+node_modules/
+vendor/
+/.phpcs.xml
+/phpcs.xml
+.cache/phpcs.cache
+/phpunit.xml
+/.phpunit.result.cache
+/build/
+phpstan.neon

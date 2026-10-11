@@ -1,0 +1,194 @@
+{
+    "layout": "_developing_extensions.njk",
+    "sidebarOtherSections": [
+        {
+            "title": "User Guide",
+            "link": "/user-guide/getting-started"
+        },
+        {
+            "title": "Config Reference",
+            "link": "/config-reference"
+        },
+        {
+            "title": "Writing PHP Code",
+            "link": "/writing-php-code/phpdocs-basics"
+        }
+    ],
+    "sidebarGroups": [
+        {
+            "label": "Foundations",
+            "items": [
+                {
+                    "title": "Extension Types",
+                    "link": "/developing-extensions/extension-types"
+                },
+                {
+                    "title": "Core Concepts",
+                    "link": "/developing-extensions/core-concepts"
+                },
+                {
+                    "title": "Abstract Syntax Tree",
+                    "link": "/developing-extensions/abstract-syntax-tree"
+                },
+                {
+                    "title": "Scope",
+                    "link": "/developing-extensions/scope"
+                },
+                {
+                    "title": "Type System",
+                    "link": "/developing-extensions/type-system"
+                },
+                {
+                    "title": "Trinary Logic",
+                    "link": "/developing-extensions/trinary-logic"
+                },
+                {
+                    "title": "Reflection",
+                    "link": "/developing-extensions/reflection"
+                },
+                {
+                    "title": "Dependency Injection & Configuration",
+                    "link": "/developing-extensions/dependency-injection-configuration"
+                }
+            ]
+        },
+        {
+            "label": "Custom Rules",
+            "items": [
+                {
+                    "title": "Custom Rules",
+                    "link": "/developing-extensions/rules"
+                },
+                {
+                    "title": "Collectors",
+                    "link": "/developing-extensions/collectors"
+                },
+                {
+                    "title": "Restricted Usage Extensions",
+                    "link": "/developing-extensions/restricted-usage-extensions"
+                },
+                {
+                    "title": "Forbidden Class Name Extensions",
+                    "link": "/developing-extensions/forbidden-class-name-extensions"
+                }
+            ]
+        },
+        {
+            "label": "Type Inference",
+            "items": [
+                {
+                    "title": "Dynamic Return Type Extensions",
+                    "link": "/developing-extensions/dynamic-return-type-extensions"
+                },
+                {
+                    "title": "Dynamic Throw Type Extensions",
+                    "link": "/developing-extensions/dynamic-throw-type-extensions"
+                },
+                {
+                    "title": "Type-Specifying Extensions",
+                    "link": "/developing-extensions/type-specifying-extensions"
+                },
+                {
+                    "title": "Closure Extensions",
+                    "link": "/developing-extensions/closure-extensions"
+                },
+                {
+                    "title": "Parameter Out Type Extensions",
+                    "link": "/developing-extensions/parameter-out-type-extensions"
+                },
+                {
+                    "title": "Expression Type Resolver Extensions",
+                    "link": "/developing-extensions/expression-type-resolver-extensions"
+                },
+                {
+                    "title": "Operator Type Specifying Extensions",
+                    "link": "/developing-extensions/operator-type-specifying-extensions"
+                },
+                {
+                    "title": "Custom PHPDoc Types",
+                    "link": "/developing-extensions/custom-phpdoc-types"
+                }
+            ]
+        },
+        {
+            "label": "Metadata",
+            "items": [
+                {
+                    "title": "Class Reflection Extensions",
+                    "link": "/developing-extensions/class-reflection-extensions"
+                },
+                {
+                    "title": "Custom Deprecations",
+                    "link": "/developing-extensions/custom-deprecations"
+                },
+                {
+                    "title": "Allowed Subtypes",
+                    "link": "/developing-extensions/allowed-subtypes"
+                },
+                {
+                    "title": "Additional Constructors",
+                    "link": "/developing-extensions/additional-constructors-extensions"
+                },
+                {
+                    "title": "Exception Type Resolver",
+                    "link": "/developing-extensions/exception-type-resolver"
+                },
+                {
+                    "title": "Stub Files Extensions",
+                    "link": "/developing-extensions/stub-files-extensions"
+                }
+            ]
+        },
+        {
+            "label": "Dead Code Detection",
+            "items": [
+                {
+                    "title": "Always-Read and Written Properties",
+                    "link": "/developing-extensions/always-read-written-properties"
+                },
+                {
+                    "title": "Always-Used Class Constants",
+                    "link": "/developing-extensions/always-used-class-constants"
+                },
+                {
+                    "title": "Always-Used Methods",
+                    "link": "/developing-extensions/always-used-methods"
+                }
+            ]
+        },
+        {
+            "label": "Output & Infrastructure",
+            "items": [
+                {
+                    "title": "Error Formatters",
+                    "link": "/developing-extensions/error-formatters"
+                },
+                {
+                    "title": "Ignore Error Extensions",
+                    "link": "/developing-extensions/ignore-error-extensions"
+                },
+                {
+                    "title": "Diagnose Extensions",
+                    "link": "/developing-extensions/diagnose-extensions"
+                },
+                {
+                    "title": "Result Cache Meta Extensions",
+                    "link": "/developing-extensions/result-cache-meta-extensions"
+                },
+                {
+                    "title": "Testing",
+                    "link": "/developing-extensions/testing"
+                },
+                {
+                    "title": "Backward Compatibility Promise",
+                    "link": "/developing-extensions/backward-compatibility-promise"
+                },
+                {
+                    "title": "API Reference",
+                    "link": "https://apiref.phpstan.org/",
+                    "external": true
+                }
+            ]
+        }
+    ]
+}

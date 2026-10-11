@@ -1,0 +1,39 @@
+name: "Algolia Crawler Config Update"
+
+on:
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/algolia-crawler-config.json'
+      - '.github/workflows/algolia-crawler-config.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  update-config:
+    name: "Update Algolia Crawler Config"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Update Crawler Config"
+        run: |
+          jq --arg key "${{ secrets.ALGOLIA_CRAWLER_CRAWLER_API_KEY }}" '.apiKey = $key' .github/workflows/algolia-crawler-config.json | \
+          curl -X PATCH "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/config" \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.ALGOLIA_CRAWLER_USER_ID }}:${{ secrets.ALGOLIA_CRAWLER_API_KEY }}" \
+            -d @-
+
+      - name: "Trigger Crawler Reindex"
+        run: |
+          curl -X POST "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/reindex" \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.ALGOLIA_CRAWLER_USER_ID }}:${{ secrets.ALGOLIA_CRAWLER_API_KEY }}"

@@ -1,0 +1,4 @@
+includes:
+	- repo/phpstan.neon
+	- rector-baseline.neon
+	- editor-link-repo.php

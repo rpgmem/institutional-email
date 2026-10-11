@@ -1,0 +1,59 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Integration tests"
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/integration-tests.yml'
+      - '.github/workflows/integration-tests-run.yml'
+      - 'e2e/**'
+      - 'phpstan'
+      - '.phar-checksum'
+      - 'bootstrap.php'
+  push:
+    branches:
+      - "2.2.x"
+    paths:
+      - '.github/workflows/integration-tests.yml'
+      - '.github/workflows/integration-tests-run.yml'
+      - 'e2e/**'
+      - 'phpstan'
+      - '.phar-checksum'
+      - 'bootstrap.php'
+
+jobs:
+  upload-phar:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: phar-file
+          path: phpstan.phar
+
+      # The reusable workflow downloads the turbo extension binaries as an
+      # artifact next to the phar; upload the committed ones (the placeholder
+      # keeps the artifact valid before the first binaries land).
+      - name: "Prepare turbo extension files"
+        run: mkdir -p turbo-ext && touch turbo-ext/placeholder
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: turbo-ext-files
+          path: turbo-ext
+  integration-tests:
+    needs: upload-phar
+    uses: ./.github/workflows/integration-tests.yml
+    with:
+      ref: ${{ github.ref }}
+      phar-checksum: "always"
+    secrets:
+      phpstan-bot-token: ${{ secrets.PHPSTAN_BOT_TOKEN }}

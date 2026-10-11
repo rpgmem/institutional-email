@@ -1,0 +1,49 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Build Identifier Extractor"
+
+on:
+  pull_request:
+    paths:
+      - 'identifier-extractor/**'
+      - '.github/workflows/build-identifier-extractor.yml'
+  push:
+    branches:
+      - "2.2.x"
+    paths:
+      - 'identifier-extractor/**'
+      - '.github/workflows/build-identifier-extractor.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-identifier-extractor:
+    name: "Build Identifier Extractor"
+
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 60
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "8.1"
+
+      - name: "Install Extractor dependencies"
+        uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+        with:
+          working-directory: "identifier-extractor"
+
+      - name: "PHPStan"
+        working-directory: "identifier-extractor"
+        run: ../phpstan

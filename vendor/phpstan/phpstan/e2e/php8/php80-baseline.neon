@@ -1,0 +1,16 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function gmp_random not found\\.$#"
+			count: 1
+			path: test.php
+
+		-
+			message: "#^Instantiated class DOMImplementationSource not found\\.$#"
+			count: 1
+			path: test.php
+
+		-
+			rawMessage: Negated boolean expression is always true.
+			count: 1
+			path: test.php

@@ -1,0 +1,31 @@
+service: phpstan-runner
+
+provider:
+    name: aws
+    region: eu-west-1
+    architecture: arm64
+    stage: prod
+    versionFunctions: false
+    httpApi:
+      cors: true
+
+plugins:
+    - ./vendor/bref/bref
+
+package:
+  patterns:
+    - '!node_modules/**'
+
+functions:
+    main:
+        handler: bref.php
+        description: ''
+        timeout: 20
+        runtime: php-85
+    ignoreErrors:
+        handler: ignoreErrors.php
+        runtime: php-85-fpm
+        events:
+          - httpApi:
+              method: 'GET'
+              path: /ignoreErrors

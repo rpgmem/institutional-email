@@ -1,0 +1,42 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Test projects"
+
+on:
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/test-projects.yml'
+      - 'phpstan'
+      - '.phar-checksum'
+      - 'bootstrap.php'
+
+permissions:
+  contents: read
+
+jobs:
+  test-projects:
+    name: "Test projects"
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      matrix:
+        repository:
+          - "phpstan/lorem"
+          - "phpstan/ipsum"
+          - "phpstan/dolor"
+          - "packagist/private-packagist"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: "${{ matrix.repository }}"
+          event-type: test_phpstan
+          client-payload: '{"ref": "${{ github.ref_name }}"}'

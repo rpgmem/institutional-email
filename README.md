@@ -5,6 +5,7 @@ Este projeto visa a implementação de formulário simples e acessível (inclusi
 - De alunos, com base em seus nomes completos e datas de nascimento;  
 - De professores (servidores), com base em seus nomes completos e Registro Funcional;  
 - De professores (rede conveniada), com base em seus nomes completos e CPF;  
+- De estagiários da rede municipal, com base em seus nomes completos e CPF (um "e" antes do CPF), no formulário de professores;  
 
 **Avisos importantes:**
 - O formulário tem código aberto e colaborativo, seu uso é irrestrito desde que seja para fins não-comerciais;  
@@ -34,6 +35,9 @@ Este projeto visa a implementação de formulário simples e acessível (inclusi
 ```html
 <iframe style="height:100%;width:100%;border:0;" src="https://institutional-email.herokuapp.com/email-professores.php"></iframe>
 ```
+**Para ver funcionando o formulário de** ***ESTAGIÁRIOS*** **(o de professores, já aberto na opção Estagiário(a)), acesse:**  
+`email-professores.php?tipo=estagiario` (ou `email-estagiarios.php`, que leva até ele)
+
 ---
 
 **Caso, onde irá incorporar o código, seja um "Google Site":**  

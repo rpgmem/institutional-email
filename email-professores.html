@@ -19,18 +19,20 @@
 			<i class="fas fa-exclamation-triangle"></i> Preencha corretamente TODOS os campos
 		</div>
 		<div class="fieldlabel">
-			Selecione abaixo o tipo de rede a qual o professor está vinculado.<br />Rede Direta para servidores públicos e
-			Rede Conveniada para funcionários não servidores
+			Selecione abaixo o tipo de rede a qual o professor está vinculado.<br />Rede Direta para servidores públicos,
+			Rede Conveniada para funcionários não servidores e Estagiário(a) para estagiários da rede municipal
 		</div>
 		<div class="fieldname radio">
 			<input type="radio" id="conveniada" name="typeteacher" value="conveniada" checked="checked" />
 			<label for="conveniada">Rede Conveniada</label>
 			<input type="radio" id="direta" name="typeteacher" value="direta" />
 			<label for="direta">Rede Direta</label>
+			<input type="radio" id="estagiario" name="typeteacher" value="estagiario" />
+			<label for="estagiario">Estagiário(a)</label>
 		</div>
 		<div class="fieldlabel">
-			Nome completo do professor(a):
-			<input type="text" id="name" placeholder="Nome completo do professor(a)" class="fieldname" />
+			Nome completo do(a) <span class="tipo-pessoa">professor(a)</span>:
+			<input type="text" id="name" placeholder="Nome completo do(a) professor(a)" class="fieldname" />
 		</div>
 		<div class="fieldlabel rede-direta">
 			Registro Funcional (R.F.): <small>com 7 dígitos</small>
@@ -44,8 +46,8 @@
 			/>
 		</div>
 		<div class="fieldlabel rede-conveniada">
-			CPF do professor(a):
-			<input type="text" id="cpf" placeholder="CPF do professor(a)" class="fieldname" />
+			CPF do(a) <span class="tipo-pessoa">professor(a)</span>:
+			<input type="text" id="cpf" placeholder="CPF do(a) professor(a)" class="fieldname" />
 		</div>
 		<p>
 			<button type="button" name="button" id="submit-teacher" class="fieldbutton">
@@ -53,7 +55,7 @@
 			</button>
 		</p>
 		<div id="messageReturn" class="hide">
-			O e-mail do professor(a) é: <br /><span id="email"></span>
+			O e-mail do(a) <span class="tipo-pessoa">professor(a)</span> é: <br /><span id="email"></span>
 			<div class="btnCopy">
 				<button data-clipboard-target="#email" id="copyemail"><i class="fas fa-copy"></i> copiar e-mail</button>
 				<div id="messageCopyEmail">E-mail copiado</div>
@@ -66,7 +68,7 @@
 			</div>
 		</div>
 		<div class="message">
-			Após <strong>anotar</strong> o e-mail e senha do professor(a), clique no link ao lado para ter acesso a
+			Após <strong>anotar</strong> o e-mail e senha do(a) <span class="tipo-pessoa">professor(a)</span>, clique no link ao lado para ter acesso a
 			plataforma:
 
 			<a href="https://classroom.google.com/welcome" target="_blank" class="linkclass">

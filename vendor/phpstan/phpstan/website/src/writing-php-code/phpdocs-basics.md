@@ -1,0 +1,864 @@
+---
+title: PHPDocs Basics
+---
+
+PHPDocs are a big part of what makes PHPStan work. PHP in its most recent versions can express a lot of things in the native typehints, but it still leaves a lot of room for PHPDocs to augment the information.
+
+Valid PHPDocs start with `/**`. Variants starting only with `/*` or line comments `//` are not considered PHPDocs. [^phpdocs]
+
+[^phpdocs]: Only the `/**` style comments are supported because they're represented [with different tokens](https://www.php.net/manual/en/tokens.php) (`T_DOC_COMMENT`) by the PHP parser and only this token type is supposed to represent a PHPDoc.
+
+[Learn more about PHPDoc types »](/writing-php-code/phpdoc-types) you can use in the tags described below.
+
+<div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+
+Would you like to fix incorrect PHPDocs in 3<sup>rd</sup> party code you have in /vendor? You can! Check out [Stub Files »](/user-guide/stub-files)
+
+</div>
+
+Methods and functions
+----------
+
+This is how a valid PHPDoc above a function or a method can look like:
+
+```php
+/**
+ * @param Foo $param
+ * @return Bar
+ */
+function foo($param) { ... }
+```
+
+Properties
+----------
+
+PHPDocs can be written above class properties to denote their type:
+
+```php
+/**
+ * @var Foo
+ */
+private $bar;
+```
+
+Inline @var
+------------
+
+Casting a type using an inline `@var` PHPDocs should be used only as a last resort. It can be used in a variable assignment like this:
+
+```php
+/** @var Foo $foo */
+$foo = createFoo();
+```
+
+This is usually done if the symbol on the right side of the `=` operator has a wrong type, or isn't specific enough. Usage of inline `@var` is problematic for a couple of reasons:
+
+1) Because it might be used to correct wrong type information of the called symbol, PHPStan always trusts it. But if there's a mistake in this annotation, the analysis of the code below might be wrong.
+2) The inline `@var` needs to be repeated above all usages of the symbol which leads to repetition in the codebase.
+
+Instead, the type should be fixed at its source. If the called symbol comes from 3rd party code, you can correct it using a [stub file](/user-guide/stub-files). If the return type differs in each call based on the passed arguments, you can use [generics](/blog/generics-in-php-using-phpdocs), or write a [dynamic return type extension](/developing-extensions/dynamic-return-type-extensions) instead.
+
+If you really need to use an inline `@var`, consider an alternative - an `assert()` call, which can throw an exception at runtime, so the code execution doesn't continue if the requirements aren't met.
+
+```php
+$foo = createFoo();
+assert($foo instanceof Foo);
+```
+
+Magic properties
+-------------
+
+For custom `__get`/`__set` methods logic, a `@property` PHPDoc tag can be placed above a class. If the property is only supposed to be read or written to, `@property-read`/`@property-write` variants can be used.
+
+```php
+/**
+ * @property int $foo
+ * @property-read string $bar
+ * @property-write \stdClass $baz
+ */
+class Foo { ... }
+```
+
+The `@property` tag can also be used to override wrong property type from a parent class.
+
+<!-- TODO link Solving undefined properties -->
+
+Magic methods
+-------------
+
+For custom `__call` methods logic, a `@method` PHPDoc tag can be placed above a class:
+
+```php
+/**
+ * @method int computeSum(int $a, int $b)
+ * @method void doSomething()
+ * @method static int staticMethod()
+ * @method int doMagic(int $a, int $b = 123)
+ */
+class Foo { ... }
+```
+
+Exceptions
+-------------
+
+Functions and methods can be marked as throwing an exception with `@throws`:
+
+```php
+/**
+ * @throws \InvalidArgumentException
+ */
+function doFoo(): void
+{
+    // ...
+}
+```
+
+This is useful for [precise analysis of try-catch-finally](/blog/precise-try-catch-finally-analysis) blocks, and also for bringing exceptions under control by enforcing [documentation and handling of checked exceptions](/blog/bring-your-exceptions-under-control).
+
+
+Callables
+-------------
+
+Aside from describing [callable signatures in PHPDoc types](/writing-php-code/phpdoc-types#callables), PHPStan also supports declaring whether the callable is executed immediately or saved for later when passed into a function or a method.
+
+By default PHPStan considers callables passed into function calls to be executed immediately, and callables passed into object method calls to be executed later. These defaults can be overridden with `@param-immediately-invoked-callable` and `@param-later-invoked-callable` PHPDoc tags:
+
+```php
+/**
+ * @param-later-invoked-callable $cb
+ */
+function acceptCallableAndCallLater(callable $cb): void
+{
+    // ...
+}
+
+class Foo
+{
+	/**
+	 * @param-immediately-invoked-callable $cb
+	 */
+	public function acceptAndCallCallableNow(callable $cb): void
+	{
+
+	}
+}
+```
+
+When passing a closure (an anonymous function or an arrow function) into a function/method that binds the closure to a different object, changing the meaning of `$this` inside the closure, you can use `@param-closure-this` PHPDoc tag to declare what `$this` is going to be when this closure is called:
+
+```php
+/**
+ * @param-closure-this Bar $cb
+ */
+function doFoo(Closure $cb)
+{
+	$cb->bindTo(new Bar());
+	// ...
+}
+
+doFoo(function () {
+	// $this is Bar
+});
+```
+
+PHPStan also supports changing the meaning of `$this` inside a closure with an [extension](/developing-extensions/closure-extensions#parameter-closure-this).
+
+Mixins
+-------------
+
+When a class delegates unknown method calls and property accesses to a different class using `__call` and `__get`/`__set`, we can describe the relationship using `@mixin` PHPDoc tag:
+
+```php
+class A
+{
+    public function doA(): void
+    {
+    }
+}
+
+/**
+ * @mixin A
+ */
+class B
+{
+    public function doB(): void
+    {
+    }
+
+    public function __call($name, $arguments)
+    {
+        (new A())->$name(...$arguments);
+    }
+}
+
+$b = new B();
+$b->doB();
+$b->doA(); // works
+```
+
+It also works with [generics](/blog/generics-in-php-using-phpdocs):
+
+```php
+/**
+ * @template T
+ * @mixin T
+ */
+class Delegatee
+{
+
+    /** @var T */
+    private $delegate;
+
+    /**
+     * @param T $delegate
+     */
+    public function __construct($delegate)
+    {
+        $this->delegate = $delegate;
+    }
+
+    public function __call($name, $arguments)
+    {
+        return $this->delegate->$name(...$arguments);
+    }
+
+}
+
+$d = new Delegatee(new \Exception('My message'));
+echo $d->getMessage(); // PHPStan knows the method is on Exception
+```
+
+Combining PHPDoc types with native typehints
+-------------
+
+PHPDocs can also complement native typehints with additional information. The most common use-case is telling PHPStan what's in an array:
+
+```php
+/**
+ * @param User[] $users
+ */
+function foo(array $users) { ... }
+```
+
+You can also use an alternative `array<User>` syntax, or even specify the key type:
+
+```php
+/**
+ * @param array<int, User> $users
+ */
+function foo(array $users) { ... }
+```
+
+More about this in [PHPDoc Types > Iterables](/writing-php-code/phpdoc-types#iterables).
+
+Using `@return static` along with the `self` native typehint means that the method returns a child class ([see example](/r/5f856517-5303-4237-95de-2bfa5bc4b9de)):
+
+```php
+/**
+ * @return static
+ */
+public function returnStatic(): self
+{
+    return $this;
+}
+```
+
+A narrower `@return $this` instead of `@return static` can also be used, and PHPStan will check if you're really returning the same object instance and not just the child class.
+
+Variadic functions
+-------------------------
+
+This allows specifying functions or methods which have a variable amount of parameters (available since [PHP 5.6](https://www.php.net/manual/en/migration56.new-features.php)).
+
+Your code can look like this:
+
+```php
+/**
+ * @param string $arg
+ * @param string ...$additional
+ */
+function foo($arg, ...$additional)
+{
+
+}
+```
+
+Generics
+---------------
+
+Generics allow you to write type-safe code that works with different types without losing type information. Learn more about [generics »](/blog/generics-in-php-using-phpdocs) and check out [Generics By Examples »](/blog/generics-by-examples).
+
+### Defining type variables
+
+`@template` defines a type variable (also called a generic parameter) on a class, interface, trait, function, or method:
+
+```php
+/**
+ * @template T
+ */
+class Collection
+{
+}
+
+/**
+ * @template T
+ * @param T $value
+ * @return T
+ */
+function identity(mixed $value): mixed
+{
+	return $value;
+}
+```
+
+You can constrain the type variable with an upper bound using `of`:
+
+```php
+/**
+ * @template T of Animal
+ * @param T $animal
+ * @return T
+ */
+function clone(Animal $animal): Animal { ... }
+```
+
+You can also provide a default type using `=`. When type arguments have defaults, they don't have to be specified when using the generic class:
+
+```php
+/**
+ * @template T = string
+ * @template U = int
+ */
+class Pair {}
+```
+
+With the class above, these are all valid:
+
+- `Pair` — both `T` and `U` use their defaults (`string` and `int`)
+- `Pair<bool>` — `T` is `bool`, `U` uses its default (`int`)
+- `Pair<bool, float>` — both `T` and `U` are specified explicitly
+
+Defaults can be combined with upper bounds: `@template T of object = stdClass`.
+
+The template type name must not conflict with an existing class name. If you have a class named `T` in your codebase, use a different name like `TValue` for the template type.
+
+### Variance
+
+`@template-covariant` marks a type variable as [covariant](/blog/whats-up-with-template-covariant), meaning `Collection<Cat>` can be passed where `Collection<Animal>` is expected. The trade-off is that the type variable cannot appear in parameter positions (input):
+
+```php
+/**
+ * @template-covariant T
+ */
+interface ReadonlyCollection
+{
+	/** @return T */
+	public function get(int $index): mixed;
+}
+```
+
+`@template-contravariant` marks a type variable as [contravariant](https://jiripudil.cz/blog/contravariant-template-types), meaning `Comparator<Animal>` can be passed where `Comparator<Cat>` is expected. The type variable cannot appear in return positions (output).
+
+You can also use [call-site variance](/blog/guide-to-call-site-generic-variance) to apply covariance or contravariance at the point of use instead of the declaration, and star projections (`Collection<*>`) when you don't care about the type argument at all.
+
+### Specifying types for parent classes and interfaces
+
+`@extends` specifies template types when extending a generic class, `@implements` when implementing a generic interface, and `@use` when using a generic trait:
+
+```php
+/**
+ * @extends Collection<Dog>
+ * @implements Countable<Dog>
+ */
+class DogShelter extends Collection implements Countable
+{
+}
+
+/**
+ * @template T
+ * @extends Collection<T>
+ */
+class FilteredCollection extends Collection
+{
+}
+```
+
+While `@extends` and `@implements` belong above the class, `@use` has to be written above the `use` statement inside the class body:
+
+```php
+/**
+ * @template T
+ */
+trait CollectionTrait
+{
+	/** @param T $item */
+	public function add($item): void { ... }
+}
+
+class DogShelter
+{
+	/** @use CollectionTrait<Dog> */
+	use CollectionTrait;
+}
+```
+
+You must specify all declared type arguments. Omitting them or providing the wrong number results in an error. The type arguments must also respect any upper bounds declared with `of` on the parent's `@template`.
+
+### Alternative tag names
+
+`@template-extends`, `@template-implements`, and `@template-use` are aliases of `@extends`, `@implements`, and `@use`. They behave exactly the same, so you only need them if you also want another tool that expects these names to understand your code:
+
+```php
+/**
+ * @template-extends Collection<Dog>
+ * @template-implements Countable<Dog>
+ */
+class DogShelter extends Collection implements Countable
+{
+}
+```
+
+Narrowing types after function call
+----------------
+
+PHPDoc tags `@phpstan-assert`, `@phpstan-assert-if-true`, `@phpstan-assert-if-false` are used to inform PHPStan about type-narrowing happening inside called functions and methods. [Learn more »](/writing-php-code/narrowing-types#custom-type-checking-functions-and-methods)
+
+Setting parameter type passed by reference
+---------------
+
+PHPDoc tag `@param-out` can be used to set a parameter type passed by reference:
+
+```php
+/**
+ * @param-out int $i
+ */
+function foo(mixed &$i): void
+{
+    $i = 5;
+}
+
+foo($a);
+\PHPStan\dumpType($a); // int
+```
+
+When the output type depends on the arguments passed to the call, you can write a [parameter out type extension](/developing-extensions/parameter-out-type-extensions) to resolve it dynamically.
+
+Change type of current object after calling a method
+---------------
+
+PHPDoc tags `@phpstan-self-out` or `@phpstan-this-out` can be used to change the type of the current object after calling a method on it. This is useful for generic mutable objects.
+
+```php
+/**
+ * @template TValue
+ */
+class Collection
+{
+
+	// ...
+
+	/**
+	 * @template TItemValue
+	 * @param TItemValue $item
+	 * @phpstan-self-out self<TValue|TItemValue>
+	 */
+	public function add($item): void
+	{
+		// ...
+	}
+
+}
+
+/** @param Collection<int> $c */
+function foo(Collection $c, string $s): void
+{
+	$c->add($s);
+	\PHPStan\dumpType($c); // Collection<int|string>
+}
+```
+
+Deprecations
+---------------
+
+Use `@deprecated` tag to mark declarations as deprecated:
+
+```php
+/** @deprecated Optional description */
+class Foo
+{
+}
+```
+
+Install [`phpstan-deprecation-rules`](https://github.com/phpstan/phpstan-deprecation-rules) extension to have usages of deprecated symbols reported.
+
+The `@deprecated` PHPDoc tag is inherited to implicitly mark overridden methods in child classes also as deprecated:
+
+```php
+class Foo
+{
+	/** @deprecated */
+	public function doFoo(): void
+	{
+		// ...
+	}
+}
+
+class Bar extends Foo
+{
+	public function doFoo(): void
+	{
+		// ...
+	}
+}
+
+$bar = new Bar();
+$bar->doFoo(); // Call to deprecated method doFoo() of class Bar.
+```
+
+To break the inheritance chain and un-mark `Bar::doFoo()` as deprecated, use `@not-deprecated` PHPDoc tag:
+
+```php
+class Bar extends Foo
+{
+	/** @not-deprecated */
+	public function doFoo(): void
+	{
+		// ...
+	}
+}
+
+$bar = new Bar();
+$bar->doFoo(); // OK
+```
+
+You can also adjust the deprecation information based on e.g. custom attributes. [Learn more »](/developing-extensions/custom-deprecations)
+
+Internal symbols
+---------------
+
+<div class="text-xs inline-block border border-green-600 text-green-600 bg-green-100 rounded px-1 mb-4">Available in PHPStan 2.1.13 + Bleeding Edge</div>
+
+Use `@internal` tag to mark declarations as internal:
+
+```php
+namespace AwesomeLibrary\Foo;
+
+/** @internal */
+class Foo
+{
+}
+```
+
+Usages of class `Foo` outside of top `AwesomeLibrary` namespace will be reported as an error.
+
+The `@internal` tag can be used for classes, interfaces, enums, traits, properties, methods, class constants and functions.
+
+Impure functions
+---------------
+
+By default, [PHPStan considers all functions that return a value to be pure](https://phpstan.org/blog/remembering-and-forgetting-returned-values). That means that a second call to the same function in the same scope will return the same narrowed type. If you have a function that may return different values on successive calls based on a global state like a random number generator, database, or time, then the function is impure. You can tell PHPStan about impure functions and methods with the `@phpstan-impure` tag:
+
+```php
+/** @phpstan-impure */
+function impureFunction(): bool
+{
+    return rand(0, 1) === 0 ? true : false;
+}
+```
+
+The `@phpstan-pure` tag is also available should you need it, for example if you've set `rememberPossiblyImpureFunctionValues: false` in your configuration file. See [Config Reference](https://phpstan.org/config-reference#rememberpossiblyimpurefunctionvalues) for more details.
+
+<div class="text-xs inline-block border border-green-600 text-green-600 bg-green-100 rounded px-1 mb-4">Available in PHPStan 2.1.39</div>
+
+For classes where all methods are impure (or pure), you can use the `@phpstan-all-methods-impure` tag (or `@phpstan-all-methods-pure`) at the class level. Individual methods can still override the class-level setting by using `@phpstan-pure` or `@phpstan-impure` on specific methods.
+
+```php
+/** @phpstan-all-methods-impure */
+class UserRepository
+{
+	public function findById(int $id): ?User { ... }
+	public function findAll(): array { ... }
+	public function count(): array { ... }
+
+	/** @phpstan-pure */
+	public function buildCacheKey(int $id): string { ... }
+}
+```
+
+Conditionally pure functions
+---------------
+
+<div class="text-xs inline-block border border-green-600 text-green-600 bg-green-100 rounded px-1 mb-4">Available in PHPStan 2.2</div>
+
+A higher-order function that accepts a callable is only pure when the callable it receives is itself pure — much like how PHP's own `array_map()` behaves. Use the `@pure-unless-callable-is-impure` tag to mark a function or method as pure unless the callable passed to the named parameter is impure:
+
+```php
+/**
+ * @param callable(int): int $f
+ * @param array<int> $arr
+ * @return array<int>
+ * @pure-unless-callable-is-impure $f
+ */
+function myMap(callable $f, array $arr): array
+{
+	$result = [];
+	foreach ($arr as $i => $v) {
+		$result[$i] = $f($v);
+	}
+
+	return $result;
+}
+```
+
+When `myMap()` is called with a pure callback, PHPStan treats the whole call as pure. If the passed callback has side effects, the call is considered impure instead. The tag is inherited by overriding methods, and keeps applying to the matching parameter even when a child class renames it.
+
+Enforcing class inheritance for interfaces and traits
+---------------
+
+PHPDoc tag `@phpstan-require-extends` can be put above interfaces and traits. When this interface is implemented or trait is used by a class, this class has to extend a parent declared by this tag.
+
+```php
+class Bar
+{
+}
+
+/**
+ * @phpstan-require-extends Bar
+ */
+interface Foo
+{
+}
+
+// Error: Interface Foo requires implementing class to extend Bar, but Baz does not.
+class Baz implements Foo
+{
+}
+
+// OK
+class Lorem extends Bar  implements Foo
+{
+}
+```
+
+This is useful for solving "Access to an undefined property" error when trying to access a property declared by PHPDoc tag `@property` on an interface on PHP 8.2+. [Learn more »](/blog/solving-phpstan-access-to-undefined-property#making-%40property-phpdoc-above-interfaces-work-on-php-8.2%2B)
+
+
+Enforcing implementing an interface for traits
+---------------
+
+PHPDoc tag `@phpstan-require-implements` can be put above traits. When this trait is used by a class, this class has to implement an interface declared by this tag.
+
+```php
+interface Bar
+{
+}
+
+/**
+ * @phpstan-require-implements Bar
+ */
+trait Foo
+{
+}
+
+// Error: Trait Foo requires using class to implement Bar, but Baz does not.
+class Baz
+{
+	use Foo;
+}
+
+// OK
+class Lorem implements Bar
+{
+	use Foo;
+}
+```
+
+Consistent constructor
+---------------
+
+PHPDoc tag `@phpstan-consistent-constructor` can be put above a class to enforce that all child classes have the same constructor signature. This makes `new static()` calls safe in non-final classes.
+
+```php
+/** @phpstan-consistent-constructor */
+class Foo
+{
+	public function __construct(string $name)
+	{
+	}
+
+	public static function create(string $name): static
+	{
+		return new static($name); // OK - constructor signature is guaranteed
+	}
+}
+
+class Bar extends Foo
+{
+	public function __construct(int $id) // Error: not compatible with Foo::__construct()
+	{
+	}
+}
+```
+
+When a class is marked with `@phpstan-consistent-constructor`, the tag also applies transitively to all child classes. The constructor of the marked class must not be private (unless the class is final).
+
+No named arguments
+---------------
+
+PHPDoc tag `@no-named-arguments` can be put above a function, method, or class to prevent callers from using named arguments. When applied to a class, it affects all methods of that class.
+
+```php
+/**
+ * @no-named-arguments
+ */
+function foo(int $i): void
+{
+}
+
+foo(i: 5); // Error: Function foo() invoked with named argument $i, but it's not allowed.
+foo(5); // OK
+```
+
+This is useful for library authors who want to be able to rename parameters in future versions without breaking callers.
+
+Prefixed tags
+---------------
+
+Supported tags (`@var`, `@param`, `@return`, and all [generics-related ones](/blog/generics-in-php-using-phpdocs)) can be prefixed with `@phpstan-`:
+
+```php
+/**
+ * @phpstan-param Foo $param
+ * @phpstan-return Bar
+ */
+function foo ($param) { ... }
+```
+
+This is useful in the context of advanced types and [generics](/blog/generics-in-php-using-phpdocs). IDEs and other PHP tools might not understand the advanced types that PHPStan takes advantage of. So you can leave the ordinary `@param` in the PHPDoc and add a `@phpstan-param` with an advanced type syntax.
+
+Classes named after internal PHP types
+-----------------------------------------------------------
+
+When having classes named like `Resource`, `Double`, `Number` (or `Mixed` until PHP 8), there is no possible way to distinguish between either the PHP internal type or the custom class to use in the PHPDoc. By default, PHPStan will consider the type as being the PHP internal type, which means some false-positives can appear.
+
+```php
+/**
+ * @param Resource $var
+ */
+public function foo(Resource $var): void { ... }
+```
+
+To make PHPStan understand the passed argument must be an instance of a `Resource` object, use a fully-qualified name in the PHPDoc. PHPStan will understand that as the object of `My\Resource` class.
+
+```php
+/**
+ * @param \My\Resource $var
+ */
+public function foo(Resource $var): void { ... }
+```
+
+Readonly properties
+-------------------
+
+PHPStan supports native PHP 8.1 [readonly properties](https://wiki.php.net/rfc/readonly_properties_v2) and validates their correct usage. For older PHP versions, PHPStan also understands the `@readonly` PHPDoc tag to apply similar rules.
+
+```php
+class Foo
+{
+	/** @readonly */
+	public string $bar;
+}
+
+(new Foo())->bar = 'baz'; // @readonly property Foo::$bar is assigned outside of its declaring class.
+```
+
+### Allowing private mutation
+
+If you want a property to be readonly to the outside world but still allow mutations within the declaring class, you can use `@phpstan-allow-private-mutation` together with `@readonly`, or use the combined `@phpstan-readonly-allow-private-mutation` tag:
+
+```php
+class Foo
+{
+	/**
+	 * @readonly
+	 * @phpstan-allow-private-mutation
+	 */
+	public int $counter = 0;
+
+	/** @phpstan-readonly-allow-private-mutation */
+	public string $name = '';
+
+	public function increment(): void
+	{
+		$this->counter++; // OK - private mutation is allowed
+		$this->name = 'foo'; // OK
+	}
+}
+
+(new Foo())->counter = 5; // Error: @readonly property Foo::$counter is assigned outside of its declaring class.
+```
+
+Immutable classes
+-----------------
+
+`@immutable` or `@readonly` on the class can be used to make PHPStan treat every property of that class as being readonly.
+
+```php
+/** @immutable */
+class Foo
+{
+	public string $bar;
+}
+
+(new Foo())->bar = 'baz'; // @readonly property Foo::$bar is assigned outside of its declaring class.
+```
+
+Final classes, methods, properties, and constants
+--------------
+
+The `@final` PHPDoc tag marks a class, method, property, or constant as final without using PHP's native `final` keyword. PHPStan will report an error if the declaration is extended or overridden.
+
+```php
+/** @final */
+class Foo
+{
+}
+
+class Bar extends Foo // Error: Class Bar extends @final class Foo.
+{
+}
+```
+
+It also works on individual methods, properties, and constants:
+
+```php
+class Foo
+{
+	/** @final */
+	public function doFoo(): void
+	{
+	}
+}
+
+class Bar extends Foo
+{
+	public function doFoo(): void // Error: Method Bar::doFoo() overrides @final method Foo::doFoo().
+	{
+	}
+}
+```
+
+Sealed classes
+--------------
+
+<div class="text-xs inline-block border border-green-600 text-green-600 bg-green-100 rounded px-1 mb-4">Available in PHPStan 2.1.18</div>
+
+`@phpstan-sealed` on the class or the interface restricts the list of classes or interfaces which can extend or implement it.
+
+```php
+/** @phpstan-sealed FooClass|BarClass */
+class BaseClass {}
+class FooClass extends BaseClass {}
+class BarClass extends BaseClass {}
+class BazClass extends BaseClass {} // Error: Type BazClass is not allowed to be a subtype of BaseClass.
+```

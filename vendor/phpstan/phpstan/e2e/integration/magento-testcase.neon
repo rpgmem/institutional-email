@@ -1,0 +1,4 @@
+includes:
+	- magento-testcase-baseline.neon
+	- repo/phpstan.neon
+	- editor-link-repo.php

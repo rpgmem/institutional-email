@@ -1,0 +1,5 @@
+parameters:
+    bootstrapFiles:
+        - ../wordpress-stubs.php
+    level: max
+    rememberPossiblyImpureFunctionValues: true

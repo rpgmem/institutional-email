@@ -1,0 +1,30 @@
+parameters:
+    paths:
+        - finder.php
+        - functionMap.php
+        - visitor.php
+        - src/
+        - tests/
+    excludePaths:
+        - tests/data/
+    phpVersion:
+        min: 80000
+        max: 80300
+    level: 9
+    ignoreErrors:
+        -
+            path: tests/Faker.php
+            identifier: class.notFound
+            count: 18
+        -
+            # PHPStan\Analyser\Analyser::analyse()
+            # PHPStan\Analyser\AnalyserResult::getErrors()
+            identifier: phpstanApi.method
+            path: tests/IntegrationTest.php
+            count: 2
+        -
+            # PHPStan\Analyser\Analyser::class
+            identifier: phpstanApi.classConstant
+            path: tests/IntegrationTest.php
+            count: 1
+

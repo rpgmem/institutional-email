@@ -1,0 +1,87 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Update playground runner"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/update-playground-runner.yml'
+      - 'playground-runner/**'
+      - 'phpstan'
+      - '.phar-checksum'
+      - 'bootstrap.php'
+
+concurrency: playground_runner
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 2
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: playground-runner/package-lock.json
+
+      - name: "Install dependencies"
+        working-directory: ./playground-runner
+        run: "npm ci"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "8.5"
+
+      - name: "Install playground runner dependencies"
+        uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+        with:
+          working-directory: "playground-runner"
+
+      - name: "Preflight playground.neon"
+        working-directory: ./playground-runner
+        run: |
+          touch empty.php
+          ../phpstan analyse -c playground.neon -l 8 empty.php
+
+      - name: "Analyse"
+        working-directory: ./playground-runner
+        run: "../phpstan"
+
+      - name: "Copy current PHAR"
+        working-directory: ./playground-runner
+        run: |
+          cp ../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+          cp ../phpstan vendor/phpstan/phpstan/phpstan
+          cp ../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+
+      - name: "Clean Git directory"
+        working-directory: ./playground-runner
+        run: rm -rf vendor/phpstan/phpstan/.git
+
+      - name: "Deploy"
+        working-directory: ./playground-runner
+        env:
+          AWS_DEFAULT_REGION: "eu-west-1"
+          AWS_ACCESS_KEY_ID: ${{ secrets.PLAYGROUND_RUNNER_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.PLAYGROUND_RUNNER_AWS_SECRET_ACCESS_KEY }}
+        run: "npm run deploy"

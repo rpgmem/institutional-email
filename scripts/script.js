@@ -275,9 +275,21 @@ function formatTeacherEmail(name, rf, cpf) {
 	if (typeTeacher == "conveniada") {
 		return `${name}.${cpf}@edu.sme.prefeitura.sp.gov.br`;
 	}
+	// Estagiário(a): como a rede conveniada, com um "e" antes do CPF
+	if (typeTeacher == "estagiario") {
+		return `${name}.e${cpf}@edu.sme.prefeitura.sp.gov.br`;
+	}
+}
+
+// Troca "professor(a)" por "estagiário(a)" nos textos e nos campos
+function setTipoPessoa(tipo) {
+	$(".tipo-pessoa").text(tipo);
+	$("input#name").attr("placeholder", "Nome completo do(a) " + tipo);
+	$("input#cpf").attr("placeholder", "CPF do(a) " + tipo);
 }
 
 function showRedeDireta() {
+	setTipoPessoa("professor(a)");
 	$(".rede-direta").show();
 	$(".rede-conveniada").hide();
 	$("#messageError").hide();
@@ -285,10 +297,16 @@ function showRedeDireta() {
 }
 
 function showRedeConveniada() {
+	setTipoPessoa("professor(a)");
 	$(".rede-conveniada").show();
 	$(".rede-direta").hide();
 	$("#messageError").hide();
 	$("#messageReturn").hide();
+}
+
+function showEstagiario() {
+	showRedeConveniada();
+	setTipoPessoa("estagiário(a)");
 }
 
 function validTeacher(name, rf, cpf) {
@@ -297,7 +315,7 @@ function validTeacher(name, rf, cpf) {
 			name == undefined || name == "" || name.split(" ").length <= 1 || rf == undefined || rf == "" || rf.length < 7
 		);
 	}
-	if (typeTeacher == "conveniada") {
+	if (typeTeacher == "conveniada" || typeTeacher == "estagiario") {
 		return (
 			name == undefined ||
 			name == "" ||
@@ -334,7 +352,16 @@ $(function () {
 		if (typeTeacher == "conveniada") {
 			showRedeConveniada();
 		}
+		if (typeTeacher == "estagiario") {
+			showEstagiario();
+		}
 	});
+
+	// ?tipo=estagiario (ou direta) já abre o formulário nessa opção
+	let tipo = new URLSearchParams(window.location.search).get("tipo");
+	if (tipo == "estagiario" || tipo == "direta") {
+		$(':radio[name="typeteacher"][value="' + tipo + '"]').prop("checked", true).trigger("change");
+	}
 
 	// Envia os dados para calcular o e-mail do aluno
 	$("#submit-student")

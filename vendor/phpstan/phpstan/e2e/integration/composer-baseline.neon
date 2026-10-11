@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$num of function abs expects float\\|int, int\\|null given\\.$#"
+			count: 1
+			path: repo/src/Composer/DependencyResolver/Solver.php

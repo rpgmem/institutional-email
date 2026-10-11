@@ -1,0 +1,109 @@
+parameters:
+	ignoreErrors:
+		-
+			rawMessage: 'Class Nette\Utils\FileSystem referenced with incorrect case: Nette\Utils\Filesystem.'
+			identifier: class.nameCase
+			count: 7
+			path: repo/src/Analyser/LatteContextAnalyser.php
+
+		-
+			rawMessage: Possibly invalid array key type class-string|false.
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: repo/src/Analyser/LatteContextCollectorRegistry.php
+
+		-
+			rawMessage: 'Call to an undefined method Latte\Compiler\TemplateGenerator::generate().'
+			identifier: method.notFound
+			count: 1
+			path: repo/src/Compiler/Compiler/Latte3Compiler.php
+
+		-
+			rawMessage: 'Call to function is_array() with list<Latte\Extension> will always evaluate to true.'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: repo/src/Compiler/Compiler/Latte3Compiler.php
+
+		-
+			rawMessage: 'Offset ''block_name'' on array{0: non-falsy-string, define: non-falsy-string, 1: non-falsy-string, block_name: string, 2: string, parameters: string, 3: string, line: numeric-string, ...} in isset() always exists and is not nullable.'
+			identifier: isset.offset
+			count: 1
+			path: repo/src/Compiler/NodeVisitor/AddParametersForBlockNodeVisitor.php
+
+		-
+			rawMessage: 'Offset ''parameters'' on array{0: non-falsy-string, define: non-falsy-string, 1: non-falsy-string, block_name: string, 2: string, parameters: string, 3: string, line: numeric-string, ...} in isset() always exists and is not nullable.'
+			identifier: isset.offset
+			count: 1
+			path: repo/src/Compiler/NodeVisitor/AddParametersForBlockNodeVisitor.php
+
+		-
+			rawMessage: 'Parameter #2 $array of function implode expects array<string>, list<mixed> given.'
+			identifier: argument.type
+			count: 1
+			path: repo/src/Compiler/NodeVisitor/AddTypeToComponentNodeVisitor.php
+
+		-
+			rawMessage: 'Call to function is_string() with string will always evaluate to true.'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: repo/src/Compiler/NodeVisitor/ChangeFiltersNodeVisitor.php
+
+		-
+			rawMessage: 'Call to function is_string() with string will always evaluate to true.'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: repo/src/Compiler/NodeVisitor/ChangeFunctionsNodeVisitor.php
+
+		-
+			rawMessage: Possibly invalid array key type string|null.
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: repo/src/Compiler/NodeVisitor/RenderBlockNodeVisitor.php
+
+		-
+			rawMessage: 'Offset ''block'' on array{0: non-falsy-string, 1: string, block: string, 2: string} in isset() always exists and is not nullable.'
+			identifier: isset.offset
+			count: 1
+			path: repo/src/Error/Transformer/BlockParameterErrorTransformer.php
+
+		-
+			rawMessage: 'Offset ''method'' on array{0: non-falsy-string, presenter: string, 1: string, method: string, 2: string} in isset() always exists and is not nullable.'
+			identifier: isset.offset
+			count: 1
+			path: repo/src/Error/Transformer/CallActionWithParametersMissingCorrespondingMethodErrorTransformer.php
+
+		-
+			rawMessage: 'Offset ''escape'' on array{0: non-falsy-string, 1: ''Essentials''|''Runtime'', escape: string, 2: string, type: string, 3: string} on left side of ?? always exists and is not nullable.'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: repo/src/Error/Transformer/EscapeErrorTransformer.php
+
+		-
+			rawMessage: 'Offset ''type'' on array{0: non-falsy-string, 1: ''Essentials''|''Runtime'', escape: string, 2: string, type: string, 3: string} in isset() always exists and is not nullable.'
+			identifier: isset.offset
+			count: 1
+			path: repo/src/Error/Transformer/EscapeErrorTransformer.php
+
+		-
+			rawMessage: Possibly invalid array key type class-string|null.
+			identifier: offsetAccess.invalidOffset
+			count: 5
+			path: repo/src/LatteContext/Finder/MethodCallFinder.php
+
+		-
+			rawMessage: 'Parameter #1 $mapping of method Nette\Application\PresenterFactory::setMapping() expects array<string, array{string, string, string}|string>, array<string, array{0: string, 1: string, 2?: string}|string> given.'
+			identifier: argument.type
+			count: 1
+			path: repo/src/LinkProcessor/FakePresenterFactory.php
+
+		-
+			rawMessage: 'Parameter #2 $array of function implode expects array<string>, list<mixed> given.'
+			identifier: argument.type
+			count: 1
+			path: repo/src/Resolver/ValueResolver/ValueResolver.php
+
+		-
+			rawMessage: 'Class Nette\Utils\FileSystem referenced with incorrect case: Nette\Utils\Filesystem.'
+			identifier: class.nameCase
+			count: 2
+			path: repo/src/Temp/TempDirResolver.php

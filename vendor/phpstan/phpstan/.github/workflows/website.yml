@@ -1,0 +1,384 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Website Build"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/website.yml'
+      - 'website/**'
+      - '!website/infra/**'
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/website.yml'
+      - 'website/**'
+      - '!website/infra/**'
+
+jobs:
+  typescript-check:
+    name: "TypeScript check"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: website/package-lock.json
+
+      - name: "Install dependencies"
+        working-directory: ./website
+        run: "npm ci"
+
+      - name: "TypeScript check"
+        working-directory: ./website
+        run: "npm run check"
+
+  build-wasm:
+    name: "Build PHPantom wasm"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+
+      - name: "Install Rust"
+        run: |
+          rustup update stable
+          rustup default stable
+          rustc --version
+
+      - name: "Build wasm (cargo -> wasm32-wasip1)"
+        working-directory: ./website
+        run: "npm run build:wasm"
+
+      - name: "Upload PHPantom wasm"
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: phpantom-wasm
+          path: website/src/js/phpantom/pkg-wasi/phpantom_lsp.wasm
+          if-no-files-found: error
+
+  build:
+    name: "Build"
+    runs-on: "ubuntu-latest"
+    needs: build-wasm
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: website/package-lock.json
+
+      - name: "Download PHPantom wasm"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: phpantom-wasm
+          path: website/src/js/phpantom/pkg-wasi
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "8.0"
+
+      - name: "Install dependencies"
+        working-directory: ./website
+        run: "npm ci"
+
+      - name: "Install Playwright browsers"
+        working-directory: ./website
+        run: "npx playwright install --with-deps chromium"
+
+      - name: "Cache generated social images"
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: website/.cache/social
+          key: "social-images-${{ hashFiles('website/src/_posts/**', 'website/src/_includes/social/socialImage.njk') }}"
+          restore-keys: "social-images-"
+
+      - name: "Put release into release.txt"
+        working-directory: ./website
+        run: echo -n "$(git rev-parse --short HEAD)" > src/release.txt
+
+      - name: "Fetch PHPStan stub shells"
+        working-directory: ./website
+        run: "npm run build:stubs"
+
+      - name: "Build"
+        working-directory: ./website
+        run: "npm run build"
+
+      - name: "Upload website dist"
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: "website-dist"
+          path: website/dist
+
+  visual-regression:
+    name: "Visual Regression Tests"
+    runs-on: "ubuntu-latest"
+    needs: build
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: website/package-lock.json
+
+      - name: "Download website dist"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: website-dist
+          path: website/dist
+
+      - name: "Install dependencies"
+        working-directory: ./website
+        run: "npm ci"
+
+      - name: "Install Playwright browsers"
+        working-directory: ./website
+        run: "npx playwright install --with-deps chromium"
+
+      - name: "Run visual regression tests"
+        working-directory: ./website
+        run: "npm run test:visual"
+
+      - name: "Upload test results"
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: visual-regression-results
+          path: website/visual-tests/test-results/
+          retention-days: 30
+
+      - name: "Update screenshots"
+        working-directory: ./website
+        if: failure()
+        run: "npm run test:visual:update"
+
+      - name: "Upload screenshots"
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: visual-regression-screenshots
+          path: website/visual-tests/__screenshots__/
+          retention-days: 30
+
+      - name: "Create Pull Request"
+        if: "failure() && github.event_name == 'push'"
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ secrets.PHPSTAN_BOT_TOKEN }}
+          add-paths: |
+            website/visual-tests/__screenshots__/
+          branch: "create-pull-request/visual-tests"
+          delete-branch: true
+          title: "Update visual tests screenshots"
+          commit-message: "Update visual tests screenshots"
+          committer: "phpstan-bot <ondrej+phpstanbot@mirtes.cz>"
+
+  functional-tests:
+    name: "Functional Tests"
+    runs-on: "ubuntu-latest"
+    needs: build
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: website/package-lock.json
+
+      - name: "Download website dist"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: website-dist
+          path: website/dist
+
+      - name: "Install dependencies"
+        working-directory: ./website
+        run: "npm ci"
+
+      - name: "Install Playwright browsers"
+        working-directory: ./website
+        run: "npx playwright install --with-deps chromium"
+
+      - name: "Run functional tests"
+        working-directory: ./website
+        run: "npm run test:functional"
+
+      - name: "Upload test results"
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: functional-test-results
+          path: website/functional-tests/test-results/
+          retention-days: 30
+
+  deploy:
+    name: "Deploy"
+    needs:
+      - typescript-check
+      - build
+      - visual-regression
+      - functional-tests
+    if: "github.ref == 'refs/heads/2.3.x'"
+    runs-on: "ubuntu-latest"
+    concurrency: website
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Download website dist"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: website-dist
+          path: dist
+
+      - name: "Configure AWS credentials"
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+        with:
+          role-to-assume: ${{ vars.WEBSITE_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: "Sync with S3"
+        run: |
+          aws s3 sync ./dist "s3://${{ vars.WEBSITE_BUCKET }}" \
+            --exclude '.git*/*' \
+            --exclude '*.map' \
+            --exclude '*.wasm' \
+            --follow-symlinks
+
+      # CloudFront only auto-compresses objects up to 10 MB, and the PHPantom
+      # wasm is larger, so it would be served uncompressed. Upload it
+      # pre-compressed with Brotli instead (the browser decompresses it
+      # transparently). The wasm is excluded from the sync above so this stays
+      # the only copy in the bucket.
+      - name: "Upload WebAssembly with Brotli encoding"
+        run: |
+          command -v brotli >/dev/null || { sudo apt-get update && sudo apt-get install -y brotli; }
+          find dist -name '*.wasm' -print0 | while IFS= read -r -d '' f; do
+            key="${f#dist/}"
+            brotli -f -q 11 "$f"
+            aws s3 cp "$f.br" "s3://${{ vars.WEBSITE_BUCKET }}/$key" \
+              --content-type application/wasm \
+              --content-encoding br \
+              --cache-control 'public, max-age=31536000, immutable'
+            echo "uploaded $key (brotli: $(wc -c <"$f") -> $(wc -c <"$f.br") bytes)"
+          done
+
+      - name: "Invalidate CloudFront"
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ vars.WEBSITE_DISTRIBUTION_ID }}" \
+            --paths '/*'
+
+      - name: "Trigger Algolia Crawler"
+        run: |
+          curl -X POST "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/reindex" \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.ALGOLIA_CRAWLER_USER_ID }}:${{ secrets.ALGOLIA_CRAWLER_API_KEY }}"
+
+      - uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
+        with:
+          token: ${{ secrets.PHPSTAN_BOT_TOKEN }}
+          event-type: check_website_links
+
+  sentry-release:
+    name: "Create Sentry release"
+    needs:
+      - deploy
+    runs-on: "ubuntu-latest"
+    concurrency: website
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: "Download website dist"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: website-dist
+          path: dist
+
+      - name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          version: ${{ steps.vars.outputs.sha_short }}
+          sourcemaps: './dist'
+          url_prefix: "https://phpstan.org"
+          ignore_missing: true
+          ignore_empty: true
+          # v3 enables Debug ID injection by default; keep the prior
+          # url_prefix-based upload behavior unchanged for this bump
+          inject: false

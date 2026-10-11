@@ -1,0 +1,16 @@
+composer.lock
+tests/cache
+vendor/
+composer.phar
+.DS_Store
+
+# Ignore PhpStorm project related files.
+.idea
+
+# Ignore Zend Studio and Eclipse project related files.
+.buildpath
+.project
+.settings
+
+# Ignore Brackets project related files.
+.brackets.json

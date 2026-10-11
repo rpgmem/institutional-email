@@ -1,0 +1,4 @@
+includes:
+	- repo/phpstan.neon
+	- bladestan-baseline.neon
+	- editor-link-repo.php

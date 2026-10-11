@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot unset property Illuminate\\Routing\\Route\:\:\$container because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Illuminate/Routing/Route.php
+
+		-
+			message: '#^Cannot unset property Illuminate\\Routing\\Route\:\:\$router because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Illuminate/Routing/Route.php

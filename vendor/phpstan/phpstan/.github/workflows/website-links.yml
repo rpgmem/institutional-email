@@ -1,0 +1,34 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Check Website Links"
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [ check_website_links ]
+  push:
+    branches:
+      - "2.3.x"
+    paths:
+      - '.github/workflows/website-links.yml'
+
+jobs:
+  website-links:
+    name: "Check for broken links"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Check for broken links"
+        uses: ScholliYT/Broken-Links-Crawler-Action@21eab52f98097989d343116dbbd46dc4541b849b # v3.3.2
+        with:
+          website_url: 'https://phpstan.org/'
+          resolve_before_filtering: 'true'
+          exclude_url_prefix: 'mailto:,https://twitter.com,https://www.startupjobs.cz,https://www.shopware.com,https://github.com/phpstan'
+          verbose: 'warning'
+          max_retry_time: 30
+          max_retries: 5

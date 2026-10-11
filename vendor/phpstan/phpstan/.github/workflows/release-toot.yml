@@ -1,0 +1,25 @@
+name: Toot release
+
+# More triggers
+# https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#release
+on:
+  release:
+    types: [published]
+
+jobs:
+  toot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - uses: cbrgm/mastodon-github-action@7fcc3650150fc062d707eeffb50e8f7a2704fd0f # v2.2.3
+        if: ${{ !github.event.repository.private }}
+        with:
+          # GitHub event payload
+          # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#release
+          message: "New release: PHPStan ${{ github.event.release.tag_name }} ${{ github.event.release.html_url }} #phpstan"
+          url: https://phpc.social
+          access-token: ${{ secrets.MASTODON_ACCESS_TOKEN }}

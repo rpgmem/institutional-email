@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			rawMessage: Switch condition comparison between 'nullabletimestamps'|'nullabletimestampstz'|'remembertoken'|'timestamps'|'timestampstz' and 'droptimestamps' is always false.
+			identifier: switch.alwaysFalse
+			count: 1
+			path: repo/src/Properties/SchemaAggregator.php
+
+		-
+			rawMessage: Switch condition comparison between 'nullabletimestamps'|'nullabletimestampstz'|'remembertoken'|'timestamps'|'timestampstz' and 'droptimestampstz' is always false.
+			identifier: switch.alwaysFalse
+			count: 1
+			path: repo/src/Properties/SchemaAggregator.php
+
+		-
+			rawMessage: Switch condition comparison between 'nullabletimestamps'|'nullabletimestampstz'|'timestamps'|'timestampstz' and 'dropremembertoken' is always false.
+			identifier: switch.alwaysFalse
+			count: 1
+			path: repo/src/Properties/SchemaAggregator.php

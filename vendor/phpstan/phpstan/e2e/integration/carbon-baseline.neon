@@ -1,0 +1,163 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Unsafe call to private method Carbon\\Carbon\:\:getTranslationArray\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 4
+			path: repo/src/Carbon/Carbon.php
+
+		-
+			message: '#^Unsafe call to private method Carbon\\Carbon\:\:translateWordsByKeys\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 2
+			path: repo/src/Carbon/Carbon.php
+
+		-
+			message: '#^Unsafe call to private method Carbon\\CarbonImmutable\:\:getTranslationArray\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 4
+			path: repo/src/Carbon/CarbonImmutable.php
+
+		-
+			message: '#^Unsafe call to private method Carbon\\CarbonImmutable\:\:translateWordsByKeys\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 2
+			path: repo/src/Carbon/CarbonImmutable.php
+
+		-
+			message: '#^Access to undefined constant static\(Carbon\\CarbonInterval\)\:\:DAYS_PER_WEEK\.$#'
+			identifier: classConstant.notFound
+			count: 2
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Access to undefined constant static\(Carbon\\CarbonInterval\)\:\:HOURS_PER_DAY\.$#'
+			identifier: classConstant.notFound
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Access to undefined constant static\(Carbon\\CarbonInterval\)\:\:MONTHS_PER_YEAR\.$#'
+			identifier: classConstant.notFound
+			count: 2
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$absolute because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$endDate because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$initialValues because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localFormatFunction because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localGenericMacros because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localHumanDiffOptions because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localMacros because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localMonthsOverflow because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localSerializer because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localStrictModeEnabled because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localToStringFormat because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localTranslator because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$localYearsOverflow because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$originalInput because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$rawInterval because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$startDate because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$step because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Cannot unset property Carbon\\CarbonInterval\:\:\$timezoneSetting because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Unsafe call to private method Carbon\\CarbonInterval\:\:getTranslationArray\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 4
+			path: repo/src/Carbon/CarbonInterval.php
+
+		-
+			message: '#^Unsafe call to private method Carbon\\CarbonInterval\:\:translateWordsByKeys\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 2
+			path: repo/src/Carbon/CarbonInterval.php

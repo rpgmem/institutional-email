@@ -1,0 +1,871 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Integration tests"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 'phpstan/phpstan ref to checkout'
+        required: true
+        type: string
+      phar-checksum:
+        description: 'PHAR checksum from reproducible build (please rebase)'
+        required: true
+        type: string
+    secrets:
+      phpstan-bot-token:
+        required: false
+
+jobs:
+  check-phar-checksum:
+    name: "Check PHAR checksum"
+    runs-on: "ubuntu-latest"
+    outputs:
+      checksum-result: ${{ steps.checksum-difference.outputs.result }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "phpstan/phpstan"
+          ref: ${{ inputs.ref }}
+      - name: "Check PHAR checksum"
+        id: checksum-difference
+        run: |
+          checksum="${{ inputs.phar-checksum }}"
+          if [[ $(head -n 1 .phar-checksum) != "$checksum" ]]; then
+            echo "result=different" >> "$GITHUB_OUTPUT"
+          else
+            echo "result=same" >> "$GITHUB_OUTPUT"
+          fi
+
+  integration-tests:
+    name: "Integration - ${{ matrix.name }}"
+
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+
+    needs: check-phar-checksum
+    if: "needs.check-phar-checksum.outputs.checksum-result == 'different'"
+
+    # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
+    services:
+      database:
+        # see https://hub.docker.com/_/mysql
+        image: "${{ matrix.mysql }}"
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: 8.4
+            name: Rector tests
+            script: |
+              git clone https://github.com/rectorphp/rector-src.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 8c28f9c1d9054ad26ba047d76b7eba2666003666
+              # bin/rector.php reads preload-split-package.php when a vendor/ directory sits
+              # four levels above bin/, which is how it recognises being installed at
+              # vendor/rector/rector. Cloned here, that probe finds this repository's own
+              # vendor/, so both preload files load. They declare the same
+              # isPHPStanTestPreloaded() function, so the second one is a fatal error and
+              # every spawned bin/rector call writes nothing.
+              rm preload-split-package.php
+              cp ../rector-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit
+          - php-version: 8.4
+            name: Rector downgrade PHP tests
+            script: |
+              git clone https://github.com/rectorphp/rector-downgrade-php.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 1beef93a7e2771e0d0fc42e6d1d22ecb9321e8e8
+              cp ../rector-downgrade-php-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit
+          - php-version: 8.4
+            name: Symplify tests
+            script: |
+              git clone https://github.com/symplify/phpstan-rules.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 31b31b0160aac4c9d86815a1e19c00c2c88f302e
+              cp ../symplify-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit
+          - php-version: 8.4
+            name: Larastan tests PHP 8.4, ^12.48
+            script: |
+              git clone https://github.com/larastan/larastan.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout eda1d2867d17521370de8c5e09d33b704cb0ecbf
+              cp ../larastan-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              composer run-script test:unit
+          - php-version: 8.5
+            name: phpstan-laravel tests
+            script: |
+              git clone https://github.com/calebdw/phpstan-laravel.git --depth 1 -b v1.5.0 e2e/integration/repo
+              cd e2e/integration/repo
+              cp ../phpstan-laravel-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              composer run-script test:unit
+          - php-version: 8.4
+            name: Carbon tests
+            script: |
+              git clone https://github.com/briannesbitt/Carbon.git -b 3.10.3 --depth 1 e2e/integration/repo
+              cd e2e/integration/repo
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit tests/PHPStan
+          - php-version: 8.1
+            name: shipmonk/phpstan-rules tests
+            script: |
+              git clone https://github.com/shipmonk-rnd/phpstan-rules.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 7223e6b64741f4b01c7f3c4af1604b485e11fff5
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit tests
+          - php-version: 8.4
+            name: shipmonk/dead-code-detector tests
+            script: |
+              git clone https://github.com/shipmonk-rnd/dead-code-detector.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 92b56812a002559a56746d444c4cbc2b86080f87
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit tests
+#          - php-version: 8.4
+#            name: efabrica-team/phpstan-latte tests
+#            script: |
+#              git clone https://github.com/efabrica-team/phpstan-latte.git --depth 1 -b 0.19.0 e2e/integration/repo
+#              cd e2e/integration/repo
+#              composer install
+#              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+#              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+#              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+#              vendor/bin/phpunit
+          - php-version: 8.2
+            name: Bladestan tests
+            script: |
+              git clone https://github.com/bladestan/bladestan.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout f1dedaeb283718cf78ac02ba4d013d3a3b86eda1
+              cp ../bladestan-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit
+          - php-version: 8.5
+            name: Prado tests
+            script: |
+              git clone https://github.com/pradosoft/prado.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 56d62b850ec51a5eee6298a8fb26134950725a21
+              composer install
+              composer require --dev phpstan/phpstan
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              vendor/bin/phpunit --testsuite phpstan
+          - php-version: 8.5
+            name: phpstan-dba tests
+            mysql: 'mysql:8.4.9@sha256:c36050afdca850f23cef85703f84c7531a5ae155a11b5ee1c60acb09937c4084' # 8.4.9
+            script: |
+              git clone https://github.com/staabm/phpstan-dba.git e2e/integration/repo
+              cd e2e/integration/repo
+              git checkout 594dc1fe9831ce551371ecdfc2acf1377abcc9b0
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+              mysql -uroot -h127.0.0.1 -proot < tests/schema.sql
+              composer require sqlftw/sqlftw
+              composer require doctrine/dbal:^4
+              DBA_REFLECTOR=pdo-mysql DBA_MODE=recording composer run phpunit
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "phpstan/phpstan"
+          ref: ${{ inputs.ref }}
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          ini-file: development
+
+      - name: "Install Node"
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+
+      - uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+
+      - name: "Download phpstan.phar"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: phar-file
+
+      - name: "Download turbo extension"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: turbo-ext-files
+          path: turbo-ext
+
+      - name: "Tests"
+        run: "${{ matrix.script }}"
+        env:
+          COMPOSER_NO_SECURITY_BLOCKING: 1
+
+  integration-run-phpstan:
+    name: "Integration - ${{ matrix.repo }}"
+
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+
+    needs: check-phar-checksum
+    if: "needs.check-phar-checksum.outputs.checksum-result == 'different'"
+
+    # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
+    services:
+      database:
+      # see https://hub.docker.com/_/mysql
+        image: "${{ matrix.mysql }}"
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: 8.4
+            repo: rectorphp/rector-src
+            ref: 8c28f9c1d9054ad26ba047d76b7eba2666003666
+            setup: |
+              cp ../rector-composer.lock composer.lock
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../rector.neon -vvv
+            baseline-file: rector-baseline.neon
+          - php-version: 8.4
+            repo: rectorphp/rector-downgrade-php
+            ref: 1beef93a7e2771e0d0fc42e6d1d22ecb9321e8e8
+            setup: |
+              cp ../rector-downgrade-php-composer.lock composer.lock
+              COMPOSER_ROOT_VERSION=dev-main composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../rector-downgrade-php.neon
+            baseline-file: rector-downgrade-php-baseline.neon
+          - php-version: 8.4
+            repo: sebastianbergmann/phpunit
+            ref: 12.4.5
+            setup: |
+              export COMPOSER_ROOT_VERSION=12.4.5
+              composer install
+              composer install --working-dir tools/.phpstan
+              cp ../../../phpstan.phar tools/.phpstan/vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan tools/.phpstan/vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php tools/.phpstan/vendor/phpstan/phpstan/bootstrap.php
+              rm -rf tools/.phpstan/vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext tools/.phpstan/vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: tools/.phpstan/vendor/bin/phpstan analyse -c ../phpunit.neon
+            baseline-file: phpunit-baseline.neon
+          - php-version: 8.4
+            repo: laravel/framework
+            ref: 1d3c6c59f78b390c46671ea597024f07043b93c9
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../laravel.neon -vvv
+            baseline-file: laravel-baseline.neon
+          - php-version: 8.4
+            repo: laravel/framework
+            ref: 1d3c6c59f78b390c46671ea597024f07043b93c9
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../laravel-types.neon -vvv
+            baseline-file: laravel-types-baseline.neon
+          - php-version: 8.4
+            repo: Roave/BetterReflection
+            ref: 4b9918a78aa52742f40f33402b75739ecf82d48e
+            setup: |
+              composer install
+              composer install --working-dir tools
+              cp ../../../phpstan.phar tools/vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan tools/vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php tools/vendor/phpstan/phpstan/bootstrap.php
+              rm -rf tools/vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext tools/vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: tools/vendor/bin/phpstan analyse -c ../better-reflection.neon
+            baseline-file: better-reflection-baseline.neon
+#          - php-version: 8.1
+#            repo: composer/composer
+#            ref: e4038e5e3bffe22cb815dc1663ea76be96d4222e
+#            setup: |
+#              composer install
+#              composer config platform --unset && composer update
+#              vendor/bin/simple-phpunit --filter NO_TEST_JUST_AUTOLOAD_THANKS
+#            phpstan-command: ../../../phpstan.phar analyse -c ../composer.neon
+#            baseline-file: composer-baseline.neon
+          - php-version: 8.4
+            repo: nextras/orm
+            ref: 274ef5b74d596f01528747deee26589706531c82
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../nextras.neon
+            baseline-file: nextras-baseline.neon
+          - php-version: 8.4
+            repo: slevomat/coding-standard
+            ref: 6eff0ed543159cd8bd52f22b7cfd093f483598de
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../slevomat-cs.neon
+            baseline-file: slevomat-cs-baseline.neon
+          - php-version: 8.4
+            repo: slevomat/coding-standard
+            ref: 6eff0ed543159cd8bd52f22b7cfd093f483598de
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c build/PHPStan/phpstan.tests.neon
+            baseline-file: slevomat-cs-tests-baseline.neon
+          - php-version: 8.4
+            repo: symplify/phpstan-rules
+            ref: 31b31b0160aac4c9d86815a1e19c00c2c88f302e
+            setup: |
+              cp ../symplify-composer.lock composer.lock
+              composer install
+            phpstan-command: ../../../phpstan analyse -c ../symplify.neon
+            baseline-file: symplify-baseline.neon
+          - php-version: 8.4
+            repo: larastan/larastan
+            ref: eda1d2867d17521370de8c5e09d33b704cb0ecbf
+            setup: |
+              cp ../larastan-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: ../../../phpstan.phar analyse -c ../larastan.neon
+            baseline-file: larastan-baseline.neon
+          - php-version: 8.5
+            repo: calebdw/phpstan-laravel
+            ref: v1.5.0
+            setup: |
+              cp ../phpstan-laravel-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: ../../../phpstan.phar analyse -c ../phpstan-laravel.neon
+            baseline-file: phpstan-laravel-baseline.neon
+          - php-version: 8.4
+            repo: bitExpert/phpstan-magento
+            ref: f5640e72f0cfaa966dcd329ae2ffd1a789321c7a
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../magento.neon
+            baseline-file: magento-baseline.neon
+#          - php-version: 8.1
+#            repo: PrestaShop/PrestaShop
+#            ref: 8.0.0
+#            setup: |
+#              composer install
+#            phpstan-command: ../../../phpstan.phar analyse -c ../prestashop.neon
+#            baseline-file: prestashop-baseline.neon
+          - php-version: 8.4
+            repo: shopware/shopware
+            ref: v6.7.6.2
+            setup: |
+              composer install
+              composer require --dev phpstan/phpstan:^2.1.35 phpstan/phpstan-phpunit:^2.0.12 phpstan/phpstan-symfony:^2.0.11
+              composer run framework:schema:dump
+              php src/Core/DevOps/StaticAnalyze/phpstan-bootstrap.php
+            phpstan-command: ../../../phpstan.phar analyse -c ../shopware.neon -vvv
+            baseline-file: shopware-baseline.neon
+          - php-version: 8.4
+            repo: Sylius/Sylius
+            ref: v2.1.5
+            setup: |
+              export DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
+              cp ../sylius-composer.lock composer.lock
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../sylius.neon -vvv
+            baseline-file: sylius-baseline.neon
+          - php-version: 8.5
+            repo: shopsys/shopsys
+            ref: v19.0.0
+            setup: |
+              cp ../shopsys-composer.lock composer.lock
+              composer install --ignore-platform-req=ext-pg_query
+
+            # from build.xml
+            phpstan-command: ../../../phpstan.phar analyse -c ../shopsys.neon -l 5 packages/*/src packages/*/tests utils/*/src utils/*/tests project-base/app/app project-base/app/src -vvv
+            baseline-file: shopsys-baseline.neon
+          - php-version: 8.5
+            repo: shopsys/shopsys
+            ref: v19.0.0
+            phpstan-cwd: e2e/integration/repo/project-base/app
+            setup: |
+              cp ../shopsys-composer.lock composer.lock
+              COMPOSER_ROOT_VERSION=19.0.0 composer install --ignore-platform-req=ext-pg_query
+              rm parameters_monorepo.yaml
+              cd project-base/app
+              cp ../../../shopsys-project-base-composer.lock composer.lock
+              COMPOSER_ROOT_VERSION=19.0.0 composer install --ignore-platform-req=ext-pg_query
+
+            # test project-base separately
+            phpstan-command: ../../../../../phpstan.phar analyse -c ../../../shopsys-project-base.neon -l 5 src tests -vvv
+            baseline-file: ../../shopsys-project-base-baseline.neon
+          - php-version: 8.4
+            repo: doctrine/orm
+            ref: 3.5.8
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../doctrine-orm.neon
+            baseline-file: doctrine-orm-baseline.neon
+          - php-version: 8.4
+            repo: doctrine/collections
+            ref: 2790cb57e6510e4404873bdca6688e447550d720
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../doctrine-collections.neon
+            baseline-file: doctrine-collections-baseline.neon
+          - php-version: 8.4
+            repo: doctrine/dbal
+            ref: 4.2.2
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../doctrine-dbal.neon
+            baseline-file: doctrine-dbal-baseline.neon
+#          - php-version: 8.1
+#            repo: doctrine/common
+#            ref: a6851094b28ac4bd673d6c82d6a8c6cff1f2ca3c
+#            setup: |
+#              composer install
+#            phpstan-command: ../../../phpstan.phar analyse
+#            baseline-file: doctrine-common-baseline.neon
+#          - php-version: 8.1
+#            repo: doctrine/persistence
+#            ref: 3.0.3
+#            setup: |
+#              composer install
+#            phpstan-command: ../../../phpstan.phar analyse -c ../doctrine-persistence.neon
+#            baseline-file: doctrine-persistence-baseline.neon
+          - php-version: 8.1
+            repo: shipmonk-rnd/phpstan-rules
+            ref: 7223e6b64741f4b01c7f3c4af1604b485e11fff5
+            setup: |
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: vendor/bin/phpstan analyse -c ../shipmonk.neon
+            baseline-file: shipmonk-rnd-baseline.neon
+          - php-version: 8.4
+            repo: shipmonk-rnd/dead-code-detector
+            ref: 92b56812a002559a56746d444c4cbc2b86080f87
+            setup: |
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: vendor/bin/phpstan analyse -c ../shipmonk-dead-code-detector.neon
+            #baseline-file: shipmonk-dead-code-detector-baseline.neon
+          - php-version: 8.4
+            repo: drupal/drupal
+            ref: 11.2.4
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../drupal.neon -vvv
+            baseline-file: drupal-baseline.neon
+          - php-version: 8.5
+            repo: TYPO3/typo3
+            ref: d7b21b717b1acc3a228b7b99de23e07ad6060da1
+            setup: |
+              # The checkout is a detached HEAD with no branch, so Composer cannot
+              # derive the root version and the monorepo's "replace: typo3/cms-*"
+              # entries stop satisfying typo3/testing-framework's requirements.
+              COMPOSER_ROOT_VERSION=14.0.x-dev composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../typo3.neon --memory-limit=2G
+            baseline-file: typo3-baseline.neon
+          - php-version: 8.5
+            repo: WordPress/wordpress-develop
+            ref: 7924b71d7a2392a1ff27e09cdea6d4be809a4a34
+            setup: |
+              composer install
+              npm ci --ignore-scripts
+              npm run build:dev
+            phpstan-command: ../../../phpstan.phar analyse -c ../wordpress.neon --memory-limit=2G -vvv
+            baseline-file: wordpress-baseline.neon
+          - php-version: 8.5
+            repo: pradosoft/prado
+            ref: 56d62b850ec51a5eee6298a8fb26134950725a21
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../prado.neon --memory-limit=2G
+            baseline-file: prado-baseline.neon
+          - php-version: 8.4
+            repo: briannesbitt/Carbon
+            ref: 3.11.0
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../carbon.neon
+            baseline-file: carbon-baseline.neon
+          - php-version: 8.4
+            repo: nikic/PHP-Parser
+            ref: v5.6.1
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../php-parser.neon
+            baseline-file: php-parser-baseline.neon
+          - php-version: 8.4
+            repo: efabrica-team/phpstan-latte
+            ref: 0.19.0
+            setup: |
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: ../../../phpstan.phar analyze src --level=max -c ../efabrica-phpstan-latte.neon
+            baseline-file: efabrica-phpstan-latte-baseline.neon
+          - php-version: 8.2
+            repo: bladestan/bladestan
+            ref: f1dedaeb283718cf78ac02ba4d013d3a3b86eda1
+            setup: |
+              cp ../bladestan-composer.lock composer.lock
+              composer install
+              cp ../../../phpstan.phar vendor/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan vendor/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php vendor/phpstan/phpstan/bootstrap.php
+              rm -rf vendor/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext vendor/phpstan/phpstan/turbo-ext
+            phpstan-command: ../../../phpstan.phar analyse -c ../bladestan.neon
+            baseline-file: bladestan-baseline.neon
+#          - php-version: 8.2
+#            repo: reactphp/promise
+#            ref: 7053e3ca49a9a8225f081c8f67f785f80cb4d82e
+#            setup: |
+#              composer install
+#            phpstan-command: ../../../phpstan.phar analyse
+#            baseline-file: react-promise-baseline.neon
+#          - php-version: 8.2
+#            repo: WordPress/WordPress-Coding-Standards
+#            ref: 5f0c8a7ebdde0314ea5e30f76375a10c7d6f3910
+#            setup: |
+#              composer install
+#            phpstan-command: ../../../phpstan.phar analyse -c ../wp-cs.neon
+#            baseline-file: wp-cs-baseline.neon
+          - php-version: 8.4
+            repo: PHPCSStandards/PHP_CodeSniffer
+            ref: 63e23c0101ea6118428791639c223e8871303228
+            setup: |
+              composer install
+            phpstan-command: ../../../phpstan.phar analyse -c ../phpcs.neon
+            baseline-file: phpcs-baseline.neon
+          - php-version: 8.5
+            repo: neos/neos-development-collection
+            ref: 8d1a0065c385f634b596534d7d6e5ce5202aa089
+            phpstan-cwd: e2e/integration/neos-dist
+            setup: |
+              # Neos is a monorepo package collection. PHPStan must run from
+              # within a Neos distribution where the collection is split into
+              # Packages/Neos and the Flow framework into Packages/Framework
+              # (its phpstan.neon.dist references ../Framework/bootstrap-phpstan.php).
+              # This mirrors how Neos runs PHPStan in its own CI:
+              # https://github.com/neos/neos-development-collection/blob/9.2/.github/workflows/build.yml
+              git checkout -b build
+              git clone https://github.com/neos/neos-development-distribution.git ../neos-dist
+              cd ../neos-dist
+              git checkout 8327d571dce4a2de6ab7788bb415cbf1a706bb39
+              composer config repositories.neos '{ "type": "path", "url": "../repo", "options": { "symlink": false } }'
+              composer require --no-update neos/neos-development-collection:"dev-build as 9.2.x-dev"
+              composer update --no-progress --no-interaction
+              cp ../../../phpstan.phar Packages/Libraries/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan Packages/Libraries/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php Packages/Libraries/phpstan/phpstan/bootstrap.php
+              rm -rf Packages/Libraries/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext Packages/Libraries/phpstan/phpstan/turbo-ext
+              # Flow's bootstrap (run by bootstrap-phpstan.php in every parallel
+              # worker) creates these directories non-atomically and exits on a
+              # lost mkdir race - create them upfront.
+              mkdir -p Data/Persistent Data/Temporary/Testing
+            phpstan-command: bin/phpstan analyse -c ../neos.neon -vvv
+            baseline-file: neos-baseline.neon
+          - php-version: 8.5
+            repo: neos/flow-development-collection
+            ref: 72ea7c8fb608515939c6d9576829ca635d16ee26
+            phpstan-cwd: e2e/integration/flow-dist
+            setup: |
+              # Flow is a monorepo package collection like Neos. PHPStan must run
+              # from within a Flow distribution where the collection is split into
+              # Packages/Framework. This mirrors how Flow runs PHPStan in its own CI:
+              # https://github.com/neos/flow-development-collection/blob/9.2/.github/workflows/build.yml
+              git checkout -b build
+              git clone https://github.com/neos/flow-development-distribution.git ../flow-dist
+              cd ../flow-dist
+              git checkout 9165cc61c0e349e81d9da1617244e58153c51ad5
+              composer config repositories.flow '{ "type": "path", "url": "../repo", "options": { "symlink": false } }'
+              composer require --no-update neos/flow-development-collection:"dev-build as 9.2.x-dev"
+              composer update --no-progress --no-interaction
+              cp ../../../phpstan.phar Packages/Libraries/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan Packages/Libraries/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php Packages/Libraries/phpstan/phpstan/bootstrap.php
+              rm -rf Packages/Libraries/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext Packages/Libraries/phpstan/phpstan/turbo-ext
+              # Flow's bootstrap (run by bootstrap-phpstan.php in every parallel
+              # worker) creates these directories non-atomically and exits on a
+              # lost mkdir race - create them upfront.
+              mkdir -p Data/Persistent Data/Temporary/Testing
+            phpstan-command: bin/phpstan analyse -c ../flow.neon
+            baseline-file: flow-baseline.neon
+          - php-version: 8.5
+            repo: neos/flow-development-collection
+            ref: 72ea7c8fb608515939c6d9576829ca635d16ee26
+            phpstan-cwd: e2e/integration/flow-dist
+            setup: |
+              # Flow also lints a second set of packages at level 3 (phpstan-legacy.neon.dist).
+              git checkout -b build
+              git clone https://github.com/neos/flow-development-distribution.git ../flow-dist
+              cd ../flow-dist
+              git checkout 9165cc61c0e349e81d9da1617244e58153c51ad5
+              composer config repositories.flow '{ "type": "path", "url": "../repo", "options": { "symlink": false } }'
+              composer require --no-update neos/flow-development-collection:"dev-build as 9.2.x-dev"
+              composer update --no-progress --no-interaction
+              cp ../../../phpstan.phar Packages/Libraries/phpstan/phpstan/phpstan.phar
+              cp ../../../phpstan Packages/Libraries/phpstan/phpstan/phpstan
+              cp ../../../bootstrap.php Packages/Libraries/phpstan/phpstan/bootstrap.php
+              rm -rf Packages/Libraries/phpstan/phpstan/turbo-ext && cp -R ../../../turbo-ext Packages/Libraries/phpstan/phpstan/turbo-ext
+              # Flow's bootstrap (run by bootstrap-phpstan.php in every parallel
+              # worker) creates these directories non-atomically and exits on a
+              # lost mkdir race - create them upfront.
+              mkdir -p Data/Persistent Data/Temporary/Testing
+            phpstan-command: bin/phpstan analyse -c ../flow-legacy.neon
+            baseline-file: flow-legacy-baseline.neon
+          - php-version: 8.5
+            repo: staabm/phpstan-dba
+            ref: 594dc1fe9831ce551371ecdfc2acf1377abcc9b0
+            setup: |
+              composer install
+              composer require sqlftw/sqlftw
+              composer require doctrine/dbal:^4
+              mysql -uroot -h127.0.0.1 -proot < tests/schema.sql
+            mysql: 'mysql:8.4.9@sha256:c36050afdca850f23cef85703f84c7531a5ae155a11b5ee1c60acb09937c4084' # 8.4.9
+            phpstan-command: ../../../phpstan.phar analyse -c ../phpstan-dba.neon
+            baseline-file: phpstan-dba-baseline.neon
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "phpstan/phpstan"
+          ref: ${{ inputs.ref }}
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240" # 2.37.2
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          ini-file: development
+
+      - uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+
+      - name: "Download phpstan.phar"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: phar-file
+
+      - name: "Download turbo extension"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: turbo-ext-files
+          path: turbo-ext
+
+      - name: "Checkout project"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "${{ matrix.repo }}"
+          ref: "${{ matrix.ref }}"
+          path: e2e/integration/repo
+
+      - name: "Setup"
+        working-directory: e2e/integration/repo
+        run: "${{ matrix.setup }}"
+        env:
+          COMPOSER_NO_SECURITY_BLOCKING: 1
+
+      - name: "PHPStan"
+        working-directory: ${{ matrix.phpstan-cwd || 'e2e/integration/repo' }}
+        run: "${{ matrix.phpstan-command }}"
+
+      - name: "Generate baseline"
+        if: ${{ failure() }}
+        working-directory: ${{ matrix.phpstan-cwd || 'e2e/integration/repo' }}
+        run: "${{ matrix.phpstan-command }} -b ../${{ matrix.baseline-file }}"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ failure() }}
+        with:
+          name: baselines-${{ matrix.baseline-file }}
+          path: "e2e/integration/${{ matrix.baseline-file }}"
+
+  integration-update-baseline:
+    name: "Integration - Update baselines"
+    runs-on: "ubuntu-latest"
+    needs: [integration-run-phpstan, pmmp-tests]
+    if: "failure() && github.repository_owner == 'phpstan' && inputs.ref == 'refs/heads/2.2.x'"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "phpstan/phpstan"
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.phpstan-bot-token }}
+
+      - name: "Download baselines"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: baselines-*
+          merge-multiple: true
+          path: "e2e/integration"
+
+      - name: "Create Pull Request"
+        id: create-pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ secrets.phpstan-bot-token }}
+          branch: "create-pull-request/baselines-2.2.x"
+          delete-branch: true
+          title: "Update baselines for ${{ inputs.ref }}"
+          committer: "phpstan-bot <ondrej+phpstanbot@mirtes.cz>"
+          commit-message: "Update baselines"
+
+  pmmp-tests:
+    name: "PMMP Tests"
+
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+
+    needs: check-phar-checksum
+    if: "needs.check-phar-checksum.outputs.checksum-result == 'different'"
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+        with:
+          egress-policy: audit
+
+      - name: "Checkout"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "phpstan/phpstan"
+          ref: ${{ inputs.ref }}
+
+      - name: Setup PHP
+        uses: pmmp/setup-php-action@3c38c259834f945351a662392836d90eb08abff0 # 3.2.0
+        with:
+          php-version: 8.4
+          install-path: "./bin"
+          pm-version-major: "5"
+
+      - uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+
+      - name: "Download phpstan.phar"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: phar-file
+
+      - name: "Download turbo extension"
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: turbo-ext-files
+          path: turbo-ext
+
+      - name: "Checkout PMMP"
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: "pmmp/PocketMine-MP"
+          ref: 5.37.3
+          path: e2e/integration/repo
+
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4.0.0
+        with:
+          working-directory: "e2e/integration/repo"
+
+      - name: "PHPStan"
+        working-directory: "e2e/integration/repo"
+        run: ../../../phpstan.phar analyse -c ../pocketmine-ng.neon --memory-limit=2G -vvv
+
+      - name: "Generate baseline"
+        if: ${{ failure() }}
+        working-directory: "e2e/integration/repo"
+        run: ../../../phpstan.phar analyse -c ../pocketmine-ng.neon --memory-limit=2G -b ../pocketmine-ng-baseline.neon
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ failure() }}
+        with:
+          name: baselines-pocketmine-ng.neon
+          path: e2e/integration/pocketmine-ng-baseline.neon

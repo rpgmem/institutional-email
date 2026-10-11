@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset>
+    <file>bootstrap.php</file>
+    <file>src/</file>
+    <file>tests/</file>
+
+    <exclude-pattern>tests/data/*</exclude-pattern>
+    <exclude-pattern>tests/phpstan-data/*</exclude-pattern>
+    <exclude-pattern>tests/functions.php</exclude-pattern>
+    <exclude-pattern>tests/WP_UnitTestCase_Base.php</exclude-pattern>
+
+    <rule ref="PSR12NeutronRuleset">
+        <exclude name="Generic.Files.LineLength"/>
+        <exclude name="PEAR.Commenting.ClassComment"/>
+        <exclude name="PEAR.Commenting.FileComment"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
+    </rule>
+
+    <!-- PHPCS does not understand yield -->
+    <rule ref="NeutronStandard.Functions.TypeHint.UnusedReturnType">
+        <exclude-pattern>tests/AssertMethodTypeSpecifyingExtensionTest.php</exclude-pattern>
+        <exclude-pattern>tests/DynamicReturnTypeExtensionTest.php</exclude-pattern>
+        <exclude-pattern>tests/DynamicConstantTypeTest.php</exclude-pattern>
+    </rule>
+
+    <!-- TypeTraverser uses callable $traverse -->
+    <rule ref="NeutronStandard.Functions.VariableFunctions.VariableFunction">
+        <exclude-pattern>src/SlashitFunctionsDynamicFunctionReturnTypeExtension.php</exclude-pattern>
+        <exclude-pattern>src/StripslashesFromStringsOnlyDynamicFunctionReturnTypeExtension.php</exclude-pattern>
+        <exclude-pattern>src/WpSlashDynamicFunctionReturnTypeExtension.php</exclude-pattern>
+    </rule>
+
+    <!-- Allow string concatenation in tests -->
+    <rule ref="PSR12NeutronRuleset.Strings.ConcatenationUsage.NotAllowed">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
+    <!-- Allow long functions in test cases -->
+    <rule ref="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength">
+        <exclude-pattern>tests/HookDocsRuleTest.php</exclude-pattern>
+        <exclude-pattern>tests/HookCallbackRuleTest.php</exclude-pattern>
+    </rule>
+</ruleset>
