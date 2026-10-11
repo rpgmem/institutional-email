@@ -530,8 +530,9 @@
 		var copyEmail = el( doc, 'button', { type: 'button', class: 'ie-copy', text: s.copyEmail } );
 		var copyPassword = el( doc, 'button', { type: 'button', class: 'ie-copy', text: s.copyPassword } );
 		var status = el( doc, 'p', { class: 'ie-status', role: 'status' } );
+		var emailLabel = el( doc, 'p', { class: 'ie-result-label', text: 'teachers' === kind ? s.teacherResult : s.studentResult } );
 		var result = el( doc, 'div', { class: 'ie-result', hidden: true }, [
-			el( doc, 'p', { class: 'ie-result-label', text: 'teachers' === kind ? s.teacherResult : s.studentResult } ),
+			emailLabel,
 			el( doc, 'p', { class: 'ie-result-row' }, [ emailOut, copyEmail ] ),
 			el( doc, 'p', { class: 'ie-result-label', text: state ? s.statePasswordResult : s.passwordResult } ),
 			el( doc, 'p', { class: 'ie-result-row' }, [ passwordOut, copyPassword ] ),
@@ -563,6 +564,10 @@
 				return;
 			}
 			var direct = 'direct' === networkValue();
+			// An intern is named as one, in the field and in the result.
+			var intern = 'intern' === networkValue();
+			formEl.querySelector( '[data-ie-field="name"] label' ).textContent = intern ? s.internName : s.teacherName;
+			emailLabel.textContent = intern ? s.internResult : s.teacherResult;
 			formEl.querySelector( '[data-ie-field="rf"]' ).hidden = ! direct;
 			formEl.querySelector( '[data-ie-field="cpf"]' ).hidden = direct;
 			reset();

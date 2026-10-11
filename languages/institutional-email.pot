@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 04:24+0000\n"
+"POT-Creation-Date: 2026-10-11 04:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -520,146 +520,154 @@ msgid "Teacher's full name"
 msgstr ""
 
 #: src/config.php:109
-msgid "Network"
+msgid "Intern's full name"
 msgstr ""
 
 #: src/config.php:110
-msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
+msgid "Network"
 msgstr ""
 
 #: src/config.php:111
-msgid "Partner network (CPF)"
+msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
 msgstr ""
 
 #: src/config.php:112
-msgid "Direct network (RF)"
+msgid "Partner network (CPF)"
 msgstr ""
 
 #: src/config.php:113
-msgid "Intern (CPF)"
+msgid "Direct network (RF)"
 msgstr ""
 
 #: src/config.php:114
-msgid "Registro Funcional (RF)"
+msgid "Intern (CPF)"
 msgstr ""
 
 #: src/config.php:115
-msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
+msgid "Registro Funcional (RF)"
 msgstr ""
 
 #: src/config.php:116
-msgid "CPF"
+msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
 msgstr ""
 
 #: src/config.php:117
-msgid "Find the email"
+msgid "CPF"
 msgstr ""
 
 #: src/config.php:118
-msgid "The student's email is:"
+msgid "Find the email"
 msgstr ""
 
 #: src/config.php:119
-msgid "The teacher's email is:"
+msgid "The student's email is:"
 msgstr ""
 
 #: src/config.php:120
-msgid "The initial password is:"
+msgid "The teacher's email is:"
 msgstr ""
 
 #: src/config.php:121
-msgid "Copy email"
+msgid "The intern's email is:"
 msgstr ""
 
 #: src/config.php:122
-msgid "Copy password"
+msgid "The initial password is:"
 msgstr ""
 
 #: src/config.php:123
-msgid "Email copied."
+msgid "Copy email"
 msgstr ""
 
 #: src/config.php:124
-msgid "Password copied."
+msgid "Copy password"
 msgstr ""
 
 #: src/config.php:125
-msgid "Could not copy; select the text and copy it by hand."
+msgid "Email copied."
 msgstr ""
 
 #: src/config.php:126
-msgid "Email found. Write it down with the password."
+msgid "Password copied."
 msgstr ""
 
 #: src/config.php:127
-msgid "Check the marked fields."
+msgid "Could not copy; select the text and copy it by hand."
 msgstr ""
 
 #: src/config.php:128
-msgid "Type the full name, with at least a first and a last name."
+msgid "Email found. Write it down with the password."
 msgstr ""
 
 #: src/config.php:129
-msgid "Choose a valid date of birth."
+msgid "Check the marked fields."
 msgstr ""
 
 #: src/config.php:130
-msgid "Type the 7 digits of the RF."
+msgid "Type the full name, with at least a first and a last name."
 msgstr ""
 
 #: src/config.php:131
-msgid "This RF's check digit does not match: check the number."
+msgid "Choose a valid date of birth."
 msgstr ""
 
 #: src/config.php:132
-msgid "Type a valid CPF."
+msgid "Type the 7 digits of the RF."
 msgstr ""
 
 #: src/config.php:133
-msgid "Student's RA (Registro do Aluno)"
+msgid "This RF's check digit does not match: check the number."
 msgstr ""
 
 #: src/config.php:134
-msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
+msgid "Type a valid CPF."
 msgstr ""
 
 #: src/config.php:135
-msgid "RA check digit"
+msgid "Student's RA (Registro do Aluno)"
 msgstr ""
 
 #: src/config.php:136
-msgid "A number from 0 to 9, or X."
+msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr ""
 
 #: src/config.php:137
-msgid "Do not know the RA? Look it up on the SED:"
+msgid "RA check digit"
 msgstr ""
 
 #: src/config.php:138
-msgid "The initial password is the date of birth:"
+msgid "A number from 0 to 9, or X."
 msgstr ""
 
 #: src/config.php:139
-msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
+msgid "Do not know the RA? Look it up on the SED:"
 msgstr ""
 
 #: src/config.php:140
-msgid "Get your access on the SED"
+msgid "The initial password is the date of birth:"
 msgstr ""
 
 #: src/config.php:141
-msgid "Type the RA's digits, up to 12."
+msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr ""
 
 #: src/config.php:142
-msgid "Type the check digit: a number from 0 to 9, or X."
+msgid "Get your access on the SED"
 msgstr ""
 
 #: src/config.php:143
-msgid "Then sign in with this email and password, not a personal account, at:"
+msgid "Type the RA's digits, up to 12."
 msgstr ""
 
 #: src/config.php:144
+msgid "Type the check digit: a number from 0 to 9, or X."
+msgstr ""
+
+#: src/config.php:145
+msgid "Then sign in with this email and password, not a personal account, at:"
+msgstr ""
+
+#: src/config.php:146
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr ""
 

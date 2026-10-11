@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 04:24+0000\n"
+"POT-Creation-Date: 2026-10-11 04:25+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -518,146 +518,154 @@ msgid "Teacher's full name"
 msgstr "Nome completo do(a) professor(a)"
 
 #: src/config.php:109
+msgid "Intern's full name"
+msgstr "Nome completo do(a) estagiário(a)"
+
+#: src/config.php:110
 msgid "Network"
 msgstr "Rede"
 
-#: src/config.php:110
+#: src/config.php:111
 msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
 msgstr "Rede Direta para servidores públicos; Rede Conveniada para funcionários que não são servidores; Estagiário para estagiários da rede municipal."
 
-#: src/config.php:111
+#: src/config.php:112
 msgid "Partner network (CPF)"
 msgstr "Rede Conveniada (CPF)"
 
-#: src/config.php:112
+#: src/config.php:113
 msgid "Direct network (RF)"
 msgstr "Rede Direta (RF)"
 
-#: src/config.php:113
+#: src/config.php:114
 msgid "Intern (CPF)"
 msgstr "Estagiário (CPF)"
 
-#: src/config.php:114
+#: src/config.php:115
 msgid "Registro Funcional (RF)"
 msgstr "Registro Funcional (RF)"
 
-#: src/config.php:115
+#: src/config.php:116
 msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
 msgstr "Os 7 dígitos, com o dígito verificador: 518.178-0 é 5181780."
 
-#: src/config.php:116
+#: src/config.php:117
 msgid "CPF"
 msgstr "CPF"
 
-#: src/config.php:117
+#: src/config.php:118
 msgid "Find the email"
 msgstr "Gerar e-mail"
 
-#: src/config.php:118
+#: src/config.php:119
 msgid "The student's email is:"
 msgstr "O e-mail do aluno é:"
 
-#: src/config.php:119
+#: src/config.php:120
 msgid "The teacher's email is:"
 msgstr "O e-mail do(a) professor(a) é:"
 
-#: src/config.php:120
+#: src/config.php:121
+msgid "The intern's email is:"
+msgstr "O e-mail do(a) estagiário(a) é:"
+
+#: src/config.php:122
 msgid "The initial password is:"
 msgstr "A senha inicial do e-mail é:"
 
-#: src/config.php:121
+#: src/config.php:123
 msgid "Copy email"
 msgstr "Copiar e-mail"
 
-#: src/config.php:122
+#: src/config.php:124
 msgid "Copy password"
 msgstr "Copiar senha"
 
-#: src/config.php:123
+#: src/config.php:125
 msgid "Email copied."
 msgstr "E-mail copiado."
 
-#: src/config.php:124
+#: src/config.php:126
 msgid "Password copied."
 msgstr "Senha copiada."
 
-#: src/config.php:125
+#: src/config.php:127
 msgid "Could not copy; select the text and copy it by hand."
 msgstr "Não foi possível copiar; selecione o texto e copie manualmente."
 
-#: src/config.php:126
+#: src/config.php:128
 msgid "Email found. Write it down with the password."
 msgstr "E-mail gerado. Anote-o junto com a senha."
 
-#: src/config.php:127
+#: src/config.php:129
 msgid "Check the marked fields."
 msgstr "Confira os campos indicados."
 
-#: src/config.php:128
+#: src/config.php:130
 msgid "Type the full name, with at least a first and a last name."
 msgstr "Digite o nome completo, com pelo menos nome e sobrenome."
 
-#: src/config.php:129
+#: src/config.php:131
 msgid "Choose a valid date of birth."
 msgstr "Informe uma data de nascimento válida."
 
-#: src/config.php:130
+#: src/config.php:132
 msgid "Type the 7 digits of the RF."
 msgstr "Digite os 7 dígitos do RF."
 
-#: src/config.php:131
+#: src/config.php:133
 msgid "This RF's check digit does not match: check the number."
 msgstr "O dígito verificador deste RF não confere: confira o número."
 
-#: src/config.php:132
+#: src/config.php:134
 msgid "Type a valid CPF."
 msgstr "Digite um CPF válido."
 
-#: src/config.php:133
+#: src/config.php:135
 msgid "Student's RA (Registro do Aluno)"
 msgstr "RA do aluno (Registro do Aluno)"
 
-#: src/config.php:134
+#: src/config.php:136
 msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr "Os dígitos antes do dígito verificador, como a SED mostra; os zeros à esquerda podem ser omitidos."
 
-#: src/config.php:135
+#: src/config.php:137
 msgid "RA check digit"
 msgstr "Dígito do RA"
 
-#: src/config.php:136
+#: src/config.php:138
 msgid "A number from 0 to 9, or X."
 msgstr "Um número de 0 a 9, ou X."
 
-#: src/config.php:137
+#: src/config.php:139
 msgid "Do not know the RA? Look it up on the SED:"
 msgstr "Não sabe o RA? Consulte na SED:"
 
-#: src/config.php:138
+#: src/config.php:140
 msgid "The initial password is the date of birth:"
 msgstr "A senha inicial é a data de nascimento:"
 
-#: src/config.php:139
+#: src/config.php:141
 msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr "Os professores da rede estadual criam o e-mail institucional no primeiro acesso à SED, e a senha é a mesma da SED."
 
-#: src/config.php:140
+#: src/config.php:142
 msgid "Get your access on the SED"
 msgstr "Obtenha seu acesso na SED"
 
-#: src/config.php:141
+#: src/config.php:143
 msgid "Type the RA's digits, up to 12."
 msgstr "Digite os dígitos do RA, até 12."
 
-#: src/config.php:142
+#: src/config.php:144
 msgid "Type the check digit: a number from 0 to 9, or X."
 msgstr "Digite o dígito: um número de 0 a 9, ou X."
 
-#: src/config.php:143
+#: src/config.php:145
 msgid "Then sign in with this email and password, not a personal account, at:"
 msgstr "Depois, entre com este e-mail e senha (não com uma conta pessoal) em:"
 
-#: src/config.php:144
+#: src/config.php:146
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr "O e-mail é gerado no seu navegador: nada do que você digita é enviado ou guardado em lugar algum."
 
