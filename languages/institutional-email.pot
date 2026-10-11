@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Institutional Email package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Institutional Email 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
+"POT-Creation-Date: 2026-10-11 03:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: bin/build-standalone.php:90
+msgid "Institutional Email"
+msgstr ""
+
+#: bin/build-standalone.php:109 src/shortcode.php:51
+msgid "This form needs JavaScript."
+msgstr ""
+
+#: src/config.php:48
+msgid "Google Classroom"
+msgstr ""
+
+#: src/config.php:61
+msgid "Student's full name"
+msgstr ""
+
+#: src/config.php:62
+msgid "Student's date of birth"
+msgstr ""
+
+#: src/config.php:63
+msgid "Teacher's full name"
+msgstr ""
+
+#: src/config.php:64
+msgid "Network"
+msgstr ""
+
+#: src/config.php:65
+msgid "Direct network for public servants; partner network for staff who are not public servants."
+msgstr ""
+
+#: src/config.php:66
+msgid "Partner network (CPF)"
+msgstr ""
+
+#: src/config.php:67
+msgid "Direct network (RF)"
+msgstr ""
+
+#: src/config.php:68
+msgid "Registro Funcional (RF)"
+msgstr ""
+
+#: src/config.php:69
+msgid "The 7 digits, without the check digit."
+msgstr ""
+
+#: src/config.php:70
+msgid "CPF"
+msgstr ""
+
+#: src/config.php:71
+msgid "Find the email"
+msgstr ""
+
+#: src/config.php:72
+msgid "The student's email is:"
+msgstr ""
+
+#: src/config.php:73
+msgid "The teacher's email is:"
+msgstr ""
+
+#: src/config.php:74
+msgid "The initial password is:"
+msgstr ""
+
+#: src/config.php:75
+msgid "Copy email"
+msgstr ""
+
+#: src/config.php:76
+msgid "Copy password"
+msgstr ""
+
+#: src/config.php:77
+msgid "Email copied."
+msgstr ""
+
+#: src/config.php:78
+msgid "Password copied."
+msgstr ""
+
+#: src/config.php:79
+msgid "Could not copy; select the text and copy it by hand."
+msgstr ""
+
+#: src/config.php:80
+msgid "Email found. Write it down with the password."
+msgstr ""
+
+#: src/config.php:81
+msgid "Check the fields marked below."
+msgstr ""
+
+#: src/config.php:82
+msgid "Type the full name, with at least a first and a last name."
+msgstr ""
+
+#: src/config.php:83
+msgid "Choose a valid date of birth."
+msgstr ""
+
+#: src/config.php:84
+msgid "Type the 7 digits of the RF."
+msgstr ""
+
+#: src/config.php:85
+msgid "Type a valid CPF."
+msgstr ""
+
+#: src/config.php:86
+msgid "Then sign in with this email and password, not a personal account, at:"
+msgstr ""
+
+#: src/config.php:87
+msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
+msgstr ""
+
+#. Plugin header: Description
+msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."
+msgstr ""

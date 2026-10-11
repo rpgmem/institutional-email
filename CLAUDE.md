@@ -84,7 +84,9 @@ Force push stays allowed on `develop`, because the post-release sync is a reset.
 3. **After it lands on `main`,** tag that commit (`vX.Y.Z`) and push the tag. `.github/workflows/release.yml` then:
    - checks the tag against the header version;
    - builds the zip through `bin/build-release-zip.sh` and `.distignore`;
-   - publishes a GitHub Release whose notes are that CHANGELOG section, marked as the latest. The plugin's updater reads `releases/latest`.
+   - builds the standalone HTML from the tag's own files (`bin/build-standalone.php`) and attaches it beside the zip;
+   - publishes a GitHub Release whose notes are that CHANGELOG section, marked as the latest. The plugin's updater reads `releases/latest`;
+   - calls `.github/workflows/pages.yml`, which publishes that release's HTML on GitHub Pages.
 
    The Lint workflow runs the same build against the newest tag on every PR, so a broken `.distignore` or CHANGELOG section fails there first.
 
@@ -105,7 +107,7 @@ The zip ships no Composer or npm dependency. The autoloader is inline in the mai
   - `TESTES_SSH_HOST`, `TESTES_SSH_USER`, `TESTES_SSH_KEY` (no passphrase) and the optional `TESTES_SSH_PORT` carry the same values as in the other repositories;
   - `TESTES_REMOTE_PATH` is this plugin's own folder: `…/wp-content/plugins/institutional-email`, absolute, no trailing slash.
 - **The path is checked before anything is sent.** `--delete` empties whatever directory it is pointed at, so the workflow refuses a path that is not absolute or does not end in `/wp-content/plugins/institutional-email`.
-- **The smoke** (`.github/scripts/testes-smoke.php`) boots the real WordPress. It checks two things: the plugin is active, and `Plugin::VERSION` on the host equals the deployed commit. A boot that stops early fails; a timeout only warns.
+- **The smoke** (`.github/scripts/testes-smoke.php`) boots the real WordPress. It checks three things: the plugin is active, `Plugin::VERSION` on the host equals the deployed commit, and the shortcode is registered. A boot that stops early fails; a timeout only warns.
 - **It is an alarm, not a gate:** it runs after the merge. Anything that must block a merge belongs in CI.
 
 ## Quality gates
@@ -128,6 +130,14 @@ vendor/bin/phpcs
 npm run lint
 npm test
 ```
+
+## The standalone page and GitHub Pages
+
+- `php bin/build-standalone.php <version> <out-file> [locale]` writes one self-contained HTML file: the stylesheet and the script are inlined, and the configuration is `Config::defaults()` translated from `languages/` (pt_BR by default). Nothing is fetched.
+- It shows the students' form; `?form=teachers` in the address shows the teachers'. The plugin's shortcode ignores the address and reads its `form` attribute.
+- With `-` as the out file it prints the configuration as JSON. The Vitest suite reads it that way, so the JS tests run against the real strings, never a copy.
+- **Pages serves the release asset, not a build from a branch,** so the page is always the file the release offers for download. `pages.yml` runs from `release.yml` after a tag push (a release created with the workflow token fires no `release` event) and by hand through `workflow_dispatch`. Pages must be enabled with **GitHub Actions** as its source.
+- A historical release published by hand never replaces the page.
 
 ## Translations
 
