@@ -144,6 +144,28 @@
 	syncShown();
 
 	/**
+	 * Switching the design off clears it: the fields it shows go back to
+	 * their defaults, as the server stores them, so switching it on again
+	 * starts from the defaults rather than from what was set before.
+	 */
+	var design = document.querySelector( 'input[type="checkbox"][data-ie-autosave="custom_style"]' );
+	if ( design ) {
+		design.addEventListener( 'change', function () {
+			if ( design.checked ) {
+				return;
+			}
+			document.querySelectorAll( '[data-ie-shown-by="custom_style"] [data-ie-default]' ).forEach( function ( field ) {
+				var initial = field.getAttribute( 'data-ie-default' );
+				if ( 'radio' === field.type ) {
+					field.checked = field.value === initial;
+				} else {
+					field.value = initial;
+				}
+			} );
+		} );
+	}
+
+	/**
 	 * Copy buttons: the field named by `data-ie-copy` goes to the
 	 * clipboard, and the button says so for a moment.
 	 */

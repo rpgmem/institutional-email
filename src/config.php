@@ -44,6 +44,31 @@ final class Config {
 	public const FORM_WIDTH = 640;
 
 	/**
+	 * The form's colours, as the stylesheet declares them. Each key is a
+	 * custom property of the form, `--ie-` plus the key with dashes.
+	 */
+	public const COLORS = array(
+		'accent'      => '#2271b1',
+		'accent_text' => '#ffffff',
+		'border'      => '#8c8f94',
+		'muted'       => '#50575e',
+		'error'       => '#b32d2e',
+		'ok_bg'       => '#edfaef',
+		'ok_border'   => '#00a32a',
+		'value_bg'    => '#f6f7f7',
+	);
+
+	/**
+	 * The corners' radius, in pixels, as the stylesheet declares it.
+	 */
+	public const RADIUS = 4;
+
+	/**
+	 * The fonts the form can use: its own (the stylesheet's) or the theme's.
+	 */
+	public const FONTS = array( 'form', 'theme' );
+
+	/**
 	 * The school networks a form can serve: São Paulo city schools (RME/SP)
 	 * and São Paulo state schools (SEDUC-SP).
 	 */

@@ -36,6 +36,8 @@ final class Settings {
 
 	public const NAME_MAX = 60;
 
+	public const RADIUS_MAX = 24;
+
 	/**
 	 * A Google Analytics 4 measurement ID, as Google shows it: G-XXXXXXXXXX.
 	 */
@@ -52,7 +54,7 @@ final class Settings {
 	/**
 	 * The stored settings, completed with their defaults.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function get(): array {
 		$stored = get_option( self::OPTION, array() );
@@ -62,7 +64,7 @@ final class Settings {
 	/**
 	 * The settings an install starts with.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
@@ -80,6 +82,11 @@ final class Settings {
 			// administrator turns it on and gives a measurement ID.
 			'analytics'        => false,
 			'analytics_id'     => '',
+			// Off by default: the form keeps the stylesheet's own look.
+			'custom_style'     => false,
+			'colors'           => Config::COLORS,
+			'radius'           => Config::RADIUS,
+			'font'             => Config::FONTS[0],
 			// Empty means the translated default name.
 			'platform_name'    => '',
 			'platform_url'     => Config::PLATFORM_URL,
@@ -94,7 +101,7 @@ final class Settings {
 	 * value written by an older version still yields a usable configuration.
 	 *
 	 * @param mixed $input Raw settings.
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
@@ -126,6 +133,10 @@ final class Settings {
 
 		$network = (string) ( $input['network'] ?? Config::NETWORKS[0] );
 
+		// Switching the design off resets it: the width, colours, corners and
+		// font go back to their defaults, so switching it on again starts clean.
+		$custom = ! empty( $input['custom_style'] );
+
 		return array(
 			'network'          => in_array( $network, Config::NETWORKS, true ) ? $network : Config::NETWORKS[0],
 			'forms'            => $forms,
@@ -133,13 +144,17 @@ final class Settings {
 			'domain'           => '' !== $domain ? $domain : Config::DOMAIN,
 			'password'         => $password,
 			'middle_min'       => min( self::MIDDLE_MIN_MAX, max( self::MIDDLE_MIN_MIN, $middle ) ),
-			'form_width'       => min( self::FORM_WIDTH_MAX, max( self::FORM_WIDTH_MIN, $width ) ),
+			'form_width'       => $custom ? min( self::FORM_WIDTH_MAX, max( self::FORM_WIDTH_MIN, $width ) ) : Config::FORM_WIDTH,
 			// Absent means \"never saved\": keep the default. The form posts a
 			// hidden 0 before the checkbox, so unticking it is never absent.
 			'check_rf_digit'   => array_key_exists( 'check_rf_digit', $input ) ? ! empty( $input['check_rf_digit'] ) : true,
 			'teacher_networks' => $teachers,
 			'analytics'        => ! empty( $input['analytics'] ),
 			'analytics_id'     => self::analyticsId( $input['analytics_id'] ?? '' ),
+			'custom_style'     => $custom,
+			'colors'           => $custom ? self::colors( $input['colors'] ?? array() ) : Config::COLORS,
+			'radius'           => $custom ? min( self::RADIUS_MAX, max( 0, (int) ( $input['radius'] ?? Config::RADIUS ) ) ) : Config::RADIUS,
+			'font'             => $custom && in_array( $input['font'] ?? '', Config::FONTS, true ) ? (string) $input['font'] : Config::FONTS[0],
 			'platform_name'    => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
 			// Absent means "never saved": keep the default. An emptied field
 			// is a choice: the form then shows no next step.
@@ -235,6 +250,47 @@ final class Settings {
 	 */
 	public static function siteConfig(): array {
 		return self::apply( Config::defaults(), self::get() );
+	}
+
+	/**
+	 * The CSS custom properties the container carries when the appearance is
+	 * customised; '' when it is not, so the stylesheet's own look applies.
+	 *
+	 * Every value is built from validated settings (#rrggbb colours, an
+	 * integer radius, a known font), so it is safe inside a style attribute.
+	 *
+	 * @param array<string, mixed> $settings Sanitized settings.
+	 */
+	public static function styleVars( array $settings ): string {
+		if ( empty( $settings['custom_style'] ) ) {
+			return '';
+		}
+		$vars = array( '--ie-form-width: ' . (int) $settings['form_width'] . 'px' );
+		foreach ( self::colors( $settings['colors'] ?? array() ) as $key => $color ) {
+			$vars[] = '--ie-' . str_replace( '_', '-', $key ) . ': ' . $color;
+		}
+		$vars[] = '--ie-radius: ' . (int) $settings['radius'] . 'px';
+		if ( 'theme' === ( $settings['font'] ?? '' ) ) {
+			$vars[] = '--ie-font: inherit';
+		}
+		return implode( '; ', $vars );
+	}
+
+	/**
+	 * The colours as stored: every known key, a #rrggbb value, the default
+	 * where a value is missing or is not a colour.
+	 *
+	 * @param mixed $input Raw colours, key => value.
+	 * @return array<string, string>
+	 */
+	public static function colors( $input ): array {
+		$input  = is_array( $input ) ? $input : array();
+		$colors = array();
+		foreach ( Config::COLORS as $key => $default ) {
+			$value          = is_scalar( $input[ $key ] ?? null ) ? strtolower( trim( (string) $input[ $key ] ) ) : '';
+			$colors[ $key ] = 1 === preg_match( '/^#[0-9a-f]{6}$/', $value ) ? $value : $default;
+		}
+		return $colors;
 	}
 
 	/**

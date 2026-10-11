@@ -86,7 +86,9 @@ final class SettingsTest extends WP_UnitTestCase {
 
 	public function test_the_form_width_reaches_the_container(): void {
 		update_option( Settings::OPTION, array( 'form_width' => '900' ) );
-		self::assertStringContainsString( 'style="--ie-form-width: 900px"', do_shortcode( '[institutional_email]' ) );
+		self::assertStringNotContainsString( 'style=', do_shortcode( '[institutional_email]' ), 'Without the Design switch on, the stylesheet keeps its own width.' );
+		update_option( Settings::OPTION, array( 'form_width' => '900', 'custom_style' => '1' ) );
+		self::assertStringContainsString( 'style="--ie-form-width: 900px; ', do_shortcode( '[institutional_email]' ) );
 	}
 
 	public function test_logged_in_only_keeps_the_form_from_visitors(): void {
@@ -129,6 +131,8 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[form_width]" value="640"', $html );
 		self::assertStringContainsString( 'data-ie-autosave="check_rf_digit"', $html );
 		self::assertStringContainsString( 'data-ie-autosave="analytics"', $html );
+		self::assertStringContainsString( 'data-ie-autosave="custom_style"', $html );
+		self::assertSame( count( Config::COLORS ), preg_match_all( '/type="color" id="ie-color-/', $html ) );
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[analytics_id]"', $html );
 		self::assertSame( count( Config::TEACHER_NETWORKS ), substr_count( $html, 'data-ie-autosave="teacher_networks"' ) );
 	}

@@ -37,9 +37,10 @@ Example: RA 123456789, check digit X, born on 7 March 2012 → `000123456789xsp@
 
 In **Settings → Institutional Email** an administrator sets, for every form on the site:
 
-- **General:** the school network (city or state), the forms offered, which of the partner network, the direct network and interns the teachers' form offers, the form's width, who may use them (everyone, or logged-in users only), and optional Google Analytics (off by default; only a GA4 measurement ID, never a pasted snippet).
+- **General:** the school network (city or state), the forms offered, which of the partner network, the direct network and interns the teachers' form offers, who may use them (everyone, or logged-in users only), and optional Google Analytics (off by default; only a GA4 measurement ID, never a pasted snippet).
 - **Address rules:** for the city schools, the domain, how long a middle name must be to give its initial, the RF check digit and the initial password; the state rules, which have nothing to set.
 - **Texts:** the platform the result links to (Google Classroom by default; empty hides the line), and any label, hint or message of the form.
+- **Design:** off by default; switched on, the form's width, the colours of the buttons, fields, hints, errors and result, the rounded corners and the font.
 - **Documentation:** what every option does, with examples.
 
 **In an iframe**, without WordPress:
@@ -58,6 +59,7 @@ Add `?form=teachers` to the address for the teachers' form, and `?network=state`
 | ![Settings, General tab](docs/screenshots/4-general.png) | ![Settings, Address rules tab](docs/screenshots/5-rules.png) |
 | ![Settings, Texts tab](docs/screenshots/6-texts.png) | ![Settings, Documentation tab](docs/screenshots/7-documentation.png) |
 | ![State students' form](docs/screenshots/8-state-students.png) | ![State teachers: the SED link](docs/screenshots/9-state-teachers.png) |
+| ![Settings, Design tab](docs/screenshots/10-design.png) | |
 
 ## Privacy
 
