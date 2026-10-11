@@ -157,6 +157,23 @@ describe( 'addresses', () => {
 		expect( gen.teacherEmail( { network: 'partner', name: 'A B', cpf: '123' }, config ).errors ).toEqual( [ 'cpf' ] );
 	} );
 
+	it( 'ignores every kind of space and the invisible characters a paste carries', () => {
+		const expected = 'mariaasilva.07032012@edu.sme.prefeitura.sp.gov.br';
+		[
+			'   Maria   Aparecida   da   Silva   ',
+			'Maria\tAparecida\nda Silva',
+			'Maria\u00a0Aparecida\u00a0da\u00a0Silva',
+			'Maria\u2009Aparecida\u3000da\u202fSilva',
+			'Ma\u200bria Apare\u200dcida da Sil\ufeffva\u00ad',
+		].forEach( ( name ) => {
+			expect( gen.studentEmail( { name, birthDate: '2012-03-07' }, config, TODAY ).email ).toBe( expected );
+		} );
+		expect( gen.teacherEmail( { network: 'direct', name: ' Maria\ufeff  Silva ', rf: ' 518 178-0 ' }, config ).email )
+			.toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
+		expect( gen.teacherEmail( { network: 'intern', name: 'Maria Silva', cpf: ' 529 982 247 25 ' }, config ).email )
+			.toBe( 'mariasilva.e52998224725@edu.sme.prefeitura.sp.gov.br' );
+	} );
+
 	it( 'uses the configured middle-name length', () => {
 		expect( gen.studentEmail( { name: 'Ana Rui Souza', birthDate: '2012-03-07' }, Object.assign( {}, config, { middleMin: 3 } ), TODAY ).email )
 			.toBe( 'anarsouza.07032012@edu.sme.prefeitura.sp.gov.br' );

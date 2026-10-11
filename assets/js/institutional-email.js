@@ -42,7 +42,11 @@
 	 * @return {string[]} The parts, in order, none empty.
 	 */
 	function nameParts( name ) {
+		// Invisible characters a paste can carry are dropped before splitting:
+		// U+FEFF counts as a space in a regular expression, so "Sil\uFEFFva"
+		// would otherwise become the two names "sil" and "va".
 		var plain = String( name || '' )
+			.replace( /[\u00ad\u200b-\u200d\u2060\ufeff]/g, '' )
 			.toLowerCase()
 			.replace( /[æœøßłđðþı]/g, function ( c ) {
 				return LIGATURES[ c ];
