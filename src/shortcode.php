@@ -23,6 +23,11 @@ final class Shortcode {
 	public const HANDLE = 'institutional-email';
 
 	/**
+	 * Google's tag, enqueued only when Analytics is on.
+	 */
+	public const GTAG_HANDLE = 'institutional-email-gtag';
+
+	/**
 	 * Hook the shortcode.
 	 */
 	public static function register(): void {
@@ -62,7 +67,7 @@ final class Shortcode {
 		$form    = self::form( (string) $atts['form'], $settings['forms'] );
 		$network = self::network( (string) $atts['network'], $settings['network'] );
 
-		self::enqueue();
+		self::enqueue( $settings );
 
 		return sprintf(
 			'<div class="ie-generator" data-ie-form="%1$s" data-ie-network="%4$s" style="--ie-form-width: %5$dpx" data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
@@ -102,10 +107,25 @@ final class Shortcode {
 	}
 
 	/**
-	 * Load the script and the stylesheet, only on pages that show a form.
+	 * Load the script and the stylesheet, only on pages that show a form;
+	 * Google's tag too when the settings turn Analytics on, and nothing of
+	 * Google's otherwise.
+	 *
+	 * @param array<string, mixed> $settings Sanitized settings.
 	 */
-	private static function enqueue(): void {
+	private static function enqueue( array $settings ): void {
 		wp_enqueue_style( self::HANDLE, Plugin::url() . 'assets/css/institutional-email.css', array(), Plugin::assetVersion( 'assets/css/institutional-email.css' ) );
 		wp_enqueue_script( self::HANDLE, Plugin::url() . 'assets/js/institutional-email.js', array(), Plugin::assetVersion( 'assets/js/institutional-email.js' ), array( 'in_footer' => true ) );
+
+		if ( ! Settings::analyticsOn( $settings ) ) {
+			return;
+		}
+		$id = (string) $settings['analytics_id'];
+		// Google's own loader, with no version argument: the URL is Google's.
+		wp_enqueue_script( self::GTAG_HANDLE, 'https://www.googletagmanager.com/gtag/js?id=' . rawurlencode( $id ), array(), null, array( 'strategy' => 'async' ) ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- a third-party URL that versions itself.
+		wp_add_inline_script(
+			self::GTAG_HANDLE,
+			'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config",' . (string) wp_json_encode( $id ) . ');'
+		);
 	}
 }

@@ -80,7 +80,7 @@ final class Config {
 	/**
 	 * The configuration the script reads.
 	 *
-	 * @return array{network: string, domain: string, password: string, middleMin: int, checkRfDigit: bool, teacherNetworks: list<string>, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
+	 * @return array{network: string, domain: string, password: string, middleMin: int, checkRfDigit: bool, teacherNetworks: list<string>, analytics: bool, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
@@ -90,6 +90,7 @@ final class Config {
 			'middleMin'       => self::MIDDLE_MIN,
 			'checkRfDigit'    => true,
 			'teacherNetworks' => self::TEACHER_NETWORKS,
+			'analytics'       => false,
 			'state'           => array(
 				'domain'     => self::STATE_DOMAIN,
 				'suffix'     => self::STATE_SUFFIX,

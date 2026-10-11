@@ -64,6 +64,7 @@ final class Documentation {
 					array( __( 'Forms offered', 'institutional-email' ), __( 'A shortcode that asks for a form that is not offered shows the first one that is.', 'institutional-email' ) ),
 					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
 					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
+					array( __( 'Google Analytics', 'institutional-email' ), __( 'Off by default, and then nothing of Google\'s is loaded. Switched on with a measurement ID (G-XXXXXXXXXX), the pages that show a form load Google\'s tag and record each address worked out, with only the form and the network.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
 				),
 				'note'  => __( 'The on/off switches save as soon as they are flipped. Everything else saves with "Save Changes".', 'institutional-email' ),
@@ -108,6 +109,7 @@ final class Documentation {
 				'intro' => __( 'Nothing typed in the form is sent to the site, and the plugin stores no personal data.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'In the browser', 'institutional-email' ), __( 'The address is worked out on the visitor\'s device, and nothing is kept after the page is closed.', 'institutional-email' ) ),
+					array( __( 'With Google Analytics', 'institutional-email' ), __( 'If an administrator switches it on, Google receives each visit to a page with a form, as on any site that uses it, and an event saying a form worked out an address. What was typed and the address are never sent.', 'institutional-email' ) ),
 					array( __( 'On the site', 'institutional-email' ), __( 'Only these settings are stored, in one option that is deleted when the plugin is.', 'institutional-email' ) ),
 				),
 			),

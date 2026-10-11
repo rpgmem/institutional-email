@@ -416,6 +416,25 @@ describe( 'teacher form', () => {
 		expect( ui.email() ).toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
+	it( 'records only the form and the network, and only when the settings load Analytics', () => {
+		window.gtag = vi.fn();
+		const fill = ( ui, div ) => {
+			type( ui.inputs.name, 'Maria da Silva' );
+			type( ui.inputs.cpf, '52998224725' );
+			submit( div );
+		};
+
+		let div = container();
+		fill( gen.mount( div, config, 'teachers' ), div );
+		expect( window.gtag ).not.toHaveBeenCalled();
+
+		div = container();
+		fill( gen.mount( div, Object.assign( {}, config, { analytics: true } ), 'teachers' ), div );
+		expect( window.gtag ).toHaveBeenCalledTimes( 1 );
+		expect( window.gtag ).toHaveBeenCalledWith( 'event', 'institutional_email_generated', { form: 'teachers', network: 'city' } );
+		delete window.gtag;
+	} );
+
 	it( 'marks a wrong CPF', () => {
 		const div = container();
 		const ui = gen.mount( div, config, 'teachers' );

@@ -54,6 +54,15 @@ final class AutosaveTest extends TestCase {
 		self::assertSame( Config::TEACHER_NETWORKS, $none['teacher_networks'], 'None ticked offers all three.' );
 	}
 
+	public function test_the_analytics_switch_saves_on_its_own(): void {
+		$on = Autosave::apply( Settings::defaults(), 'analytics', '1' );
+		self::assertIsArray( $on );
+		self::assertTrue( $on['analytics'] );
+		$off = Autosave::apply( $on, 'analytics', '0' );
+		self::assertIsArray( $off );
+		self::assertFalse( $off['analytics'] );
+	}
+
 	public function test_no_form_ticked_offers_both(): void {
 		$saved = Autosave::apply( Settings::defaults(), 'forms', '' );
 		self::assertIsArray( $saved );

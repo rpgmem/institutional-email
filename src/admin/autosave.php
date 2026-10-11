@@ -26,7 +26,7 @@ final class Autosave {
 	/**
 	 * The keys a toggle may save on its own.
 	 */
-	public const KEYS = array( 'forms', 'teacher_networks', 'check_rf_digit' );
+	public const KEYS = array( 'forms', 'teacher_networks', 'check_rf_digit', 'analytics' );
 
 	/**
 	 * Hook the handler. Logged-in only: there is no `nopriv` variant.
@@ -64,7 +64,7 @@ final class Autosave {
 	 * Apply one toggle to the settings.
 	 *
 	 * @param array<string, mixed> $settings Sanitized settings.
-	 * @param string               $key      `forms`, `teacher_networks` or `check_rf_digit`.
+	 * @param string               $key      `forms`, `teacher_networks`, `check_rf_digit` or `analytics`.
 	 * @param mixed                $value    The ticked ids, or '1' / '0'.
 	 * @return array<string, mixed>|WP_Error The sanitized settings, or why the change was refused.
 	 */

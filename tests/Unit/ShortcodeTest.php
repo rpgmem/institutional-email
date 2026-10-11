@@ -87,6 +87,36 @@ final class ShortcodeTest extends TestCase {
 		self::assertStringContainsString( 'data-ie-form="teachers"', Shortcode::render( array( 'form' => 'students' ) ) );
 	}
 
+	public function test_analytics_off_loads_nothing_of_googles(): void {
+		$this->stored = array( 'analytics' => '0', 'analytics_id' => 'G-ABC1234' );
+		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::any(), \Mockery::any(), \Mockery::any(), \Mockery::any() );
+		Functions\expect( 'wp_add_inline_script' )->never();
+
+		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', Shortcode::render(), $m ) );
+		self::assertFalse( json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true )['analytics'] );
+	}
+
+	public function test_analytics_on_without_an_id_loads_nothing_of_googles(): void {
+		$this->stored = array( 'analytics' => '1', 'analytics_id' => 'not-an-id' );
+		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\expect( 'wp_enqueue_script' )->once();
+		Functions\expect( 'wp_add_inline_script' )->never();
+
+		Shortcode::render();
+	}
+
+	public function test_analytics_on_loads_googles_tag_with_the_id(): void {
+		$this->stored = array( 'analytics' => '1', 'analytics_id' => ' g-abc1234 ' );
+		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::any(), \Mockery::any(), \Mockery::any(), \Mockery::any() );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( Shortcode::GTAG_HANDLE, 'https://www.googletagmanager.com/gtag/js?id=G-ABC1234', array(), null, array( 'strategy' => 'async' ) );
+		Functions\expect( 'wp_add_inline_script' )->once()->with( Shortcode::GTAG_HANDLE, \Mockery::on( static fn( string $js ): bool => str_contains( $js, 'gtag("config","G-ABC1234")' ) ) );
+
+		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', Shortcode::render(), $m ) );
+		self::assertTrue( json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true )['analytics'] );
+	}
+
 	public function test_the_settings_reach_the_configuration(): void {
 		$this->stored = array( 'domain' => 'Example.ORG', 'middle_min' => 3, 'platform_url' => '' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );

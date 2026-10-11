@@ -17,6 +17,7 @@ The forms were created in 2020 by the Educational Technology team of E.M.E.F. Jo
 - **A standalone page for iframes** (#16). Each release attaches a self-contained HTML file, and GitHub Pages serves the latest one at rpgmem.github.io/institutional-email (`?form=teachers` for the teachers' form).
 - **Settings → Institutional Email** (#17). The forms offered and who may use them, how wide the form grows, the domain, how long a middle name must be to count, the initial password, the platform the result links to, and every text of the form, grouped by school network and by form (#26), with a Documentation tab explaining each.
 - **Updates from GitHub releases** (#18), each package checked against its published SHA-256.
+- **Optional Google Analytics** (#29). Off by default, and then nothing of Google's is loaded. Switched on with a GA4 measurement ID, the pages with a form load Google's tag and record each address worked out with only the form and the network, never what was typed.
 - **São Paulo state schools (SEDUC-SP)** (#13). Settings → General chooses the school network; `network="state"` on a shortcode, or `?network=state` on the standalone page, serves it on one page. State students give their RA (padded with zeros to 12 digits), its check digit and their date of birth, which is also the initial password; state teachers are pointed to the SED, where their address is created.
 - **Interns of the city schools** (#24). The teachers' form offers them next to the two networks; they give their CPF and the address carries an "e" before its digits (`mariasilva.e52998224725`). Settings → General chooses which of the partner network, the direct network and interns the teachers' form offers (#25).
 - **The RF's check digit is checked** (#13), with Free Form Certificate's rule, so a mistyped RF is refused instead of becoming an address that does not exist; a switch on the Address rules tab turns it off. RF and CPF are masked as they are typed, `000.000-0` and `000.000.000-00`.
@@ -29,7 +30,7 @@ The forms were created in 2020 by the Educational Technology team of E.M.E.F. Jo
 
 ### Removed
 
-- **The Heroku pages, jQuery, the CDN libraries and Google Analytics** (#16, #20). The forms load no third-party file and collect no usage data.
+- **The Heroku pages, jQuery, the CDN libraries and the hard-coded Google Analytics** (#16, #20). The forms load no third-party file and collect no usage data, unless an administrator switches Analytics on with the site's own ID (#29).
 
 ## [0.5.0] (2026-10-11) — `6b1ab33f`
 
