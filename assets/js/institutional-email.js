@@ -41,19 +41,21 @@
 
 	/**
 	 * A student's name part of the address: the first name, the initial of
-	 * every middle name longer than three letters (so "da", "dos", "de" drop
-	 * out), and the last name.
+	 * every middle name of at least `min` letters (by default 4, so "da",
+	 * "dos", "de" drop out), and the last name.
 	 *
-	 * @param {string} name Full name.
+	 * @param {string} name  Full name.
+	 * @param {number} [min] Letters a middle name needs to count.
 	 * @return {string} e.g. "mariaasilva" for "Maria Aparecida da Silva".
 	 */
-	function studentName( name ) {
+	function studentName( name, min ) {
 		var parts = nameParts( name );
+		var least = min > 0 ? min : 4;
 		if ( parts.length < 2 ) {
 			return '';
 		}
 		var middle = parts.slice( 1, -1 ).filter( function ( part ) {
-			return part.length > 3;
+			return part.length >= least;
 		} ).map( function ( part ) {
 			return part.charAt( 0 );
 		} );
@@ -148,13 +150,13 @@
 	 * A student's address, or the problems that stop it.
 	 *
 	 * @param {Object} values { name, birthDate }.
-	 * @param {Object} config Configuration (domain).
+	 * @param {Object} config Configuration (domain, middleMin).
 	 * @param {Date}   [today] Reference day, for the tests.
 	 * @return {{email: string, errors: string[]}} The address, or the keys of the fields in error.
 	 */
 	function studentEmail( values, config, today ) {
 		var errors = [];
-		var name = studentName( values.name );
+		var name = studentName( values.name, config.middleMin );
 		var date = birthDate( values.birthDate, today );
 		if ( ! name ) {
 			errors.push( 'name' );
@@ -339,15 +341,18 @@
 			el( doc, 'p', { class: 'ie-result-row' }, [ passwordOut, copyPassword ] ),
 		] );
 
-		var platform = el( doc, 'p', { class: 'ie-next' }, [
+		// Without a platform address there is no next step to point at.
+		var platform = config.platformUrl ? el( doc, 'p', { class: 'ie-next' }, [
 			doc.createTextNode( s.nextStep + ' ' ),
-			el( doc, 'a', { href: config.platformUrl, target: '_blank', rel: 'noopener noreferrer', text: config.platformName } ),
-		] );
+			el( doc, 'a', { href: config.platformUrl, target: '_blank', rel: 'noopener noreferrer', text: config.platformName || config.platformUrl } ),
+		] ) : null;
 
 		container.appendChild( formEl );
 		container.appendChild( result );
 		container.appendChild( status );
-		container.appendChild( platform );
+		if ( platform ) {
+			container.appendChild( platform );
+		}
 		if ( s.privacy ) {
 			container.appendChild( el( doc, 'p', { class: 'ie-privacy', text: s.privacy } ) );
 		}

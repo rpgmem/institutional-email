@@ -32,6 +32,12 @@ final class Config {
 	public const PLATFORM_URL = 'https://classroom.google.com/';
 
 	/**
+	 * A student's middle name gives its initial to the address when it has at
+	 * least this many letters, so "da", "dos" and "Rui" drop out.
+	 */
+	public const MIDDLE_MIN = 4;
+
+	/**
 	 * The forms the shortcode and the standalone page offer.
 	 */
 	public const FORMS = array( 'students', 'teachers' );
@@ -39,12 +45,13 @@ final class Config {
 	/**
 	 * The configuration the script reads.
 	 *
-	 * @return array{domain: string, password: string, platformName: string, platformUrl: string, strings: array<string, string>}
+	 * @return array{domain: string, password: string, middleMin: int, platformName: string, platformUrl: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
 			'domain'       => self::DOMAIN,
 			'password'     => self::PASSWORD,
+			'middleMin'    => self::MIDDLE_MIN,
 			'platformName' => __( 'Google Classroom', 'institutional-email' ),
 			'platformUrl'  => self::PLATFORM_URL,
 			'strings'      => self::strings(),

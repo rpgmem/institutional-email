@@ -39,6 +39,13 @@ describe( 'studentName', () => {
 	it( 'needs a first and a last name', () => {
 		expect( gen.studentName( 'Maria' ) ).toBe( '' );
 	} );
+
+	it( 'takes the middle-name length it is given', () => {
+		expect( gen.studentName( 'Ana Rui de Souza', 3 ) ).toBe( 'anarsouza' );
+		expect( gen.studentName( 'Ana Rui de Souza', 2 ) ).toBe( 'anardsouza' );
+		expect( gen.studentName( 'Ana Paula Souza', 6 ) ).toBe( 'anasouza' );
+		expect( gen.studentName( 'Ana Paula Souza', 0 ) ).toBe( 'anapsouza' );
+	} );
 } );
 
 describe( 'teacherName', () => {
@@ -97,6 +104,11 @@ describe( 'addresses', () => {
 	it( 'reports the teacher fields in error', () => {
 		expect( gen.teacherEmail( { network: 'direct', name: '', rf: '123' }, config ).errors ).toEqual( [ 'name', 'rf' ] );
 		expect( gen.teacherEmail( { network: 'partner', name: 'A B', cpf: '123' }, config ).errors ).toEqual( [ 'cpf' ] );
+	} );
+
+	it( 'uses the configured middle-name length', () => {
+		expect( gen.studentEmail( { name: 'Ana Rui Souza', birthDate: '2012-03-07' }, Object.assign( {}, config, { middleMin: 3 } ), TODAY ).email )
+			.toBe( 'anarsouza.07032012@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
 	it( 'uses the configured domain', () => {
@@ -187,6 +199,12 @@ describe( 'student form', () => {
 		type( ui.inputs.name, 'Maria' );
 		expect( div.querySelector( '.ie-result' ).hidden ).toBe( true );
 		expect( ui.email() ).toBe( '' );
+	} );
+
+	it( 'leaves out the next step when no platform is configured', () => {
+		const div = container();
+		gen.mount( div, Object.assign( {}, config, { platformUrl: '' } ), 'students' );
+		expect( div.querySelector( '.ie-next' ) ).toBeNull();
 	} );
 
 	it( 'prints the typed name as text, never as markup', () => {
