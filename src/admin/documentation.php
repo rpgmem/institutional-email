@@ -33,11 +33,12 @@ final class Documentation {
 			'overview' => array(
 				'title' => __( 'Overview', 'institutional-email' ),
 				'icon'  => 'info',
-				'intro' => __( 'Forms that work out the institutional email address of RME/SP students and teachers. The address is worked out in the visitor\'s browser, so nothing typed reaches the site.', 'institutional-email' ),
+				'intro' => __( 'Forms that work out the institutional email address of São Paulo students and teachers, of the city schools (RME/SP) or of the state schools (SEDUC-SP). The address is worked out in the visitor\'s browser, so nothing typed reaches the site.', 'institutional-email' ),
 				'items' => array(
 					array( '[' . Shortcode::TAG . ']', __( 'Places the students\' form on any page or post. The Copy button on the General tab copies it.', 'institutional-email' ) ),
 					array( 'form="teachers"', __( 'Places the teachers\' form instead. form="students" is the default.', 'institutional-email' ) ),
-					array( __( 'Standalone HTML', 'institutional-email' ), __( 'Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers\' form. It uses the built-in defaults, not these settings.', 'institutional-email' ) ),
+					array( 'network="state"', __( 'Serves the state schools on that page, whatever the General tab says; network="city" serves the city schools.', 'institutional-email' ) ),
+					array( __( 'Standalone HTML', 'institutional-email' ), __( 'Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers\' form and ?network=state for the state schools. It uses the built-in defaults, not these settings.', 'institutional-email' ) ),
 				),
 			),
 			'form'     => array(
@@ -46,7 +47,9 @@ final class Documentation {
 				'intro' => __( 'What a person sees on the page.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Students', 'institutional-email' ), __( 'Full name and date of birth.', 'institutional-email' ) ),
-					array( __( 'Teachers', 'institutional-email' ), __( 'Full name, then the network: the CPF for the partner network, or the 7 digits of the RF for the direct network.', 'institutional-email' ) ),
+					array( __( 'Teachers', 'institutional-email' ), __( 'Full name, then the network: the CPF for the partner network, the 7 digits of the RF for the direct network, or the CPF for an intern.', 'institutional-email' ) ),
+					array( __( 'State students', 'institutional-email' ), __( 'The RA and its check digit, as the SED shows them, and the date of birth, which is also the initial password. A link points to the SED page that looks the RA up.', 'institutional-email' ) ),
+					array( __( 'State teachers', 'institutional-email' ), __( 'No form: an explanation that the address is created on the first access to the SED, and a link there.', 'institutional-email' ) ),
 					array( __( 'Errors', 'institutional-email' ), __( 'Each field says what is wrong, and a status line announces it to screen readers.', 'institutional-email' ) ),
 					array( __( 'Result', 'institutional-email' ), __( 'The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again.', 'institutional-email' ) ),
 				),
@@ -55,8 +58,9 @@ final class Documentation {
 				'title' => __( 'General', 'institutional-email' ),
 				'icon'  => 'settings',
 				'tab'   => 'general',
-				'intro' => __( 'Which forms the site offers and who may use them.', 'institutional-email' ),
+				'intro' => __( 'Which school network the site serves, which forms it offers and who may use them.', 'institutional-email' ),
 				'items' => array(
+					array( __( 'School network', 'institutional-email' ), __( 'City schools (RME/SP) or state schools (SEDUC-SP). A shortcode\'s network="…" can choose the other one for a single page.', 'institutional-email' ) ),
 					array( __( 'Forms offered', 'institutional-email' ), __( 'A shortcode that asks for a form that is not offered shows the first one that is.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
 				),
@@ -66,10 +70,11 @@ final class Documentation {
 				'title' => __( 'Address rules', 'institutional-email' ),
 				'icon'  => 'email',
 				'tab'   => 'rules',
-				'intro' => __( 'How the address is built. Accents are dropped, and only the letters a to z of each name reach it.', 'institutional-email' ),
+				'intro' => __( 'How the address is built. In the city schools accents are dropped, and only the letters a to z of each name reach it.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Students', 'institutional-email' ), __( 'First name, the initial of each middle name that is long enough, last name, a dot, and the date of birth as DDMMYYYY. Maria Aparecida da Silva, born on 7 March 2012: mariaasilva.07032012.', 'institutional-email' ) ),
-					array( __( 'Teachers', 'institutional-email' ), __( 'First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 1234567: mariasilva.1234567.', 'institutional-email' ) ),
+					array( __( 'Teachers', 'institutional-email' ), __( 'First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 5181780: mariasilva.5181780.', 'institutional-email' ) ),
+					array( __( 'Interns', 'institutional-email' ), __( 'As a partner-network teacher, with an "e" before the CPF digits: mariasilva.e52998224725.', 'institutional-email' ) ),
 					array(
 						__( 'Middle names that count', 'institutional-email' ),
 						sprintf(
@@ -81,6 +86,8 @@ final class Documentation {
 						),
 					),
 					array( __( 'Domain and password', 'institutional-email' ), __( 'What comes after the "@", and the password a new account starts with. The password is public: everyone who opens the form sees it.', 'institutional-email' ) ),
+					array( __( 'RF check digit', 'institutional-email' ), __( 'The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist.', 'institutional-email' ) ),
+					array( __( 'State schools', 'institutional-email' ), __( 'A student\'s address is the RA padded with zeros to 12 digits, its check digit and "sp", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set.', 'institutional-email' ) ),
 				),
 			),
 			'texts'    => array(

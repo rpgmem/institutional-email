@@ -40,7 +40,14 @@ final class Shortcode {
 	 * @return string The container markup.
 	 */
 	public static function render( $atts = array() ): string {
-		$atts     = shortcode_atts( array( 'form' => Config::FORMS[0] ), is_array( $atts ) ? $atts : array(), self::TAG );
+		$atts     = shortcode_atts(
+			array(
+				'form'    => Config::FORMS[0],
+				'network' => '',
+			),
+			is_array( $atts ) ? $atts : array(),
+			self::TAG
+		);
 		$settings = Settings::get();
 
 		if ( Settings::ACCESS_LOGGED_IN === $settings['access'] && ! is_user_logged_in() ) {
@@ -52,16 +59,33 @@ final class Shortcode {
 			);
 		}
 
-		$form = self::form( (string) $atts['form'], $settings['forms'] );
+		$form    = self::form( (string) $atts['form'], $settings['forms'] );
+		$network = self::network( (string) $atts['network'], $settings['network'] );
 
 		self::enqueue();
 
 		return sprintf(
-			'<div class="ie-generator" data-ie-form="%1$s" data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
+			'<div class="ie-generator" data-ie-form="%1$s" data-ie-network="%4$s" data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
 			esc_attr( $form ),
 			esc_attr( (string) wp_json_encode( Settings::apply( Config::defaults(), $settings ) ) ),
-			esc_html__( 'This form needs JavaScript.', 'institutional-email' )
+			esc_html__( 'This form needs JavaScript.', 'institutional-email' ),
+			esc_attr( $network )
 		);
+	}
+
+	/**
+	 * A known school network: the shortcode's `network` when it names one,
+	 * else the site's.
+	 *
+	 * @param string $asked Requested network: `city` or `state`, or '' for the site's.
+	 * @param string $site    The site's network.
+	 */
+	public static function network( string $asked, string $site ): string {
+		$asked = strtolower( trim( $asked ) );
+		if ( in_array( $asked, Config::NETWORKS, true ) ) {
+			return $asked;
+		}
+		return in_array( $site, Config::NETWORKS, true ) ? $site : Config::NETWORKS[0];
 	}
 
 	/**

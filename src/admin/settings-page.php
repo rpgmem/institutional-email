@@ -117,6 +117,18 @@ final class SettingsPage {
 	}
 
 	/**
+	 * The school networks, by id, with the name the screen shows.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function networkLabels(): array {
+		return array(
+			'city'  => __( 'São Paulo city schools (RME/SP)', 'institutional-email' ),
+			'state' => __( 'São Paulo state schools (SEDUC-SP)', 'institutional-email' ),
+		);
+	}
+
+	/**
 	 * Render the page.
 	 */
 	public static function render(): void {
@@ -152,13 +164,27 @@ final class SettingsPage {
 			esc_html__( 'Copy', 'institutional-email' ),
 			wp_kses(
 				sprintf(
-					/* translators: %s: the teachers' shortcode. */
-					__( 'Paste it into any page or post: it shows the students\' form. For the teachers\' form, use %s.', 'institutional-email' ),
-					'<code>[' . esc_html( Shortcode::TAG ) . ' form="teachers"]</code>'
+					/* translators: 1: the teachers' shortcode, 2: the state schools' shortcode. */
+					__( 'Paste it into any page or post: it shows the students\' form. For the teachers\' form, use %1$s. To serve the other school network on one page, add network="state" or network="city", as in %2$s.', 'institutional-email' ),
+					'<code>[' . esc_html( Shortcode::TAG ) . ' form="teachers"]</code>',
+					'<code>[' . esc_html( Shortcode::TAG ) . ' network="state"]</code>'
 				),
 				array( 'code' => array() )
 			)
 		);
+
+		echo '<tr><th scope="row">' . esc_html__( 'School network', 'institutional-email' ) . '</th><td><fieldset>';
+		foreach ( self::networkLabels() as $value => $label ) {
+			printf(
+				'<label><input type="radio" name="%1$s[network]" value="%2$s"%3$s> %4$s</label><br>',
+				esc_attr( $name ),
+				esc_attr( $value ),
+				checked( $settings['network'], $value, false ),
+				esc_html( $label )
+			);
+		}
+		echo '<p class="description">' . esc_html__( 'Which addresses the forms work out on this site. City schools: students from name and date of birth, teachers from RF or CPF. State schools: students from the RA and its check digit; teachers are pointed to the SED, where their address is created.', 'institutional-email' ) . '</p>';
+		echo '</fieldset></td></tr>';
 
 		echo '<tr><th scope="row">' . esc_html__( 'Forms offered', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( self::formLabels() as $id => $label ) {
@@ -195,7 +221,7 @@ final class SettingsPage {
 
 		// Rules.
 		self::openPanel( 'rules', $active );
-		self::openCard( __( 'Address', 'institutional-email' ), 'email' );
+		self::openCard( __( 'City schools (RME/SP)', 'institutional-email' ), 'email' );
 		echo '<p class="description">' . esc_html__( 'A student\'s address is the first name, the initial of each longer middle name and the last name, then a dot and the date of birth (DDMMYYYY). A teacher\'s is the first and the last name, then a dot and the RF or the CPF.', 'institutional-email' ) . '</p>';
 		echo '<table class="form-table" role="presentation"><tbody>';
 		printf(
@@ -218,9 +244,23 @@ final class SettingsPage {
 			/* translators: %d: the default number of letters. */
 			esc_html( sprintf( __( 'Only for students. A middle name this long or longer gives its initial to the address; shorter ones, such as "da" and "dos", are left out. Default: %d.', 'institutional-email' ), Config::MIDDLE_MIN ) )
 		);
+		printf(
+			'<tr><th scope="row">%1$s</th><td><input type="hidden" name="%2$s[check_rf_digit]" value="0">',
+			esc_html__( 'RF check digit', 'institutional-email' ),
+			esc_attr( $name )
+		);
+		self::toggle(
+			array(
+				'name'    => $name . '[check_rf_digit]',
+				'checked' => $settings['check_rf_digit'],
+				'label'   => __( 'Refuse an RF whose seventh digit does not match the first six', 'institutional-email' ),
+				'key'     => 'check_rf_digit',
+			)
+		);
+		echo '<p class="description">' . esc_html__( 'Catches a mistyped RF before it becomes an address that does not exist. The rule is the one Free Form Certificate uses; turn it off only if a genuine RF is refused.', 'institutional-email' ) . '</p></td></tr>';
 		echo '</tbody></table></div>';
 
-		self::openCard( __( 'Initial password', 'institutional-email' ), 'key' );
+		self::openCard( __( 'Initial password (city schools)', 'institutional-email' ), 'key' );
 		echo '<table class="form-table" role="presentation"><tbody>';
 		printf(
 			'<tr><th scope="row"><label for="ie-password">%1$s</label></th><td><input type="text" id="ie-password" class="regular-text code" name="%2$s[password]" value="%3$s" maxlength="%4$d" autocomplete="off" required><p class="description">%5$s</p></td></tr>',
@@ -230,7 +270,32 @@ final class SettingsPage {
 			(int) Settings::PASSWORD_MAX,
 			esc_html__( 'The password a new account starts with, shown beside the address. It is public: everyone who opens the form sees it.', 'institutional-email' )
 		);
-		echo '</tbody></table></div></div>';
+		echo '</tbody></table></div>';
+
+		self::openCard( __( 'State schools (SEDUC-SP)', 'institutional-email' ), 'info' );
+		echo '<dl class="ie-rules">';
+		printf(
+			'<dt>%1$s</dt><dd>%2$s</dd>',
+			esc_html__( 'Students', 'institutional-email' ),
+			esc_html(
+				sprintf(
+					/* translators: 1: the address suffix, 2: the domain. */
+					__( 'The RA, padded with zeros to 12 digits, its check digit (0 to 9 or X), then "%1$s" @ %2$s. The initial password is the date of birth (DDMMYYYY).', 'institutional-email' ),
+					Config::STATE_SUFFIX,
+					Config::STATE_DOMAIN
+				)
+			)
+		);
+		printf(
+			'<dt>%1$s</dt><dd>%2$s <a href="%3$s" target="_blank" rel="noopener noreferrer">%4$s</a></dd>',
+			esc_html__( 'Teachers', 'institutional-email' ),
+			esc_html__( 'No rule to apply: the address is created on the first access to the SED, with the SED password. The form explains this and links to', 'institutional-email' ),
+			esc_url( Config::STATE_TEACHER_URL ),
+			esc_html( (string) preg_replace( '#^https?://#', '', Config::STATE_TEACHER_URL ) )
+		);
+		echo '</dl>';
+		echo '<p class="description">' . esc_html__( 'These follow the state rules and have nothing to set; their texts are on the Texts tab.', 'institutional-email' ) . '</p>';
+		echo '</div></div>';
 
 		// Texts.
 		self::openPanel( 'texts', $active );

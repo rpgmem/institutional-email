@@ -73,7 +73,7 @@ final class ConfigTest extends TestCase {
 		$js = (string) file_get_contents( self::SCRIPT );
 		self::assertStringContainsString( "s[ 'error_' + key ]", $js, 'The error strings are no longer read by field key.' );
 
-		preg_match_all( '/\bs\.([A-Za-z]+)\b/', $js, $direct );
+		preg_match_all( '/\bs\.([A-Za-z_]+)\b/', $js, $direct );
 		preg_match_all( "/errors\\.push\\( '([A-Za-z]+)' \\)/", $js, $fields );
 		self::assertNotEmpty( $fields[1], 'The scan found no reported field keys.' );
 

@@ -58,6 +58,20 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertSame( 'Go', $config['strings']['submit'] );
 	}
 
+	public function test_the_network_reaches_the_form_and_a_shortcode_can_override_it(): void {
+		update_option( Settings::OPTION, array( 'network' => 'state', 'check_rf_digit' => '0' ) );
+
+		$html = do_shortcode( '[institutional_email]' );
+		self::assertStringContainsString( 'data-ie-network="state"', $html );
+		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', $html, $m ) );
+		$config = json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true );
+		self::assertSame( 'state', $config['network'] );
+		self::assertFalse( $config['checkRfDigit'] );
+		self::assertSame( Config::STATE_DOMAIN, $config['state']['domain'] );
+
+		self::assertStringContainsString( 'data-ie-network="city"', do_shortcode( '[institutional_email network="city"]' ) );
+	}
+
 	public function test_logged_in_only_keeps_the_form_from_visitors(): void {
 		update_option( Settings::OPTION, array( 'access' => Settings::ACCESS_LOGGED_IN ) );
 
@@ -94,6 +108,8 @@ final class SettingsTest extends WP_UnitTestCase {
 		// A text box for every string the form shows.
 		self::assertSame( count( Config::strings() ), substr_count( $html, 'name="' . Settings::OPTION . '[strings][' ) );
 		self::assertStringContainsString( 'value="[' . Shortcode::TAG . ']" readonly', $html );
+		self::assertStringContainsString( 'name="' . Settings::OPTION . '[network]" value="state"', $html );
+		self::assertStringContainsString( 'data-ie-autosave="check_rf_digit"', $html );
 	}
 
 	public function test_the_tab_parameter_chooses_the_first_panel(): void {

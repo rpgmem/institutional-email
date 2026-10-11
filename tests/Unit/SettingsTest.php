@@ -82,6 +82,20 @@ final class SettingsTest extends TestCase {
 		);
 	}
 
+	public function test_the_network_is_city_or_state(): void {
+		self::assertSame( 'state', Settings::sanitize( array( 'network' => 'state' ) )['network'] );
+		self::assertSame( 'city', Settings::sanitize( array( 'network' => 'federal' ) )['network'] );
+		self::assertSame( 'city', Settings::sanitize( array() )['network'] );
+		self::assertSame( 'state', Settings::apply( Config::defaults(), Settings::sanitize( array( 'network' => 'state' ) ) )['network'] );
+	}
+
+	public function test_the_rf_check_digit_is_on_unless_turned_off(): void {
+		self::assertTrue( Settings::sanitize( array() )['check_rf_digit'], 'Never saved is on.' );
+		self::assertFalse( Settings::sanitize( array( 'check_rf_digit' => '0' ) )['check_rf_digit'] );
+		self::assertTrue( Settings::sanitize( array( 'check_rf_digit' => '1' ) )['check_rf_digit'] );
+		self::assertFalse( Settings::apply( Config::defaults(), Settings::sanitize( array( 'check_rf_digit' => '0' ) ) )['checkRfDigit'] );
+	}
+
 	public function test_numbers_are_brought_into_range(): void {
 		self::assertSame( Settings::MIDDLE_MIN_MIN, Settings::sanitize( array( 'middle_min' => '0' ) )['middle_min'] );
 		self::assertSame( Settings::MIDDLE_MIN_MAX, Settings::sanitize( array( 'middle_min' => '99' ) )['middle_min'] );

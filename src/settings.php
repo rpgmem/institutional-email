@@ -43,7 +43,7 @@ final class Settings {
 	/**
 	 * The stored settings, completed with their defaults.
 	 *
-	 * @return array{forms: list<string>, access: string, domain: string, password: string, middle_min: int, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, check_rf_digit: bool, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function get(): array {
 		$stored = get_option( self::OPTION, array() );
@@ -53,20 +53,23 @@ final class Settings {
 	/**
 	 * The settings an install starts with.
 	 *
-	 * @return array{forms: list<string>, access: string, domain: string, password: string, middle_min: int, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, check_rf_digit: bool, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
-			'forms'         => Config::FORMS,
-			'access'        => self::ACCESS_EVERYONE,
-			'domain'        => Config::DOMAIN,
-			'password'      => Config::PASSWORD,
-			'middle_min'    => Config::MIDDLE_MIN,
+			'network'        => Config::NETWORKS[0],
+			'forms'          => Config::FORMS,
+			'access'         => self::ACCESS_EVERYONE,
+			'domain'         => Config::DOMAIN,
+			'password'       => Config::PASSWORD,
+			'middle_min'     => Config::MIDDLE_MIN,
+			// The RF's check digit is checked unless an administrator turns it off.
+			'check_rf_digit' => true,
 			// Empty means the translated default name.
-			'platform_name' => '',
-			'platform_url'  => Config::PLATFORM_URL,
+			'platform_name'  => '',
+			'platform_url'   => Config::PLATFORM_URL,
 			// Only the texts an administrator changed; the rest stay translated.
-			'strings'       => array(),
+			'strings'        => array(),
 		);
 	}
 
@@ -76,7 +79,7 @@ final class Settings {
 	 * value written by an older version still yields a usable configuration.
 	 *
 	 * @param mixed $input Raw settings.
-	 * @return array{forms: list<string>, access: string, domain: string, password: string, middle_min: int, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, check_rf_digit: bool, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
@@ -96,17 +99,23 @@ final class Settings {
 
 		$access = (string) ( $input['access'] ?? self::ACCESS_EVERYONE );
 
+		$network = (string) ( $input['network'] ?? Config::NETWORKS[0] );
+
 		return array(
-			'forms'         => $forms,
-			'access'        => self::ACCESS_LOGGED_IN === $access ? self::ACCESS_LOGGED_IN : self::ACCESS_EVERYONE,
-			'domain'        => '' !== $domain ? $domain : Config::DOMAIN,
-			'password'      => $password,
-			'middle_min'    => min( self::MIDDLE_MIN_MAX, max( self::MIDDLE_MIN_MIN, $middle ) ),
-			'platform_name' => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
+			'network'        => in_array( $network, Config::NETWORKS, true ) ? $network : Config::NETWORKS[0],
+			'forms'          => $forms,
+			'access'         => self::ACCESS_LOGGED_IN === $access ? self::ACCESS_LOGGED_IN : self::ACCESS_EVERYONE,
+			'domain'         => '' !== $domain ? $domain : Config::DOMAIN,
+			'password'       => $password,
+			'middle_min'     => min( self::MIDDLE_MIN_MAX, max( self::MIDDLE_MIN_MIN, $middle ) ),
+			// Absent means \"never saved\": keep the default. The form posts a
+			// hidden 0 before the checkbox, so unticking it is never absent.
+			'check_rf_digit' => array_key_exists( 'check_rf_digit', $input ) ? ! empty( $input['check_rf_digit'] ) : true,
+			'platform_name'  => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
 			// Absent means "never saved": keep the default. An emptied field
 			// is a choice: the form then shows no next step.
-			'platform_url'  => array_key_exists( 'platform_url', $input ) ? self::url( $input['platform_url'] ) : Config::PLATFORM_URL,
-			'strings'       => self::strings( $input['strings'] ?? array() ),
+			'platform_url'   => array_key_exists( 'platform_url', $input ) ? self::url( $input['platform_url'] ) : Config::PLATFORM_URL,
+			'strings'        => self::strings( $input['strings'] ?? array() ),
 		);
 	}
 
@@ -158,10 +167,12 @@ final class Settings {
 	 * @return array<string, mixed> The configuration the form uses.
 	 */
 	public static function apply( array $config, array $settings ): array {
-		$config['domain']      = (string) $settings['domain'];
-		$config['password']    = (string) $settings['password'];
-		$config['middleMin']   = (int) $settings['middle_min'];
-		$config['platformUrl'] = (string) $settings['platform_url'];
+		$config['domain']       = (string) $settings['domain'];
+		$config['password']     = (string) $settings['password'];
+		$config['middleMin']    = (int) $settings['middle_min'];
+		$config['network']      = (string) $settings['network'];
+		$config['checkRfDigit'] = (bool) $settings['check_rf_digit'];
+		$config['platformUrl']  = (string) $settings['platform_url'];
 		if ( '' !== $settings['platform_name'] ) {
 			$config['platformName'] = (string) $settings['platform_name'];
 		}
