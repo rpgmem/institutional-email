@@ -227,6 +227,7 @@ final class Settings {
 		$config['password']        = (string) $settings['password'];
 		$config['middleMin']       = (int) $settings['middle_min'];
 		$config['network']         = (string) $settings['network'];
+		$config['forms']           = $settings['forms'];
 		$config['checkRfDigit']    = (bool) $settings['check_rf_digit'];
 		$config['teacherNetworks'] = $settings['teacher_networks'];
 		$config['analytics']       = self::analyticsOn( $settings );

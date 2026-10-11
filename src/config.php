@@ -105,11 +105,12 @@ final class Config {
 	/**
 	 * The configuration the script reads.
 	 *
-	 * @return array{network: string, domain: string, password: string, middleMin: int, checkRfDigit: bool, teacherNetworks: list<string>, analytics: bool, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, domain: string, password: string, middleMin: int, checkRfDigit: bool, teacherNetworks: list<string>, analytics: bool, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
 			'network'         => self::NETWORKS[0],
+			'forms'           => self::FORMS,
 			'domain'          => self::DOMAIN,
 			'password'        => self::PASSWORD,
 			'middleMin'       => self::MIDDLE_MIN,
@@ -135,6 +136,9 @@ final class Config {
 	 */
 	public static function strings(): array {
 		return array(
+			'profileLabel'        => __( 'Choose the profile', 'institutional-email' ),
+			'profileStudents'     => __( 'Students', 'institutional-email' ),
+			'profileTeachers'     => __( 'Teachers', 'institutional-email' ),
 			'studentName'         => __( 'Student\'s full name', 'institutional-email' ),
 			'birthDate'           => __( 'Student\'s date of birth', 'institutional-email' ),
 			'teacherName'         => __( 'Teacher\'s full name', 'institutional-email' ),

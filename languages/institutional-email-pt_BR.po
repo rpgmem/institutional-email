@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 15:10+0000\n"
+"POT-Creation-Date: 2026-10-11 22:11+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Institutional Email"
 msgstr "E-mail Institucional"
 
-#: bin/build-standalone.php:110 src/shortcode.php:76
+#: bin/build-standalone.php:110 src/shortcode.php:78
 msgid "This form needs JavaScript."
 msgstr "Este formulário precisa de JavaScript."
 
@@ -45,20 +45,20 @@ msgid "Forms that work out the institutional email address of São Paulo student
 msgstr "Formulários que descobrem o e-mail institucional de alunos e professores de São Paulo, da rede municipal (RME/SP) ou da rede estadual (SEDUC-SP). O endereço é calculado no navegador do visitante, então nada do que é digitado chega ao site."
 
 #: src/admin/documentation.php:38
-msgid "Places the students' form on any page or post. The Copy button on the General tab copies it."
-msgstr "Coloca o formulário de alunos em qualquer página ou post. O botão Copiar da aba Geral o copia."
+msgid "Places the form on any page or post, opening with a profile selector for students and teachers; with only one form offered, it shows that one. The Copy button on the General tab copies it."
+msgstr "Coloca o formulário em qualquer página ou post, abrindo com um seletor de perfil para alunos e professores; se só um formulário for oferecido, mostra esse. O botão Copiar da aba Geral copia o shortcode."
 
 #: src/admin/documentation.php:39
-msgid "Places the teachers' form instead. form=\"students\" is the default."
-msgstr "Coloca o formulário de professores. form=\"students\" é o padrão."
+msgid "Shows only the students' form, with no selector; form=\"teachers\" shows only the teachers'."
+msgstr "Mostra só o formulário de alunos, sem seletor; form=\"teachers\" mostra só o de professores."
 
 #: src/admin/documentation.php:40
 msgid "Serves the state schools on that page, whatever the General tab says; network=\"city\" serves the city schools."
 msgstr "Atende a rede estadual naquela página, independentemente da aba Geral; network=\"city\" atende a rede municipal."
 
 #: src/admin/documentation.php:41
-msgid "Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers' form and ?network=state for the state schools. It uses the built-in defaults, not these settings."
-msgstr "Cada versão também publica um único arquivo HTML com os formulários, para um iframe em um site sem WordPress; acrescente ?form=teachers ao endereço para o formulário de professores e ?network=state para a rede estadual. Ele usa os padrões embutidos, não estas configurações."
+msgid "Every release also publishes a single HTML file with both forms and the profile selector, for an iframe on a site without WordPress; add ?form=students or ?form=teachers to its address for one form alone, and ?network=state for the state schools. It uses the built-in defaults, not these settings."
+msgstr "Cada release também publica um único arquivo HTML com os dois formulários e o seletor de perfil, para um iframe em um site sem WordPress; acrescente ?form=students ou ?form=teachers ao endereço para um formulário só, e ?network=state para as escolas estaduais. Ele usa os padrões embutidos, não estas configurações."
 
 #: src/admin/documentation.php:41
 msgid "Standalone HTML"
@@ -78,7 +78,8 @@ msgstr "Nome completo e data de nascimento."
 
 #: src/admin/documentation.php:49 src/admin/documentation.php:77
 #: src/admin/settings-page.php:353 src/admin/settings-page.php:526
-#: src/admin/settings-page.php:559 src/admin/settings-page.php:572
+#: src/admin/settings-page.php:559 src/admin/settings-page.php:576
+#: src/config.php:140
 msgid "Students"
 msgstr "Alunos"
 
@@ -88,7 +89,7 @@ msgstr "Nome completo e, em seguida, a rede: o CPF para a Rede Conveniada, os 7 
 
 #: src/admin/documentation.php:50 src/admin/documentation.php:78
 #: src/admin/settings-page.php:365 src/admin/settings-page.php:530
-#: src/admin/settings-page.php:563
+#: src/admin/settings-page.php:563 src/config.php:141
 msgid "Teachers"
 msgstr "Professores"
 
@@ -124,7 +125,7 @@ msgstr "Resultado"
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr "O endereço e a senha inicial, cada um com um botão Copiar, e um link para a plataforma onde são usados primeiro. Alterar um campo esconde o resultado até que seja calculado de novo."
 
-#: src/admin/documentation.php:58 src/admin/settings-page.php:592
+#: src/admin/documentation.php:58 src/admin/settings-page.php:596
 msgid "General"
 msgstr "Geral"
 
@@ -176,7 +177,7 @@ msgstr "Quem pode usar o formulário"
 msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
 msgstr "As chaves liga/desliga salvam assim que são acionadas. O restante é salvo com \"Salvar alterações\"."
 
-#: src/admin/documentation.php:72 src/admin/settings-page.php:596
+#: src/admin/documentation.php:72 src/admin/settings-page.php:600
 msgid "Address rules"
 msgstr "Regras do endereço"
 
@@ -235,7 +236,7 @@ msgid "State schools"
 msgstr "Rede estadual"
 
 #: src/admin/documentation.php:96 src/admin/documentation.php:102
-#: src/admin/settings-page.php:600
+#: src/admin/settings-page.php:604
 msgid "Texts"
 msgstr "Textos"
 
@@ -256,7 +257,7 @@ msgid "Any label, hint or message, grouped by school network and by the form or 
 msgstr "Qualquer rótulo, dica ou mensagem, agrupados por rede de ensino e pelo formulário ou opção que os mostra. Um campo vazio mantém o texto embutido, que acompanha o idioma do site."
 
 #: src/admin/documentation.php:106 src/admin/settings-page.php:434
-#: src/admin/settings-page.php:604
+#: src/admin/settings-page.php:608
 msgid "Design"
 msgstr "Design"
 
@@ -666,179 +667,187 @@ msgstr "Alunos, professores e estagiários"
 msgid "Both networks"
 msgstr "As duas redes"
 
-#: src/admin/settings-page.php:576
+#: src/admin/settings-page.php:572
+msgid "Profile selector"
+msgstr "Seletor de perfil"
+
+#: src/admin/settings-page.php:580
 msgid "Buttons and messages"
 msgstr "Botões e mensagens"
 
-#: src/admin/settings-page.php:608
+#: src/admin/settings-page.php:612
 msgid "Documentation"
 msgstr "Documentação"
 
-#: src/config.php:125
+#: src/config.php:126
 msgid "Google Classroom"
 msgstr "Google Sala de Aula"
 
-#: src/config.php:138
+#: src/config.php:139
+msgid "Choose the profile"
+msgstr "Selecione o perfil"
+
+#: src/config.php:142
 msgid "Student's full name"
 msgstr "Nome completo do aluno"
 
-#: src/config.php:139
+#: src/config.php:143
 msgid "Student's date of birth"
 msgstr "Data de nascimento do aluno"
 
-#: src/config.php:140
+#: src/config.php:144
 msgid "Teacher's full name"
 msgstr "Nome completo do(a) professor(a)"
 
-#: src/config.php:141
+#: src/config.php:145
 msgid "Intern's full name"
 msgstr "Nome completo do(a) estagiário(a)"
 
-#: src/config.php:142
+#: src/config.php:146
 msgid "Network"
 msgstr "Rede"
 
-#: src/config.php:143
+#: src/config.php:147
 msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
 msgstr "Rede Direta para servidores públicos; Rede Conveniada para funcionários que não são servidores; Estagiário para estagiários da rede municipal."
 
-#: src/config.php:144
+#: src/config.php:148
 msgid "Partner network (CPF)"
 msgstr "Rede Conveniada (CPF)"
 
-#: src/config.php:145
+#: src/config.php:149
 msgid "Direct network (RF)"
 msgstr "Rede Direta (RF)"
 
-#: src/config.php:146
+#: src/config.php:150
 msgid "Intern (CPF)"
 msgstr "Estagiário (CPF)"
 
-#: src/config.php:147
+#: src/config.php:151
 msgid "Registro Funcional (RF)"
 msgstr "Registro Funcional (RF)"
 
-#: src/config.php:148
+#: src/config.php:152
 msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
 msgstr "Os 7 dígitos, com o dígito verificador: 518.178-0 é 5181780."
 
-#: src/config.php:149
+#: src/config.php:153
 msgid "CPF"
 msgstr "CPF"
 
-#: src/config.php:150
+#: src/config.php:154
 msgid "Find the email"
 msgstr "Gerar e-mail"
 
-#: src/config.php:151
+#: src/config.php:155
 msgid "The student's email is:"
 msgstr "O e-mail do aluno é:"
 
-#: src/config.php:152
+#: src/config.php:156
 msgid "The teacher's email is:"
 msgstr "O e-mail do(a) professor(a) é:"
 
-#: src/config.php:153
+#: src/config.php:157
 msgid "The intern's email is:"
 msgstr "O e-mail do(a) estagiário(a) é:"
 
-#: src/config.php:154
+#: src/config.php:158
 msgid "The initial password is:"
 msgstr "A senha inicial do e-mail é:"
 
-#: src/config.php:155
+#: src/config.php:159
 msgid "Copy email"
 msgstr "Copiar e-mail"
 
-#: src/config.php:156
+#: src/config.php:160
 msgid "Copy password"
 msgstr "Copiar senha"
 
-#: src/config.php:157
+#: src/config.php:161
 msgid "Email copied."
 msgstr "E-mail copiado."
 
-#: src/config.php:158
+#: src/config.php:162
 msgid "Password copied."
 msgstr "Senha copiada."
 
-#: src/config.php:159
+#: src/config.php:163
 msgid "Could not copy; select the text and copy it by hand."
 msgstr "Não foi possível copiar; selecione o texto e copie manualmente."
 
-#: src/config.php:160
+#: src/config.php:164
 msgid "Email found. Write it down with the password."
 msgstr "E-mail gerado. Anote-o junto com a senha."
 
-#: src/config.php:161
+#: src/config.php:165
 msgid "Check the marked fields."
 msgstr "Confira os campos indicados."
 
-#: src/config.php:162
+#: src/config.php:166
 msgid "Type the full name, with at least a first and a last name."
 msgstr "Digite o nome completo, com pelo menos nome e sobrenome."
 
-#: src/config.php:163
+#: src/config.php:167
 msgid "Choose a valid date of birth."
 msgstr "Informe uma data de nascimento válida."
 
-#: src/config.php:164
+#: src/config.php:168
 msgid "Type the 7 digits of the RF."
 msgstr "Digite os 7 dígitos do RF."
 
-#: src/config.php:165
+#: src/config.php:169
 msgid "This RF's check digit does not match: check the number."
 msgstr "O dígito verificador deste RF não confere: confira o número."
 
-#: src/config.php:166
+#: src/config.php:170
 msgid "Type a valid CPF."
 msgstr "Digite um CPF válido."
 
-#: src/config.php:167
+#: src/config.php:171
 msgid "Student's RA (Registro do Aluno)"
 msgstr "RA do aluno (Registro do Aluno)"
 
-#: src/config.php:168
+#: src/config.php:172
 msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr "Os dígitos antes do dígito verificador, como a SED mostra; os zeros à esquerda podem ser omitidos."
 
-#: src/config.php:169
+#: src/config.php:173
 msgid "RA check digit"
 msgstr "Dígito do RA"
 
-#: src/config.php:170
+#: src/config.php:174
 msgid "A number from 0 to 9, or X."
 msgstr "Um número de 0 a 9, ou X."
 
-#: src/config.php:171
+#: src/config.php:175
 msgid "Do not know the RA? Look it up on the SED:"
 msgstr "Não sabe o RA? Consulte na SED:"
 
-#: src/config.php:172
+#: src/config.php:176
 msgid "The initial password is the date of birth:"
 msgstr "A senha inicial é a data de nascimento:"
 
-#: src/config.php:173
+#: src/config.php:177
 msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr "Os professores da rede estadual criam o e-mail institucional no primeiro acesso à SED, e a senha é a mesma da SED."
 
-#: src/config.php:174
+#: src/config.php:178
 msgid "Get your access on the SED"
 msgstr "Obtenha seu acesso na SED"
 
-#: src/config.php:175
+#: src/config.php:179
 msgid "Type the RA's digits, up to 12."
 msgstr "Digite os dígitos do RA, até 12."
 
-#: src/config.php:176
+#: src/config.php:180
 msgid "Type the check digit: a number from 0 to 9, or X."
 msgstr "Digite o dígito: um número de 0 a 9, ou X."
 
-#: src/config.php:177
+#: src/config.php:181
 msgid "Then sign in with this email and password, not a personal account, at:"
 msgstr "Depois, entre com este e-mail e senha (não com uma conta pessoal) em:"
 
-#: src/config.php:178
+#: src/config.php:182
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr "O e-mail é gerado no seu navegador: nada do que você digita é enviado ou guardado em lugar algum."
 
@@ -860,11 +869,11 @@ msgstr "O endereço da plataforma não foi salvo, porque não é um endereço ht
 msgid "The Google Analytics ID was not saved, because it is not a measurement ID such as G-XXXXXXXXXX: %s"
 msgstr "O ID do Google Analytics não foi salvo, porque não é um ID de medição como G-XXXXXXXXXX: %s"
 
-#: src/shortcode.php:61
+#: src/shortcode.php:63
 msgid "Log in to find an institutional email."
 msgstr "Entre para descobrir um e-mail institucional."
 
-#: src/shortcode.php:63
+#: src/shortcode.php:65
 msgid "Log in"
 msgstr "Entrar"
 
@@ -875,6 +884,15 @@ msgstr "A verificação de integridade (SHA-256) do pacote de atualização falh
 #. Plugin header: Description
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo city schools (RME/SP), from their name and date of birth, RF or CPF, and of the state schools (SEDUC-SP), from the student's RA."
 msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP), a partir do nome e da data de nascimento, RF ou CPF, e da rede estadual (SEDUC-SP), a partir do RA do aluno."
+
+#~ msgid "Places the students' form on any page or post. The Copy button on the General tab copies it."
+#~ msgstr "Coloca o formulário de alunos em qualquer página ou post. O botão Copiar da aba Geral o copia."
+
+#~ msgid "Places the teachers' form instead. form=\"students\" is the default."
+#~ msgstr "Coloca o formulário de professores. form=\"students\" é o padrão."
+
+#~ msgid "Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers' form and ?network=state for the state schools. It uses the built-in defaults, not these settings."
+#~ msgstr "Cada versão também publica um único arquivo HTML com os formulários, para um iframe em um site sem WordPress; acrescente ?form=teachers ao endereço para o formulário de professores e ?network=state para a rede estadual. Ele usa os padrões embutidos, não estas configurações."
 
 #~ msgid "Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switched off again, it goes back to its own look, and the values are kept."
 #~ msgstr "Desligado por padrão: o formulário mantém a aparência própria. Ligado, usa a largura, as cores, os cantos e a fonte definidos aqui; desligado de novo, volta à aparência própria, e os valores ficam guardados."

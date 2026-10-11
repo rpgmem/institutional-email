@@ -33,7 +33,7 @@ Example: RA 123456789, check digit X, born on 7 March 2012 → `000123456789xsp@
 
 ## How to use it
 
-**In WordPress**, put `[institutional_email]` on any page for the students' form, or `[institutional_email form="teachers"]` for the teachers'. The site serves the city or the state schools, as the General tab says; `network="state"` or `network="city"` on a shortcode serves the other one on that page.
+**In WordPress**, put `[institutional_email]` on any page: it opens with a profile selector for students and teachers (or shows the only form offered). `[institutional_email form="students"]` or `form="teachers"` shows one form alone. The site serves the city or the state schools, as the General tab says; `network="state"` or `network="city"` on a shortcode serves the other one on that page.
 
 In **Settings → Institutional Email** an administrator sets, for every form on the site:
 
@@ -49,7 +49,7 @@ In **Settings → Institutional Email** an administrator sets, for every form on
 <iframe src="https://rpgmem.github.io/institutional-email/" style="width:100%;height:640px;border:0" title="Institutional email"></iframe>
 ```
 
-Add `?form=teachers` to the address for the teachers' form, and `?network=state` for the state schools (`?network=state&form=teachers` for both). The standalone page always uses the built-in rules and texts (in Portuguese). On a Google Site, use Insert → Embed → Embed code.
+The page opens with the profile selector. Add `?form=students` or `?form=teachers` to the address for one form alone, and `?network=state` for the state schools (`?network=state&form=teachers` for both). The standalone page always uses the built-in rules and texts (in Portuguese). On a Google Site, use Insert → Embed → Embed code.
 
 ## Screenshots
 

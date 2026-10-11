@@ -35,10 +35,10 @@ final class Documentation {
 				'icon'  => 'info',
 				'intro' => __( 'Forms that work out the institutional email address of São Paulo students and teachers, of the city schools (RME/SP) or of the state schools (SEDUC-SP). The address is worked out in the visitor\'s browser, so nothing typed reaches the site.', 'institutional-email' ),
 				'items' => array(
-					array( '[' . Shortcode::TAG . ']', __( 'Places the students\' form on any page or post. The Copy button on the General tab copies it.', 'institutional-email' ) ),
-					array( 'form="teachers"', __( 'Places the teachers\' form instead. form="students" is the default.', 'institutional-email' ) ),
+					array( '[' . Shortcode::TAG . ']', __( 'Places the form on any page or post, opening with a profile selector for students and teachers; with only one form offered, it shows that one. The Copy button on the General tab copies it.', 'institutional-email' ) ),
+					array( 'form="students"', __( 'Shows only the students\' form, with no selector; form="teachers" shows only the teachers\'.', 'institutional-email' ) ),
 					array( 'network="state"', __( 'Serves the state schools on that page, whatever the General tab says; network="city" serves the city schools.', 'institutional-email' ) ),
-					array( __( 'Standalone HTML', 'institutional-email' ), __( 'Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers\' form and ?network=state for the state schools. It uses the built-in defaults, not these settings.', 'institutional-email' ) ),
+					array( __( 'Standalone HTML', 'institutional-email' ), __( 'Every release also publishes a single HTML file with both forms and the profile selector, for an iframe on a site without WordPress; add ?form=students or ?form=teachers to its address for one form alone, and ?network=state for the state schools. It uses the built-in defaults, not these settings.', 'institutional-email' ) ),
 				),
 			),
 			'form'     => array(

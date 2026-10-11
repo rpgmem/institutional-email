@@ -238,6 +238,68 @@ describe( 'formOf', () => {
 	} );
 } );
 
+describe( 'formOf with no form named', () => {
+	it( 'returns an empty choice, which the address can still settle', () => {
+		expect( gen.formOf( container( { 'data-ie-form': '' } ) ) ).toBe( '' );
+		window.history.replaceState( null, '', '/?form=teachers' );
+		expect( gen.formOf( container( { 'data-ie-form': '', 'data-ie-form-param': 'form' } ) ) ).toBe( 'teachers' );
+		window.history.replaceState( null, '', '/?form=bogus' );
+		expect( gen.formOf( container( { 'data-ie-form': '', 'data-ie-form-param': 'form' } ) ) ).toBe( '' );
+	} );
+} );
+
+describe( 'profile selector', () => {
+	it( 'offers the forms the configuration offers, students first', () => {
+		const div = container( { 'data-ie-form': '' } );
+		const ui = gen.mount( div, config );
+		const select = div.querySelector( 'select.ie-profile' );
+		expect( ui.chooser ).toBe( select );
+		expect( [ ...select.options ].map( ( o ) => o.value ) ).toEqual( [ 'students', 'teachers' ] );
+		expect( [ ...select.options ].map( ( o ) => o.textContent ) ).toEqual( [ config.strings.profileStudents, config.strings.profileTeachers ] );
+		expect( div.querySelector( `label[for="${ select.id }"]` ).textContent ).toBe( config.strings.profileLabel );
+		expect( ui.current().form ).toBe( 'students' );
+		expect( div.querySelectorAll( 'form' ) ).toHaveLength( 1 );
+	} );
+
+	it( 'redraws only the form under it, so the selector keeps focus', () => {
+		const div = container( { 'data-ie-form': '' } );
+		const ui = gen.mount( div, config );
+		const select = ui.chooser;
+		select.focus();
+		select.value = 'teachers';
+		select.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+
+		expect( ui.current().form ).toBe( 'teachers' );
+		expect( div.querySelector( 'select.ie-profile' ) ).toBe( select );
+		expect( document.activeElement ).toBe( select );
+		expect( div.querySelectorAll( 'form' ) ).toHaveLength( 1 );
+		expect( div.querySelector( '.ie-network' ) ).not.toBeNull();
+	} );
+
+	it( 'keeps the network it was given: state teachers see the SED panel', () => {
+		const div = container( { 'data-ie-form': '', 'data-ie-network': 'state' } );
+		const ui = gen.mount( div, config );
+		expect( ui.network ).toBe( 'state' );
+		ui.chooser.value = 'teachers';
+		ui.chooser.dispatchEvent( new Event( 'change' ) );
+		expect( div.querySelector( 'form' ) ).toBeNull();
+		expect( div.textContent ).toContain( config.strings.stateTeacherIntro );
+	} );
+
+	it( 'is left out when only one form is offered', () => {
+		const div = container( { 'data-ie-form': '' } );
+		const ui = gen.mount( div, Object.assign( {}, config, { forms: [ 'teachers' ] } ) );
+		expect( div.querySelector( 'select.ie-profile' ) ).toBeNull();
+		expect( ui.form ).toBe( 'teachers' );
+	} );
+
+	it( 'treats an unknown or empty forms list as every form', () => {
+		expect( gen.offeredForms( { forms: [ 'nope' ] } ) ).toEqual( [ 'students', 'teachers' ] );
+		expect( gen.offeredForms( {} ) ).toEqual( [ 'students', 'teachers' ] );
+		expect( gen.offeredForms( { forms: [ 'teachers', 'students' ] } ) ).toEqual( [ 'teachers', 'students' ] );
+	} );
+} );
+
 describe( 'networkOf', () => {
 	it( 'reads data-ie-network, then the configuration, and falls back to the city', () => {
 		expect( gen.networkOf( container( { 'data-ie-network': 'state' } ) ) ).toBe( 'state' );

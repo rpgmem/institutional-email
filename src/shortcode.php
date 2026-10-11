@@ -37,9 +37,11 @@ final class Shortcode {
 	/**
 	 * Render the shortcode.
 	 *
-	 * Attribute `form`: `students` (the default) or `teachers`. A form the
-	 * settings do not offer, or an unknown value, falls back to the first
-	 * offered one rather than printing nothing.
+	 * Attribute `form`: `students` or `teachers` shows that form alone. Left
+	 * out, the form opens with a profile selector over the forms the settings
+	 * offer, or shows the only one offered. A form the settings do not offer,
+	 * or an unknown value, falls back to the first offered one rather than
+	 * printing nothing.
 	 *
 	 * @param array<string, string>|string $atts Shortcode attributes.
 	 * @return string The container markup.
@@ -47,7 +49,7 @@ final class Shortcode {
 	public static function render( $atts = array() ): string {
 		$atts     = shortcode_atts(
 			array(
-				'form'    => Config::FORMS[0],
+				'form'    => '',
 				'network' => '',
 			),
 			is_array( $atts ) ? $atts : array(),
@@ -64,7 +66,7 @@ final class Shortcode {
 			);
 		}
 
-		$form    = self::form( (string) $atts['form'], $settings['forms'] );
+		$form    = self::choice( (string) $atts['form'], $settings['forms'] );
 		$network = self::network( (string) $atts['network'], $settings['network'] );
 
 		self::enqueue( $settings );
@@ -92,6 +94,21 @@ final class Shortcode {
 			return $asked;
 		}
 		return in_array( $site, Config::NETWORKS, true ) ? $site : Config::NETWORKS[0];
+	}
+
+	/**
+	 * The form a container shows: '' to let the visitor choose, when no form
+	 * was asked for and more than one is offered; otherwise an offered form.
+	 *
+	 * @param string   $asked   Requested form; '' when the shortcode names none.
+	 * @param string[] $offered Forms the settings offer, in order; every form when empty.
+	 */
+	public static function choice( string $asked, array $offered = array() ): string {
+		$offered = array() !== $offered ? $offered : Config::FORMS;
+		if ( '' === trim( $asked ) && count( $offered ) > 1 ) {
+			return '';
+		}
+		return self::form( $asked, $offered );
 	}
 
 	/**

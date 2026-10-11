@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **⚠ A shortcode or standalone page that names no form opens with a profile selector** (#36). `[institutional_email]` and the standalone page without `?form=` now show "Choose the profile" over the forms the settings offer, students first; with one form offered, that form alone. A bare shortcode used to show only the students' form: add `form="students"` to keep that. The network still comes from `network=` or the General tab.
+
 ## [1.0.0] (2026-10-11) — `b8e83efd`
 
 The forms become a WordPress plugin, with a standalone page for iframes.
