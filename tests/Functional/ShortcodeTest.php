@@ -16,6 +16,13 @@ use WP_UnitTestCase;
  */
 final class ShortcodeTest extends WP_UnitTestCase {
 
+	protected function setUp(): void {
+		parent::setUp();
+		// Enqueues from earlier tests outlive them.
+		wp_dequeue_script( Shortcode::HANDLE );
+		wp_dequeue_style( Shortcode::HANDLE );
+	}
+
 	public function test_the_shortcode_is_registered(): void {
 		self::assertTrue( shortcode_exists( Shortcode::TAG ) );
 	}

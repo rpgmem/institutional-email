@@ -28,6 +28,8 @@ Place a form on any page or post:
 * `[institutional_email]` or `[institutional_email form="students"]` — students: full name and date of birth.
 * `[institutional_email form="teachers"]` — teachers: full name and CPF (partner network) or RF (direct network).
 
+Settings → Institutional Email chooses the forms offered, who may use them, the domain, the initial password, the platform the result links to and every text the form shows. Its Documentation tab explains each option.
+
 == Changelog ==
 
 The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem/institutional-email/blob/main/CHANGELOG.md).
