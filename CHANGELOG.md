@@ -23,7 +23,7 @@ The forms become a WordPress plugin, with a standalone page for iframes.
 
 ### Changed
 
-- **Only the letters a to z reach the address** (#16). Accents are dropped as before, and apostrophes, hyphens and repeated spaces no longer leak into it ("D'Ávila" → `davila`). Middle names of up to three letters are still left out of a student's address, now by a setting.
+- **Only the letters a to z reach the address** (#16). Accents are dropped as before, and apostrophes, hyphens, any kind of space and the invisible characters a paste can carry no longer leak into it or split a name ("D'Ávila" → `davila`; #27). Middle names of up to three letters are still left out of a student's address, now by a setting.
 
 ### Removed
 
