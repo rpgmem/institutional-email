@@ -47,3 +47,16 @@ The address is worked out in the visitor's browser. The form sends nothing, sets
 == Changelog ==
 
 The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem/institutional-email/blob/main/CHANGELOG.md).
+
+= 1.0.0 =
+* New: the institutional email forms as a WordPress plugin, placed with the [institutional_email] shortcode (students) or [institutional_email form="teachers"].
+* New: Settings → Institutional Email for the forms offered, access, domain, middle-name length, initial password, the next-step platform and every text of the form, with a Documentation tab.
+* New: updates from GitHub Releases, each package checked against its SHA-256.
+* New: a standalone HTML page on every release, served on GitHub Pages for iframes.
+* Changed: only the letters a to z of each name reach the address.
+* Removed: the Heroku pages, jQuery, CDN libraries and Google Analytics.
+
+== Upgrade Notice ==
+
+= 1.0.0 =
+First release as a WordPress plugin: the [institutional_email] shortcode, settings for forms, access, address rules and texts, and updates from GitHub. Details in CHANGELOG.md.
