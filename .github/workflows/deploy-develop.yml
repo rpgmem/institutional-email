@@ -58,7 +58,10 @@ jobs:
           REMOTE_PATH: ${{ secrets.TESTES_REMOTE_PATH }}
           SLUG: institutional-email
         run: |
-          TARGET="${REMOTE_PATH%/}"
+          # A secret pasted from a terminal often ends in a newline or a space,
+          # and may carry a trailing slash: strip them here, once, and hand
+          # the clean path to the next steps through REMOTE_TARGET.
+          TARGET="$(printf '%s' "$REMOTE_PATH" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's:/*$::')"
           PLUGINS="$(dirname "$TARGET")"
           case "$TARGET" in
             /*) ;;
@@ -67,9 +70,12 @@ jobs:
           if [ "$(basename "$TARGET")" != "$SLUG" ] \
             || [ "$(basename "$PLUGINS")" != "plugins" ] \
             || [ "$(basename "$(dirname "$PLUGINS")")" != "wp-content" ]; then
-            echo "::error::TESTES_REMOTE_PATH must end in /wp-content/plugins/${SLUG}. Nothing was sent."
+            # Only the last three folders: enough to see the mistake, never
+            # the account's home or domain.
+            echo "::error::TESTES_REMOTE_PATH must end in /wp-content/plugins/${SLUG}; it ends in .../$(basename "$(dirname "$PLUGINS")")/$(basename "$PLUGINS")/$(basename "$TARGET"). Nothing was sent."
             exit 1
           fi
+          echo "REMOTE_TARGET=${TARGET}" >> "$GITHUB_ENV"
           echo "Target path has the expected shape."
 
       - name: Rsync to testes
@@ -77,7 +83,6 @@ jobs:
           SSH_HOST: ${{ secrets.TESTES_SSH_HOST }}
           SSH_USER: ${{ secrets.TESTES_SSH_USER }}
           SSH_PORT: ${{ secrets.TESTES_SSH_PORT }}
-          REMOTE_PATH: ${{ secrets.TESTES_REMOTE_PATH }}
         run: |
           PORT="${SSH_PORT:-22}"
           # The exclusions are `.distignore`, the same list release.yml stages
@@ -94,7 +99,7 @@ jobs:
           until timeout 300 rsync -avz --delete \
             --exclude-from=.distignore \
             -e "$SSH_CMD" \
-            ./ "${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/"; do
+            ./ "${SSH_USER}@${SSH_HOST}:${REMOTE_TARGET}/"; do
             status=$?
             if [ "$attempt" -ge "$max_attempts" ]; then
               echo "::error::rsync to testes failed after ${max_attempts} attempts (last exit ${status})."
@@ -113,7 +118,6 @@ jobs:
           SSH_HOST: ${{ secrets.TESTES_SSH_HOST }}
           SSH_USER: ${{ secrets.TESTES_SSH_USER }}
           SSH_PORT: ${{ secrets.TESTES_SSH_PORT }}
-          REMOTE_PATH: ${{ secrets.TESTES_REMOTE_PATH }}
         run: |
           PORT="${SSH_PORT:-22}"
           SSH_CMD="ssh -i ~/.ssh/deploy_key -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30"
@@ -133,7 +137,7 @@ jobs:
 
           set +e
           timeout 120 $SSH_CMD "${SSH_USER}@${SSH_HOST}" \
-            "php ${REMOTE_DIR}/testes-smoke.php '${REMOTE_PATH}' '${VERSION}'"
+            "php ${REMOTE_DIR}/testes-smoke.php '${REMOTE_TARGET}' '${VERSION}'"
           STATUS=$?
           set -e
 
