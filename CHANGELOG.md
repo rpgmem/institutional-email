@@ -3,7 +3,7 @@
 All notable changes to **Institutional Email** are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui, Rafael Meusburger ([@meusburger](https://github.com/meusburger)), Thiago Guttierre and Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), as the pages themselves credit them. Each version below names who wrote it, read from the commits' authors.
+The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui ([@rfukui](https://github.com/rfukui)), Rafael Meusburger ([@meusburger](https://github.com/meusburger)), Thiago Guttierre and Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), as the pages themselves credit them. Each version below names who wrote it, read from the commits' authors.
 
 ## [Unreleased]
 
@@ -73,7 +73,7 @@ The shared script and stylesheet and the Heroku pages by Rafael Meusburger ([@me
 
 ## [0.2.0] (2020-05-11) — `a648d9b`
 
-By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)). The teachers' page credits Ricardo Fukui, Rafael Meusburger, Thiago Guttierre and Alex Meusburger.
+By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)). The teachers' page credits Ricardo Fukui ([@rfukui](https://github.com/rfukui)), Rafael Meusburger, Thiago Guttierre and Alex Meusburger.
 
 ### Added
 
@@ -81,7 +81,7 @@ By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)). The teachers' page cr
 
 ## [0.1.0] (2020-05-01) — `f7b4ca3`
 
-By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), with the layout and the copy buttons by Rafael Meusburger ([@meusburger](https://github.com/meusburger)) (#2 to #6). The page credits the Educational Technology team of E.M.E.F. José Américo de Almeida, Ricardo Fukui, Rafael Meusburger and Alex Meusburger.
+By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), with the layout and the copy buttons by Rafael Meusburger ([@meusburger](https://github.com/meusburger)) (#2 to #6). The page credits the Educational Technology team of E.M.E.F. José Américo de Almeida, Ricardo Fukui ([@rfukui](https://github.com/rfukui)), Rafael Meusburger and Alex Meusburger.
 
 ### Added
 

@@ -69,7 +69,7 @@ See [CLAUDE.md](CLAUDE.md) for the workflow (feature branches into `develop`, re
 
 ## Credits
 
-Created in 2020 by the Educational Technology team of [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno) (DRE/MP, SME/SP), with Ricardo Fukui, Rafael Meusburger, Thiago Guttierre, Alex Meusburger and other GitHub contributors. Maintained by [Alex Meusburger](https://github.com/rpgmem).
+Created in 2020 by the Educational Technology team of [E.M.E.F. José Américo de Almeida](https://sites.google.com/view/emefjoseamericodealmeida/descubra-seu-e-mail-aluno) (DRE/MP, SME/SP), with Ricardo Fukui ([@rfukui](https://github.com/rfukui)), Rafael Meusburger ([@meusburger](https://github.com/meusburger)), Thiago Guttierre, Alex Meusburger ([@rpgmem](https://github.com/rpgmem)) and other GitHub contributors. Maintained by [Alex Meusburger](https://github.com/rpgmem).
 
 ### Who used the 2020 forms
 
