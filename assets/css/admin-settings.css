@@ -341,3 +341,8 @@
 }
 
 /* Regional offices: name, acronym, remove. */
+
+/* WordPress's line-height on a monospace field clips the underscores. */
+.ie-settings input.code {
+	line-height: 1.5;
+}

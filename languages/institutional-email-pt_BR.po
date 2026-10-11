@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 03:28+0000\n"
+"POT-Creation-Date: 2026-10-11 03:31+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -78,7 +78,7 @@ msgstr "Alunos"
 
 #: src/admin/documentation.php:49
 msgid "Full name, then the network: the CPF for the partner network, or the 7 digits of the RF for the direct network."
-msgstr "Nome completo e, depois, a rede: o CPF para a rede parceira, ou os 7 dígitos do RF para a rede direta."
+msgstr "Nome completo e, depois, a rede: o CPF para a rede conveniada, ou os 7 dígitos do RF para a rede direta."
 
 #: src/admin/documentation.php:49 src/admin/documentation.php:72
 msgid "Teachers"
@@ -470,8 +470,8 @@ msgid "Email found. Write it down with the password."
 msgstr "E-mail gerado. Anote-o junto com a senha."
 
 #: src/config.php:88
-msgid "Check the fields marked below."
-msgstr "Confira os campos indicados abaixo."
+msgid "Check the marked fields."
+msgstr "Confira os campos indicados."
 
 #: src/config.php:89
 msgid "Type the full name, with at least a first and a last name."
@@ -524,3 +524,4 @@ msgstr "A verificação de integridade (SHA-256) do pacote de atualização falh
 #. Plugin header: Description
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."
 msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP) a partir do nome e da data de nascimento, RF ou CPF."
+
