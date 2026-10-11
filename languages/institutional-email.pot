@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 15:21+0000\n"
+"POT-Creation-Date: 2026-10-11 22:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Institutional Email"
 msgstr ""
 
-#: bin/build-standalone.php:110 src/shortcode.php:76
+#: bin/build-standalone.php:110 src/shortcode.php:78
 msgid "This form needs JavaScript."
 msgstr ""
 
@@ -47,11 +47,11 @@ msgid "Forms that work out the institutional email address of São Paulo student
 msgstr ""
 
 #: src/admin/documentation.php:38
-msgid "Places the students' form on any page or post. The Copy button on the General tab copies it."
+msgid "Places the form on any page or post, opening with a profile selector for students and teachers; with only one form offered, it shows that one. The Copy button on the General tab copies it."
 msgstr ""
 
 #: src/admin/documentation.php:39
-msgid "Places the teachers' form instead. form=\"students\" is the default."
+msgid "Shows only the students' form, with no selector; form=\"teachers\" shows only the teachers'."
 msgstr ""
 
 #: src/admin/documentation.php:40
@@ -59,7 +59,7 @@ msgid "Serves the state schools on that page, whatever the General tab says; net
 msgstr ""
 
 #: src/admin/documentation.php:41
-msgid "Every release also publishes a single HTML file with both forms, for an iframe on a site without WordPress; add ?form=teachers to its address for the teachers' form and ?network=state for the state schools. It uses the built-in defaults, not these settings."
+msgid "Every release also publishes a single HTML file with both forms and the profile selector, for an iframe on a site without WordPress; add ?form=students or ?form=teachers to its address for one form alone, and ?network=state for the state schools. It uses the built-in defaults, not these settings."
 msgstr ""
 
 #: src/admin/documentation.php:41
@@ -80,7 +80,8 @@ msgstr ""
 
 #: src/admin/documentation.php:49 src/admin/documentation.php:77
 #: src/admin/settings-page.php:353 src/admin/settings-page.php:526
-#: src/admin/settings-page.php:559 src/admin/settings-page.php:572
+#: src/admin/settings-page.php:559 src/admin/settings-page.php:576
+#: src/config.php:140
 msgid "Students"
 msgstr ""
 
@@ -90,7 +91,7 @@ msgstr ""
 
 #: src/admin/documentation.php:50 src/admin/documentation.php:78
 #: src/admin/settings-page.php:365 src/admin/settings-page.php:530
-#: src/admin/settings-page.php:563
+#: src/admin/settings-page.php:563 src/config.php:141
 msgid "Teachers"
 msgstr ""
 
@@ -126,7 +127,7 @@ msgstr ""
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr ""
 
-#: src/admin/documentation.php:58 src/admin/settings-page.php:592
+#: src/admin/documentation.php:58 src/admin/settings-page.php:596
 msgid "General"
 msgstr ""
 
@@ -178,7 +179,7 @@ msgstr ""
 msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
 msgstr ""
 
-#: src/admin/documentation.php:72 src/admin/settings-page.php:596
+#: src/admin/documentation.php:72 src/admin/settings-page.php:600
 msgid "Address rules"
 msgstr ""
 
@@ -237,7 +238,7 @@ msgid "State schools"
 msgstr ""
 
 #: src/admin/documentation.php:96 src/admin/documentation.php:102
-#: src/admin/settings-page.php:600
+#: src/admin/settings-page.php:604
 msgid "Texts"
 msgstr ""
 
@@ -258,7 +259,7 @@ msgid "Any label, hint or message, grouped by school network and by the form or 
 msgstr ""
 
 #: src/admin/documentation.php:106 src/admin/settings-page.php:434
-#: src/admin/settings-page.php:604
+#: src/admin/settings-page.php:608
 msgid "Design"
 msgstr ""
 
@@ -668,179 +669,187 @@ msgstr ""
 msgid "Both networks"
 msgstr ""
 
-#: src/admin/settings-page.php:576
+#: src/admin/settings-page.php:572
+msgid "Profile selector"
+msgstr ""
+
+#: src/admin/settings-page.php:580
 msgid "Buttons and messages"
 msgstr ""
 
-#: src/admin/settings-page.php:608
+#: src/admin/settings-page.php:612
 msgid "Documentation"
 msgstr ""
 
-#: src/config.php:125
+#: src/config.php:126
 msgid "Google Classroom"
 msgstr ""
 
-#: src/config.php:138
-msgid "Student's full name"
-msgstr ""
-
 #: src/config.php:139
-msgid "Student's date of birth"
-msgstr ""
-
-#: src/config.php:140
-msgid "Teacher's full name"
-msgstr ""
-
-#: src/config.php:141
-msgid "Intern's full name"
+msgid "Choose the profile"
 msgstr ""
 
 #: src/config.php:142
-msgid "Network"
+msgid "Student's full name"
 msgstr ""
 
 #: src/config.php:143
-msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
+msgid "Student's date of birth"
 msgstr ""
 
 #: src/config.php:144
-msgid "Partner network (CPF)"
+msgid "Teacher's full name"
 msgstr ""
 
 #: src/config.php:145
-msgid "Direct network (RF)"
+msgid "Intern's full name"
 msgstr ""
 
 #: src/config.php:146
-msgid "Intern (CPF)"
+msgid "Network"
 msgstr ""
 
 #: src/config.php:147
-msgid "Registro Funcional (RF)"
+msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
 msgstr ""
 
 #: src/config.php:148
-msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
+msgid "Partner network (CPF)"
 msgstr ""
 
 #: src/config.php:149
-msgid "CPF"
+msgid "Direct network (RF)"
 msgstr ""
 
 #: src/config.php:150
-msgid "Find the email"
+msgid "Intern (CPF)"
 msgstr ""
 
 #: src/config.php:151
-msgid "The student's email is:"
+msgid "Registro Funcional (RF)"
 msgstr ""
 
 #: src/config.php:152
-msgid "The teacher's email is:"
+msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
 msgstr ""
 
 #: src/config.php:153
-msgid "The intern's email is:"
+msgid "CPF"
 msgstr ""
 
 #: src/config.php:154
-msgid "The initial password is:"
+msgid "Find the email"
 msgstr ""
 
 #: src/config.php:155
-msgid "Copy email"
+msgid "The student's email is:"
 msgstr ""
 
 #: src/config.php:156
-msgid "Copy password"
+msgid "The teacher's email is:"
 msgstr ""
 
 #: src/config.php:157
-msgid "Email copied."
+msgid "The intern's email is:"
 msgstr ""
 
 #: src/config.php:158
-msgid "Password copied."
+msgid "The initial password is:"
 msgstr ""
 
 #: src/config.php:159
-msgid "Could not copy; select the text and copy it by hand."
+msgid "Copy email"
 msgstr ""
 
 #: src/config.php:160
-msgid "Email found. Write it down with the password."
+msgid "Copy password"
 msgstr ""
 
 #: src/config.php:161
-msgid "Check the marked fields."
+msgid "Email copied."
 msgstr ""
 
 #: src/config.php:162
-msgid "Type the full name, with at least a first and a last name."
+msgid "Password copied."
 msgstr ""
 
 #: src/config.php:163
-msgid "Choose a valid date of birth."
+msgid "Could not copy; select the text and copy it by hand."
 msgstr ""
 
 #: src/config.php:164
-msgid "Type the 7 digits of the RF."
+msgid "Email found. Write it down with the password."
 msgstr ""
 
 #: src/config.php:165
-msgid "This RF's check digit does not match: check the number."
+msgid "Check the marked fields."
 msgstr ""
 
 #: src/config.php:166
-msgid "Type a valid CPF."
+msgid "Type the full name, with at least a first and a last name."
 msgstr ""
 
 #: src/config.php:167
-msgid "Student's RA (Registro do Aluno)"
+msgid "Choose a valid date of birth."
 msgstr ""
 
 #: src/config.php:168
-msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
+msgid "Type the 7 digits of the RF."
 msgstr ""
 
 #: src/config.php:169
-msgid "RA check digit"
+msgid "This RF's check digit does not match: check the number."
 msgstr ""
 
 #: src/config.php:170
-msgid "A number from 0 to 9, or X."
+msgid "Type a valid CPF."
 msgstr ""
 
 #: src/config.php:171
-msgid "Do not know the RA? Look it up on the SED:"
+msgid "Student's RA (Registro do Aluno)"
 msgstr ""
 
 #: src/config.php:172
-msgid "The initial password is the date of birth:"
+msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr ""
 
 #: src/config.php:173
-msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
+msgid "RA check digit"
 msgstr ""
 
 #: src/config.php:174
-msgid "Get your access on the SED"
+msgid "A number from 0 to 9, or X."
 msgstr ""
 
 #: src/config.php:175
-msgid "Type the RA's digits, up to 12."
+msgid "Do not know the RA? Look it up on the SED:"
 msgstr ""
 
 #: src/config.php:176
-msgid "Type the check digit: a number from 0 to 9, or X."
+msgid "The initial password is the date of birth:"
 msgstr ""
 
 #: src/config.php:177
-msgid "Then sign in with this email and password, not a personal account, at:"
+msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr ""
 
 #: src/config.php:178
+msgid "Get your access on the SED"
+msgstr ""
+
+#: src/config.php:179
+msgid "Type the RA's digits, up to 12."
+msgstr ""
+
+#: src/config.php:180
+msgid "Type the check digit: a number from 0 to 9, or X."
+msgstr ""
+
+#: src/config.php:181
+msgid "Then sign in with this email and password, not a personal account, at:"
+msgstr ""
+
+#: src/config.php:182
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr ""
 
@@ -862,11 +871,11 @@ msgstr ""
 msgid "The Google Analytics ID was not saved, because it is not a measurement ID such as G-XXXXXXXXXX: %s"
 msgstr ""
 
-#: src/shortcode.php:61
+#: src/shortcode.php:63
 msgid "Log in to find an institutional email."
 msgstr ""
 
-#: src/shortcode.php:63
+#: src/shortcode.php:65
 msgid "Log in"
 msgstr ""
 

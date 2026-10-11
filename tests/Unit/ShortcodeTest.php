@@ -197,10 +197,28 @@ final class ShortcodeTest extends TestCase {
 		self::assertStringContainsString( '<noscript>This form needs JavaScript.</noscript>', $html );
 	}
 
-	public function test_render_without_attributes_shows_the_students_form(): void {
+	public function test_render_without_a_form_lets_the_visitor_choose(): void {
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
-		self::assertStringContainsString( 'data-ie-form="students"', Shortcode::render( '' ) );
+		self::assertStringContainsString( 'data-ie-form=""', Shortcode::render( '' ) );
+		self::assertStringContainsString( 'data-ie-form="students"', Shortcode::render( array( 'form' => 'students' ) ) );
+	}
+
+	public function test_render_without_a_form_shows_the_only_one_offered(): void {
+		$this->stored = array( 'forms' => array( 'teachers' ) );
+		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_enqueue_script' )->justReturn( null );
+
+		self::assertStringContainsString( 'data-ie-form="teachers"', Shortcode::render( '' ) );
+	}
+
+	public function test_choice_is_empty_only_when_no_form_is_named_and_several_are_offered(): void {
+		self::assertSame( '', Shortcode::choice( '' ) );
+		self::assertSame( '', Shortcode::choice( '  ' ) );
+		self::assertSame( '', Shortcode::choice( '', array( 'students', 'teachers' ) ) );
+		self::assertSame( 'teachers', Shortcode::choice( '', array( 'teachers' ) ) );
+		self::assertSame( 'teachers', Shortcode::choice( 'teachers' ) );
+		self::assertSame( 'students', Shortcode::choice( 'staff' ), 'An unknown form still falls back to the first offered one.' );
 	}
 }

@@ -50,6 +50,12 @@
 	font: inherit;
 }
 
+/* A select paints like the text fields, not like a button. */
+.ie-generator select.ie-input {
+	background-color: Field;
+	color: FieldText;
+}
+
 .ie-generator .ie-input[aria-invalid="true"] {
 	border-color: var(--ie-error);
 }

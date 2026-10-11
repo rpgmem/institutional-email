@@ -14,7 +14,7 @@ Forms, placed with a shortcode, that work out the institutional email address of
 
 Students and teachers of the São Paulo municipal schools (RME/SP) have an institutional email address made from their name and their date of birth, RF or CPF; students of the São Paulo state schools (SEDUC-SP) have one made from their RA. This plugin's forms work it out in the visitor's browser, so nothing typed is sent to the site.
 
-A standalone HTML version, for embedding in an iframe, is published next to the plugin on each GitHub release, and served at https://rpgmem.github.io/institutional-email/ (add `?form=teachers` for the teachers' form and `?network=state` for the state schools).
+A standalone HTML version, for embedding in an iframe, is published next to the plugin on each GitHub release, and served at https://rpgmem.github.io/institutional-email/ (add `?form=students` or `?form=teachers` for one form alone, and `?network=state` for the state schools).
 
 == Installation ==
 
@@ -25,8 +25,9 @@ A standalone HTML version, for embedding in an iframe, is published next to the 
 
 Place a form on any page or post:
 
-* `[institutional_email]` or `[institutional_email form="students"]` — students: full name and date of birth.
-* `[institutional_email form="teachers"]` — teachers: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
+* `[institutional_email]` — a profile selector over the forms offered (students and teachers by default).
+* `[institutional_email form="students"]` — students only: full name and date of birth.
+* `[institutional_email form="teachers"]` — teachers only: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
 * Add `network="state"` for the São Paulo state schools (SEDUC-SP): students give their RA, its check digit and their date of birth; teachers are pointed to the SED.
 
 Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font. Its Documentation tab explains each option.
