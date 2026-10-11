@@ -3,7 +3,7 @@
 All notable changes to **Institutional Email** are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui, Rafael Meusburger, Thiago Guttierre and Alex Meusburger, as the pages themselves credit them. Each version below names who wrote it, read from the commits' authors.
+The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui, Rafael Meusburger ([@meusburger](https://github.com/meusburger)), Thiago Guttierre and Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), as the pages themselves credit them. Each version below names who wrote it, read from the commits' authors.
 
 ## [Unreleased]
 
@@ -51,7 +51,7 @@ The list of schools is Alex Meusburger's ([@rpgmem](https://github.com/rpgmem)),
 
 The last version of the HTML pages served on Heroku.
 
-Code by [@meusburger](https://github.com/meusburger), who closed #9 to #12; the README and the iframe instructions by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
+Code by Rafael Meusburger ([@meusburger](https://github.com/meusburger)), who closed #9 to #12; the README and the iframe instructions by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
 
 ### Added
 
@@ -65,7 +65,7 @@ Code by [@meusburger](https://github.com/meusburger), who closed #9 to #12; the 
 
 ## [0.3.0] (2020-05-13) — `41b8c1e`
 
-The shared script and stylesheet and the Heroku pages by [@meusburger](https://github.com/meusburger); the iframe instructions by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
+The shared script and stylesheet and the Heroku pages by Rafael Meusburger ([@meusburger](https://github.com/meusburger)); the iframe instructions by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
 
 ### Changed
 
@@ -81,7 +81,7 @@ By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)). The teachers' page cr
 
 ## [0.1.0] (2020-05-01) — `f7b4ca3`
 
-By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), with the layout and the copy buttons by [@meusburger](https://github.com/meusburger) (#2 to #6). The page credits the Educational Technology team of E.M.E.F. José Américo de Almeida, Ricardo Fukui, Rafael Meusburger and Alex Meusburger.
+By Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), with the layout and the copy buttons by Rafael Meusburger ([@meusburger](https://github.com/meusburger)) (#2 to #6). The page credits the Educational Technology team of E.M.E.F. José Américo de Almeida, Ricardo Fukui, Rafael Meusburger and Alex Meusburger.
 
 ### Added
 
