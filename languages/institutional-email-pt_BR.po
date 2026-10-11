@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 04:25+0000\n"
+"POT-Creation-Date: 2026-10-11 12:15+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -77,7 +77,8 @@ msgid "Full name and date of birth."
 msgstr "Nome completo e data de nascimento."
 
 #: src/admin/documentation.php:49 src/admin/documentation.php:76
-#: src/admin/settings-page.php:310
+#: src/admin/settings-page.php:310 src/admin/settings-page.php:415
+#: src/admin/settings-page.php:448 src/admin/settings-page.php:461
 msgid "Students"
 msgstr "Alunos"
 
@@ -86,7 +87,8 @@ msgid "Full name, then the network: the CPF for the partner network, the 7 digit
 msgstr "Nome completo e, em seguida, a rede: o CPF para a Rede Conveniada, os 7 dígitos do RF para a Rede Direta ou o CPF para estagiário."
 
 #: src/admin/documentation.php:50 src/admin/documentation.php:77
-#: src/admin/settings-page.php:322
+#: src/admin/settings-page.php:322 src/admin/settings-page.php:419
+#: src/admin/settings-page.php:452
 msgid "Teachers"
 msgstr "Professores"
 
@@ -122,7 +124,7 @@ msgstr "Resultado"
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr "O endereço e a senha inicial, cada um com um botão Copiar, e um link para a plataforma onde são usados primeiro. Alterar um campo esconde o resultado até que seja calculado de novo."
 
-#: src/admin/documentation.php:58 src/admin/settings-page.php:398
+#: src/admin/documentation.php:58 src/admin/settings-page.php:481
 msgid "General"
 msgstr "Geral"
 
@@ -166,7 +168,7 @@ msgstr "Quem pode usar o formulário"
 msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
 msgstr "As chaves liga/desliga salvam assim que são acionadas. O restante é salvo com \"Salvar alterações\"."
 
-#: src/admin/documentation.php:71 src/admin/settings-page.php:402
+#: src/admin/documentation.php:71 src/admin/settings-page.php:485
 msgid "Address rules"
 msgstr "Regras do endereço"
 
@@ -186,7 +188,7 @@ msgstr "Primeiro e último nome, um ponto e os dígitos do RF ou do CPF. Maria d
 msgid "As a partner-network teacher, with an \"e\" before the CPF digits: mariasilva.e52998224725."
 msgstr "Como na Rede Conveniada, com um \"e\" antes dos dígitos do CPF: mariasilva.e52998224725."
 
-#: src/admin/documentation.php:78
+#: src/admin/documentation.php:78 src/admin/settings-page.php:431
 msgid "Interns"
 msgstr "Estagiários"
 
@@ -225,7 +227,7 @@ msgid "State schools"
 msgstr "Rede estadual"
 
 #: src/admin/documentation.php:95 src/admin/documentation.php:101
-#: src/admin/settings-page.php:353 src/admin/settings-page.php:406
+#: src/admin/settings-page.php:489
 msgid "Texts"
 msgstr "Textos"
 
@@ -242,8 +244,8 @@ msgid "The platform the form links to below the result. Without an address, no n
 msgstr "A plataforma para a qual o formulário aponta abaixo do resultado. Sem endereço, nenhum próximo passo é mostrado."
 
 #: src/admin/documentation.php:101
-msgid "Any label, hint or message. An empty field keeps the built-in text, which follows the site's language."
-msgstr "Qualquer rótulo, dica ou mensagem. Um campo vazio mantém o texto embutido, que acompanha o idioma do site."
+msgid "Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site's language."
+msgstr "Qualquer rótulo, dica ou mensagem, agrupados por rede de ensino e pelo formulário ou opção que os mostra. Um campo vazio mantém o texto embutido, que acompanha o idioma do site."
 
 #: src/admin/documentation.php:105
 msgid "Privacy"
@@ -405,7 +407,7 @@ msgstr "Todos que podem ver a página"
 msgid "Logged-in users only"
 msgstr "Só usuários conectados"
 
-#: src/admin/settings-page.php:255
+#: src/admin/settings-page.php:255 src/admin/settings-page.php:412
 msgid "City schools (RME/SP)"
 msgstr "Rede municipal (RME/SP)"
 
@@ -453,7 +455,7 @@ msgstr "Senha"
 msgid "The password a new account starts with, shown beside the address. It is public: everyone who opens the form sees it."
 msgstr "A senha com que uma conta nova começa, mostrada ao lado do endereço. Ela é pública: todos que abrem o formulário a veem."
 
-#: src/admin/settings-page.php:306
+#: src/admin/settings-page.php:306 src/admin/settings-page.php:445
 msgid "State schools (SEDUC-SP)"
 msgstr "Rede estadual (SEDUC-SP)"
 
@@ -484,20 +486,44 @@ msgid "Where the new account is used first; the form links to it below the resul
 msgstr "Onde a conta nova é usada primeiro; o formulário aponta para ela abaixo do resultado. Deixe vazio para não mostrar próximo passo."
 
 #. translators: %d: maximum number of characters.
-#: src/admin/settings-page.php:357
+#: src/admin/settings-page.php:360
 #, php-format
 msgid "Change any text the form shows, up to %d characters. Leave a field empty to keep the built-in text, which follows the site's language."
 msgstr "Altere qualquer texto que o formulário mostra, com até %d caracteres. Deixe um campo vazio para manter o texto embutido, que acompanha o idioma do site."
 
-#: src/admin/settings-page.php:362
+#: src/admin/settings-page.php:366
 msgid "Built-in text"
 msgstr "Texto embutido"
 
-#: src/admin/settings-page.php:363
+#: src/admin/settings-page.php:367
 msgid "Text on this site"
 msgstr "Texto neste site"
 
-#: src/admin/settings-page.php:410
+#: src/admin/settings-page.php:423
+msgid "Teachers: partner network"
+msgstr "Professores: Rede Conveniada"
+
+#: src/admin/settings-page.php:427
+msgid "Teachers: direct network"
+msgstr "Professores: Rede Direta"
+
+#: src/admin/settings-page.php:435
+msgid "CPF: partner network and interns"
+msgstr "CPF: Rede Conveniada e estagiários"
+
+#: src/admin/settings-page.php:439
+msgid "Students, teachers and interns"
+msgstr "Alunos, professores e estagiários"
+
+#: src/admin/settings-page.php:458
+msgid "Both networks"
+msgstr "As duas redes"
+
+#: src/admin/settings-page.php:465
+msgid "Buttons and messages"
+msgstr "Botões e mensagens"
+
+#: src/admin/settings-page.php:493
 msgid "Documentation"
 msgstr "Documentação"
 
@@ -696,6 +722,9 @@ msgstr "A verificação de integridade (SHA-256) do pacote de atualização falh
 #. Plugin header: Description
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."
 msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP) a partir do nome e da data de nascimento, RF ou CPF."
+
+#~ msgid "Any label, hint or message. An empty field keeps the built-in text, which follows the site's language."
+#~ msgstr "Qualquer rótulo, dica ou mensagem. Um campo vazio mantém o texto embutido, que acompanha o idioma do site."
 
 #~ msgid "Full name, then the network: the CPF for the partner network, or the 7 digits of the RF for the direct network."
 #~ msgstr "Nome completo e, depois, a rede: o CPF para a rede conveniada, ou os 7 dígitos do RF para a rede direta."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 04:25+0000\n"
+"POT-Creation-Date: 2026-10-11 12:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,8 @@ msgid "Full name and date of birth."
 msgstr ""
 
 #: src/admin/documentation.php:49 src/admin/documentation.php:76
-#: src/admin/settings-page.php:310
+#: src/admin/settings-page.php:310 src/admin/settings-page.php:415
+#: src/admin/settings-page.php:448 src/admin/settings-page.php:461
 msgid "Students"
 msgstr ""
 
@@ -88,7 +89,8 @@ msgid "Full name, then the network: the CPF for the partner network, the 7 digit
 msgstr ""
 
 #: src/admin/documentation.php:50 src/admin/documentation.php:77
-#: src/admin/settings-page.php:322
+#: src/admin/settings-page.php:322 src/admin/settings-page.php:419
+#: src/admin/settings-page.php:452
 msgid "Teachers"
 msgstr ""
 
@@ -124,7 +126,7 @@ msgstr ""
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr ""
 
-#: src/admin/documentation.php:58 src/admin/settings-page.php:398
+#: src/admin/documentation.php:58 src/admin/settings-page.php:481
 msgid "General"
 msgstr ""
 
@@ -168,7 +170,7 @@ msgstr ""
 msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
 msgstr ""
 
-#: src/admin/documentation.php:71 src/admin/settings-page.php:402
+#: src/admin/documentation.php:71 src/admin/settings-page.php:485
 msgid "Address rules"
 msgstr ""
 
@@ -188,7 +190,7 @@ msgstr ""
 msgid "As a partner-network teacher, with an \"e\" before the CPF digits: mariasilva.e52998224725."
 msgstr ""
 
-#: src/admin/documentation.php:78
+#: src/admin/documentation.php:78 src/admin/settings-page.php:431
 msgid "Interns"
 msgstr ""
 
@@ -227,7 +229,7 @@ msgid "State schools"
 msgstr ""
 
 #: src/admin/documentation.php:95 src/admin/documentation.php:101
-#: src/admin/settings-page.php:353 src/admin/settings-page.php:406
+#: src/admin/settings-page.php:489
 msgid "Texts"
 msgstr ""
 
@@ -244,7 +246,7 @@ msgid "The platform the form links to below the result. Without an address, no n
 msgstr ""
 
 #: src/admin/documentation.php:101
-msgid "Any label, hint or message. An empty field keeps the built-in text, which follows the site's language."
+msgid "Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site's language."
 msgstr ""
 
 #: src/admin/documentation.php:105
@@ -407,7 +409,7 @@ msgstr ""
 msgid "Logged-in users only"
 msgstr ""
 
-#: src/admin/settings-page.php:255
+#: src/admin/settings-page.php:255 src/admin/settings-page.php:412
 msgid "City schools (RME/SP)"
 msgstr ""
 
@@ -455,7 +457,7 @@ msgstr ""
 msgid "The password a new account starts with, shown beside the address. It is public: everyone who opens the form sees it."
 msgstr ""
 
-#: src/admin/settings-page.php:306
+#: src/admin/settings-page.php:306 src/admin/settings-page.php:445
 msgid "State schools (SEDUC-SP)"
 msgstr ""
 
@@ -486,20 +488,44 @@ msgid "Where the new account is used first; the form links to it below the resul
 msgstr ""
 
 #. translators: %d: maximum number of characters.
-#: src/admin/settings-page.php:357
+#: src/admin/settings-page.php:360
 #, php-format
 msgid "Change any text the form shows, up to %d characters. Leave a field empty to keep the built-in text, which follows the site's language."
 msgstr ""
 
-#: src/admin/settings-page.php:362
+#: src/admin/settings-page.php:366
 msgid "Built-in text"
 msgstr ""
 
-#: src/admin/settings-page.php:363
+#: src/admin/settings-page.php:367
 msgid "Text on this site"
 msgstr ""
 
-#: src/admin/settings-page.php:410
+#: src/admin/settings-page.php:423
+msgid "Teachers: partner network"
+msgstr ""
+
+#: src/admin/settings-page.php:427
+msgid "Teachers: direct network"
+msgstr ""
+
+#: src/admin/settings-page.php:435
+msgid "CPF: partner network and interns"
+msgstr ""
+
+#: src/admin/settings-page.php:439
+msgid "Students, teachers and interns"
+msgstr ""
+
+#: src/admin/settings-page.php:458
+msgid "Both networks"
+msgstr ""
+
+#: src/admin/settings-page.php:465
+msgid "Buttons and messages"
+msgstr ""
+
+#: src/admin/settings-page.php:493
 msgid "Documentation"
 msgstr ""
 

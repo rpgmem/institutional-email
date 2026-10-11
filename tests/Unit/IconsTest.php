@@ -51,7 +51,7 @@ final class IconsTest extends TestCase {
 
 	public function test_every_tab_icon_exists(): void {
 		$source = (string) file_get_contents( dirname( __DIR__, 2 ) . '/src/admin/settings-page.php' );
-		preg_match_all( "/'icon'\s*=>\s*'([a-z-]+)'|openCard\(.*\),\s*'([a-z-]+)'\s*\);/", $source, $m );
+		preg_match_all( "/'icon'\s*=>\s*'([a-z-]+)'|openCard\([^;]*,\s*'([a-z-]+)'\s*\);/", $source, $m );
 		$names = array_filter( array_merge( $m[1], $m[2] ) );
 		// Recounted by another reading, so a scan that misses a use fails.
 		$uses = substr_count( $source, 'self::openCard(' ) + preg_match_all( "/'icon'\s*=>/", $source );

@@ -355,3 +355,10 @@
 .ie-settings .ie-rules dd {
 	margin: 2px 0 0;
 }
+
+/* Each form or option of the Texts tab opens with its own heading row. */
+.ie-settings .ie-texts-table .ie-texts-group th {
+	padding-top: 16px;
+	border-bottom: 1px solid #c3c4c7;
+	font-weight: 600;
+}

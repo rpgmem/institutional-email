@@ -98,7 +98,7 @@ final class Documentation {
 				'intro' => __( 'What the form says.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Next step', 'institutional-email' ), __( 'The platform the form links to below the result. Without an address, no next step is shown.', 'institutional-email' ) ),
-					array( __( 'Texts', 'institutional-email' ), __( 'Any label, hint or message. An empty field keeps the built-in text, which follows the site\'s language.', 'institutional-email' ) ),
+					array( __( 'Texts', 'institutional-email' ), __( 'Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site\'s language.', 'institutional-email' ) ),
 				),
 			),
 			'privacy'  => array(
