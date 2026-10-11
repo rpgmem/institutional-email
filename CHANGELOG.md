@@ -21,3 +21,37 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Removed
 
 - **The Heroku pages, jQuery, the CDN libraries and Google Analytics** (#14). The forms load no third-party file and collect no usage data.
+
+## [0.4.0] (2020-05-14) — `cbd1f51`
+
+The last version of the HTML pages, served on Heroku, before the project became a plugin.
+
+### Added
+
+- **The teachers' form asks for the network** (#12). Direct network teachers type their 7-digit RF, partner network teachers their CPF; the address ends in whichever was given.
+- **A footer on the forms** (#10).
+
+### Changed
+
+- **Short middle names leave a student's address** (#9). Only middle names of four letters or more give their initial; "da", "de", "dos" are left out, and the first and last names are kept whole.
+- **The forms check their fields again before showing an address** (#11), and the copy buttons use clipboard.js.
+
+## [0.3.0] (2020-05-13) — `41b8c1e`
+
+### Changed
+
+- **The forms became two pages for an iframe,** `email-alunos.html` and `email-professores.html`, served from Heroku with a shared script and stylesheet. The README told schools to embed them with an `<iframe>` instead of copying the code, so a fix reached every site at once.
+
+## [0.2.0] (2020-05-11) — `a648d9b`
+
+### Added
+
+- **A form for partner network teachers,** `index-professores.html`: full name and CPF, with the CPF's check digits validated, for an address ending in the CPF.
+
+## [0.1.0] (2020-05-01) — `f7b4ca3`
+
+### Added
+
+- **The first form, for students,** one file, `index.html`: full name and date of birth for the address `firstname` + middle initials + `lastname.DDMMYYYY@edu.sme.prefeitura.sp.gov.br`, the initial password `12345678`, buttons to copy both, and a link to Google Classroom. Accents were removed with a character map, and every middle name gave its initial.
+
+These four versions were never tagged at the time: their numbers, dates and commits were assigned afterwards from the repository's history (#14).
