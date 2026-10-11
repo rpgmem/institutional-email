@@ -1,0 +1,51 @@
+name: Pages
+
+# Publishes the standalone form of the latest release on GitHub Pages, for
+# whoever embeds it in an iframe: https://rpgmem.github.io/institutional-email/
+# shows the students' form and ?form=teachers the teachers'.
+#
+# It serves the release ASSET rather than building from a branch, so the page
+# is always byte-for-byte the file the release offers for download. Release
+# calls it after publishing a latest release (a release created with the
+# workflow token does not fire `release` events), and it can be run by hand.
+# Pages must be enabled with "GitHub Actions" as its source.
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy the standalone form
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download the latest release's HTML
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p _site
+          tag="$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName)"
+          gh release download "$tag" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'institutional-email-*.html' --output _site/index.html
+          echo "Publishing the standalone form of $tag."
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

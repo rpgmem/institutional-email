@@ -1,0 +1,151 @@
+/*
+ * Institutional Email: the form.
+ *
+ * Every rule is scoped under .ie-generator, because the form lives inside
+ * someone else's theme, or inside an iframe on someone else's site.
+ */
+
+.ie-generator {
+	--ie-border: #8c8f94;
+	--ie-muted: #50575e;
+	--ie-accent: #2271b1;
+	--ie-accent-text: #ffffff;
+	--ie-error: #b32d2e;
+	--ie-ok-bg: #edfaef;
+	--ie-ok-border: #00a32a;
+	--ie-value-bg: #f6f7f7;
+
+	max-width: 640px;
+	font-family: Arial, sans-serif;
+	line-height: 1.5;
+}
+
+.ie-generator .ie-field {
+	margin: 0 0 12px;
+}
+
+.ie-generator .ie-field label,
+.ie-generator .ie-network legend {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+
+.ie-generator .ie-hint {
+	display: block;
+	margin: 0 0 4px;
+	color: var(--ie-muted);
+	font-size: 0.9em;
+}
+
+.ie-generator .ie-input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 6px 8px;
+	border: 1px solid var(--ie-border);
+	border-radius: 4px;
+	font: inherit;
+}
+
+.ie-generator .ie-input[aria-invalid="true"] {
+	border-color: var(--ie-error);
+}
+
+.ie-generator .ie-field-error {
+	display: block;
+	margin-top: 4px;
+	color: var(--ie-error);
+	font-size: 0.9em;
+}
+
+.ie-generator .ie-network {
+	margin: 0 0 12px;
+	padding: 8px 12px 12px;
+	border: 1px solid var(--ie-border);
+	border-radius: 4px;
+}
+
+.ie-generator .ie-radio {
+	display: inline-block;
+	margin: 0 24px 0 0;
+	cursor: pointer;
+}
+
+.ie-generator .ie-button {
+	padding: 8px 16px;
+	border: 1px solid var(--ie-accent);
+	border-radius: 4px;
+	background: var(--ie-accent);
+	color: var(--ie-accent-text);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.ie-generator .ie-result {
+	margin: 16px 0 0;
+	padding: 12px;
+	border: 1px solid var(--ie-ok-border);
+	border-radius: 4px;
+	background: var(--ie-ok-bg);
+}
+
+.ie-generator .ie-result-label {
+	margin: 0 0 4px;
+}
+
+.ie-generator .ie-result-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	margin: 0 0 12px;
+}
+
+.ie-generator .ie-result-row:last-child {
+	margin-bottom: 0;
+}
+
+.ie-generator .ie-value {
+	flex: 1 1 16em;
+	padding: 6px 8px;
+	border: 1px solid var(--ie-border);
+	border-radius: 4px;
+	background: var(--ie-value-bg);
+	font-family: Consolas, Monaco, monospace;
+	font-weight: 700;
+	overflow-wrap: anywhere;
+}
+
+.ie-generator .ie-copy {
+	padding: 6px 12px;
+	border: 1px solid var(--ie-accent);
+	border-radius: 4px;
+	background: transparent;
+	color: var(--ie-accent);
+	font: inherit;
+	cursor: pointer;
+}
+
+.ie-generator .ie-status:empty {
+	display: none;
+}
+
+.ie-generator .ie-status {
+	margin: 8px 0 0;
+	font-weight: 600;
+}
+
+.ie-generator .ie-next {
+	margin: 16px 0 0;
+}
+
+.ie-generator .ie-privacy {
+	margin: 16px 0 0;
+	color: var(--ie-muted);
+	font-size: 0.85em;
+}
+
+.ie-generator [hidden] {
+	display: none;
+}

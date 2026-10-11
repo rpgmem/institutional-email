@@ -1,0 +1,140 @@
+# Brazilian Portuguese translations for Institutional Email.
+# This file is distributed under the same license as the Institutional Email package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Institutional Email 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
+"POT-Creation-Date: 2026-10-11 03:12+0000\n"
+"PO-Revision-Date: 2026-10-11 00:00+0000\n"
+"Last-Translator: Alex Meusburger\n"
+"Language-Team: Português do Brasil\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: bin/build-standalone.php:90
+msgid "Institutional Email"
+msgstr "E-mail Institucional"
+
+#: bin/build-standalone.php:109 src/shortcode.php:51
+msgid "This form needs JavaScript."
+msgstr "Este formulário precisa de JavaScript."
+
+#: src/config.php:48
+msgid "Google Classroom"
+msgstr "Google Sala de Aula"
+
+#: src/config.php:61
+msgid "Student's full name"
+msgstr "Nome completo do aluno"
+
+#: src/config.php:62
+msgid "Student's date of birth"
+msgstr "Data de nascimento do aluno"
+
+#: src/config.php:63
+msgid "Teacher's full name"
+msgstr "Nome completo do professor(a)"
+
+#: src/config.php:64
+msgid "Network"
+msgstr "Rede"
+
+#: src/config.php:65
+msgid "Direct network for public servants; partner network for staff who are not public servants."
+msgstr "Rede Direta para servidores públicos; Rede Conveniada para funcionários que não são servidores."
+
+#: src/config.php:66
+msgid "Partner network (CPF)"
+msgstr "Rede Conveniada (CPF)"
+
+#: src/config.php:67
+msgid "Direct network (RF)"
+msgstr "Rede Direta (RF)"
+
+#: src/config.php:68
+msgid "Registro Funcional (RF)"
+msgstr "Registro Funcional (RF)"
+
+#: src/config.php:69
+msgid "The 7 digits, without the check digit."
+msgstr "Os 7 dígitos, sem o dígito verificador."
+
+#: src/config.php:70
+msgid "CPF"
+msgstr "CPF"
+
+#: src/config.php:71
+msgid "Find the email"
+msgstr "Gerar e-mail"
+
+#: src/config.php:72
+msgid "The student's email is:"
+msgstr "O e-mail do aluno é:"
+
+#: src/config.php:73
+msgid "The teacher's email is:"
+msgstr "O e-mail do professor(a) é:"
+
+#: src/config.php:74
+msgid "The initial password is:"
+msgstr "A senha inicial do e-mail é:"
+
+#: src/config.php:75
+msgid "Copy email"
+msgstr "Copiar e-mail"
+
+#: src/config.php:76
+msgid "Copy password"
+msgstr "Copiar senha"
+
+#: src/config.php:77
+msgid "Email copied."
+msgstr "E-mail copiado."
+
+#: src/config.php:78
+msgid "Password copied."
+msgstr "Senha copiada."
+
+#: src/config.php:79
+msgid "Could not copy; select the text and copy it by hand."
+msgstr "Não foi possível copiar; selecione o texto e copie manualmente."
+
+#: src/config.php:80
+msgid "Email found. Write it down with the password."
+msgstr "E-mail gerado. Anote-o junto com a senha."
+
+#: src/config.php:81
+msgid "Check the fields marked below."
+msgstr "Confira os campos indicados abaixo."
+
+#: src/config.php:82
+msgid "Type the full name, with at least a first and a last name."
+msgstr "Digite o nome completo, com pelo menos nome e sobrenome."
+
+#: src/config.php:83
+msgid "Choose a valid date of birth."
+msgstr "Informe uma data de nascimento válida."
+
+#: src/config.php:84
+msgid "Type the 7 digits of the RF."
+msgstr "Digite os 7 dígitos do RF."
+
+#: src/config.php:85
+msgid "Type a valid CPF."
+msgstr "Digite um CPF válido."
+
+#: src/config.php:86
+msgid "Then sign in with this email and password, not a personal account, at:"
+msgstr "Depois, entre com este e-mail e senha (não com uma conta pessoal) em:"
+
+#: src/config.php:87
+msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
+msgstr "O e-mail é gerado no seu navegador: nada do que você digita é enviado ou guardado em lugar algum."
+
+#. Plugin header: Description
+msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."
+msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP) a partir do nome e da data de nascimento, RF ou CPF."

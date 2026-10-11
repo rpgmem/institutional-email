@@ -12,6 +12,8 @@
  *   2. The running Plugin::VERSION equals the commit being deployed. A deploy
  *      that silently did not land leaves the host on an old version while the
  *      workflow reports success.
+ *   3. The [institutional_email] shortcode is registered, so a page that
+ *      carries it shows the form rather than the raw shortcode text.
  *
  * It is an alarm, not a merge gate: the workflow runs after the merge.
  *
@@ -138,6 +140,10 @@ $ok   = ie_smoke_check(
 	'live version matches deploy',
 	$live === $expected ? $live : $live . ' on host, expected ' . $expected
 ) && $ok;
+
+// 3. The shortcode is registered (wp-load.php has already fired `init`).
+$tag = \InstitutionalEmail\Shortcode::TAG;
+$ok  = ie_smoke_check( shortcode_exists( $tag ), 'shortcode registered', '[' . $tag . ']' ) && $ok;
 
 $GLOBALS['ie_smoke_verdict'] = true;
 echo "\n" . ( $ok ? 'SMOKE PASSED' : 'SMOKE FAILED' ) . "\n";
