@@ -140,7 +140,14 @@ final class SettingsTest extends TestCase {
 		self::assertStringContainsString( '--ie-radius: 24px', $vars );
 		self::assertStringNotContainsString( '--ie-font', $vars );
 		self::assertStringContainsString( '--ie-font: inherit', Settings::styleVars( array_merge( $saved, array( 'font' => 'theme' ) ) ) );
-		self::assertSame( '', Settings::styleVars( array_merge( $saved, array( 'custom_style' => false ) ) ), 'Switched off, the values are kept but not applied.' );
+		self::assertSame( '', Settings::styleVars( array_merge( $saved, array( 'custom_style' => false ) ) ), 'Switched off, nothing is applied.' );
+
+		$off = Settings::sanitize( array_merge( $saved, array( 'custom_style' => '0', 'form_width' => '900' ) ) );
+		self::assertSame( Config::COLORS, $off['colors'], 'Switching off clears the colours.' );
+		self::assertSame( Config::RADIUS, $off['radius'] );
+		self::assertSame( 'form', $off['font'] );
+		self::assertSame( Config::FORM_WIDTH, $off['form_width'] );
+		self::assertSame( Config::COLORS, Settings::sanitize( array_merge( $off, array( 'custom_style' => '1' ) ) )['colors'], 'Switched on again, it starts from the defaults.' );
 	}
 
 	public function test_analytics_is_off_by_default_and_takes_only_a_measurement_id(): void {
@@ -158,10 +165,10 @@ final class SettingsTest extends TestCase {
 
 	public function test_the_form_width_stays_in_range_and_a_cleared_field_keeps_the_default(): void {
 		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array() )['form_width'] );
-		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array( 'form_width' => '' ) )['form_width'], 'A cleared field is not zero pixels.' );
-		self::assertSame( Settings::FORM_WIDTH_MIN, Settings::sanitize( array( 'form_width' => '10' ) )['form_width'] );
-		self::assertSame( Settings::FORM_WIDTH_MAX, Settings::sanitize( array( 'form_width' => '99999' ) )['form_width'] );
-		self::assertSame( 800, Settings::sanitize( array( 'form_width' => '800' ) )['form_width'] );
+		self::assertSame( Config::FORM_WIDTH, Settings::sanitize( array( 'custom_style' => '1', 'form_width' => '' ) )['form_width'], 'A cleared field is not zero pixels.' );
+		self::assertSame( Settings::FORM_WIDTH_MIN, Settings::sanitize( array( 'custom_style' => '1', 'form_width' => '10' ) )['form_width'] );
+		self::assertSame( Settings::FORM_WIDTH_MAX, Settings::sanitize( array( 'custom_style' => '1', 'form_width' => '99999' ) )['form_width'] );
+		self::assertSame( 800, Settings::sanitize( array( 'custom_style' => '1', 'form_width' => '800' ) )['form_width'] );
 	}
 
 	public function test_the_password_is_plain_text_bounded_and_never_empty(): void {

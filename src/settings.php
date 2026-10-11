@@ -133,6 +133,10 @@ final class Settings {
 
 		$network = (string) ( $input['network'] ?? Config::NETWORKS[0] );
 
+		// Switching the design off resets it: the width, colours, corners and
+		// font go back to their defaults, so switching it on again starts clean.
+		$custom = ! empty( $input['custom_style'] );
+
 		return array(
 			'network'          => in_array( $network, Config::NETWORKS, true ) ? $network : Config::NETWORKS[0],
 			'forms'            => $forms,
@@ -140,17 +144,17 @@ final class Settings {
 			'domain'           => '' !== $domain ? $domain : Config::DOMAIN,
 			'password'         => $password,
 			'middle_min'       => min( self::MIDDLE_MIN_MAX, max( self::MIDDLE_MIN_MIN, $middle ) ),
-			'form_width'       => min( self::FORM_WIDTH_MAX, max( self::FORM_WIDTH_MIN, $width ) ),
+			'form_width'       => $custom ? min( self::FORM_WIDTH_MAX, max( self::FORM_WIDTH_MIN, $width ) ) : Config::FORM_WIDTH,
 			// Absent means \"never saved\": keep the default. The form posts a
 			// hidden 0 before the checkbox, so unticking it is never absent.
 			'check_rf_digit'   => array_key_exists( 'check_rf_digit', $input ) ? ! empty( $input['check_rf_digit'] ) : true,
 			'teacher_networks' => $teachers,
 			'analytics'        => ! empty( $input['analytics'] ),
 			'analytics_id'     => self::analyticsId( $input['analytics_id'] ?? '' ),
-			'custom_style'     => ! empty( $input['custom_style'] ),
-			'colors'           => self::colors( $input['colors'] ?? array() ),
-			'radius'           => min( self::RADIUS_MAX, max( 0, (int) ( $input['radius'] ?? Config::RADIUS ) ) ),
-			'font'             => in_array( $input['font'] ?? '', Config::FONTS, true ) ? (string) $input['font'] : Config::FONTS[0],
+			'custom_style'     => $custom,
+			'colors'           => $custom ? self::colors( $input['colors'] ?? array() ) : Config::COLORS,
+			'radius'           => $custom ? min( self::RADIUS_MAX, max( 0, (int) ( $input['radius'] ?? Config::RADIUS ) ) ) : Config::RADIUS,
+			'font'             => $custom && in_array( $input['font'] ?? '', Config::FONTS, true ) ? (string) $input['font'] : Config::FONTS[0],
 			'platform_name'    => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
 			// Absent means "never saved": keep the default. An emptied field
 			// is a choice: the form then shows no next step.

@@ -103,6 +103,29 @@ describe( 'settings toggles', () => {
 		expect( body.getAll( 'value[]' ) ).toEqual( [ 'intern' ] );
 	} );
 
+	it( 'puts the design fields back to their defaults when the design is switched off', () => {
+		document.body.innerHTML = `<p>${ toggle( 'custom_style' ) }</p>
+			<table><tr data-ie-shown-by="custom_style"><td>
+				<input type="number" id="w" value="900" data-ie-default="640">
+				<input type="color" id="c" value="#aa0000" data-ie-default="#2271b1">
+				<input type="radio" name="f" id="f1" value="form" data-ie-default="form">
+				<input type="radio" name="f" id="f2" value="theme" data-ie-default="form" checked>
+			</td></tr></table>`;
+		boot( { success: true, data: { value: false } } );
+		const box = document.querySelector( 'input[data-ie-autosave]' );
+		box.checked = false;
+		box.dispatchEvent( new Event( 'change' ) );
+
+		expect( document.getElementById( 'w' ).value ).toBe( '640' );
+		expect( document.getElementById( 'c' ).value ).toBe( '#2271b1' );
+		expect( document.getElementById( 'f1' ).checked ).toBe( true );
+		expect( document.getElementById( 'f2' ).checked ).toBe( false );
+
+		box.checked = true;
+		box.dispatchEvent( new Event( 'change' ) );
+		expect( document.getElementById( 'w' ).value ).toBe( '640' );
+	} );
+
 	it( 'reverts the toggle and shows the server message on refusal', async () => {
 		document.body.innerHTML = `<p>${ toggle( 'some_toggle', '1', false ) }</p>`;
 		boot( { success: false, data: { message: 'Type a default first.' } } );

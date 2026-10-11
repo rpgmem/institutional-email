@@ -67,6 +67,13 @@ final class AutosaveTest extends TestCase {
 		$on = Autosave::apply( Settings::defaults(), 'custom_style', '1' );
 		self::assertIsArray( $on );
 		self::assertTrue( $on['custom_style'] );
+
+		$on['colors']['accent'] = '#aa0000';
+		$on['radius']           = 12;
+		$off                    = Autosave::apply( $on, 'custom_style', '0' );
+		self::assertIsArray( $off );
+		self::assertSame( Config::COLORS, $off['colors'], 'Switching off clears the design.' );
+		self::assertSame( Config::RADIUS, $off['radius'] );
 	}
 
 	public function test_no_form_ticked_offers_both(): void {
