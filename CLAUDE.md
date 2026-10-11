@@ -136,7 +136,7 @@ npm test
 ## The standalone page and GitHub Pages
 
 - `php bin/build-standalone.php <version> <out-file> [locale]` writes one self-contained HTML file: the stylesheet and the script are inlined, and the configuration is `Config::defaults()` translated from `languages/` (pt_BR by default). Nothing is fetched.
-- It shows the students' form; `?form=teachers` in the address shows the teachers'. The plugin's shortcode ignores the address and reads its `form` attribute.
+- It opens with the profile selector; `?form=students` or `?form=teachers` in the address shows one form alone. The plugin's shortcode ignores the address and reads its `form` attribute, where no attribute also means the selector.
 - With `-` as the out file it prints the configuration as JSON. The Vitest suite reads it that way, so the JS tests run against the real strings, never a copy.
 - **Pages serves the release asset, not a build from a branch,** so the page is always the file the release offers for download. `pages.yml` runs from `release.yml` after a tag push (a release created with the workflow token fires no `release` event) and by hand through `workflow_dispatch`. Pages must be enabled with **GitHub Actions** as its source.
 - A historical release published by hand never replaces the page.
