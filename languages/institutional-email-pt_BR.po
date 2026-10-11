@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 03:25+0000\n"
+"POT-Creation-Date: 2026-10-11 03:28+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -207,24 +207,48 @@ msgstr "No site"
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr "Só estas configurações são guardadas, em uma opção que é apagada junto com o plugin."
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:106
+msgid "Updates"
+msgstr "Atualizações"
+
+#: src/admin/documentation.php:108
+msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
+msgstr "As novas versões chegam pela tela de atualizações do WordPress, a partir das versões do plugin no GitHub."
+
+#: src/admin/documentation.php:110
+msgid "Checked package"
+msgstr "Pacote verificado"
+
+#: src/admin/documentation.php:110
+msgid "Each package is checked against its published SHA-256 before it is installed."
+msgstr "Cada pacote é conferido com o SHA-256 publicado antes de ser instalado."
+
+#: src/admin/documentation.php:111
+msgid "Automatic updates"
+msgstr "Atualizações automáticas"
+
+#: src/admin/documentation.php:111
+msgid "Turned on or off with WordPress's own link on the Plugins screen."
+msgstr "Ligadas ou desligadas pelo próprio link do WordPress na tela de Plugins."
+
+#: src/admin/documentation.php:123
 msgid "Contents"
 msgstr "Conteúdo"
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:141
+#: src/admin/documentation.php:150
 #, php-format
 msgid "Open the %s tab"
 msgstr "Abrir a aba %s"
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:167
+#: src/admin/documentation.php:176
 #, php-format
 msgid "Developed by %s."
 msgstr "Desenvolvido por %s."
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:173
+#: src/admin/documentation.php:182
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr "Código-fonte e registro de problemas: %s"
@@ -492,6 +516,10 @@ msgstr "Entre para descobrir um e-mail institucional."
 #: src/shortcode.php:51
 msgid "Log in"
 msgstr "Entrar"
+
+#: src/update/github-updater.php:197
+msgid "Update package integrity check (SHA-256) failed. Installation aborted."
+msgstr "A verificação de integridade (SHA-256) do pacote de atualização falhou. Instalação cancelada."
 
 #. Plugin header: Description
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."

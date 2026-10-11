@@ -102,6 +102,15 @@ final class Documentation {
 					array( __( 'On the site', 'institutional-email' ), __( 'Only these settings are stored, in one option that is deleted when the plugin is.', 'institutional-email' ) ),
 				),
 			),
+			'updates'  => array(
+				'title' => __( 'Updates', 'institutional-email' ),
+				'icon'  => 'sync',
+				'intro' => __( 'New versions arrive through the normal WordPress update screen, from the plugin\'s GitHub releases.', 'institutional-email' ),
+				'items' => array(
+					array( __( 'Checked package', 'institutional-email' ), __( 'Each package is checked against its published SHA-256 before it is installed.', 'institutional-email' ) ),
+					array( __( 'Automatic updates', 'institutional-email' ), __( 'Turned on or off with WordPress\'s own link on the Plugins screen.', 'institutional-email' ) ),
+				),
+			),
 		);
 	}
 

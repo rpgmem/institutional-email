@@ -26,6 +26,11 @@ final class UninstallTest extends TestCase {
 		}
 	}
 
+	public function test_the_update_cache_is_deleted(): void {
+		$uninstall = (string) file_get_contents( __DIR__ . '/../../uninstall.php' );
+		self::assertStringContainsString( "delete_site_transient( '" . \InstitutionalEmail\Update\GithubUpdater::CACHE_KEY . "' )", $uninstall );
+	}
+
 	public function test_no_option_is_written_outside_the_known_list(): void {
 		$found = 0;
 		$it    = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( __DIR__ . '/../../src', \FilesystemIterator::SKIP_DOTS ) );

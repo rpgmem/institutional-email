@@ -14,3 +14,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 delete_option( 'institutional_email_settings' );
+delete_site_transient( 'institutional_email_github_update' );
