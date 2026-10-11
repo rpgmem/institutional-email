@@ -3,7 +3,7 @@ Contributors: rpgmem
 Tags: email, school, students, teachers, shortcode
 Requires at least: 6.8
 Tested up to: 7.1.3
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 Requires PHP: 8.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -53,6 +53,9 @@ The address is worked out in the visitor's browser, and what is typed is never s
 
 The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem/institutional-email/blob/main/CHANGELOG.md).
 
+= 1.1.0 =
+* Changed: a shortcode or standalone page that names no form opens with a profile selector for students and teachers; add form="students" to keep the students' form alone.
+
 = 1.0.0 =
 * New: the institutional email forms as a WordPress plugin, placed with the [institutional_email] shortcode (students) or [institutional_email form="teachers"].
 * New: Settings → Institutional Email for the forms offered, access, optional Google Analytics, a Design tab for width, colours, corners and font, domain, middle-name length, initial password, the next-step platform and every text of the form, with a Documentation tab.
@@ -66,5 +69,5 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-First release as a WordPress plugin: the [institutional_email] shortcode for city and state schools and interns, settings for forms, access, address rules, texts and design, optional Analytics, and updates from GitHub. Details in CHANGELOG.md.
+= 1.1.0 =
+A shortcode with no form="…" now opens with a profile selector for students and teachers. Pages that should show only the students' form need [institutional_email form="students"]. Details in CHANGELOG.md.
