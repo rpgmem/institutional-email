@@ -54,6 +54,9 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 = 1.0.0 =
 * New: the institutional email forms as a WordPress plugin, placed with the [institutional_email] shortcode (students) or [institutional_email form="teachers"].
 * New: Settings → Institutional Email for the forms offered, access, domain, middle-name length, initial password, the next-step platform and every text of the form, with a Documentation tab.
+* New: São Paulo state schools (SEDUC-SP), chosen in the settings or per page with network="state": state students' RA address and initial password; state teachers pointed to the SED.
+* New: interns of the city schools on the teachers' form, with an "e" before the CPF digits.
+* New: the RF's check digit is checked (switchable), and RF and CPF are masked as they are typed.
 * New: updates from GitHub Releases, each package checked against its SHA-256.
 * New: a standalone HTML page on every release, served on GitHub Pages for iframes.
 * Changed: only the letters a to z of each name reach the address.
@@ -62,4 +65,4 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 == Upgrade Notice ==
 
 = 1.0.0 =
-First release as a WordPress plugin: the [institutional_email] shortcode, settings for forms, access, address rules and texts, and updates from GitHub. Details in CHANGELOG.md.
+First release as a WordPress plugin: the [institutional_email] shortcode for city and state schools, settings for forms, access, address rules and texts, and updates from GitHub. Details in CHANGELOG.md.
