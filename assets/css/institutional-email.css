@@ -17,7 +17,7 @@
 	--ie-radius: 4px;
 	--ie-font: arial, sans-serif;
 
-	/* The width set on Settings → General, printed on the container. */
+	/* The width set on Settings → Design, printed on the container. */
 	max-width: var(--ie-form-width, 640px);
 	font-family: var(--ie-font);
 	line-height: 1.5;
