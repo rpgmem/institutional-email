@@ -131,6 +131,24 @@ final class SettingsPage {
 	}
 
 	/**
+	 * The form's colours, by key, with the name the screen shows.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function colorLabels(): array {
+		return array(
+			'accent'      => __( 'Buttons and links', 'institutional-email' ),
+			'accent_text' => __( 'Button text', 'institutional-email' ),
+			'border'      => __( 'Field borders', 'institutional-email' ),
+			'muted'       => __( 'Hints', 'institutional-email' ),
+			'error'       => __( 'Errors', 'institutional-email' ),
+			'ok_bg'       => __( 'Result background', 'institutional-email' ),
+			'ok_border'   => __( 'Result border', 'institutional-email' ),
+			'value_bg'    => __( 'Address and password background', 'institutional-email' ),
+		);
+	}
+
+	/**
 	 * The school networks, by id, with the name the screen shows.
 	 *
 	 * @return array<string, string>
@@ -233,17 +251,6 @@ final class SettingsPage {
 		}
 		echo '<p class="description">' . esc_html__( 'Who the teachers\' form serves in the city schools. With only one ticked, the form asks for it without a choice; with none ticked, all three are offered.', 'institutional-email' ) . '</p>';
 		echo '</fieldset></td></tr>';
-
-		printf(
-			'<tr><th scope="row"><label for="ie-form-width">%1$s</label></th><td><input type="number" id="ie-form-width" class="small-text" name="%2$s[form_width]" value="%3$d" min="%4$d" max="%5$d" step="10" required> px<p class="description">%6$s</p></td></tr>',
-			esc_html__( 'Form width', 'institutional-email' ),
-			esc_attr( $name ),
-			(int) $settings['form_width'],
-			(int) Settings::FORM_WIDTH_MIN,
-			(int) Settings::FORM_WIDTH_MAX,
-			/* translators: 1: default width, 2: minimum, 3: maximum, in pixels. */
-			esc_html( sprintf( __( 'The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe.', 'institutional-email' ), Config::FORM_WIDTH, Settings::FORM_WIDTH_MIN, Settings::FORM_WIDTH_MAX ) )
-		);
 
 		echo '<tr><th scope="row">' . esc_html__( 'Who can use the form', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( array(
@@ -422,6 +429,70 @@ final class SettingsPage {
 		}
 		echo '</div>';
 
+		// Design.
+		self::openPanel( 'design', $active );
+		self::openCard( __( 'Design', 'institutional-email' ), 'brush' );
+		echo '<table class="form-table" role="presentation"><tbody>';
+		printf(
+			'<tr><th scope="row">%1$s</th><td><input type="hidden" name="%2$s[custom_style]" value="0">',
+			esc_html__( 'Customise', 'institutional-email' ),
+			esc_attr( $name )
+		);
+		self::toggle(
+			array(
+				'name'    => $name . '[custom_style]',
+				'checked' => $settings['custom_style'],
+				'label'   => __( 'Use the width, colours, corners and font below', 'institutional-email' ),
+				'key'     => 'custom_style',
+			)
+		);
+		echo '<p class="description">' . esc_html__( 'Off, the form keeps its own look, and the values below are kept for later. The standalone page always keeps its own look.', 'institutional-email' ) . '</p></td></tr>';
+		printf(
+			'<tr data-ie-shown-by="custom_style"><th scope="row"><label for="ie-form-width">%1$s</label></th><td><input type="number" id="ie-form-width" class="small-text" name="%2$s[form_width]" value="%3$d" min="%4$d" max="%5$d" step="10" required> px<p class="description">%6$s</p></td></tr>',
+			esc_html__( 'Form width', 'institutional-email' ),
+			esc_attr( $name ),
+			(int) $settings['form_width'],
+			(int) Settings::FORM_WIDTH_MIN,
+			(int) Settings::FORM_WIDTH_MAX,
+			/* translators: 1: default width, 2: minimum, 3: maximum, in pixels. */
+			esc_html( sprintf( __( 'The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe.', 'institutional-email' ), Config::FORM_WIDTH, Settings::FORM_WIDTH_MIN, Settings::FORM_WIDTH_MAX ) )
+		);
+		foreach ( self::colorLabels() as $key => $label ) {
+			printf(
+				'<tr data-ie-shown-by="custom_style"><th scope="row"><label for="ie-color-%1$s">%2$s</label></th><td><input type="color" id="ie-color-%1$s" name="%3$s[colors][%1$s]" value="%4$s"> <code>%5$s</code></td></tr>',
+				esc_attr( $key ),
+				esc_html( $label ),
+				esc_attr( $name ),
+				esc_attr( $settings['colors'][ $key ] ),
+				/* translators: %s: the default colour, #rrggbb. */
+				esc_html( sprintf( __( 'Default: %s', 'institutional-email' ), Config::COLORS[ $key ] ) )
+			);
+		}
+		printf(
+			'<tr data-ie-shown-by="custom_style"><th scope="row"><label for="ie-radius">%1$s</label></th><td><input type="number" id="ie-radius" class="small-text" name="%2$s[radius]" value="%3$d" min="0" max="%4$d" required> px<p class="description">%5$s</p></td></tr>',
+			esc_html__( 'Rounded corners', 'institutional-email' ),
+			esc_attr( $name ),
+			(int) $settings['radius'],
+			(int) Settings::RADIUS_MAX,
+			/* translators: %d: the default radius, in pixels. */
+			esc_html( sprintf( __( 'Of the fields, the buttons and the result; 0 makes them square. Default: %d px.', 'institutional-email' ), Config::RADIUS ) )
+		);
+		echo '<tr data-ie-shown-by="custom_style"><th scope="row">' . esc_html__( 'Font', 'institutional-email' ) . '</th><td><fieldset>';
+		foreach ( array(
+			'form'  => __( 'The form\'s own (Arial)', 'institutional-email' ),
+			'theme' => __( 'The site theme\'s', 'institutional-email' ),
+		) as $value => $label ) {
+			printf(
+				'<label><input type="radio" name="%1$s[font]" value="%2$s"%3$s> %4$s</label><br>',
+				esc_attr( $name ),
+				esc_attr( $value ),
+				checked( $settings['font'], $value, false ),
+				esc_html( $label )
+			);
+		}
+		echo '</fieldset></td></tr>';
+		echo '</tbody></table></div></div>';
+
 		// Documentation: nothing to save, so the panel hides the button.
 		self::openPanel( 'documentation', $active );
 		Documentation::render();
@@ -524,6 +595,10 @@ final class SettingsPage {
 			'texts'         => array(
 				'label' => __( 'Texts', 'institutional-email' ),
 				'icon'  => 'list',
+			),
+			'design'        => array(
+				'label' => __( 'Design', 'institutional-email' ),
+				'icon'  => 'brush',
 			),
 			'documentation' => array(
 				'label' => __( 'Documentation', 'institutional-email' ),

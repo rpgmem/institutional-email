@@ -63,7 +63,6 @@ final class Documentation {
 					array( __( 'School network', 'institutional-email' ), __( 'City schools (RME/SP) or state schools (SEDUC-SP). A shortcode\'s network="…" can choose the other one for a single page.', 'institutional-email' ) ),
 					array( __( 'Forms offered', 'institutional-email' ), __( 'A shortcode that asks for a form that is not offered shows the first one that is.', 'institutional-email' ) ),
 					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
-					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
 					array( __( 'Google Analytics', 'institutional-email' ), __( 'Off by default, and then nothing of Google\'s is loaded. Switched on with a measurement ID (G-XXXXXXXXXX), the pages that show a form load Google\'s tag and record each address worked out, with only the form and the network.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
 				),
@@ -101,6 +100,18 @@ final class Documentation {
 				'items' => array(
 					array( __( 'Next step', 'institutional-email' ), __( 'The platform the form links to below the result. Without an address, no next step is shown.', 'institutional-email' ) ),
 					array( __( 'Texts', 'institutional-email' ), __( 'Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site\'s language.', 'institutional-email' ) ),
+				),
+			),
+			'design'   => array(
+				'title' => __( 'Design', 'institutional-email' ),
+				'icon'  => 'brush',
+				'tab'   => 'design',
+				'intro' => __( 'How the form looks on the site\'s pages.', 'institutional-email' ),
+				'items' => array(
+					array( __( 'Customise', 'institutional-email' ), __( 'Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switched off again, it goes back to its own look, and the values are kept.', 'institutional-email' ) ),
+					array( __( 'Colours', 'institutional-email' ), __( 'Of the buttons and links, the button text, the field borders, the hints, the errors and the result. Keep the button text readable on the button colour.', 'institutional-email' ) ),
+					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
+					array( __( 'Rounded corners and font', 'institutional-email' ), __( 'The radius of the fields, buttons and result, and either the form\'s own font or the site theme\'s.', 'institutional-email' ) ),
 				),
 			),
 			'privacy'  => array(

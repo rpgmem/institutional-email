@@ -46,6 +46,7 @@ The address is worked out in the visitor's browser. The form sends nothing, sets
 7. Settings, Documentation tab.
 8. The state students' form, with the RA and its check digit.
 9. The state teachers' panel, linking to the SED.
+10. Settings, Design tab: the form's width, colours, corners and font.
 
 == Changelog ==
 
@@ -53,7 +54,7 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 
 = 1.0.0 =
 * New: the institutional email forms as a WordPress plugin, placed with the [institutional_email] shortcode (students) or [institutional_email form="teachers"].
-* New: Settings → Institutional Email for the forms offered, access, form width, optional Google Analytics, domain, middle-name length, initial password, the next-step platform and every text of the form, with a Documentation tab.
+* New: Settings → Institutional Email for the forms offered, access, optional Google Analytics, a Design tab for width, colours, corners and font, domain, middle-name length, initial password, the next-step platform and every text of the form, with a Documentation tab.
 * New: São Paulo state schools (SEDUC-SP), chosen in the settings or per page with network="state": state students' RA address and initial password; state teachers pointed to the SED.
 * New: interns of the city schools on the teachers' form, with an "e" before the CPF digits; the settings choose which of the partner network, the direct network and interns the form offers.
 * New: the RF's check digit is checked (switchable), and RF and CPF are masked as they are typed.

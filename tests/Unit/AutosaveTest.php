@@ -63,6 +63,12 @@ final class AutosaveTest extends TestCase {
 		self::assertFalse( $off['analytics'] );
 	}
 
+	public function test_the_design_switch_saves_on_its_own(): void {
+		$on = Autosave::apply( Settings::defaults(), 'custom_style', '1' );
+		self::assertIsArray( $on );
+		self::assertTrue( $on['custom_style'] );
+	}
+
 	public function test_no_form_ticked_offers_both(): void {
 		$saved = Autosave::apply( Settings::defaults(), 'forms', '' );
 		self::assertIsArray( $saved );

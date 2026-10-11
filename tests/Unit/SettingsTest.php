@@ -109,6 +109,40 @@ final class SettingsTest extends TestCase {
 		self::assertSame( 3, Settings::sanitize( array( 'middle_min' => '3' ) )['middle_min'] );
 	}
 
+	public function test_the_design_is_off_by_default_and_keeps_only_valid_values(): void {
+		$defaults = Settings::sanitize( array() );
+		self::assertFalse( $defaults['custom_style'] );
+		self::assertSame( Config::COLORS, $defaults['colors'] );
+		self::assertSame( Config::RADIUS, $defaults['radius'] );
+		self::assertSame( 'form', $defaults['font'] );
+		self::assertSame( '', Settings::styleVars( $defaults ), 'Off, the stylesheet keeps its own look.' );
+
+		$saved = Settings::sanitize(
+			array(
+				'custom_style' => '1',
+				'colors'       => array( 'accent' => '#AA0000', 'border' => 'red', 'muted' => '#123', 'error' => '#00ff00;}body{x:y', 'unknown' => '#000000' ),
+				'radius'       => '99',
+				'font'         => 'comic',
+			)
+		);
+		self::assertSame( '#aa0000', $saved['colors']['accent'] );
+		self::assertSame( Config::COLORS['border'], $saved['colors']['border'], 'A colour name is not stored.' );
+		self::assertSame( Config::COLORS['muted'], $saved['colors']['muted'], 'Only #rrggbb is stored.' );
+		self::assertSame( Config::COLORS['error'], $saved['colors']['error'], 'Nothing can break out of the style attribute.' );
+		self::assertArrayNotHasKey( 'unknown', $saved['colors'] );
+		self::assertSame( Settings::RADIUS_MAX, $saved['radius'] );
+		self::assertSame( 'form', $saved['font'] );
+
+		$vars = Settings::styleVars( $saved );
+		self::assertStringStartsWith( '--ie-form-width: 640px; ', $vars );
+		self::assertStringContainsString( '--ie-accent: #aa0000', $vars );
+		self::assertStringContainsString( '--ie-accent-text: #ffffff', $vars );
+		self::assertStringContainsString( '--ie-radius: 24px', $vars );
+		self::assertStringNotContainsString( '--ie-font', $vars );
+		self::assertStringContainsString( '--ie-font: inherit', Settings::styleVars( array_merge( $saved, array( 'font' => 'theme' ) ) ) );
+		self::assertSame( '', Settings::styleVars( array_merge( $saved, array( 'custom_style' => false ) ) ), 'Switched off, the values are kept but not applied.' );
+	}
+
 	public function test_analytics_is_off_by_default_and_takes_only_a_measurement_id(): void {
 		$defaults = Settings::sanitize( array() );
 		self::assertFalse( $defaults['analytics'] );

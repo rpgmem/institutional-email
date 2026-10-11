@@ -117,6 +117,16 @@ final class ShortcodeTest extends TestCase {
 		self::assertTrue( json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true )['analytics'] );
 	}
 
+	public function test_a_custom_design_reaches_the_container(): void {
+		$this->stored = array( 'custom_style' => '1', 'colors' => array( 'accent' => '#aa0000' ), 'radius' => 0, 'font' => 'theme' );
+		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_enqueue_script' )->justReturn( null );
+
+		self::assertSame( 1, preg_match( '/ style="([^"]*)"/', Shortcode::render(), $m ) );
+		self::assertStringStartsWith( '--ie-form-width: 640px; --ie-accent: #aa0000; ', $m[1] );
+		self::assertStringContainsString( '--ie-radius: 0px; --ie-font: inherit', $m[1] );
+	}
+
 	public function test_the_settings_reach_the_configuration(): void {
 		$this->stored = array( 'domain' => 'Example.ORG', 'middle_min' => 3, 'platform_url' => '' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
@@ -181,7 +191,7 @@ final class ShortcodeTest extends TestCase {
 		$html = Shortcode::render( array( 'form' => 'teachers' ) );
 
 		self::assertMatchesRegularExpression( '/^' . preg_quote( Plugin::VERSION, '/' ) . '\.\d+$/', Plugin::assetVersion( 'assets/js/institutional-email.js' ) );
-		self::assertStringStartsWith( '<div class="ie-generator" data-ie-form="teachers" data-ie-network="city" style="--ie-form-width: 640px" data-ie-config="', $html );
+		self::assertStringStartsWith( '<div class="ie-generator" data-ie-form="teachers" data-ie-network="city" data-ie-config="', $html );
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', $html, $m ) );
 		self::assertSame( Config::defaults(), json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true ) );
 		self::assertStringContainsString( '<noscript>This form needs JavaScript.</noscript>', $html );
