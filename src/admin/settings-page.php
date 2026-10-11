@@ -234,6 +234,17 @@ final class SettingsPage {
 		echo '<p class="description">' . esc_html__( 'Who the teachers\' form serves in the city schools. With only one ticked, the form asks for it without a choice; with none ticked, all three are offered.', 'institutional-email' ) . '</p>';
 		echo '</fieldset></td></tr>';
 
+		printf(
+			'<tr><th scope="row"><label for="ie-form-width">%1$s</label></th><td><input type="number" id="ie-form-width" class="small-text" name="%2$s[form_width]" value="%3$d" min="%4$d" max="%5$d" step="10" required> px<p class="description">%6$s</p></td></tr>',
+			esc_html__( 'Form width', 'institutional-email' ),
+			esc_attr( $name ),
+			(int) $settings['form_width'],
+			(int) Settings::FORM_WIDTH_MIN,
+			(int) Settings::FORM_WIDTH_MAX,
+			/* translators: 1: default width, 2: minimum, 3: maximum, in pixels. */
+			esc_html( sprintf( __( 'The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe.', 'institutional-email' ), Config::FORM_WIDTH, Settings::FORM_WIDTH_MIN, Settings::FORM_WIDTH_MAX ) )
+		);
+
 		echo '<tr><th scope="row">' . esc_html__( 'Who can use the form', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( array(
 			Settings::ACCESS_EVERYONE  => __( 'Everyone who can see the page', 'institutional-email' ),
@@ -350,30 +361,41 @@ final class SettingsPage {
 		);
 		echo '</tbody></table></div>';
 
-		self::openCard( __( 'Texts', 'institutional-email' ), 'list' );
-		echo '<p class="description">' . esc_html(
-			sprintf(
-				/* translators: %d: maximum number of characters. */
-				__( 'Change any text the form shows, up to %d characters. Leave a field empty to keep the built-in text, which follows the site\'s language.', 'institutional-email' ),
-				Settings::TEXT_MAX
-			)
-		) . '</p>';
-		echo '<div class="ie-table-scroll"><table class="widefat striped ie-texts-table"><thead><tr>';
-		echo '<th scope="col">' . esc_html__( 'Built-in text', 'institutional-email' ) . '</th>';
-		echo '<th scope="col">' . esc_html__( 'Text on this site', 'institutional-email' ) . '</th>';
-		echo '</tr></thead><tbody>';
-		foreach ( Config::strings() as $key => $text ) {
-			printf(
-				'<tr><td><label for="ie-text-%1$s">%2$s</label></td><td><input type="text" id="ie-text-%1$s" class="large-text" name="%3$s" value="%4$s" placeholder="%5$s" maxlength="%6$d"></td></tr>',
-				esc_attr( $key ),
-				esc_html( $text ),
-				esc_attr( $name . '[strings][' . $key . ']' ),
-				esc_attr( $settings['strings'][ $key ] ?? '' ),
-				esc_attr( $text ),
-				(int) Settings::TEXT_MAX
-			);
+		$defaults_text = Config::strings();
+		foreach ( self::textGroups() as $i => $card ) {
+			self::openCard( $card['title'], 'list' );
+			if ( 0 === $i ) {
+				echo '<p class="description">' . esc_html(
+					sprintf(
+						/* translators: %d: maximum number of characters. */
+						__( 'Change any text the form shows, up to %d characters. Leave a field empty to keep the built-in text, which follows the site\'s language.', 'institutional-email' ),
+						Settings::TEXT_MAX
+					)
+				) . '</p>';
+			}
+			echo '<div class="ie-table-scroll"><table class="widefat ie-texts-table"><thead><tr>';
+			echo '<th scope="col">' . esc_html__( 'Built-in text', 'institutional-email' ) . '</th>';
+			echo '<th scope="col">' . esc_html__( 'Text on this site', 'institutional-email' ) . '</th>';
+			echo '</tr></thead>';
+			foreach ( $card['groups'] as $group ) {
+				printf( '<tbody><tr class="ie-texts-group"><th scope="colgroup" colspan="2">%s</th></tr>', esc_html( $group['label'] ) );
+				foreach ( $group['keys'] as $key ) {
+					$text = $defaults_text[ $key ];
+					printf(
+						'<tr><td><label for="ie-text-%1$s">%2$s</label></td><td><input type="text" id="ie-text-%1$s" class="large-text" name="%3$s" value="%4$s" placeholder="%5$s" maxlength="%6$d"></td></tr>',
+						esc_attr( $key ),
+						esc_html( $text ),
+						esc_attr( $name . '[strings][' . $key . ']' ),
+						esc_attr( $settings['strings'][ $key ] ?? '' ),
+						esc_attr( $text ),
+						(int) Settings::TEXT_MAX
+					);
+				}
+				echo '</tbody>';
+			}
+			echo '</table></div></div>';
 		}
-		echo '</tbody></table></div></div></div>';
+		echo '</div>';
 
 		// Documentation: nothing to save, so the panel hides the button.
 		self::openPanel( 'documentation', $active );
@@ -385,6 +407,78 @@ final class SettingsPage {
 		submit_button();
 		echo '</div>';
 		echo '</form></div>';
+	}
+
+	/**
+	 * The Texts tab's layout: one card per school network, then the texts
+	 * every form shares, each split by the form or option that shows them.
+	 * Every key of Config::strings() appears exactly once, which
+	 * tests/Unit/SettingsPageTest.php checks.
+	 *
+	 * @return list<array{title: string, groups: list<array{label: string, keys: list<string>}>}>
+	 */
+	public static function textGroups(): array {
+		return array(
+			array(
+				'title'  => __( 'City schools (RME/SP)', 'institutional-email' ),
+				'groups' => array(
+					array(
+						'label' => __( 'Students', 'institutional-email' ),
+						'keys'  => array( 'studentName' ),
+					),
+					array(
+						'label' => __( 'Teachers', 'institutional-email' ),
+						'keys'  => array( 'teacherName', 'teacherResult', 'networkLegend', 'networkHint' ),
+					),
+					array(
+						'label' => __( 'Teachers: partner network', 'institutional-email' ),
+						'keys'  => array( 'networkPartner' ),
+					),
+					array(
+						'label' => __( 'Teachers: direct network', 'institutional-email' ),
+						'keys'  => array( 'networkDirect', 'rf', 'rfHint', 'error_rf', 'error_rfCheck' ),
+					),
+					array(
+						'label' => __( 'Interns', 'institutional-email' ),
+						'keys'  => array( 'networkIntern', 'internName', 'internResult' ),
+					),
+					array(
+						'label' => __( 'CPF: partner network and interns', 'institutional-email' ),
+						'keys'  => array( 'cpf', 'error_cpf' ),
+					),
+					array(
+						'label' => __( 'Students, teachers and interns', 'institutional-email' ),
+						'keys'  => array( 'error_name', 'passwordResult' ),
+					),
+				),
+			),
+			array(
+				'title'  => __( 'State schools (SEDUC-SP)', 'institutional-email' ),
+				'groups' => array(
+					array(
+						'label' => __( 'Students', 'institutional-email' ),
+						'keys'  => array( 'stateRa', 'stateRaHint', 'stateRaDigit', 'stateRaDigitHint', 'stateRaLookup', 'statePasswordResult', 'error_ra', 'error_raDigit' ),
+					),
+					array(
+						'label' => __( 'Teachers', 'institutional-email' ),
+						'keys'  => array( 'stateTeacherIntro', 'stateTeacherLink' ),
+					),
+				),
+			),
+			array(
+				'title'  => __( 'Both networks', 'institutional-email' ),
+				'groups' => array(
+					array(
+						'label' => __( 'Students', 'institutional-email' ),
+						'keys'  => array( 'birthDate', 'error_birthDate', 'studentResult' ),
+					),
+					array(
+						'label' => __( 'Buttons and messages', 'institutional-email' ),
+						'keys'  => array( 'submit', 'copyEmail', 'copyPassword', 'emailCopied', 'passwordCopied', 'copyFailed', 'ready', 'fixErrors', 'nextStep', 'privacy' ),
+					),
+				),
+			),
+		);
 	}
 
 	/**

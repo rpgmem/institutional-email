@@ -30,6 +30,10 @@ final class Settings {
 
 	public const PASSWORD_MAX = 64;
 
+	public const FORM_WIDTH_MIN = 280;
+
+	public const FORM_WIDTH_MAX = 1600;
+
 	public const NAME_MAX = 60;
 
 	public const TEXT_MAX = 300;
@@ -43,7 +47,7 @@ final class Settings {
 	/**
 	 * The stored settings, completed with their defaults.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function get(): array {
 		$stored = get_option( self::OPTION, array() );
@@ -53,7 +57,7 @@ final class Settings {
 	/**
 	 * The settings an install starts with.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
@@ -63,6 +67,7 @@ final class Settings {
 			'domain'           => Config::DOMAIN,
 			'password'         => Config::PASSWORD,
 			'middle_min'       => Config::MIDDLE_MIN,
+			'form_width'       => Config::FORM_WIDTH,
 			// The RF's check digit is checked unless an administrator turns it off.
 			'check_rf_digit'   => true,
 			'teacher_networks' => Config::TEACHER_NETWORKS,
@@ -80,7 +85,7 @@ final class Settings {
 	 * value written by an older version still yields a usable configuration.
 	 *
 	 * @param mixed $input Raw settings.
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, platform_name: string, platform_url: string, strings: array<string, string>}
 	 */
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
@@ -104,6 +109,10 @@ final class Settings {
 
 		$middle = (int) ( $input['middle_min'] ?? Config::MIDDLE_MIN );
 
+		// A cleared field posts '', which is "not set", not zero pixels.
+		$width = (int) ( $input['form_width'] ?? Config::FORM_WIDTH );
+		$width = 0 !== $width ? $width : Config::FORM_WIDTH;
+
 		$access = (string) ( $input['access'] ?? self::ACCESS_EVERYONE );
 
 		$network = (string) ( $input['network'] ?? Config::NETWORKS[0] );
@@ -115,6 +124,7 @@ final class Settings {
 			'domain'           => '' !== $domain ? $domain : Config::DOMAIN,
 			'password'         => $password,
 			'middle_min'       => min( self::MIDDLE_MIN_MAX, max( self::MIDDLE_MIN_MIN, $middle ) ),
+			'form_width'       => min( self::FORM_WIDTH_MAX, max( self::FORM_WIDTH_MIN, $width ) ),
 			// Absent means \"never saved\": keep the default. The form posts a
 			// hidden 0 before the checkbox, so unticking it is never absent.
 			'check_rf_digit'   => array_key_exists( 'check_rf_digit', $input ) ? ! empty( $input['check_rf_digit'] ) : true,

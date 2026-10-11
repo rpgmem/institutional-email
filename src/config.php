@@ -38,6 +38,12 @@ final class Config {
 	public const MIDDLE_MIN = 4;
 
 	/**
+	 * How wide the form grows on a page, in pixels, unless the settings say
+	 * otherwise. The standalone page fills its iframe instead.
+	 */
+	public const FORM_WIDTH = 640;
+
+	/**
 	 * The school networks a form can serve: São Paulo city schools (RME/SP)
 	 * and São Paulo state schools (SEDUC-SP).
 	 */

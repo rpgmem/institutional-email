@@ -63,6 +63,7 @@ final class Documentation {
 					array( __( 'School network', 'institutional-email' ), __( 'City schools (RME/SP) or state schools (SEDUC-SP). A shortcode\'s network="…" can choose the other one for a single page.', 'institutional-email' ) ),
 					array( __( 'Forms offered', 'institutional-email' ), __( 'A shortcode that asks for a form that is not offered shows the first one that is.', 'institutional-email' ) ),
 					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
+					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
 				),
 				'note'  => __( 'The on/off switches save as soon as they are flipped. Everything else saves with "Save Changes".', 'institutional-email' ),
@@ -98,7 +99,7 @@ final class Documentation {
 				'intro' => __( 'What the form says.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Next step', 'institutional-email' ), __( 'The platform the form links to below the result. Without an address, no next step is shown.', 'institutional-email' ) ),
-					array( __( 'Texts', 'institutional-email' ), __( 'Any label, hint or message. An empty field keeps the built-in text, which follows the site\'s language.', 'institutional-email' ) ),
+					array( __( 'Texts', 'institutional-email' ), __( 'Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site\'s language.', 'institutional-email' ) ),
 				),
 			),
 			'privacy'  => array(

@@ -15,7 +15,8 @@
 	--ie-ok-border: #00a32a;
 	--ie-value-bg: #f6f7f7;
 
-	max-width: 640px;
+	/* The width set on Settings → General, printed on the container. */
+	max-width: var(--ie-form-width, 640px);
 	font-family: Arial, sans-serif;
 	line-height: 1.5;
 }
