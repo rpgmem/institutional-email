@@ -569,6 +569,10 @@ final class SettingsPage {
 				'title'  => __( 'Both networks', 'institutional-email' ),
 				'groups' => array(
 					array(
+						'label' => __( 'Profile selector', 'institutional-email' ),
+						'keys'  => array( 'profileLabel', 'profileStudents', 'profileTeachers' ),
+					),
+					array(
 						'label' => __( 'Students', 'institutional-email' ),
 						'keys'  => array( 'birthDate', 'error_birthDate', 'studentResult' ),
 					),

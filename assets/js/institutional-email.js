@@ -385,13 +385,15 @@
 
 	/**
 	 * Which form a container shows: its data-ie-form, or in the standalone
-	 * page the `?form=` of its address.
+	 * page the `?form=` of its address. An empty data-ie-form means the
+	 * visitor chooses; a container without one shows the students' form.
 	 *
 	 * @param {HTMLElement} container Container.
-	 * @return {string} 'students' or 'teachers'.
+	 * @return {string} 'students', 'teachers', or '' to let the visitor choose.
 	 */
 	function formOf( container ) {
-		var form = container.getAttribute( 'data-ie-form' ) || '';
+		var form = container.getAttribute( 'data-ie-form' );
+		form = null === form ? FORMS[ 0 ] : form;
 		var param = container.getAttribute( 'data-ie-form-param' );
 		var win = container.ownerDocument.defaultView;
 		if ( param && win && win.location ) {
@@ -400,7 +402,63 @@
 				form = asked;
 			}
 		}
+		if ( '' === form ) {
+			return '';
+		}
 		return -1 !== FORMS.indexOf( form ) ? form : 'students';
+	}
+
+	/**
+	 * The forms the configuration offers, in order; every form when it names
+	 * none it knows.
+	 *
+	 * @param {Object} config Configuration (forms).
+	 * @return {string[]} Form ids.
+	 */
+	function offeredForms( config ) {
+		var offered = ( config && config.forms || [] ).filter( function ( form ) {
+			return -1 !== FORMS.indexOf( form );
+		} );
+		return offered.length ? offered : FORMS.slice();
+	}
+
+	/**
+	 * Draw the profile selector and, under it, the form it picks. Only the
+	 * part under the selector is redrawn on a change, so focus stays on it.
+	 *
+	 * @param {HTMLElement} container Container.
+	 * @param {Object}      config    Configuration.
+	 * @param {string[]}    offered   Forms to offer, in order.
+	 * @param {string}      system    'city' or 'state'.
+	 * @return {Object} Handles for the tests.
+	 */
+	function mountChooser( container, config, offered, system ) {
+		var doc = container.ownerDocument;
+		var s = config.strings;
+		var id = 'ie-' + Math.random().toString( 36 ).slice( 2, 8 ) + '-profile';
+		var labels = { students: s.profileStudents, teachers: s.profileTeachers };
+		var select = el( doc, 'select', { id: id, class: 'ie-input ie-profile' }, offered.map( function ( form ) {
+			return el( doc, 'option', { value: form, text: labels[ form ] } );
+		} ) );
+		var body = el( doc, 'div', { class: 'ie-profile-form' } );
+		var current;
+
+		container.textContent = '';
+		container.appendChild( el( doc, 'p', { class: 'ie-field ie-profile-field' }, [
+			el( doc, 'label', { for: id, text: s.profileLabel } ),
+			select,
+		] ) );
+		container.appendChild( body );
+
+		function show() {
+			current = mount( body, config, select.value, system );
+		}
+		select.addEventListener( 'change', show );
+		show();
+
+		return { chooser: select, network: system, current: function () {
+			return current;
+		} };
 	}
 
 	/**
@@ -462,9 +520,19 @@
 		var doc = container.ownerDocument;
 		var s = config.strings;
 		var kind = form || formOf( container );
-		var state = 'state' === ( system || networkOf( container, config ) );
+		var school = system || networkOf( container, config );
+		var state = 'state' === school;
+		var forms;
 		var uid = 'ie-' + Math.random().toString( 36 ).slice( 2, 8 );
 		var inputs = {};
+
+		if ( '' === kind ) {
+			forms = offeredForms( config );
+			if ( forms.length > 1 ) {
+				return mountChooser( container, config, forms, school );
+			}
+			kind = forms[ 0 ];
+		}
 
 		if ( state && 'teachers' === kind ) {
 			return mountStateTeachers( container, config );
@@ -724,6 +792,7 @@
 		teacherEmail: teacherEmail,
 		stateStudentEmail: stateStudentEmail,
 		formOf: formOf,
+		offeredForms: offeredForms,
 		networkOf: networkOf,
 		mount: mount,
 		boot: boot,

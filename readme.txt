@@ -3,7 +3,7 @@ Contributors: rpgmem
 Tags: email, school, students, teachers, shortcode
 Requires at least: 6.8
 Tested up to: 7.1.3
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 Requires PHP: 8.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -14,7 +14,7 @@ Forms, placed with a shortcode, that work out the institutional email address of
 
 Students and teachers of the São Paulo municipal schools (RME/SP) have an institutional email address made from their name and their date of birth, RF or CPF; students of the São Paulo state schools (SEDUC-SP) have one made from their RA. This plugin's forms work it out in the visitor's browser, so nothing typed is sent to the site.
 
-A standalone HTML version, for embedding in an iframe, is published next to the plugin on each GitHub release, and served at https://rpgmem.github.io/institutional-email/ (add `?form=teachers` for the teachers' form and `?network=state` for the state schools).
+A standalone HTML version, for embedding in an iframe, is published next to the plugin on each GitHub release, and served at https://rpgmem.github.io/institutional-email/ (add `?form=students` or `?form=teachers` for one form alone, and `?network=state` for the state schools).
 
 == Installation ==
 
@@ -25,8 +25,9 @@ A standalone HTML version, for embedding in an iframe, is published next to the 
 
 Place a form on any page or post:
 
-* `[institutional_email]` or `[institutional_email form="students"]` — students: full name and date of birth.
-* `[institutional_email form="teachers"]` — teachers: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
+* `[institutional_email]` — a profile selector over the forms offered (students and teachers by default).
+* `[institutional_email form="students"]` — students only: full name and date of birth.
+* `[institutional_email form="teachers"]` — teachers only: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
 * Add `network="state"` for the São Paulo state schools (SEDUC-SP): students give their RA, its check digit and their date of birth; teachers are pointed to the SED.
 
 Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font. Its Documentation tab explains each option.
@@ -52,6 +53,9 @@ The address is worked out in the visitor's browser, and what is typed is never s
 
 The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem/institutional-email/blob/main/CHANGELOG.md).
 
+= 1.1.0 =
+* Changed: a shortcode or standalone page that names no form opens with a profile selector for students and teachers; add form="students" to keep the students' form alone.
+
 = 1.0.0 =
 * New: the institutional email forms as a WordPress plugin, placed with the [institutional_email] shortcode (students) or [institutional_email form="teachers"].
 * New: Settings → Institutional Email for the forms offered, access, optional Google Analytics, a Design tab for width, colours, corners and font, domain, middle-name length, initial password, the next-step platform and every text of the form, with a Documentation tab.
@@ -65,5 +69,5 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-First release as a WordPress plugin: the [institutional_email] shortcode for city and state schools and interns, settings for forms, access, address rules, texts and design, optional Analytics, and updates from GitHub. Details in CHANGELOG.md.
+= 1.1.0 =
+A shortcode with no form="…" now opens with a profile selector for students and teachers. Pages that should show only the students' form need [institutional_email form="students"]. Details in CHANGELOG.md.
