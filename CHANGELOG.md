@@ -3,15 +3,13 @@
 All notable changes to **Institutional Email** are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui ([@rfukui](https://github.com/rfukui)), Rafael Meusburger ([@meusburger](https://github.com/meusburger)), Thiago Guttierre ([@thiagoguttierre](https://github.com/thiagoguttierre)) and Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), as the pages themselves credit them. Each version below names who wrote it, read from the commits' authors.
-
 ## [Unreleased]
 
 ## [1.0.0] (2026-10-11)
 
 The forms become a WordPress plugin, with a standalone page for iframes.
 
-Built on the 2020 forms credited above; maintained by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)).
+The forms were created in 2020 by the Educational Technology team of E.M.E.F. José Américo de Almeida (DRE/MP, SME/SP), with Ricardo Fukui ([@rfukui](https://github.com/rfukui)), Rafael Meusburger ([@meusburger](https://github.com/meusburger)), Thiago Guttierre ([@thiagoguttierre](https://github.com/thiagoguttierre)) and Alex Meusburger ([@rpgmem](https://github.com/rpgmem)), as the pages themselves credit them. The plugin is maintained by Alex Meusburger ([@rpgmem](https://github.com/rpgmem)); each 0.x version below names who wrote it, read from its commits' authors.
 
 ### Added
 
