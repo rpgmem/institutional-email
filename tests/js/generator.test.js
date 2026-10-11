@@ -366,10 +366,37 @@ describe( 'teacher form', () => {
 		expect( div.querySelector( '[data-ie-field="rf"]' ).hidden ).toBe( true );
 		expect( div.querySelector( '[data-ie-field="cpf"]' ).hidden ).toBe( false );
 
+		expect( div.querySelector( '[data-ie-field="name"] label' ).textContent ).toBe( config.strings.internName );
 		type( ui.inputs.name, 'Maria da Silva' );
 		type( ui.inputs.cpf, '52998224725' );
 		submit( div );
 		expect( ui.email() ).toBe( 'mariasilva.e52998224725@edu.sme.prefeitura.sp.gov.br' );
+		expect( div.querySelector( '.ie-result-label' ).textContent ).toBe( config.strings.internResult );
+
+		const partner = div.querySelector( 'input[value="partner"]' );
+		partner.checked = true;
+		partner.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+		expect( div.querySelector( '[data-ie-field="name"] label' ).textContent ).toBe( config.strings.teacherName );
+	} );
+
+	it( 'offers only the options the site keeps', () => {
+		const div = container();
+		gen.mount( div, Object.assign( {}, config, { teacherNetworks: [ 'partner', 'intern' ] } ), 'teachers' );
+		expect( div.querySelector( 'input[value="direct"]' ) ).toBeNull();
+		expect( div.querySelector( '.ie-network' ).hidden ).toBe( false );
+		expect( div.querySelector( 'input[value="partner"]' ).checked ).toBe( true );
+	} );
+
+	it( 'asks for the one option left without a choice', () => {
+		const div = container();
+		const ui = gen.mount( div, Object.assign( {}, config, { teacherNetworks: [ 'direct' ] } ), 'teachers' );
+		expect( div.querySelector( '.ie-network' ).hidden ).toBe( true );
+		expect( div.querySelector( '[data-ie-field="rf"]' ).hidden ).toBe( false );
+		expect( div.querySelector( '[data-ie-field="cpf"]' ).hidden ).toBe( true );
+		type( ui.inputs.name, 'Maria da Silva' );
+		type( ui.inputs.rf, '5181780' );
+		submit( div );
+		expect( ui.email() ).toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
 	it( 'marks a wrong CPF', () => {

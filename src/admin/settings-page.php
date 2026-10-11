@@ -117,6 +117,20 @@ final class SettingsPage {
 	}
 
 	/**
+	 * The options of the city teachers' form, by id, with the name the
+	 * screen shows.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function teacherNetworkLabels(): array {
+		return array(
+			'partner' => __( 'Partner network: the CPF', 'institutional-email' ),
+			'direct'  => __( 'Direct network: the RF', 'institutional-email' ),
+			'intern'  => __( 'Interns: the CPF, with an "e" before it', 'institutional-email' ),
+		);
+	}
+
+	/**
 	 * The school networks, by id, with the name the screen shows.
 	 *
 	 * @return array<string, string>
@@ -201,6 +215,23 @@ final class SettingsPage {
 			echo '</p>';
 		}
 		echo '<p class="description">' . esc_html__( 'A shortcode that asks for a form that is not offered shows the first one that is. With none ticked, both are offered.', 'institutional-email' ) . '</p>';
+		echo '</fieldset></td></tr>';
+
+		echo '<tr><th scope="row">' . esc_html__( 'Teachers\' form options', 'institutional-email' ) . '</th><td><fieldset>';
+		foreach ( self::teacherNetworkLabels() as $id => $label ) {
+			echo '<p>';
+			self::toggle(
+				array(
+					'name'    => $name . '[teacher_networks][]',
+					'value'   => $id,
+					'checked' => in_array( $id, $settings['teacher_networks'], true ),
+					'label'   => $label,
+					'key'     => 'teacher_networks',
+				)
+			);
+			echo '</p>';
+		}
+		echo '<p class="description">' . esc_html__( 'Who the teachers\' form serves in the city schools. With only one ticked, the form asks for it without a choice; with none ticked, all three are offered.', 'institutional-email' ) . '</p>';
 		echo '</fieldset></td></tr>';
 
 		echo '<tr><th scope="row">' . esc_html__( 'Who can use the form', 'institutional-email' ) . '</th><td><fieldset>';

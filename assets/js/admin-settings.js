@@ -12,17 +12,23 @@
 	var LINGER = 1800;
 
 	/**
-	 * The value a toggle saves: '1' / '0', or every ticked form.
+	 * The keys whose toggles are a group of boxes saved as one list.
+	 */
+	var GROUPS = [ 'forms', 'teacher_networks' ];
+
+	/**
+	 * The value a toggle saves: '1' / '0', or every ticked box of its group.
 	 *
 	 * @param {HTMLInputElement} input The flipped toggle.
 	 * @return {string|string[]} Value to post.
 	 */
 	function valueOf( input ) {
-		if ( 'forms' !== input.getAttribute( 'data-ie-autosave' ) ) {
+		var key = input.getAttribute( 'data-ie-autosave' );
+		if ( -1 === GROUPS.indexOf( key ) ) {
 			return input.checked ? '1' : '0';
 		}
 		return Array.prototype.map.call(
-			document.querySelectorAll( 'input[data-ie-autosave="forms"]:checked' ),
+			document.querySelectorAll( 'input[data-ie-autosave="' + key + '"]:checked' ),
 			function ( box ) {
 				return box.value;
 			}
@@ -30,14 +36,14 @@
 	}
 
 	/**
-	 * Show the stored value again: one box, or the whole forms group.
+	 * Show the stored value again: one box, or its whole group.
 	 *
 	 * @param {HTMLInputElement} input The flipped toggle.
 	 * @param {boolean|string[]} value Stored value.
 	 */
 	function show( input, value ) {
 		if ( Array.isArray( value ) ) {
-			document.querySelectorAll( 'input[data-ie-autosave="forms"]' ).forEach( function ( box ) {
+			document.querySelectorAll( 'input[data-ie-autosave="' + input.getAttribute( 'data-ie-autosave' ) + '"]' ).forEach( function ( box ) {
 				box.checked = -1 !== value.indexOf( box.value );
 			} );
 			return;

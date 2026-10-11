@@ -25,6 +25,11 @@
 	var RA_LENGTH = 12;
 
 	/**
+	 * The options of the city teachers' form, in the order they are shown.
+	 */
+	var TEACHER_NETWORKS = [ 'partner', 'direct', 'intern' ];
+
+	/**
 	 * Letters NFD does not decompose into a base letter plus a mark.
 	 */
 	var LIGATURES = { 'æ': 'ae', 'œ': 'oe', 'ø': 'o', 'ß': 's', 'ł': 'l', 'đ': 'd', 'ð': 'd', 'þ': 'th', 'ı': 'i' };
@@ -484,7 +489,16 @@
 				el( doc, 'legend', { text: s.networkLegend } ),
 				el( doc, 'p', { class: 'ie-hint', text: s.networkHint } ),
 			] );
-			[ [ 'partner', s.networkPartner ], [ 'direct', s.networkDirect ], [ 'intern', s.networkIntern ] ].forEach( function ( option, i ) {
+			// Only the options the site offers; with one left, it is asked for without a choice.
+			var offered = Array.isArray( config.teacherNetworks ) && config.teacherNetworks.length ? config.teacherNetworks : TEACHER_NETWORKS;
+			var options = [ [ 'partner', s.networkPartner ], [ 'direct', s.networkDirect ], [ 'intern', s.networkIntern ] ].filter( function ( option ) {
+				return -1 !== offered.indexOf( option[ 0 ] );
+			} );
+			if ( ! options.length ) {
+				options = [ [ 'partner', s.networkPartner ] ];
+			}
+			network.hidden = 1 === options.length;
+			options.forEach( function ( option, i ) {
 				var id = uid + '-network-' + option[ 0 ];
 				network.appendChild( el( doc, 'label', { for: id, class: 'ie-radio' }, [
 					el( doc, 'input', { type: 'radio', id: id, name: uid + '-network', value: option[ 0 ], checked: 0 === i } ),
@@ -516,8 +530,9 @@
 		var copyEmail = el( doc, 'button', { type: 'button', class: 'ie-copy', text: s.copyEmail } );
 		var copyPassword = el( doc, 'button', { type: 'button', class: 'ie-copy', text: s.copyPassword } );
 		var status = el( doc, 'p', { class: 'ie-status', role: 'status' } );
+		var emailLabel = el( doc, 'p', { class: 'ie-result-label', text: 'teachers' === kind ? s.teacherResult : s.studentResult } );
 		var result = el( doc, 'div', { class: 'ie-result', hidden: true }, [
-			el( doc, 'p', { class: 'ie-result-label', text: 'teachers' === kind ? s.teacherResult : s.studentResult } ),
+			emailLabel,
 			el( doc, 'p', { class: 'ie-result-row' }, [ emailOut, copyEmail ] ),
 			el( doc, 'p', { class: 'ie-result-label', text: state ? s.statePasswordResult : s.passwordResult } ),
 			el( doc, 'p', { class: 'ie-result-row' }, [ passwordOut, copyPassword ] ),
@@ -549,6 +564,10 @@
 				return;
 			}
 			var direct = 'direct' === networkValue();
+			// An intern is named as one, in the field and in the result.
+			var intern = 'intern' === networkValue();
+			formEl.querySelector( '[data-ie-field="name"] label' ).textContent = intern ? s.internName : s.teacherName;
+			emailLabel.textContent = intern ? s.internResult : s.teacherResult;
 			formEl.querySelector( '[data-ie-field="rf"]' ).hidden = ! direct;
 			formEl.querySelector( '[data-ie-field="cpf"]' ).hidden = direct;
 			reset();
