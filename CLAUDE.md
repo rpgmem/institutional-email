@@ -4,7 +4,7 @@ Project conventions for Claude (Anthropic CLI / agent sessions) working on this 
 
 ## What this repository ships
 
-**Institutional Email** works out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP). The address is computed from the name plus the date of birth, RF or CPF, and is not looked up anywhere. Every GitHub release attaches:
+**Institutional Email** works out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP), and of the state schools' students (SEDUC-SP). The address is computed from the name plus the date of birth, RF or CPF (or, for the state, the RA), and is not looked up anywhere. Every GitHub release attaches:
 - **The WordPress plugin** (`institutional-email-X.Y.Z.zip`). A shortcode places a form, and an administrator configures it.
 - **The standalone HTML** (`institutional-email-X.Y.Z.html`). One self-contained file that needs no WordPress, meant to be embedded with an `<iframe>`. GitHub Pages serves the latest release's copy at a stable URL.
 

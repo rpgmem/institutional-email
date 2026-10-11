@@ -210,6 +210,6 @@ return array (
     'Log in to find an institutional email.' => 'Entre para descobrir um e-mail institucional.',
     'Log in' => 'Entrar',
     'Update package integrity check (SHA-256) failed. Installation aborted.' => 'A verificação de integridade (SHA-256) do pacote de atualização falhou. Instalação cancelada.',
-    'Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF.' => 'Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP) a partir do nome e da data de nascimento, RF ou CPF.',
+    'Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo city schools (RME/SP), from their name and date of birth, RF or CPF, and of the state schools (SEDUC-SP), from the student\'s RA.' => 'Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP), a partir do nome e da data de nascimento, RF ou CPF, e da rede estadual (SEDUC-SP), a partir do RA do aluno.',
   ),
 );

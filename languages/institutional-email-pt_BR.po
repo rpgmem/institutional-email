@@ -873,8 +873,8 @@ msgid "Update package integrity check (SHA-256) failed. Installation aborted."
 msgstr "A verificação de integridade (SHA-256) do pacote de atualização falhou. Instalação cancelada."
 
 #. Plugin header: Description
-msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo municipal schools (RME/SP) from their name and date of birth, RF or CPF."
-msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP) a partir do nome e da data de nascimento, RF ou CPF."
+msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo city schools (RME/SP), from their name and date of birth, RF or CPF, and of the state schools (SEDUC-SP), from the student's RA."
+msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP), a partir do nome e da data de nascimento, RF ou CPF, e da rede estadual (SEDUC-SP), a partir do RA do aluno."
 
 #~ msgid "Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switched off again, it goes back to its own look, and the values are kept."
 #~ msgstr "Desligado por padrão: o formulário mantém a aparência própria. Ligado, usa a largura, as cores, os cantos e a fonte definidos aqui; desligado de novo, volta à aparência própria, e os valores ficam guardados."
