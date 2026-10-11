@@ -146,6 +146,12 @@ describe( 'addresses', () => {
 			.toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
+	it( 'puts an "e" before an intern\'s CPF', () => {
+		expect( gen.teacherEmail( { network: 'intern', name: 'Maria da Silva', cpf: '529.982.247-25' }, config ).email )
+			.toBe( 'mariasilva.e52998224725@edu.sme.prefeitura.sp.gov.br' );
+		expect( gen.teacherEmail( { network: 'intern', name: 'A B', cpf: '123' }, config ).errors ).toEqual( [ 'cpf' ] );
+	} );
+
 	it( 'reports the teacher fields in error', () => {
 		expect( gen.teacherEmail( { network: 'direct', name: '', rf: '123' }, config ).errors ).toEqual( [ 'name', 'rf' ] );
 		expect( gen.teacherEmail( { network: 'partner', name: 'A B', cpf: '123' }, config ).errors ).toEqual( [ 'cpf' ] );
@@ -349,6 +355,21 @@ describe( 'teacher form', () => {
 		type( ui.inputs.rf, '518.178-0' );
 		submit( div );
 		expect( ui.email() ).toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
+	} );
+
+	it( 'offers interns, with the CPF field', () => {
+		const div = container();
+		const ui = gen.mount( div, config, 'teachers' );
+		const intern = div.querySelector( 'input[value="intern"]' );
+		intern.checked = true;
+		intern.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+		expect( div.querySelector( '[data-ie-field="rf"]' ).hidden ).toBe( true );
+		expect( div.querySelector( '[data-ie-field="cpf"]' ).hidden ).toBe( false );
+
+		type( ui.inputs.name, 'Maria da Silva' );
+		type( ui.inputs.cpf, '52998224725' );
+		submit( div );
+		expect( ui.email() ).toBe( 'mariasilva.e52998224725@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
 	it( 'marks a wrong CPF', () => {

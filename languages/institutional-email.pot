@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 04:11+0000\n"
+"POT-Creation-Date: 2026-10-11 04:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,7 +84,7 @@ msgid "Students"
 msgstr ""
 
 #: src/admin/documentation.php:50
-msgid "Full name, then the network: the CPF for the partner network, or the 7 digits of the RF for the direct network."
+msgid "Full name, then the network: the CPF for the partner network, the 7 digits of the RF for the direct network, or the CPF for an intern."
 msgstr ""
 
 #: src/admin/documentation.php:50 src/admin/documentation.php:76
@@ -176,127 +176,135 @@ msgstr ""
 msgid "First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 5181780: mariasilva.5181780."
 msgstr ""
 
-#: src/admin/documentation.php:78 src/admin/settings-page.php:238
+#: src/admin/documentation.php:77
+msgid "As a partner-network teacher, with an \"e\" before the CPF digits: mariasilva.e52998224725."
+msgstr ""
+
+#: src/admin/documentation.php:77
+msgid "Interns"
+msgstr ""
+
+#: src/admin/documentation.php:79 src/admin/settings-page.php:238
 msgid "Middle names that count"
 msgstr ""
 
 #. translators: 1: minimum, 2: maximum, 3: default number of letters.
-#: src/admin/documentation.php:81
+#: src/admin/documentation.php:82
 #, php-format
 msgid "From %1$d to %2$d letters (%3$d by default). Shorter middle names, such as \"da\" and \"dos\", are left out of a student's address."
 msgstr ""
 
-#: src/admin/documentation.php:87
+#: src/admin/documentation.php:88
 msgid "Domain and password"
 msgstr ""
 
-#: src/admin/documentation.php:87
+#: src/admin/documentation.php:88
 msgid "What comes after the \"@\", and the password a new account starts with. The password is public: everyone who opens the form sees it."
 msgstr ""
 
-#: src/admin/documentation.php:88 src/admin/settings-page.php:249
+#: src/admin/documentation.php:89 src/admin/settings-page.php:249
 msgid "RF check digit"
 msgstr ""
 
-#: src/admin/documentation.php:88
+#: src/admin/documentation.php:89
 msgid "The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist."
 msgstr ""
 
-#: src/admin/documentation.php:89
+#: src/admin/documentation.php:90
 msgid "A student's address is the RA padded with zeros to 12 digits, its check digit and \"sp\", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set."
 msgstr ""
 
-#: src/admin/documentation.php:89
+#: src/admin/documentation.php:90
 msgid "State schools"
 msgstr ""
 
-#: src/admin/documentation.php:93 src/admin/documentation.php:99
+#: src/admin/documentation.php:94 src/admin/documentation.php:100
 #: src/admin/settings-page.php:322 src/admin/settings-page.php:375
 msgid "Texts"
 msgstr ""
 
-#: src/admin/documentation.php:96
+#: src/admin/documentation.php:97
 msgid "What the form says."
 msgstr ""
 
-#: src/admin/documentation.php:98 src/admin/settings-page.php:302
+#: src/admin/documentation.php:99 src/admin/settings-page.php:302
 msgid "Next step"
 msgstr ""
 
-#: src/admin/documentation.php:98
+#: src/admin/documentation.php:99
 msgid "The platform the form links to below the result. Without an address, no next step is shown."
 msgstr ""
 
-#: src/admin/documentation.php:99
+#: src/admin/documentation.php:100
 msgid "Any label, hint or message. An empty field keeps the built-in text, which follows the site's language."
 msgstr ""
 
-#: src/admin/documentation.php:103
+#: src/admin/documentation.php:104
 msgid "Privacy"
 msgstr ""
 
-#: src/admin/documentation.php:105
+#: src/admin/documentation.php:106
 msgid "Nothing typed in the form is sent to the site, and the plugin stores no personal data."
 msgstr ""
 
-#: src/admin/documentation.php:107
+#: src/admin/documentation.php:108
 msgid "In the browser"
 msgstr ""
 
-#: src/admin/documentation.php:107
+#: src/admin/documentation.php:108
 msgid "The address is worked out on the visitor's device, and nothing is kept after the page is closed."
 msgstr ""
 
-#: src/admin/documentation.php:108
+#: src/admin/documentation.php:109
 msgid "On the site"
 msgstr ""
 
-#: src/admin/documentation.php:108
+#: src/admin/documentation.php:109
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr ""
 
-#: src/admin/documentation.php:112
+#: src/admin/documentation.php:113
 msgid "Updates"
 msgstr ""
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
 msgstr ""
 
-#: src/admin/documentation.php:116
+#: src/admin/documentation.php:117
 msgid "Checked package"
 msgstr ""
 
-#: src/admin/documentation.php:116
+#: src/admin/documentation.php:117
 msgid "Each package is checked against its published SHA-256 before it is installed."
 msgstr ""
 
-#: src/admin/documentation.php:117
+#: src/admin/documentation.php:118
 msgid "Automatic updates"
 msgstr ""
 
-#: src/admin/documentation.php:117
+#: src/admin/documentation.php:118
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr ""
 
-#: src/admin/documentation.php:129
+#: src/admin/documentation.php:130
 msgid "Contents"
 msgstr ""
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:156
+#: src/admin/documentation.php:157
 #, php-format
 msgid "Open the %s tab"
 msgstr ""
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:182
+#: src/admin/documentation.php:183
 #, php-format
 msgid "Developed by %s."
 msgstr ""
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:188
+#: src/admin/documentation.php:189
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr ""
@@ -492,7 +500,7 @@ msgid "Network"
 msgstr ""
 
 #: src/config.php:103
-msgid "Direct network for public servants; partner network for staff who are not public servants."
+msgid "Direct network for public servants; partner network for staff who are not public servants; Intern for interns of the city schools."
 msgstr ""
 
 #: src/config.php:104
@@ -504,126 +512,130 @@ msgid "Direct network (RF)"
 msgstr ""
 
 #: src/config.php:106
-msgid "Registro Funcional (RF)"
+msgid "Intern (CPF)"
 msgstr ""
 
 #: src/config.php:107
-msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
+msgid "Registro Funcional (RF)"
 msgstr ""
 
 #: src/config.php:108
-msgid "CPF"
+msgid "The 7 digits, check digit included: 518.178-0 is 5181780."
 msgstr ""
 
 #: src/config.php:109
-msgid "Find the email"
+msgid "CPF"
 msgstr ""
 
 #: src/config.php:110
-msgid "The student's email is:"
+msgid "Find the email"
 msgstr ""
 
 #: src/config.php:111
-msgid "The teacher's email is:"
+msgid "The student's email is:"
 msgstr ""
 
 #: src/config.php:112
-msgid "The initial password is:"
+msgid "The teacher's email is:"
 msgstr ""
 
 #: src/config.php:113
-msgid "Copy email"
+msgid "The initial password is:"
 msgstr ""
 
 #: src/config.php:114
-msgid "Copy password"
+msgid "Copy email"
 msgstr ""
 
 #: src/config.php:115
-msgid "Email copied."
+msgid "Copy password"
 msgstr ""
 
 #: src/config.php:116
-msgid "Password copied."
+msgid "Email copied."
 msgstr ""
 
 #: src/config.php:117
-msgid "Could not copy; select the text and copy it by hand."
+msgid "Password copied."
 msgstr ""
 
 #: src/config.php:118
-msgid "Email found. Write it down with the password."
+msgid "Could not copy; select the text and copy it by hand."
 msgstr ""
 
 #: src/config.php:119
-msgid "Check the marked fields."
+msgid "Email found. Write it down with the password."
 msgstr ""
 
 #: src/config.php:120
-msgid "Type the full name, with at least a first and a last name."
+msgid "Check the marked fields."
 msgstr ""
 
 #: src/config.php:121
-msgid "Choose a valid date of birth."
+msgid "Type the full name, with at least a first and a last name."
 msgstr ""
 
 #: src/config.php:122
-msgid "Type the 7 digits of the RF."
+msgid "Choose a valid date of birth."
 msgstr ""
 
 #: src/config.php:123
-msgid "This RF's check digit does not match: check the number."
+msgid "Type the 7 digits of the RF."
 msgstr ""
 
 #: src/config.php:124
-msgid "Type a valid CPF."
+msgid "This RF's check digit does not match: check the number."
 msgstr ""
 
 #: src/config.php:125
-msgid "Student's RA (Registro do Aluno)"
+msgid "Type a valid CPF."
 msgstr ""
 
 #: src/config.php:126
-msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
+msgid "Student's RA (Registro do Aluno)"
 msgstr ""
 
 #: src/config.php:127
-msgid "RA check digit"
+msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr ""
 
 #: src/config.php:128
-msgid "A number from 0 to 9, or X."
+msgid "RA check digit"
 msgstr ""
 
 #: src/config.php:129
-msgid "Do not know the RA? Look it up on the SED:"
+msgid "A number from 0 to 9, or X."
 msgstr ""
 
 #: src/config.php:130
-msgid "The initial password is the date of birth:"
+msgid "Do not know the RA? Look it up on the SED:"
 msgstr ""
 
 #: src/config.php:131
-msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
+msgid "The initial password is the date of birth:"
 msgstr ""
 
 #: src/config.php:132
-msgid "Get your access on the SED"
+msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr ""
 
 #: src/config.php:133
-msgid "Type the RA's digits, up to 12."
+msgid "Get your access on the SED"
 msgstr ""
 
 #: src/config.php:134
-msgid "Type the check digit: a number from 0 to 9, or X."
+msgid "Type the RA's digits, up to 12."
 msgstr ""
 
 #: src/config.php:135
-msgid "Then sign in with this email and password, not a personal account, at:"
+msgid "Type the check digit: a number from 0 to 9, or X."
 msgstr ""
 
 #: src/config.php:136
+msgid "Then sign in with this email and password, not a personal account, at:"
+msgstr ""
+
+#: src/config.php:137
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr ""
 

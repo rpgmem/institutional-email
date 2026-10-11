@@ -18,6 +18,7 @@ It comes in two forms, both published on every [release](https://github.com/rpgm
 | Student | full name, date of birth | first name + the initial of each middle name of 4 letters or more + last name, a dot, the date as DDMMYYYY |
 | Teacher, direct network | full name, RF (7 digits) | first name + last name, a dot, the RF |
 | Teacher, partner network | full name, CPF (validated) | first name + last name, a dot, the CPF digits |
+| Intern (on the teachers' form) | full name, CPF (validated) | first name + last name, a dot, `e`, the CPF digits |
 
 All at `@edu.sme.prefeitura.sp.gov.br`, with the initial password `12345678`. The RF's seventh digit is a check digit, checked with Free Form Certificate's rule (an administrator can turn the check off), and RF and CPF are masked as `000.000-0` and `000.000.000-00`. Accents are dropped and only the letters a to z of each name reach the address. Examples: Maria Aparecida da Silva, born on 7 March 2012 → `mariaasilva.07032012@edu.sme.prefeitura.sp.gov.br`; João dos Santos Oliveira, RF 5181780 → `joaooliveira.5181780@edu.sme.prefeitura.sp.gov.br`.
 

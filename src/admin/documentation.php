@@ -47,7 +47,7 @@ final class Documentation {
 				'intro' => __( 'What a person sees on the page.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Students', 'institutional-email' ), __( 'Full name and date of birth.', 'institutional-email' ) ),
-					array( __( 'Teachers', 'institutional-email' ), __( 'Full name, then the network: the CPF for the partner network, or the 7 digits of the RF for the direct network.', 'institutional-email' ) ),
+					array( __( 'Teachers', 'institutional-email' ), __( 'Full name, then the network: the CPF for the partner network, the 7 digits of the RF for the direct network, or the CPF for an intern.', 'institutional-email' ) ),
 					array( __( 'State students', 'institutional-email' ), __( 'The RA and its check digit, as the SED shows them, and the date of birth, which is also the initial password. A link points to the SED page that looks the RA up.', 'institutional-email' ) ),
 					array( __( 'State teachers', 'institutional-email' ), __( 'No form: an explanation that the address is created on the first access to the SED, and a link there.', 'institutional-email' ) ),
 					array( __( 'Errors', 'institutional-email' ), __( 'Each field says what is wrong, and a status line announces it to screen readers.', 'institutional-email' ) ),
@@ -74,6 +74,7 @@ final class Documentation {
 				'items' => array(
 					array( __( 'Students', 'institutional-email' ), __( 'First name, the initial of each middle name that is long enough, last name, a dot, and the date of birth as DDMMYYYY. Maria Aparecida da Silva, born on 7 March 2012: mariaasilva.07032012.', 'institutional-email' ) ),
 					array( __( 'Teachers', 'institutional-email' ), __( 'First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 5181780: mariasilva.5181780.', 'institutional-email' ) ),
+					array( __( 'Interns', 'institutional-email' ), __( 'As a partner-network teacher, with an "e" before the CPF digits: mariasilva.e52998224725.', 'institutional-email' ) ),
 					array(
 						__( 'Middle names that count', 'institutional-email' ),
 						sprintf(

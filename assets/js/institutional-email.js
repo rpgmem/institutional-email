@@ -246,7 +246,10 @@
 	 * reported apart, so the form can say "check the number" rather than
 	 * "type seven digits".
 	 *
-	 * @param {Object} values { network: 'direct'|'partner', name, rf, cpf }.
+	 * An intern (network 'intern') has the partner network's address with an
+	 * "e" before the CPF digits: mariasilva.e12345678909.
+	 *
+	 * @param {Object} values { network: 'direct'|'partner'|'intern', name, rf, cpf }.
 	 * @param {Object} config Configuration (domain, checkRfDigit).
 	 * @return {{email: string, errors: string[], reasons: Object}} The address, or the keys of the fields in error and why.
 	 */
@@ -268,7 +271,8 @@
 		if ( ! direct && ! isCpf( id ) ) {
 			errors.push( 'cpf' );
 		}
-		return { email: errors.length ? '' : name + '.' + id + '@' + config.domain, errors: errors, reasons: reasons };
+		var prefix = 'intern' === values.network ? 'e' : '';
+		return { email: errors.length ? '' : name + '.' + prefix + id + '@' + config.domain, errors: errors, reasons: reasons };
 	}
 
 	/**
@@ -480,7 +484,7 @@
 				el( doc, 'legend', { text: s.networkLegend } ),
 				el( doc, 'p', { class: 'ie-hint', text: s.networkHint } ),
 			] );
-			[ [ 'partner', s.networkPartner ], [ 'direct', s.networkDirect ] ].forEach( function ( option, i ) {
+			[ [ 'partner', s.networkPartner ], [ 'direct', s.networkDirect ], [ 'intern', s.networkIntern ] ].forEach( function ( option, i ) {
 				var id = uid + '-network-' + option[ 0 ];
 				network.appendChild( el( doc, 'label', { for: id, class: 'ie-radio' }, [
 					el( doc, 'input', { type: 'radio', id: id, name: uid + '-network', value: option[ 0 ], checked: 0 === i } ),

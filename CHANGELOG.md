@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **São Paulo state schools (SEDUC-SP)** (#13). Settings → General chooses the school network; `network="state"` on a shortcode, or `?network=state` on the standalone page, serves it on one page. State students give their RA (padded with zeros to 12 digits), its check digit and their date of birth, which is also the initial password; state teachers are pointed to the SED, where their address is created.
 - **The RF's check digit is checked** (#13), with Free Form Certificate's rule; a mistyped RF is refused with its own message instead of becoming an address that does not exist. On by default, with a switch on the Address rules tab.
+- **Interns of the city schools** (#24). The teachers' form offers them next to the two networks; they give their CPF and the address carries an "e" before its digits (`mariasilva.e52998224725`).
 
 ### Changed
 
