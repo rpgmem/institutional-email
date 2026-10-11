@@ -1,0 +1,364 @@
+/* Settings → Institutional Email. Scoped to the screen's wrap.
+   The layout follows Free Form Certificate's settings: a vertical tab menu
+   with icons, and each section of a tab in a box whose heading carries the
+   icon of its subject. Colours come from the admin colour scheme. */
+
+.ie-settings {
+	max-width: 1500px;
+}
+
+/* Vertical tabs. Every panel is in the one form; without JavaScript they all
+   show, one after the other. */
+.ie-settings .ie-tabs {
+	display: flex;
+	align-items: stretch;
+	margin-top: 16px;
+	overflow: hidden;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #ffffff;
+	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+}
+
+.ie-settings .ie-tabs__nav {
+	flex: 0 0 220px;
+	margin: 0;
+	padding: 0;
+	border-right: 1px solid #c3c4c7;
+	background: #f6f7f7;
+	list-style: none;
+}
+
+.ie-settings .ie-tabs__nav li {
+	margin: 0;
+}
+
+.ie-settings .ie-tabs__tab {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 16px;
+	border-left: 4px solid transparent;
+	color: #1d2327;
+	line-height: 1.3;
+	text-decoration: none;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ie-settings .ie-tabs__tab:hover,
+.ie-settings .ie-tabs__tab:focus {
+	background: #f0f6fc;
+	color: var(--wp-admin-theme-color, #2271b1);
+	box-shadow: none;
+}
+
+.ie-settings .ie-tabs__tab:focus-visible {
+	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline-offset: -2px;
+}
+
+.ie-settings .ie-tabs.is-ready .ie-tabs__tab.is-active {
+	border-left-color: var(--wp-admin-theme-color, #2271b1);
+	background: #ffffff;
+	color: var(--wp-admin-theme-color, #2271b1);
+	font-weight: 600;
+}
+
+.ie-settings .ie-tabs__panels {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 20px 24px 24px;
+}
+
+.ie-settings .ie-tabs.is-ready .ie-tabs__panel:not(.is-active) {
+	display: none;
+}
+
+.ie-settings .ie-tabs__panel + .ie-tabs__panel {
+	margin-top: 24px;
+}
+
+.ie-settings .ie-tabs.is-ready .ie-tabs__panel + .ie-tabs__panel {
+	margin-top: 0;
+}
+
+.ie-settings .ie-icon {
+	flex: 0 0 auto;
+}
+
+/* Boxed sections. */
+.ie-settings .card {
+	min-width: 255px;
+	max-width: none;
+	margin: 0 0 24px;
+	padding: 24px;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #ffffff;
+	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+}
+
+.ie-settings .card:last-child {
+	margin-bottom: 0;
+}
+
+.ie-settings .card h2 {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 16px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #f0f0f1;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.ie-settings .card h2 .ie-icon {
+	color: var(--wp-admin-theme-color, #2271b1);
+}
+
+.ie-settings .card h3 {
+	margin: 24px 0 12px;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.ie-settings .card > p.description {
+	margin-top: 0;
+}
+
+.ie-settings .card .form-table {
+	margin-top: 0;
+}
+
+/* Narrow screens: the menu becomes a strip above the panel. */
+@media screen and (max-width: 782px) {
+	.ie-settings .ie-tabs {
+		flex-direction: column;
+	}
+
+	.ie-settings .ie-tabs__nav {
+		display: flex;
+		flex: 0 0 auto;
+		flex-wrap: wrap;
+		border-right: 0;
+		border-bottom: 1px solid #c3c4c7;
+	}
+
+	.ie-settings .ie-tabs__tab {
+		padding: 8px 12px;
+		border-bottom: 3px solid transparent;
+		border-left: 0;
+	}
+
+	.ie-settings .ie-tabs.is-ready .ie-tabs__tab.is-active {
+		border-bottom-color: var(--wp-admin-theme-color, #2271b1);
+	}
+
+	.ie-settings .ie-tabs__panels {
+		padding: 16px;
+	}
+
+	.ie-settings .card {
+		padding: 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ie-settings .ie-tabs__tab {
+		transition: none;
+	}
+}
+
+/* Documentation tab. */
+.ie-settings .ie-doc-contents ul {
+	margin: 0;
+	columns: 2 16em;
+}
+
+.ie-settings .ie-doc-credits {
+	margin: 16px 0 0;
+	padding-top: 12px;
+	border-top: 1px solid #f0f0f1;
+	color: #50575e;
+}
+
+.ie-settings .ie-doc dl {
+	margin: 0;
+}
+
+.ie-settings .ie-doc dt {
+	margin-top: 12px;
+	font-weight: 600;
+}
+
+.ie-settings .ie-doc dd {
+	margin: 4px 0 0;
+}
+
+.ie-settings .ie-doc-goto {
+	margin-bottom: 0;
+}
+
+/* Wherever the columns still do not fit, the table scrolls inside its card. */
+.ie-settings .ie-table-scroll {
+	max-width: 960px;
+	margin-bottom: 16px;
+	overflow-x: auto;
+}
+
+.ie-settings .ie-texts-table {
+	min-width: 640px;
+}
+
+.ie-settings .ie-texts-table td {
+	vertical-align: middle;
+}
+
+/* The text boxes follow their column instead of WordPress's fixed 25em. */
+.ie-settings .ie-texts-table td:first-child {
+	width: 45%;
+}
+
+.ie-settings .ie-texts-table input[type="text"] {
+	width: 100%;
+	min-width: 6em;
+	max-width: 100%;
+}
+
+/* On/off switch: a real checkbox, hidden but focusable, drawn as a track. */
+.ie-settings .ie-toggle {
+	display: inline-flex;
+	position: relative;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	line-height: 1.3;
+	cursor: pointer;
+	user-select: none;
+}
+
+.ie-settings .ie-toggle input[type="checkbox"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ie-settings .ie-toggle-track {
+	position: relative;
+	flex: 0 0 auto;
+	width: 38px;
+	height: 22px;
+	border-radius: 11px;
+	background: #8c8f94;
+	transition: background-color 0.15s ease;
+}
+
+.ie-settings .ie-toggle-track::after {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #ffffff;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+	content: "";
+	transition: transform 0.15s ease;
+}
+
+.ie-settings .ie-toggle input:checked + .ie-toggle-track {
+	background: var(--wp-admin-theme-color, #2271b1);
+}
+
+.ie-settings .ie-toggle input:checked + .ie-toggle-track::after {
+	transform: translateX(16px);
+}
+
+.ie-settings .ie-toggle input:focus-visible + .ie-toggle-track {
+	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline-offset: 2px;
+}
+
+.ie-settings .ie-toggle input:disabled + .ie-toggle-track {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Forced colors drop backgrounds; keep the track and the knob visible. */
+@media (forced-colors: active) {
+	.ie-settings .ie-toggle-track {
+		border: 1px solid CanvasText;
+	}
+
+	.ie-settings .ie-toggle-track::after {
+		background: CanvasText;
+	}
+
+	.ie-settings .ie-toggle input:checked + .ie-toggle-track {
+		background: Highlight;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ie-settings .ie-toggle-track,
+	.ie-settings .ie-toggle-track::after {
+		transition: none;
+	}
+}
+
+/* Save state beside a toggle. */
+.ie-settings .ie-autosave-badge {
+	display: inline-block;
+	margin-left: 8px;
+	padding: 2px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	font-weight: 500;
+	vertical-align: middle;
+}
+
+.ie-settings .ie-autosave-badge[hidden] {
+	display: none;
+}
+
+.ie-settings .ie-autosave-badge--saving {
+	background: #f0f0f1;
+	color: #50575e;
+}
+
+.ie-settings .ie-autosave-badge--saved {
+	background: #edfaef;
+	color: #00632b;
+}
+
+.ie-settings .ie-autosave-badge--error {
+	background: #fcf0f1;
+	color: #a00;
+}
+
+/* Regional offices: name, acronym, remove. */
+
+/* WordPress's line-height on a monospace field clips the underscores. */
+.ie-settings input.code {
+	line-height: 1.5;
+}
+
+.ie-settings .ie-rules dt {
+	margin-top: 8px;
+	font-weight: 600;
+}
+
+.ie-settings .ie-rules dd {
+	margin: 2px 0 0;
+}
+
+/* Each form or option of the Texts tab opens with its own heading row. */
+.ie-settings .ie-texts-table .ie-texts-group th {
+	padding-top: 16px;
+	border-bottom: 1px solid #c3c4c7;
+	font-weight: 600;
+}

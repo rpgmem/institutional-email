@@ -1,11 +1,17 @@
-.idea
-.vscode/*
-.vscode/settings.json
-.vscode/tasks.json
-.vscode/launch.json
-.vscode/extensions.json
+/vendor/
+/wordpress/
+/node_modules/
+/.phpunit.cache/
+/.phpunit.result.cache
+/phpunit.xml
+/phpunit.functional.xml
+/.phpcs.cache
+/phpcs.xml
+/phpstan.neon
+/wp-tests-config.php
+/.idea/
+/.vscode/
+.DS_Store
+/build/
 *.code-workspace
-
-# Local History for Visual Studio Code
 .history/
-_config.yml
