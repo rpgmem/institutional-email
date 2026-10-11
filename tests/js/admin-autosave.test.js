@@ -91,6 +91,18 @@ describe( 'settings toggles', () => {
 		expect( b.checked ).toBe( true );
 	} );
 
+	it( 'posts the teachers\' form options as their own list', () => {
+		document.body.innerHTML = `<p>${ toggle( 'forms', 'teachers' ) }</p><p>${ toggle( 'teacher_networks', 'partner' ) }</p><p>${ toggle( 'teacher_networks', 'intern' ) }</p>`;
+		boot( { success: true, data: { value: [ 'intern' ] } } );
+		const partner = document.querySelectorAll( 'input' )[ 1 ];
+		partner.checked = false;
+		partner.dispatchEvent( new Event( 'change' ) );
+
+		const body = window.fetch.mock.calls[ 0 ][ 1 ].body;
+		expect( body.get( 'key' ) ).toBe( 'teacher_networks' );
+		expect( body.getAll( 'value[]' ) ).toEqual( [ 'intern' ] );
+	} );
+
 	it( 'reverts the toggle and shows the server message on refusal', async () => {
 		document.body.innerHTML = `<p>${ toggle( 'some_toggle', '1', false ) }</p>`;
 		boot( { success: false, data: { message: 'Type a default first.' } } );

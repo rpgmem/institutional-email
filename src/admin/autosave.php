@@ -26,7 +26,7 @@ final class Autosave {
 	/**
 	 * The keys a toggle may save on its own.
 	 */
-	public const KEYS = array( 'forms', 'check_rf_digit' );
+	public const KEYS = array( 'forms', 'teacher_networks', 'check_rf_digit' );
 
 	/**
 	 * Hook the handler. Logged-in only: there is no `nopriv` variant.
@@ -64,16 +64,16 @@ final class Autosave {
 	 * Apply one toggle to the settings.
 	 *
 	 * @param array<string, mixed> $settings Sanitized settings.
-	 * @param string               $key      `forms` or `check_rf_digit`.
-	 * @param mixed                $value    The ticked form ids, or '1' / '0'.
+	 * @param string               $key      `forms`, `teacher_networks` or `check_rf_digit`.
+	 * @param mixed                $value    The ticked ids, or '1' / '0'.
 	 * @return array<string, mixed>|WP_Error The sanitized settings, or why the change was refused.
 	 */
 	public static function apply( array $settings, string $key, $value ) {
 		if ( ! in_array( $key, self::KEYS, true ) ) {
 			return new WP_Error( 'unknown_key', __( 'This setting cannot be saved on its own. Use "Save Changes".', 'institutional-email' ) );
 		}
-		if ( 'forms' === $key ) {
-			$settings['forms'] = array_map( 'strval', is_array( $value ) ? $value : array() );
+		if ( 'forms' === $key || 'teacher_networks' === $key ) {
+			$settings[ $key ] = array_map( 'strval', is_array( $value ) ? $value : array() );
 		} else {
 			$settings[ $key ] = is_scalar( $value ) && in_array( (string) $value, array( '1', 'true', 'on' ), true );
 		}

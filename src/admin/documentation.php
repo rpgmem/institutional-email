@@ -62,6 +62,7 @@ final class Documentation {
 				'items' => array(
 					array( __( 'School network', 'institutional-email' ), __( 'City schools (RME/SP) or state schools (SEDUC-SP). A shortcode\'s network="…" can choose the other one for a single page.', 'institutional-email' ) ),
 					array( __( 'Forms offered', 'institutional-email' ), __( 'A shortcode that asks for a form that is not offered shows the first one that is.', 'institutional-email' ) ),
+					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
 				),
 				'note'  => __( 'The on/off switches save as soon as they are flipped. Everything else saves with "Save Changes".', 'institutional-email' ),

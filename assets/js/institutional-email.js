@@ -25,6 +25,11 @@
 	var RA_LENGTH = 12;
 
 	/**
+	 * The options of the city teachers' form, in the order they are shown.
+	 */
+	var TEACHER_NETWORKS = [ 'partner', 'direct', 'intern' ];
+
+	/**
 	 * Letters NFD does not decompose into a base letter plus a mark.
 	 */
 	var LIGATURES = { 'æ': 'ae', 'œ': 'oe', 'ø': 'o', 'ß': 's', 'ł': 'l', 'đ': 'd', 'ð': 'd', 'þ': 'th', 'ı': 'i' };
@@ -484,7 +489,16 @@
 				el( doc, 'legend', { text: s.networkLegend } ),
 				el( doc, 'p', { class: 'ie-hint', text: s.networkHint } ),
 			] );
-			[ [ 'partner', s.networkPartner ], [ 'direct', s.networkDirect ], [ 'intern', s.networkIntern ] ].forEach( function ( option, i ) {
+			// Only the options the site offers; with one left, it is asked for without a choice.
+			var offered = Array.isArray( config.teacherNetworks ) && config.teacherNetworks.length ? config.teacherNetworks : TEACHER_NETWORKS;
+			var options = [ [ 'partner', s.networkPartner ], [ 'direct', s.networkDirect ], [ 'intern', s.networkIntern ] ].filter( function ( option ) {
+				return -1 !== offered.indexOf( option[ 0 ] );
+			} );
+			if ( ! options.length ) {
+				options = [ [ 'partner', s.networkPartner ] ];
+			}
+			network.hidden = 1 === options.length;
+			options.forEach( function ( option, i ) {
 				var id = uid + '-network-' + option[ 0 ];
 				network.appendChild( el( doc, 'label', { for: id, class: 'ie-radio' }, [
 					el( doc, 'input', { type: 'radio', id: id, name: uid + '-network', value: option[ 0 ], checked: 0 === i } ),

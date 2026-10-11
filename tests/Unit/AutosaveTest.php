@@ -44,6 +44,16 @@ final class AutosaveTest extends TestCase {
 		self::assertSame( 'example.org', $saved['domain'] );
 	}
 
+	public function test_teacher_options_are_saved_as_a_list(): void {
+		$saved = Autosave::apply( Settings::defaults(), 'teacher_networks', array( 'direct', 'intern' ) );
+		self::assertIsArray( $saved );
+		self::assertSame( array( 'direct', 'intern' ), $saved['teacher_networks'] );
+
+		$none = Autosave::apply( Settings::defaults(), 'teacher_networks', '' );
+		self::assertIsArray( $none );
+		self::assertSame( Config::TEACHER_NETWORKS, $none['teacher_networks'], 'None ticked offers all three.' );
+	}
+
 	public function test_no_form_ticked_offers_both(): void {
 		$saved = Autosave::apply( Settings::defaults(), 'forms', '' );
 		self::assertIsArray( $saved );

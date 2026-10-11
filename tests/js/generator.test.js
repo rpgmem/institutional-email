@@ -372,6 +372,26 @@ describe( 'teacher form', () => {
 		expect( ui.email() ).toBe( 'mariasilva.e52998224725@edu.sme.prefeitura.sp.gov.br' );
 	} );
 
+	it( 'offers only the options the site keeps', () => {
+		const div = container();
+		gen.mount( div, Object.assign( {}, config, { teacherNetworks: [ 'partner', 'intern' ] } ), 'teachers' );
+		expect( div.querySelector( 'input[value="direct"]' ) ).toBeNull();
+		expect( div.querySelector( '.ie-network' ).hidden ).toBe( false );
+		expect( div.querySelector( 'input[value="partner"]' ).checked ).toBe( true );
+	} );
+
+	it( 'asks for the one option left without a choice', () => {
+		const div = container();
+		const ui = gen.mount( div, Object.assign( {}, config, { teacherNetworks: [ 'direct' ] } ), 'teachers' );
+		expect( div.querySelector( '.ie-network' ).hidden ).toBe( true );
+		expect( div.querySelector( '[data-ie-field="rf"]' ).hidden ).toBe( false );
+		expect( div.querySelector( '[data-ie-field="cpf"]' ).hidden ).toBe( true );
+		type( ui.inputs.name, 'Maria da Silva' );
+		type( ui.inputs.rf, '5181780' );
+		submit( div );
+		expect( ui.email() ).toBe( 'mariasilva.5181780@edu.sme.prefeitura.sp.gov.br' );
+	} );
+
 	it( 'marks a wrong CPF', () => {
 		const div = container();
 		const ui = gen.mount( div, config, 'teachers' );

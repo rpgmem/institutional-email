@@ -110,6 +110,7 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertStringContainsString( 'value="[' . Shortcode::TAG . ']" readonly', $html );
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[network]" value="state"', $html );
 		self::assertStringContainsString( 'data-ie-autosave="check_rf_digit"', $html );
+		self::assertSame( count( Config::TEACHER_NETWORKS ), substr_count( $html, 'data-ie-autosave="teacher_networks"' ) );
 	}
 
 	public function test_the_tab_parameter_chooses_the_first_panel(): void {

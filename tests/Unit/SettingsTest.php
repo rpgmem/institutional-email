@@ -55,6 +55,13 @@ final class SettingsTest extends TestCase {
 		self::assertSame( Config::defaults(), Settings::apply( Config::defaults(), Settings::defaults() ) );
 	}
 
+	public function test_teacher_options_keep_the_known_ones_in_their_own_order(): void {
+		self::assertSame( array( 'partner', 'intern' ), Settings::sanitize( array( 'teacher_networks' => array( 'intern', 'x', 'partner' ) ) )['teacher_networks'] );
+		self::assertSame( Config::TEACHER_NETWORKS, Settings::sanitize( array( 'teacher_networks' => array() ) )['teacher_networks'], 'None ticked offers all three.' );
+		self::assertSame( Config::TEACHER_NETWORKS, Settings::sanitize( array() )['teacher_networks'], 'Never saved offers all three.' );
+		self::assertSame( array( 'direct' ), Settings::apply( Config::defaults(), Settings::sanitize( array( 'teacher_networks' => array( 'direct' ) ) ) )['teacherNetworks'] );
+	}
+
 	public function test_forms_keep_the_known_ones_in_their_own_order(): void {
 		self::assertSame( array( 'students', 'teachers' ), Settings::sanitize( array( 'forms' => array( 'teachers', 'x', 'students' ) ) )['forms'] );
 		self::assertSame( array( 'teachers' ), Settings::sanitize( array( 'forms' => array( 'teachers' ) ) )['forms'] );

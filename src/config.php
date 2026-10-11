@@ -66,26 +66,33 @@ final class Config {
 	public const FORMS = array( 'students', 'teachers' );
 
 	/**
+	 * The options of the city teachers' form: partner network (CPF), direct
+	 * network (RF) and interns (CPF with an "e" before it).
+	 */
+	public const TEACHER_NETWORKS = array( 'partner', 'direct', 'intern' );
+
+	/**
 	 * The configuration the script reads.
 	 *
-	 * @return array{network: string, domain: string, password: string, middleMin: int, checkRfDigit: bool, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
+	 * @return array{network: string, domain: string, password: string, middleMin: int, checkRfDigit: bool, teacherNetworks: list<string>, state: array{domain: string, suffix: string, raUrl: string, teacherUrl: string}, platformName: string, platformUrl: string, strings: array<string, string>}
 	 */
 	public static function defaults(): array {
 		return array(
-			'network'      => self::NETWORKS[0],
-			'domain'       => self::DOMAIN,
-			'password'     => self::PASSWORD,
-			'middleMin'    => self::MIDDLE_MIN,
-			'checkRfDigit' => true,
-			'state'        => array(
+			'network'         => self::NETWORKS[0],
+			'domain'          => self::DOMAIN,
+			'password'        => self::PASSWORD,
+			'middleMin'       => self::MIDDLE_MIN,
+			'checkRfDigit'    => true,
+			'teacherNetworks' => self::TEACHER_NETWORKS,
+			'state'           => array(
 				'domain'     => self::STATE_DOMAIN,
 				'suffix'     => self::STATE_SUFFIX,
 				'raUrl'      => self::STATE_RA_URL,
 				'teacherUrl' => self::STATE_TEACHER_URL,
 			),
-			'platformName' => __( 'Google Classroom', 'institutional-email' ),
-			'platformUrl'  => self::PLATFORM_URL,
-			'strings'      => self::strings(),
+			'platformName'    => __( 'Google Classroom', 'institutional-email' ),
+			'platformUrl'     => self::PLATFORM_URL,
+			'strings'         => self::strings(),
 		);
 	}
 
