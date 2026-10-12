@@ -65,8 +65,9 @@ final class Documentation {
 					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
 					array( __( 'Google Analytics', 'institutional-email' ), __( 'Off by default, and then nothing of Google\'s is loaded. Switched on with a measurement ID (G-XXXXXXXXXX), the pages that show a form load Google\'s tag and record each address worked out, with only the form and the network.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
+					array( __( 'Dark Mode', 'institutional-email' ), __( 'Off by default. On, or Auto when the operating system is set to dark, this settings screen turns dark at once. It is this screen only: the form on the site keeps its own look.', 'institutional-email' ) ),
 				),
-				'note'  => __( 'The on/off switches save as soon as they are flipped. Everything else saves with "Save Changes".', 'institutional-email' ),
+				'note'  => __( 'The on/off switches and Dark Mode save as soon as they change. Everything else saves with "Save Changes".', 'institutional-email' ),
 			),
 			'rules'    => array(
 				'title' => __( 'Address rules', 'institutional-email' ),

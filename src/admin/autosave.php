@@ -26,7 +26,7 @@ final class Autosave {
 	/**
 	 * The keys a toggle may save on its own.
 	 */
-	public const KEYS = array( 'forms', 'teacher_networks', 'check_rf_digit', 'analytics', 'custom_style' );
+	public const KEYS = array( 'forms', 'teacher_networks', 'check_rf_digit', 'analytics', 'custom_style', 'dark_mode' );
 
 	/**
 	 * Hook the handler. Logged-in only: there is no `nopriv` variant.
@@ -64,15 +64,20 @@ final class Autosave {
 	 * Apply one toggle to the settings.
 	 *
 	 * @param array<string, mixed> $settings Sanitized settings.
-	 * @param string               $key      `forms`, `teacher_networks`, `check_rf_digit`, `analytics` or `custom_style`.
-	 * @param mixed                $value    The ticked ids, or '1' / '0'.
+	 * @param string               $key      `forms`, `teacher_networks`, `check_rf_digit`, `analytics`, `custom_style` or `dark_mode`.
+	 * @param mixed                $value    The ticked ids, '1' / '0', or a dark mode.
 	 * @return array<string, mixed>|WP_Error The sanitized settings, or why the change was refused.
 	 */
 	public static function apply( array $settings, string $key, $value ) {
 		if ( ! in_array( $key, self::KEYS, true ) ) {
 			return new WP_Error( 'unknown_key', __( 'This setting cannot be saved on its own. Use "Save Changes".', 'institutional-email' ) );
 		}
-		if ( 'forms' === $key || 'teacher_networks' === $key ) {
+		if ( 'dark_mode' === $key ) {
+			if ( ! in_array( $value, Settings::DARK_MODES, true ) ) {
+				return new WP_Error( 'unknown_value', __( 'This value is not one of the options.', 'institutional-email' ) );
+			}
+			$settings['dark_mode'] = $value;
+		} elseif ( 'forms' === $key || 'teacher_networks' === $key ) {
 			$settings[ $key ] = array_map( 'strval', is_array( $value ) ? $value : array() );
 		} else {
 			$settings[ $key ] = is_scalar( $value ) && in_array( (string) $value, array( '1', 'true', 'on' ), true );

@@ -21,7 +21,160 @@
 	--ie-danger-text: #8a2424;
 	--ie-danger-light: #fcf0f1;
 	--ie-shadow-sm: 0 1px 3px rgb(0 0 0 / 10%);
+	--ie-primary-hover: #135e96;
+	--ie-bg: #f0f0f1;
+	--ie-bg-input: #ffffff;
+	--ie-select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E");
+	--ie-toggle-knob: #ffffff;
 }
+/* Dark mode: Free Form Certificate's dark values for the same tokens. The
+   block redefines colour tokens only; the class is put on <html> by the
+   inline script the settings page prints in the head. */
+:root.ie-dark-mode {
+	--ie-primary: #5dabde;
+	--ie-primary-hover: #7cbde8;
+	--ie-primary-light: #1a2f42;
+	--ie-text-on-primary: #213c4e;
+	--ie-bg: #1d2327;
+	--ie-bg-card: #2c3338;
+	--ie-bg-alt: #23282d;
+	--ie-bg-input: #23282d;
+	--ie-text: #e7e8ea;
+	--ie-text-secondary: #c3c4c7;
+	--ie-text-muted: #a7aaad;
+	--ie-border: #6f7c89;
+	--ie-border-light: #2c3338;
+	--ie-success: #4caf50;
+	--ie-success-light: #1a2e1a;
+	--ie-danger-text: #ef9a9a;
+	--ie-danger-light: #2e1515;
+	--ie-shadow-sm: 0 1px 3px rgb(0 0 0 / 30%);
+	--ie-select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23c3c4c7%22%2F%3E%3C%2Fsvg%3E");
+}
+
+/* The WordPress chrome inside this screen. Core paints these light whatever
+   the plugin does, so in dark mode each one is repainted from the tokens;
+   light mode needs none of this. */
+:root.ie-dark-mode body.wp-admin {
+	color: var(--ie-text);
+	background-color: var(--ie-bg);
+}
+
+:root.ie-dark-mode .ie-settings h1,
+:root.ie-dark-mode .ie-settings h2,
+:root.ie-dark-mode .ie-settings h3,
+:root.ie-dark-mode .ie-settings .form-table th,
+:root.ie-dark-mode .ie-settings .form-table td,
+:root.ie-dark-mode .ie-settings label,
+:root.ie-dark-mode .ie-settings legend,
+:root.ie-dark-mode .ie-settings > p {
+	color: var(--ie-text);
+}
+
+:root.ie-dark-mode .ie-settings .description {
+	color: var(--ie-text-muted);
+}
+
+/* Links in the panels only, and at the lowest weight: the tab menu and the
+   documentation's navigation tiles paint their own. */
+:where(:root.ie-dark-mode) .ie-tabs__panel a:not(.button) {
+	color: var(--ie-primary);
+}
+
+:where(:root.ie-dark-mode) .ie-tabs__panel a:not(.button):hover {
+	color: var(--ie-primary-hover);
+}
+
+:root.ie-dark-mode .ie-settings .widefat {
+	color: var(--ie-text);
+	background: var(--ie-bg-card);
+	border-color: var(--ie-border-light);
+}
+
+:root.ie-dark-mode .ie-settings .widefat thead th,
+:root.ie-dark-mode .ie-settings .widefat thead td {
+	color: var(--ie-text);
+	background: var(--ie-bg-alt);
+	border-color: var(--ie-border-light);
+}
+
+:root.ie-dark-mode .ie-settings .widefat td,
+:root.ie-dark-mode .ie-settings .widefat tbody th {
+	color: var(--ie-text);
+	border-color: var(--ie-border-light);
+}
+
+:root.ie-dark-mode .ie-settings .striped > tbody > :nth-child(odd) {
+	background-color: var(--ie-bg-alt);
+}
+
+:root.ie-dark-mode .ie-settings input[type="text"],
+:root.ie-dark-mode .ie-settings input[type="number"],
+:root.ie-dark-mode .ie-settings input[type="email"],
+:root.ie-dark-mode .ie-settings input[type="url"],
+:root.ie-dark-mode .ie-settings input[type="search"],
+:root.ie-dark-mode .ie-settings select,
+:root.ie-dark-mode .ie-settings textarea {
+	color: var(--ie-text);
+	background-color: var(--ie-bg-input);
+	border-color: var(--ie-border);
+}
+
+:root.ie-dark-mode .ie-settings select {
+	background-image: var(--ie-select-arrow);
+}
+
+:root.ie-dark-mode .ie-settings input:focus,
+:root.ie-dark-mode .ie-settings select:focus,
+:root.ie-dark-mode .ie-settings textarea:focus {
+	border-color: var(--ie-primary);
+	box-shadow: 0 0 0 1px var(--ie-primary);
+}
+
+:root.ie-dark-mode .ie-settings input[type="checkbox"],
+:root.ie-dark-mode .ie-settings input[type="radio"] {
+	background-color: var(--ie-bg-input);
+	border-color: var(--ie-border);
+}
+
+:root.ie-dark-mode .ie-settings .button,
+:root.ie-dark-mode .ie-settings .button-secondary {
+	color: var(--ie-text);
+	background: var(--ie-bg-alt);
+	border-color: var(--ie-border);
+}
+
+:root.ie-dark-mode .ie-settings .button:hover,
+:root.ie-dark-mode .ie-settings .button-secondary:hover {
+	color: var(--ie-text);
+	background: var(--ie-bg-card);
+	border-color: var(--ie-primary);
+}
+
+:root.ie-dark-mode .ie-settings .button-primary {
+	color: var(--ie-text-on-primary);
+	background: var(--ie-primary);
+	border-color: var(--ie-primary);
+}
+
+:root.ie-dark-mode .ie-settings .button-primary:hover {
+	color: var(--ie-text-on-primary);
+	background: var(--ie-primary-hover);
+	border-color: var(--ie-primary-hover);
+}
+
+:root.ie-dark-mode .ie-settings .notice,
+:root.ie-dark-mode .ie-settings div.updated,
+:root.ie-dark-mode .ie-settings div.error {
+	color: var(--ie-text);
+	background: var(--ie-bg-card);
+}
+
+:root.ie-dark-mode .ie-settings code {
+	color: var(--ie-text);
+	background: var(--ie-bg-alt);
+}
+
 
 .ie-settings {
 	max-width: 1500px;
@@ -370,7 +523,7 @@
 	width: 18px;
 	height: 18px;
 	border-radius: 50%;
-	background: var(--ie-bg-card);
+	background: var(--ie-toggle-knob);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 	content: "";
 	transition: transform 0.15s ease;
