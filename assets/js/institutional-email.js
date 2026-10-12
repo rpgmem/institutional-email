@@ -17,6 +17,11 @@
 
 	var FORMS = [ 'students', 'teachers' ];
 
+	// Each chooser and form on the page takes the next number, so two never
+	// share an element id. A counter, not a random value: the id only ties a
+	// label to its field, and a counter cannot collide.
+	var mounted = 0;
+
 	var NETWORKS = [ 'city', 'state' ];
 
 	/**
@@ -435,7 +440,8 @@
 	function mountChooser( container, config, offered, system ) {
 		var doc = container.ownerDocument;
 		var s = config.strings;
-		var id = 'ie-' + Math.random().toString( 36 ).slice( 2, 8 ) + '-profile';
+		mounted += 1;
+		var id = 'ie-' + mounted + '-profile';
 		var labels = { students: s.profileStudents, teachers: s.profileTeachers };
 		var select = el( doc, 'select', { id: id, class: 'ie-input ie-profile' }, offered.map( function ( form ) {
 			return el( doc, 'option', { value: form, text: labels[ form ] } );
@@ -523,7 +529,8 @@
 		var school = system || networkOf( container, config );
 		var state = 'state' === school;
 		var forms;
-		var uid = 'ie-' + Math.random().toString( 36 ).slice( 2, 8 );
+		mounted += 1;
+		var uid = 'ie-' + mounted;
 		var inputs = {};
 
 		if ( '' === kind ) {
