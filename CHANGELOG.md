@@ -5,7 +5,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [1.2.0] (2026-10-12)
+## [1.2.0] (2026-10-12) — `a8812004`
 
 The settings screen takes Free Form Certificate's look: its colours, icons and documentation navigation, and a dark mode; the Design tab warns about hard-to-read colours, and a cleared number keeps its default.
 
