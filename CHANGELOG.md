@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - **The Design tab warns about colours that are hard to read** (#41). As in Email Signature Generator, a colour pair below WCAG's 4.5:1 (button text on the accent, the accent on white and on the result, notes and errors on white) is still saved, with a warning naming it and its ratio.
+- **Dark mode for the settings screen** (#46). A Dark Mode setting on the General tab (Off, On, or Auto to follow the operating system) turns this screen dark with Free Form Certificate's dark palette, saves as soon as it changes and repaints at once. The form on the site keeps its own look.
 
 ### Changed
 

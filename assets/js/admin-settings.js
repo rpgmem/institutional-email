@@ -23,6 +23,9 @@
 	 * @return {string|string[]} Value to post.
 	 */
 	function valueOf( input ) {
+		if ( 'SELECT' === input.tagName ) {
+			return input.value;
+		}
 		var key = input.getAttribute( 'data-ie-autosave' );
 		if ( -1 === GROUPS.indexOf( key ) ) {
 			return input.checked ? '1' : '0';
@@ -39,9 +42,14 @@
 	 * Show the stored value again: one box, or its whole group.
 	 *
 	 * @param {HTMLInputElement} input The flipped toggle.
-	 * @param {boolean|string[]} value Stored value.
+	 * @param {boolean|string|string[]} value Stored value.
 	 */
 	function show( input, value ) {
+		if ( 'SELECT' === input.tagName ) {
+			input.value = String( value );
+			input.ieSaved = input.value;
+			return;
+		}
 		if ( Array.isArray( value ) ) {
 			document.querySelectorAll( 'input[data-ie-autosave="' + input.getAttribute( 'data-ie-autosave' ) + '"]' ).forEach( function ( box ) {
 				box.checked = -1 !== value.indexOf( box.value );
@@ -82,7 +90,7 @@
 	 */
 	function save( input ) {
 		var key = input.getAttribute( 'data-ie-autosave' );
-		var before = ! input.checked;
+		var before = 'SELECT' === input.tagName ? input.ieSaved : ! input.checked;
 		var value = valueOf( input );
 		var badge = badgeFor( input );
 		var body = new window.FormData();
@@ -110,13 +118,20 @@
 					throw new Error( json && json.data && json.data.message ? json.data.message : settings.failed );
 				}
 				show( input, json.data.value );
+				// Interested scripts (the dark mode one) act on the saved value;
+				// this widget does not need to know which keys repaint.
+				document.dispatchEvent( new window.CustomEvent( 'ie:setting-saved', { detail: { key: key, value: json.data.value } } ) );
 				setBadge( badge, 'saved', settings.saved );
 				badge.ieTimer = window.setTimeout( function () {
 					badge.hidden = true;
 				}, LINGER );
 			} )
 			.catch( function ( error ) {
-				input.checked = before;
+				if ( 'SELECT' === input.tagName ) {
+					input.value = before;
+				} else {
+					input.checked = before;
+				}
 				syncShown();
 				setBadge( badge, 'error', error && error.message ? error.message : settings.failed );
 			} );
@@ -194,7 +209,10 @@
 	} );
 
 	if ( settings.action && settings.nonce && window.fetch ) {
-		document.querySelectorAll( 'input[data-ie-autosave]' ).forEach( function ( input ) {
+		document.querySelectorAll( 'select[data-ie-autosave]' ).forEach( function ( select ) {
+			select.ieSaved = select.value;
+		} );
+		document.querySelectorAll( '[data-ie-autosave]' ).forEach( function ( input ) {
 			input.addEventListener( 'change', function () {
 				save( input );
 			} );

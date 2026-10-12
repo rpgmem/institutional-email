@@ -51,6 +51,12 @@ final class Settings {
 	public const TEXT_MAX = 300;
 
 	/**
+	 * Values `dark_mode` accepts: never, always, or what the operating
+	 * system prefers. It colours this plugin's settings screen only.
+	 */
+	public const DARK_MODES = array( 'off', 'on', 'auto' );
+
+	/**
 	 * A domain name: dot-separated labels of letters, digits and inner
 	 * hyphens, ending in a top-level label of two letters or more.
 	 */
@@ -59,7 +65,7 @@ final class Settings {
 	/**
 	 * The stored settings, completed with their defaults.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>, dark_mode: string}
 	 */
 	public static function get(): array {
 		$stored = get_option( self::OPTION, array() );
@@ -69,7 +75,7 @@ final class Settings {
 	/**
 	 * The settings an install starts with.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>, dark_mode: string}
 	 */
 	public static function defaults(): array {
 		return array(
@@ -97,6 +103,8 @@ final class Settings {
 			'platform_url'     => Config::PLATFORM_URL,
 			// Only the texts an administrator changed; the rest stay translated.
 			'strings'          => array(),
+			// The settings screen's own look; the form on the site keeps its.
+			'dark_mode'        => 'off',
 		);
 	}
 
@@ -106,7 +114,7 @@ final class Settings {
 	 * value written by an older version still yields a usable configuration.
 	 *
 	 * @param mixed $input Raw settings.
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>, dark_mode: string}
 	 */
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
@@ -163,6 +171,7 @@ final class Settings {
 			// is a choice: the form then shows no next step.
 			'platform_url'     => array_key_exists( 'platform_url', $input ) ? self::url( $input['platform_url'] ) : Config::PLATFORM_URL,
 			'strings'          => self::strings( $input['strings'] ?? array() ),
+			'dark_mode'        => in_array( $input['dark_mode'] ?? '', self::DARK_MODES, true ) ? (string) $input['dark_mode'] : 'off',
 		);
 	}
 
