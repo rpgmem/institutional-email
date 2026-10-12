@@ -202,6 +202,39 @@
 	}
 
 	/**
+	 * Documentation search: hides the topics, in the quick navigation and
+	 * as cards, whose text does not contain what was typed. Empty shows all.
+	 */
+	var docSearch = document.getElementById( 'ie-doc-search' );
+	if ( docSearch ) {
+		var docRows = document.querySelectorAll( '.ie-doc-contents li' );
+		var docCards = document.querySelectorAll( '.ie-doc-topics .ie-doc' );
+		var docEmpty = document.querySelector( '.ie-doc-search-empty' );
+		docSearch.addEventListener( 'input', function () {
+			var query = docSearch.value.trim().toLowerCase();
+			var shown = 0;
+			function match( element ) {
+				var hit = '' === query || -1 !== element.textContent.toLowerCase().indexOf( query );
+				element.hidden = ! hit;
+				return hit;
+			}
+			docCards.forEach( match );
+			// A row follows its card, whose text includes the title.
+			docRows.forEach( function ( row ) {
+				var link = row.querySelector( 'a' );
+				var heading = link && document.getElementById( link.getAttribute( 'href' ).slice( 1 ) );
+				var card = heading && heading.closest( '.ie-doc' );
+				var hit = card ? ! card.hidden : match( row );
+				row.hidden = ! hit;
+				shown += hit ? 1 : 0;
+			} );
+			if ( docEmpty ) {
+				docEmpty.hidden = 0 !== shown;
+			}
+		} );
+	}
+
+	/**
 	 * Vertical tabs. Every panel stays in the one form, so switching never
 	 * loses an edit; the tab only chooses what shows. The address and the
 	 * page "Save Changes" returns to carry it, so a save lands on the same tab.
