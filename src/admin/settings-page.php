@@ -447,8 +447,11 @@ final class SettingsPage {
 			)
 		);
 		echo '<p class="description">' . esc_html__( 'Off, the form keeps its own look, and the values below go back to their defaults: switching it off clears the customisation. The standalone page always keeps its own look.', 'institutional-email' ) . '</p></td></tr>';
+		// Rendered hidden when the design is off, so the rows never flash
+		// before the script hides them.
+		$shown = $settings['custom_style'] ? '' : ' hidden';
 		printf(
-			'<tr data-ie-shown-by="custom_style"><th scope="row"><label for="ie-form-width">%1$s</label></th><td><input type="number" id="ie-form-width" class="small-text" name="%2$s[form_width]" value="%3$d" data-ie-default="%7$d" min="%4$d" max="%5$d" step="10" required> px<p class="description">%6$s</p></td></tr>',
+			'<tr data-ie-shown-by="custom_style"%8$s><th scope="row"><label for="ie-form-width">%1$s</label></th><td><input type="number" id="ie-form-width" class="small-text" name="%2$s[form_width]" value="%3$d" data-ie-default="%7$d" min="%4$d" max="%5$d" step="10" required> px<p class="description">%6$s</p></td></tr>',
 			esc_html__( 'Form width', 'institutional-email' ),
 			esc_attr( $name ),
 			(int) $settings['form_width'],
@@ -456,31 +459,34 @@ final class SettingsPage {
 			(int) Settings::FORM_WIDTH_MAX,
 			/* translators: 1: default width, 2: minimum, 3: maximum, in pixels. */
 			esc_html( sprintf( __( 'The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe.', 'institutional-email' ), Config::FORM_WIDTH, Settings::FORM_WIDTH_MIN, Settings::FORM_WIDTH_MAX ) ),
-			(int) Config::FORM_WIDTH
+			(int) Config::FORM_WIDTH,
+			esc_attr( $shown )
 		);
 		foreach ( self::colorLabels() as $key => $label ) {
 			printf(
-				'<tr data-ie-shown-by="custom_style"><th scope="row"><label for="ie-color-%1$s">%2$s</label></th><td><input type="color" id="ie-color-%1$s" name="%3$s[colors][%1$s]" value="%4$s" data-ie-default="%6$s"> <code>%5$s</code></td></tr>',
+				'<tr data-ie-shown-by="custom_style"%7$s><th scope="row"><label for="ie-color-%1$s">%2$s</label></th><td><input type="color" id="ie-color-%1$s" name="%3$s[colors][%1$s]" value="%4$s" data-ie-default="%6$s"> <code>%5$s</code></td></tr>',
 				esc_attr( $key ),
 				esc_html( $label ),
 				esc_attr( $name ),
 				esc_attr( $settings['colors'][ $key ] ),
 				/* translators: %s: the default colour, #rrggbb. */
 				esc_html( sprintf( __( 'Default: %s', 'institutional-email' ), Config::COLORS[ $key ] ) ),
-				esc_attr( Config::COLORS[ $key ] )
+				esc_attr( Config::COLORS[ $key ] ),
+				esc_attr( $shown )
 			);
 		}
 		printf(
-			'<tr data-ie-shown-by="custom_style"><th scope="row"><label for="ie-radius">%1$s</label></th><td><input type="number" id="ie-radius" class="small-text" name="%2$s[radius]" value="%3$d" data-ie-default="%6$d" min="0" max="%4$d" required> px<p class="description">%5$s</p></td></tr>',
+			'<tr data-ie-shown-by="custom_style"%7$s><th scope="row"><label for="ie-radius">%1$s</label></th><td><input type="number" id="ie-radius" class="small-text" name="%2$s[radius]" value="%3$d" data-ie-default="%6$d" min="0" max="%4$d" required> px<p class="description">%5$s</p></td></tr>',
 			esc_html__( 'Rounded corners', 'institutional-email' ),
 			esc_attr( $name ),
 			(int) $settings['radius'],
 			(int) Settings::RADIUS_MAX,
 			/* translators: %d: the default radius, in pixels. */
 			esc_html( sprintf( __( 'Of the fields, the buttons and the result; 0 makes them square. Default: %d px.', 'institutional-email' ), Config::RADIUS ) ),
-			(int) Config::RADIUS
+			(int) Config::RADIUS,
+			esc_attr( $shown )
 		);
-		echo '<tr data-ie-shown-by="custom_style"><th scope="row">' . esc_html__( 'Font', 'institutional-email' ) . '</th><td><fieldset>';
+		echo '<tr data-ie-shown-by="custom_style"' . esc_attr( $shown ) . '><th scope="row">' . esc_html__( 'Font', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( array(
 			'form'  => __( 'The form\'s own (Arial)', 'institutional-email' ),
 			'theme' => __( 'The site theme\'s', 'institutional-email' ),
@@ -513,7 +519,7 @@ final class SettingsPage {
 	 * The Texts tab's layout: one card per school network, then the texts
 	 * every form shares, each split by the form or option that shows them.
 	 * Every key of Config::strings() appears exactly once, which
-	 * tests/Unit/SettingsPageTest.php checks.
+	 * tests/Unit/TextGroupsTest.php checks.
 	 *
 	 * @return list<array{title: string, groups: list<array{label: string, keys: list<string>}>}>
 	 */
