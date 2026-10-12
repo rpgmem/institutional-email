@@ -7,7 +7,7 @@ It comes in two forms, both published on every [release](https://github.com/rpgm
 - **WordPress plugin** (`institutional-email-X.Y.Z.zip`): place a form on any page with a shortcode. An administrator chooses the forms offered, who may use them, the address rules and every text the form shows. Updates arrive through the normal WordPress update screen.
 - **Standalone HTML** (`institutional-email-X.Y.Z.html`): one self-contained file that needs no WordPress, for an `<iframe>` on any site. The latest one is served at **https://rpgmem.github.io/institutional-email/**.
 
-**Requires** WordPress 6.8 or later and PHP 8.3 or later (plugin only) · **License** GPLv3 or later
+**Requires** WordPress 6.8 or later and PHP 8.3 or later (plugin only) · **License** AGPLv3 or later
 
 ![The students' form with a result](docs/screenshots/1-students.png)
 

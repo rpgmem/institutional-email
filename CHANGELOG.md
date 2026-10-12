@@ -5,7 +5,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [1.2.0] (2026-10-12)
+## [1.3.0] (2026-10-12)
+
+The licence moves to AGPLv3 or later. The rest is the release process catching up with Free Form Certificate: CI tests the declared WordPress floor, Dependabot's minor updates merge on their own, and every workflow runs with a read-only token. Nothing changes in what the plugin does.
+
+### Changed
+
+- ⚠ **The licence is now AGPLv3 or later** (#57). Reuse and forks stay free; a modified copy offered as a network service must now publish its source too. Releases already published stay GPLv3, and a test holds every declaration of the licence together.
+- **CI tests the declared WordPress floor, and the PHP coverage floor rises to 90%** (#52). The functional suite also runs on WordPress 6.8, and `composer.json` pins the PHP platform to 8.3.
+- **Dependabot's patch and minor updates merge on their own** (#54). Required checks still gate the merge; majors stay manual.
+
+### Security
+
+- **CI jobs run with a read-only token, and form ids no longer use `Math.random()`** (#59). Both close CodeQL findings.
+
+## [1.2.0] (2026-10-12) — `a8812004`
 
 The settings screen takes Free Form Certificate's look: its colours, icons and documentation navigation, and a dark mode; the Design tab warns about hard-to-read colours, and a cleared number keeps its default.
 
