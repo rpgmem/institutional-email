@@ -104,7 +104,7 @@ final class Documentation {
 			),
 			'design'   => array(
 				'title' => __( 'Design', 'institutional-email' ),
-				'icon'  => 'brush',
+				'icon'  => 'palette',
 				'tab'   => 'design',
 				'intro' => __( 'How the form looks on the site\'s pages.', 'institutional-email' ),
 				'items' => array(

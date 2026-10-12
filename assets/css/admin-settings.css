@@ -1,7 +1,27 @@
 /* Settings → Institutional Email. Scoped to the screen's wrap.
    The layout follows Free Form Certificate's settings: a vertical tab menu
    with icons, and each section of a tab in a box whose heading carries the
-   icon of its subject. Colours come from the admin colour scheme. */
+   icon of its subject. Colours are Free Form Certificate's, from the tokens below. */
+
+/* The palette: Free Form Certificate's light tokens, with its values, so the
+   plugins share one look. Every colour below reads one of these. */
+:root {
+	--ie-primary: #2271b1;
+	--ie-primary-light: #e7f3ff;
+	--ie-text-on-primary: #ffffff;
+	--ie-bg-card: #ffffff;
+	--ie-bg-alt: #f6f7f7;
+	--ie-text: #1d2327;
+	--ie-text-secondary: #50575e;
+	--ie-text-muted: #646970;
+	--ie-border: #8e8f91;
+	--ie-border-light: #dcdcde;
+	--ie-success: #00801e;
+	--ie-success-light: #e7f5ec;
+	--ie-danger-text: #8a2424;
+	--ie-danger-light: #fcf0f1;
+	--ie-shadow-sm: 0 1px 3px rgb(0 0 0 / 10%);
+}
 
 .ie-settings {
 	max-width: 1500px;
@@ -16,18 +36,18 @@
 	/* clip, not hidden: hidden makes a scroll container, which would hold
 	   the documentation's sticky contents in place. */
 	overflow: clip;
-	border: 1px solid #c3c4c7;
+	border: 1px solid var(--ie-border);
 	border-radius: 4px;
-	background: #ffffff;
-	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: var(--ie-bg-card);
+	box-shadow: var(--ie-shadow-sm);
 }
 
 .ie-settings .ie-tabs__nav {
 	flex: 0 0 220px;
 	margin: 0;
 	padding: 0;
-	border-right: 1px solid #c3c4c7;
-	background: #f6f7f7;
+	border-right: 1px solid var(--ie-border);
+	background: var(--ie-bg-alt);
 	list-style: none;
 }
 
@@ -41,7 +61,7 @@
 	gap: 8px;
 	padding: 12px 16px;
 	border-left: 4px solid transparent;
-	color: #1d2327;
+	color: var(--ie-text);
 	line-height: 1.3;
 	text-decoration: none;
 	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -49,20 +69,20 @@
 
 .ie-settings .ie-tabs__tab:hover,
 .ie-settings .ie-tabs__tab:focus {
-	background: #f0f6fc;
-	color: var(--wp-admin-theme-color, #2271b1);
+	background: var(--ie-primary-light);
+	color: var(--ie-primary);
 	box-shadow: none;
 }
 
 .ie-settings .ie-tabs__tab:focus-visible {
-	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline: 2px solid var(--ie-primary);
 	outline-offset: -2px;
 }
 
 .ie-settings .ie-tabs.is-ready .ie-tabs__tab.is-active {
-	border-left-color: var(--wp-admin-theme-color, #2271b1);
-	background: #ffffff;
-	color: var(--wp-admin-theme-color, #2271b1);
+	border-left-color: var(--ie-primary);
+	background: var(--ie-bg-card);
+	color: var(--ie-primary);
 	font-weight: 600;
 }
 
@@ -94,10 +114,10 @@
 	max-width: none;
 	margin: 0 0 24px;
 	padding: 24px;
-	border: 1px solid #c3c4c7;
+	border: 1px solid var(--ie-border);
 	border-radius: 4px;
-	background: #ffffff;
-	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: var(--ie-bg-card);
+	box-shadow: var(--ie-shadow-sm);
 }
 
 .ie-settings .card:last-child {
@@ -110,13 +130,13 @@
 	gap: 8px;
 	margin: 0 0 16px;
 	padding-bottom: 12px;
-	border-bottom: 1px solid #f0f0f1;
+	border-bottom: 1px solid var(--ie-border-light);
 	font-size: 18px;
 	font-weight: 600;
 }
 
 .ie-settings .card h2 .ie-icon {
-	color: var(--wp-admin-theme-color, #2271b1);
+	color: var(--ie-primary);
 }
 
 .ie-settings .card h3 {
@@ -144,7 +164,7 @@
 		flex: 0 0 auto;
 		flex-wrap: wrap;
 		border-right: 0;
-		border-bottom: 1px solid #c3c4c7;
+		border-bottom: 1px solid var(--ie-border);
 	}
 
 	.ie-settings .ie-tabs__tab {
@@ -154,7 +174,7 @@
 	}
 
 	.ie-settings .ie-tabs.is-ready .ie-tabs__tab.is-active {
-		border-bottom-color: var(--wp-admin-theme-color, #2271b1);
+		border-bottom-color: var(--ie-primary);
 	}
 
 	.ie-settings .ie-tabs__panels {
@@ -206,10 +226,10 @@
 	align-items: center;
 	gap: 8px;
 	padding: 8px 12px;
-	border: 1px solid #c3c4c7;
+	border: 1px solid var(--ie-border);
 	border-radius: 4px;
-	background: #ffffff;
-	color: var(--wp-admin-theme-color, #2271b1);
+	background: var(--ie-bg-card);
+	color: var(--ie-primary);
 	font-weight: 500;
 	text-decoration: none;
 	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -217,24 +237,24 @@
 
 .ie-settings .ie-doc-contents a .ie-icon {
 	flex: 0 0 auto;
-	color: #646970;
+	color: var(--ie-text-muted);
 }
 
 .ie-settings .ie-doc-contents a:hover,
 .ie-settings .ie-doc-contents a:focus {
-	border-color: var(--wp-admin-theme-color, #2271b1);
-	background: var(--wp-admin-theme-color, #2271b1);
-	color: #ffffff;
+	border-color: var(--ie-primary);
+	background: var(--ie-primary);
+	color: var(--ie-text-on-primary);
 }
 
 .ie-settings .ie-doc-contents a:hover .ie-icon,
 .ie-settings .ie-doc-contents a:focus .ie-icon {
-	color: #ffffff;
+	color: var(--ie-text-on-primary);
 }
 
 .ie-settings .ie-doc-search-empty {
 	margin: 0;
-	color: #50575e;
+	color: var(--ie-text-secondary);
 }
 
 /* A topic reached from the contents lands below the admin bar. */
@@ -265,8 +285,8 @@
 .ie-settings .ie-doc-credits {
 	margin: 16px 0 0;
 	padding-top: 12px;
-	border-top: 1px solid #f0f0f1;
-	color: #50575e;
+	border-top: 1px solid var(--ie-border-light);
+	color: var(--ie-text-secondary);
 }
 
 .ie-settings .ie-doc dl {
@@ -339,7 +359,7 @@
 	width: 38px;
 	height: 22px;
 	border-radius: 11px;
-	background: #8c8f94;
+	background: var(--ie-border);
 	transition: background-color 0.15s ease;
 }
 
@@ -350,14 +370,14 @@
 	width: 18px;
 	height: 18px;
 	border-radius: 50%;
-	background: #ffffff;
+	background: var(--ie-bg-card);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 	content: "";
 	transition: transform 0.15s ease;
 }
 
 .ie-settings .ie-toggle input:checked + .ie-toggle-track {
-	background: var(--wp-admin-theme-color, #2271b1);
+	background: var(--ie-primary);
 }
 
 .ie-settings .ie-toggle input:checked + .ie-toggle-track::after {
@@ -365,7 +385,7 @@
 }
 
 .ie-settings .ie-toggle input:focus-visible + .ie-toggle-track {
-	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline: 2px solid var(--ie-primary);
 	outline-offset: 2px;
 }
 
@@ -412,18 +432,18 @@
 }
 
 .ie-settings .ie-autosave-badge--saving {
-	background: #f0f0f1;
-	color: #50575e;
+	background: var(--ie-bg-alt);
+	color: var(--ie-text-muted);
 }
 
 .ie-settings .ie-autosave-badge--saved {
-	background: #edfaef;
-	color: #00632b;
+	background: var(--ie-success-light);
+	color: var(--ie-success);
 }
 
 .ie-settings .ie-autosave-badge--error {
-	background: #fcf0f1;
-	color: #a00;
+	background: var(--ie-danger-light);
+	color: var(--ie-danger-text);
 }
 
 /* Regional offices: name, acronym, remove. */
@@ -445,6 +465,6 @@
 /* Each form or option of the Texts tab opens with its own heading row. */
 .ie-settings .ie-texts-table .ie-texts-group th {
 	padding-top: 16px;
-	border-bottom: 1px solid #c3c4c7;
+	border-bottom: 1px solid var(--ie-border);
 	font-weight: 600;
 }

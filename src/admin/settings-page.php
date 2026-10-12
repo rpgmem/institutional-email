@@ -431,7 +431,7 @@ final class SettingsPage {
 
 		// Design.
 		self::openPanel( 'design', $active );
-		self::openCard( __( 'Design', 'institutional-email' ), 'brush' );
+		self::openCard( __( 'Design', 'institutional-email' ), 'palette' );
 		echo '<table class="form-table" role="presentation"><tbody>';
 		printf(
 			'<tr><th scope="row">%1$s</th><td><input type="hidden" name="%2$s[custom_style]" value="0">',
@@ -612,7 +612,7 @@ final class SettingsPage {
 			),
 			'design'        => array(
 				'label' => __( 'Design', 'institutional-email' ),
-				'icon'  => 'brush',
+				'icon'  => 'palette',
 			),
 			'documentation' => array(
 				'label' => __( 'Documentation', 'institutional-email' ),
