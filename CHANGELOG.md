@@ -9,6 +9,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **The Design tab warns about colours that are hard to read** (#41). As in Email Signature Generator, a colour pair below WCAG's 4.5:1 (button text on the accent, the accent on white and on the result, notes and errors on white) is still saved, with a warning naming it and its ratio.
 
+### Changed
+
+- **CI holds coverage floors and two new guards** (#42). PHP line coverage (unit and functional suites merged) and JS line coverage now have floors. Tests check the Upgrade Notice against the Stable tag, and require every PHPCS or PHPStan suppression to name its rule and give a reason. The admin script's tests now count toward coverage.
+
 ### Fixed
 
 - **A cleared number field keeps its default** (#41). Emptying the minimum middle-name length or the rounded corners stored the lowest value (1, or square corners); it now means "not set", like the form width already did.

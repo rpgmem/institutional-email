@@ -14,7 +14,7 @@
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="true">
+    <coverage processUncoveredFiles="false">
         <include>
             <file>institutional-email.php</file>
             <directory suffix=".php">src</directory>
