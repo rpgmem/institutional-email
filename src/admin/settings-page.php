@@ -460,7 +460,7 @@ final class SettingsPage {
 			/* translators: 1: default width, 2: minimum, 3: maximum, in pixels. */
 			esc_html( sprintf( __( 'The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe.', 'institutional-email' ), Config::FORM_WIDTH, Settings::FORM_WIDTH_MIN, Settings::FORM_WIDTH_MAX ) ),
 			(int) Config::FORM_WIDTH,
-			$shown
+			esc_attr( $shown )
 		);
 		foreach ( self::colorLabels() as $key => $label ) {
 			printf(
@@ -472,7 +472,7 @@ final class SettingsPage {
 				/* translators: %s: the default colour, #rrggbb. */
 				esc_html( sprintf( __( 'Default: %s', 'institutional-email' ), Config::COLORS[ $key ] ) ),
 				esc_attr( Config::COLORS[ $key ] ),
-				$shown
+				esc_attr( $shown )
 			);
 		}
 		printf(
@@ -484,7 +484,7 @@ final class SettingsPage {
 			/* translators: %d: the default radius, in pixels. */
 			esc_html( sprintf( __( 'Of the fields, the buttons and the result; 0 makes them square. Default: %d px.', 'institutional-email' ), Config::RADIUS ) ),
 			(int) Config::RADIUS,
-			$shown
+			esc_attr( $shown )
 		);
 		echo '<tr data-ie-shown-by="custom_style"' . esc_attr( $shown ) . '><th scope="row">' . esc_html__( 'Font', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( array(
