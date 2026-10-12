@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.2.0] (2026-10-12)
+
+The settings screen takes Free Form Certificate's look: its colours, icons and documentation navigation, and a dark mode; the Design tab warns about hard-to-read colours, and a cleared number keeps its default.
+
 ### Added
 
 - **The Design tab warns about colours that are hard to read** (#41). As in Email Signature Generator, a colour pair below WCAG's 4.5:1 (button text on the accent, the accent on white and on the result, notes and errors on white) is still saved, with a warning naming it and its ratio.

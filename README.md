@@ -37,10 +37,10 @@ Example: RA 123456789, check digit X, born on 7 March 2012 → `000123456789xsp@
 
 In **Settings → Institutional Email** an administrator sets, for every form on the site:
 
-- **General:** the school network (city or state), the forms offered, which of the partner network, the direct network and interns the teachers' form offers, who may use them (everyone, or logged-in users only), and optional Google Analytics (off by default; only a GA4 measurement ID, never a pasted snippet).
+- **General:** the school network (city or state), the forms offered, which of the partner network, the direct network and interns the teachers' form offers, who may use them (everyone, or logged-in users only), optional Google Analytics (off by default; only a GA4 measurement ID, never a pasted snippet), and this screen's Dark Mode (off, on, or following the operating system).
 - **Address rules:** for the city schools, the domain, how long a middle name must be to give its initial, the RF check digit and the initial password; the state rules, which have nothing to set.
 - **Texts:** the platform the result links to (Google Classroom by default; empty hides the line), and any label, hint or message of the form.
-- **Design:** off by default; switched on, the form's width, the colours of the buttons, fields, hints, errors and result, the rounded corners and the font.
+- **Design:** off by default; switched on, the form's width, the colours of the buttons, fields, hints, errors and result, the rounded corners and the font. Colour pairs below WCAG's 4.5:1 are saved with a warning.
 - **Documentation:** what every option does, with examples.
 
 **In an iframe**, without WordPress:
