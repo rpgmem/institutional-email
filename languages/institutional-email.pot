@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-12 00:00+0000\n"
+"POT-Creation-Date: 2026-10-12 02:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -355,24 +355,36 @@ msgstr ""
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr ""
 
-#: src/admin/documentation.php:145
-msgid "Contents"
+#: src/admin/documentation.php:151
+msgid "Quick Navigation"
+msgstr ""
+
+#: src/admin/documentation.php:152
+msgid "Search documentation"
+msgstr ""
+
+#: src/admin/documentation.php:152
+msgid "Search documentation…"
+msgstr ""
+
+#: src/admin/documentation.php:156
+msgid "No topic matches this search."
 msgstr ""
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:172
+#: src/admin/documentation.php:178
 #, php-format
 msgid "Open the %s tab"
 msgstr ""
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:198
+#: src/admin/documentation.php:207
 #, php-format
 msgid "Developed by %s."
 msgstr ""
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:204
+#: src/admin/documentation.php:213
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr ""

@@ -145,11 +145,15 @@ final class Documentation {
 		// On a wide screen the contents is a sticky column beside the topics;
 		// on a narrow one it stays above them (assets/css/admin-settings.css).
 		echo '<div class="ie-doc-layout">';
-		printf( '<nav class="card ie-doc-contents" aria-label="%3$s"><h2>%1$s<span>%2$s</span></h2><ul>', Icons::svg( 'book' ), esc_html__( 'Contents', 'institutional-email' ), esc_attr__( 'Contents', 'institutional-email' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
+		// Quick navigation, as in Free Form Certificate's documentation: one
+		// row per topic with its icon, and a search box that filters both the
+		// rows and the cards (assets/js/admin-settings.js).
+		printf( '<nav class="card ie-doc-contents" aria-label="%1$s"><h2>%2$s<span>%1$s</span></h2>', esc_attr__( 'Quick Navigation', 'institutional-email' ), Icons::svg( 'search' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
+		printf( '<p class="ie-doc-search"><input type="search" id="ie-doc-search" placeholder="%1$s" aria-label="%2$s" /></p><ul>', esc_attr__( 'Search documentation…', 'institutional-email' ), esc_attr__( 'Search documentation', 'institutional-email' ) );
 		foreach ( $topics as $id => $topic ) {
-			printf( '<li><a href="#ie-doc-%1$s">%2$s</a></li>', esc_attr( $id ), esc_html( $topic['title'] ) );
+			printf( '<li><a href="#ie-doc-%1$s">%2$s%3$s</a></li>', esc_attr( $id ), Icons::svg( $topic['icon'], 16 ), esc_html( $topic['title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
 		}
-		echo '</ul></nav>';
+		printf( '</ul><p class="ie-doc-search-empty" hidden>%s</p></nav>', esc_html__( 'No topic matches this search.', 'institutional-email' ) );
 
 		echo '<div class="ie-doc-topics">';
 		foreach ( $topics as $id => $topic ) {

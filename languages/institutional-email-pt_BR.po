@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-12 00:00+0000\n"
+"POT-Creation-Date: 2026-10-12 02:30+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -353,24 +353,36 @@ msgstr "Atualizações automáticas"
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr "Ligadas ou desligadas pelo próprio link do WordPress na tela de Plugins."
 
-#: src/admin/documentation.php:145
-msgid "Contents"
-msgstr "Conteúdo"
+#: src/admin/documentation.php:151
+msgid "Quick Navigation"
+msgstr "Navegação Rápida"
+
+#: src/admin/documentation.php:152
+msgid "Search documentation"
+msgstr "Pesquisar na documentação"
+
+#: src/admin/documentation.php:152
+msgid "Search documentation…"
+msgstr "Pesquisar na documentação…"
+
+#: src/admin/documentation.php:156
+msgid "No topic matches this search."
+msgstr "Nenhum tópico corresponde a esta pesquisa."
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:172
+#: src/admin/documentation.php:178
 #, php-format
 msgid "Open the %s tab"
 msgstr "Abrir a aba %s"
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:198
+#: src/admin/documentation.php:207
 #, php-format
 msgid "Developed by %s."
 msgstr "Desenvolvido por %s."
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:204
+#: src/admin/documentation.php:213
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr "Código-fonte e registro de problemas: %s"
@@ -910,6 +922,9 @@ msgstr "A verificação de integridade (SHA-256) do pacote de atualização falh
 #. Plugin header: Description
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo city schools (RME/SP), from their name and date of birth, RF or CPF, and of the state schools (SEDUC-SP), from the student's RA."
 msgstr "Formulários, inseridos com um shortcode, que geram o e-mail institucional de alunos e professores da Rede Municipal de Ensino de São Paulo (RME/SP), a partir do nome e da data de nascimento, RF ou CPF, e da rede estadual (SEDUC-SP), a partir do RA do aluno."
+
+#~ msgid "Contents"
+#~ msgstr "Conteúdo"
 
 #~ msgid "Places the students' form on any page or post. The Copy button on the General tab copies it."
 #~ msgstr "Coloca o formulário de alunos em qualquer página ou post. O botão Copiar da aba Geral o copia."

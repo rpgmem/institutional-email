@@ -167,15 +167,74 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.ie-settings .ie-tabs__tab {
+	.ie-settings .ie-tabs__tab,
+	.ie-settings .ie-doc-contents a {
 		transition: none;
 	}
 }
 
 /* Documentation tab. */
+/* Quick navigation, drawn like Free Form Certificate's: one row per topic,
+   a bordered tile with the topic's icon that fills with the admin colour on
+   hover. */
+.ie-settings .ie-doc-search {
+	margin: 0 0 12px;
+}
+
+.ie-settings .ie-doc-search input {
+	width: 100%;
+}
+
 .ie-settings .ie-doc-contents ul {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 	margin: 0;
-	columns: 2 16em;
+}
+
+.ie-settings .ie-doc-contents li {
+	margin: 0;
+}
+
+.ie-settings .ie-doc-contents li[hidden],
+.ie-settings .ie-doc[hidden] {
+	display: none;
+}
+
+.ie-settings .ie-doc-contents a {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #ffffff;
+	color: var(--wp-admin-theme-color, #2271b1);
+	font-weight: 500;
+	text-decoration: none;
+	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ie-settings .ie-doc-contents a .ie-icon {
+	flex: 0 0 auto;
+	color: #646970;
+}
+
+.ie-settings .ie-doc-contents a:hover,
+.ie-settings .ie-doc-contents a:focus {
+	border-color: var(--wp-admin-theme-color, #2271b1);
+	background: var(--wp-admin-theme-color, #2271b1);
+	color: #ffffff;
+}
+
+.ie-settings .ie-doc-contents a:hover .ie-icon,
+.ie-settings .ie-doc-contents a:focus .ie-icon {
+	color: #ffffff;
+}
+
+.ie-settings .ie-doc-search-empty {
+	margin: 0;
+	color: #50575e;
 }
 
 /* A topic reached from the contents lands below the admin bar. */
