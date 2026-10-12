@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Institutional Email 1.0.0\n"
+"Project-Id-Version: Institutional Email 1.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 22:11+0000\n"
+"POT-Creation-Date: 2026-10-12 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,8 +79,8 @@ msgid "Full name and date of birth."
 msgstr ""
 
 #: src/admin/documentation.php:49 src/admin/documentation.php:77
-#: src/admin/settings-page.php:353 src/admin/settings-page.php:526
-#: src/admin/settings-page.php:559 src/admin/settings-page.php:576
+#: src/admin/settings-page.php:353 src/admin/settings-page.php:532
+#: src/admin/settings-page.php:565 src/admin/settings-page.php:582
 #: src/config.php:140
 msgid "Students"
 msgstr ""
@@ -90,8 +90,8 @@ msgid "Full name, then the network: the CPF for the partner network, the 7 digit
 msgstr ""
 
 #: src/admin/documentation.php:50 src/admin/documentation.php:78
-#: src/admin/settings-page.php:365 src/admin/settings-page.php:530
-#: src/admin/settings-page.php:563 src/config.php:141
+#: src/admin/settings-page.php:365 src/admin/settings-page.php:536
+#: src/admin/settings-page.php:569 src/config.php:141
 msgid "Teachers"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr ""
 
-#: src/admin/documentation.php:58 src/admin/settings-page.php:596
+#: src/admin/documentation.php:58 src/admin/settings-page.php:602
 msgid "General"
 msgstr ""
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
 msgstr ""
 
-#: src/admin/documentation.php:72 src/admin/settings-page.php:600
+#: src/admin/documentation.php:72 src/admin/settings-page.php:606
 msgid "Address rules"
 msgstr ""
 
@@ -199,7 +199,7 @@ msgstr ""
 msgid "As a partner-network teacher, with an \"e\" before the CPF digits: mariasilva.e52998224725."
 msgstr ""
 
-#: src/admin/documentation.php:79 src/admin/settings-page.php:542
+#: src/admin/documentation.php:79 src/admin/settings-page.php:548
 msgid "Interns"
 msgstr ""
 
@@ -238,7 +238,7 @@ msgid "State schools"
 msgstr ""
 
 #: src/admin/documentation.php:96 src/admin/documentation.php:102
-#: src/admin/settings-page.php:604
+#: src/admin/settings-page.php:610
 msgid "Texts"
 msgstr ""
 
@@ -259,7 +259,7 @@ msgid "Any label, hint or message, grouped by school network and by the form or 
 msgstr ""
 
 #: src/admin/documentation.php:106 src/admin/settings-page.php:434
-#: src/admin/settings-page.php:608
+#: src/admin/settings-page.php:614
 msgid "Design"
 msgstr ""
 
@@ -280,10 +280,10 @@ msgid "Colours"
 msgstr ""
 
 #: src/admin/documentation.php:112
-msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result. Keep the button text readable on the button colour."
+msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it."
 msgstr ""
 
-#: src/admin/documentation.php:113 src/admin/settings-page.php:452
+#: src/admin/documentation.php:113 src/admin/settings-page.php:455
 msgid "Form width"
 msgstr ""
 
@@ -515,7 +515,7 @@ msgstr ""
 msgid "From Google Analytics: Admin, Data streams, the site's stream. Only the ID, not the code snippet. Without an ID nothing is loaded, even switched on."
 msgstr ""
 
-#: src/admin/settings-page.php:298 src/admin/settings-page.php:523
+#: src/admin/settings-page.php:298 src/admin/settings-page.php:529
 msgid "City schools (RME/SP)"
 msgstr ""
 
@@ -563,7 +563,7 @@ msgstr ""
 msgid "The password a new account starts with, shown beside the address. It is public: everyone who opens the form sees it."
 msgstr ""
 
-#: src/admin/settings-page.php:349 src/admin/settings-page.php:556
+#: src/admin/settings-page.php:349 src/admin/settings-page.php:562
 msgid "State schools (SEDUC-SP)"
 msgstr ""
 
@@ -616,68 +616,68 @@ msgid "Off, the form keeps its own look, and the values below go back to their d
 msgstr ""
 
 #. translators: 1: default width, 2: minimum, 3: maximum, in pixels.
-#: src/admin/settings-page.php:458
+#: src/admin/settings-page.php:461
 #, php-format
 msgid "The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe."
 msgstr ""
 
 #. translators: %s: the default colour, #rrggbb.
-#: src/admin/settings-page.php:469
+#: src/admin/settings-page.php:473
 #, php-format
 msgid "Default: %s"
 msgstr ""
 
-#: src/admin/settings-page.php:475
+#: src/admin/settings-page.php:480
 msgid "Rounded corners"
 msgstr ""
 
 #. translators: %d: the default radius, in pixels.
-#: src/admin/settings-page.php:480
+#: src/admin/settings-page.php:485
 #, php-format
 msgid "Of the fields, the buttons and the result; 0 makes them square. Default: %d px."
 msgstr ""
 
-#: src/admin/settings-page.php:483
+#: src/admin/settings-page.php:489
 msgid "Font"
 msgstr ""
 
-#: src/admin/settings-page.php:485
+#: src/admin/settings-page.php:491
 msgid "The form's own (Arial)"
 msgstr ""
 
-#: src/admin/settings-page.php:486
+#: src/admin/settings-page.php:492
 msgid "The site theme's"
 msgstr ""
 
-#: src/admin/settings-page.php:534
+#: src/admin/settings-page.php:540
 msgid "Teachers: partner network"
 msgstr ""
 
-#: src/admin/settings-page.php:538
+#: src/admin/settings-page.php:544
 msgid "Teachers: direct network"
 msgstr ""
 
-#: src/admin/settings-page.php:546
+#: src/admin/settings-page.php:552
 msgid "CPF: partner network and interns"
 msgstr ""
 
-#: src/admin/settings-page.php:550
+#: src/admin/settings-page.php:556
 msgid "Students, teachers and interns"
 msgstr ""
 
-#: src/admin/settings-page.php:569
+#: src/admin/settings-page.php:575
 msgid "Both networks"
 msgstr ""
 
-#: src/admin/settings-page.php:572
+#: src/admin/settings-page.php:578
 msgid "Profile selector"
 msgstr ""
 
-#: src/admin/settings-page.php:580
+#: src/admin/settings-page.php:586
 msgid "Buttons and messages"
 msgstr ""
 
-#: src/admin/settings-page.php:612
+#: src/admin/settings-page.php:618
 msgid "Documentation"
 msgstr ""
 
@@ -854,21 +854,47 @@ msgid "The email is worked out in your browser: nothing you type is sent or stor
 msgstr ""
 
 #. translators: %s: the domain typed.
-#: src/settings.php:185
+#: src/settings.php:188
 #, php-format
 msgid "The domain was not saved, because it is not a domain name: %s"
 msgstr ""
 
 #. translators: %s: the address typed.
-#: src/settings.php:197
+#: src/settings.php:200
 #, php-format
 msgid "The platform address was not saved, because it is not an http or https address: %s"
 msgstr ""
 
 #. translators: %s: the ID typed.
-#: src/settings.php:209
+#: src/settings.php:212
 #, php-format
 msgid "The Google Analytics ID was not saved, because it is not a measurement ID such as G-XXXXXXXXXX: %s"
+msgstr ""
+
+#. translators: %s: the colour pairs, separated by semicolons.
+#: src/settings.php:225
+#, php-format
+msgid "The colours were saved, but some pairs are hard to read (WCAG asks for at least 4.5:1): %s"
+msgstr ""
+
+#: src/settings.php:245
+msgid "button text on the accent"
+msgstr ""
+
+#: src/settings.php:246
+msgid "accent on white"
+msgstr ""
+
+#: src/settings.php:247
+msgid "copy buttons on the result"
+msgstr ""
+
+#: src/settings.php:248
+msgid "notes on white"
+msgstr ""
+
+#: src/settings.php:249
+msgid "errors on white"
 msgstr ""
 
 #: src/shortcode.php:63

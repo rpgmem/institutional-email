@@ -109,7 +109,7 @@ final class Documentation {
 				'intro' => __( 'How the form looks on the site\'s pages.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Customise', 'institutional-email' ), __( 'Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switching it off clears the customisation, so the values go back to their defaults.', 'institutional-email' ) ),
-					array( __( 'Colours', 'institutional-email' ), __( 'Of the buttons and links, the button text, the field borders, the hints, the errors and the result. Keep the button text readable on the button colour.', 'institutional-email' ) ),
+					array( __( 'Colours', 'institutional-email' ), __( 'Of the buttons and links, the button text, the field borders, the hints, the errors and the result. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it.', 'institutional-email' ) ),
 					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
 					array( __( 'Rounded corners and font', 'institutional-email' ), __( 'The radius of the fields, buttons and result, and either the form\'s own font or the site theme\'s.', 'institutional-email' ) ),
 				),

@@ -5,6 +5,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **The Design tab warns about colours that are hard to read** (#PR). As in Email Signature Generator, a colour pair below WCAG's 4.5:1 (button text on the accent, the accent on white and on the result, notes and errors on white) is still saved, with a warning naming it and its ratio.
+
+### Fixed
+
+- **A cleared number field keeps its default** (#PR). Emptying the minimum middle-name length or the rounded corners stored the lowest value (1, or square corners); it now means "not set", like the form width already did.
+- **The Design tab's rows no longer flash** (#PR). When the design is off they come hidden from the server instead of being hidden by the script after the page has drawn.
+
 ## [1.1.0] (2026-10-11) — `ca96b924`
 
 ### Changed
