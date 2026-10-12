@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.3.0] (2026-10-12)
+
+The licence moves to AGPLv3 or later, and the release process catches up with Free Form Certificate: CI tests the declared WordPress floor, Dependabot's minor updates merge on their own, and every workflow runs with a read-only token.
+
 ### Changed
 
 - **CI tests the declared WordPress floor, and the PHP coverage floor rises to 90%** (#52). The functional suite also runs on WordPress 6.8, the floor the readme promises, with the test library of the same branch. `composer.json` pins the PHP platform to 8.3 so no dev dependency can require more. `CLAUDE.md` records the coverage rule shared by the four plugins.
