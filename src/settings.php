@@ -39,11 +39,22 @@ final class Settings {
 	public const RADIUS_MAX = 24;
 
 	/**
+	 * The contrast WCAG asks of normal text (SC 1.4.3, level AA).
+	 */
+	public const MIN_CONTRAST = 4.5;
+
+	/**
 	 * A Google Analytics 4 measurement ID, as Google shows it: G-XXXXXXXXXX.
 	 */
 	public const ANALYTICS_ID_PATTERN = '/^G-[A-Z0-9]{4,20}$/';
 
 	public const TEXT_MAX = 300;
+
+	/**
+	 * Values `dark_mode` accepts: never, always, or what the operating
+	 * system prefers. It colours this plugin's settings screen only.
+	 */
+	public const DARK_MODES = array( 'off', 'on', 'auto' );
 
 	/**
 	 * A domain name: dot-separated labels of letters, digits and inner
@@ -54,7 +65,7 @@ final class Settings {
 	/**
 	 * The stored settings, completed with their defaults.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>, dark_mode: string}
 	 */
 	public static function get(): array {
 		$stored = get_option( self::OPTION, array() );
@@ -64,7 +75,7 @@ final class Settings {
 	/**
 	 * The settings an install starts with.
 	 *
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>, dark_mode: string}
 	 */
 	public static function defaults(): array {
 		return array(
@@ -92,6 +103,8 @@ final class Settings {
 			'platform_url'     => Config::PLATFORM_URL,
 			// Only the texts an administrator changed; the rest stay translated.
 			'strings'          => array(),
+			// The settings screen's own look; the form on the site keeps its.
+			'dark_mode'        => 'off',
 		);
 	}
 
@@ -101,7 +114,7 @@ final class Settings {
 	 * value written by an older version still yields a usable configuration.
 	 *
 	 * @param mixed $input Raw settings.
-	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>}
+	 * @return array{network: string, forms: list<string>, access: string, domain: string, password: string, middle_min: int, form_width: int, check_rf_digit: bool, teacher_networks: list<string>, analytics: bool, analytics_id: string, custom_style: bool, colors: array<string, string>, radius: int, font: string, platform_name: string, platform_url: string, strings: array<string, string>, dark_mode: string}
 	 */
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
@@ -123,11 +136,9 @@ final class Settings {
 		$password = is_string( $input['password'] ?? null ) ? trim( sanitize_text_field( $input['password'] ) ) : '';
 		$password = '' !== $password ? mb_substr( $password, 0, self::PASSWORD_MAX ) : Config::PASSWORD;
 
-		$middle = (int) ( $input['middle_min'] ?? Config::MIDDLE_MIN );
+		$middle = self::number( $input['middle_min'] ?? null, Config::MIDDLE_MIN );
 
-		// A cleared field posts '', which is "not set", not zero pixels.
-		$width = (int) ( $input['form_width'] ?? Config::FORM_WIDTH );
-		$width = 0 !== $width ? $width : Config::FORM_WIDTH;
+		$width = self::number( $input['form_width'] ?? null, Config::FORM_WIDTH );
 
 		$access = (string) ( $input['access'] ?? self::ACCESS_EVERYONE );
 
@@ -153,13 +164,14 @@ final class Settings {
 			'analytics_id'     => self::analyticsId( $input['analytics_id'] ?? '' ),
 			'custom_style'     => $custom,
 			'colors'           => $custom ? self::colors( $input['colors'] ?? array() ) : Config::COLORS,
-			'radius'           => $custom ? min( self::RADIUS_MAX, max( 0, (int) ( $input['radius'] ?? Config::RADIUS ) ) ) : Config::RADIUS,
+			'radius'           => $custom ? min( self::RADIUS_MAX, max( 0, self::number( $input['radius'] ?? null, Config::RADIUS ) ) ) : Config::RADIUS,
 			'font'             => $custom && in_array( $input['font'] ?? '', Config::FONTS, true ) ? (string) $input['font'] : Config::FONTS[0],
 			'platform_name'    => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
 			// Absent means "never saved": keep the default. An emptied field
 			// is a choice: the form then shows no next step.
 			'platform_url'     => array_key_exists( 'platform_url', $input ) ? self::url( $input['platform_url'] ) : Config::PLATFORM_URL,
 			'strings'          => self::strings( $input['strings'] ?? array() ),
+			'dark_mode'        => in_array( $input['dark_mode'] ?? '', self::DARK_MODES, true ) ? (string) $input['dark_mode'] : 'off',
 		);
 	}
 
@@ -212,7 +224,61 @@ final class Settings {
 			);
 		}
 
-		return self::sanitize( $input );
+		$clean = self::sanitize( $input );
+		$weak  = $clean['custom_style'] ? self::weakContrasts( $clean['colors'] ) : array();
+		if ( array() !== $weak ) {
+			self::notice(
+				'weak_contrast',
+				sprintf(
+					/* translators: %s: the colour pairs, separated by semicolons. */
+					__( 'The colours were saved, but some pairs are hard to read (WCAG asks for at least 4.5:1): %s', 'institutional-email' ),
+					implode( '; ', $weak )
+				),
+				'warning'
+			);
+		}
+		return $clean;
+	}
+
+	/**
+	 * The colour pairs the form draws text with that fall short of
+	 * MIN_CONTRAST, each described with its ratio. The text the theme
+	 * colours is not ours to measure, so only pairs made of these
+	 * settings, or of a setting on white, are checked.
+	 *
+	 * @param array<string, string> $colors Sanitized colours.
+	 * @return list<string>
+	 */
+	public static function weakContrasts( array $colors ): array {
+		$pairs = array(
+			array( 'accent_text', 'accent', __( 'button text on the accent', 'institutional-email' ) ),
+			array( 'accent', '#ffffff', __( 'accent on white', 'institutional-email' ) ),
+			array( 'accent', 'ok_bg', __( 'copy buttons on the result', 'institutional-email' ) ),
+			array( 'muted', '#ffffff', __( 'notes on white', 'institutional-email' ) ),
+			array( 'error', '#ffffff', __( 'errors on white', 'institutional-email' ) ),
+		);
+		$weak  = array();
+		foreach ( $pairs as $pair ) {
+			$front = $colors[ $pair[0] ] ?? '#000000';
+			$back  = '#' === $pair[1][0] ? $pair[1] : ( $colors[ $pair[1] ] ?? '#ffffff' );
+			$ratio = self::contrast( $front, $back );
+			if ( $ratio < self::MIN_CONTRAST ) {
+				$weak[] = sprintf( '%s (%s:1)', $pair[2], number_format_i18n( $ratio, 2 ) );
+			}
+		}
+		return $weak;
+	}
+
+	/**
+	 * The WCAG contrast ratio of two #rrggbb colours, from 1 to 21.
+	 *
+	 * @param string $a A colour.
+	 * @param string $b The other colour.
+	 */
+	public static function contrast( string $a, string $b ): float {
+		$la = self::luminance( $a );
+		$lb = self::luminance( $b );
+		return ( max( $la, $lb ) + 0.05 ) / ( min( $la, $lb ) + 0.05 );
 	}
 
 	/**
@@ -362,18 +428,48 @@ final class Settings {
 	}
 
 	/**
+	 * A number field as posted. A cleared field posts '', which means "not
+	 * set", not zero: it, and anything that is not a number, gives the
+	 * default, so emptying a field never stores its lower bound.
+	 *
+	 * @param mixed $raw      Posted value.
+	 * @param int   $fallback The default.
+	 */
+	private static function number( $raw, int $fallback ): int {
+		return is_numeric( $raw ) ? (int) $raw : $fallback;
+	}
+
+	/**
+	 * The relative luminance of a #rrggbb colour, as WCAG defines it.
+	 *
+	 * @param string $hex A colour.
+	 */
+	private static function luminance( string $hex ): float {
+		$rgb = array_map( 'hexdec', str_split( substr( $hex, 1, 6 ), 2 ) );
+		$lin = array_map(
+			static function ( $channel ): float {
+				$c = (int) $channel / 255;
+				return $c <= 0.03928 ? $c / 12.92 : ( ( $c + 0.055 ) / 1.055 ) ** 2.4;
+			},
+			$rgb
+		);
+		return 0.2126 * $lin[0] + 0.7152 * $lin[1] + 0.0722 * $lin[2];
+	}
+
+	/**
 	 * Add a settings notice unless it is already queued.
 	 *
 	 * @param string $code    Notice code.
 	 * @param string $message Message.
+	 * @param string $type    Notice type: error, warning, success or info.
 	 */
-	private static function notice( string $code, string $message ): void {
+	private static function notice( string $code, string $message, string $type = 'error' ): void {
 		if ( ! function_exists( 'add_settings_error' ) ) {
 			return;
 		}
 		$queued = function_exists( 'get_settings_errors' ) ? array_column( (array) get_settings_errors( self::OPTION ), 'code' ) : array();
 		if ( ! in_array( $code, $queued, true ) ) {
-			add_settings_error( self::OPTION, $code, $message );
+			add_settings_error( self::OPTION, $code, $message, $type );
 		}
 	}
 }

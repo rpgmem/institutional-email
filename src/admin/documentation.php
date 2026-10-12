@@ -65,8 +65,9 @@ final class Documentation {
 					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
 					array( __( 'Google Analytics', 'institutional-email' ), __( 'Off by default, and then nothing of Google\'s is loaded. Switched on with a measurement ID (G-XXXXXXXXXX), the pages that show a form load Google\'s tag and record each address worked out, with only the form and the network.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
+					array( __( 'Dark Mode', 'institutional-email' ), __( 'Off by default. On, or Auto when the operating system is set to dark, this settings screen turns dark at once. It is this screen only: the form on the site keeps its own look.', 'institutional-email' ) ),
 				),
-				'note'  => __( 'The on/off switches save as soon as they are flipped. Everything else saves with "Save Changes".', 'institutional-email' ),
+				'note'  => __( 'The on/off switches and Dark Mode save as soon as they change. Everything else saves with "Save Changes".', 'institutional-email' ),
 			),
 			'rules'    => array(
 				'title' => __( 'Address rules', 'institutional-email' ),
@@ -104,12 +105,12 @@ final class Documentation {
 			),
 			'design'   => array(
 				'title' => __( 'Design', 'institutional-email' ),
-				'icon'  => 'brush',
+				'icon'  => 'palette',
 				'tab'   => 'design',
 				'intro' => __( 'How the form looks on the site\'s pages.', 'institutional-email' ),
 				'items' => array(
 					array( __( 'Customise', 'institutional-email' ), __( 'Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switching it off clears the customisation, so the values go back to their defaults.', 'institutional-email' ) ),
-					array( __( 'Colours', 'institutional-email' ), __( 'Of the buttons and links, the button text, the field borders, the hints, the errors and the result. Keep the button text readable on the button colour.', 'institutional-email' ) ),
+					array( __( 'Colours', 'institutional-email' ), __( 'Of the buttons and links, the button text, the field borders, the hints, the errors and the result. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it.', 'institutional-email' ) ),
 					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
 					array( __( 'Rounded corners and font', 'institutional-email' ), __( 'The radius of the fields, buttons and result, and either the form\'s own font or the site theme\'s.', 'institutional-email' ) ),
 				),
@@ -142,14 +143,20 @@ final class Documentation {
 	public static function render(): void {
 		$topics = self::topics();
 
-		printf( '<div class="card ie-doc-contents"><h2>%1$s<span>%2$s</span></h2><ul>', Icons::svg( 'book' ), esc_html__( 'Contents', 'institutional-email' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
+		// On a wide screen the contents is a sticky column beside the topics;
+		// on a narrow one it stays above them (assets/css/admin-settings.css).
+		echo '<div class="ie-doc-layout">';
+		// Quick navigation, as in Free Form Certificate's documentation: one
+		// row per topic with its icon, and a search box that filters both the
+		// rows and the cards (assets/js/admin-settings.js).
+		printf( '<nav class="card ie-doc-contents" aria-label="%1$s"><h2>%2$s<span>%1$s</span></h2>', esc_attr__( 'Quick Navigation', 'institutional-email' ), Icons::svg( 'search' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
+		printf( '<p class="ie-doc-search"><input type="search" id="ie-doc-search" placeholder="%1$s" aria-label="%2$s" /></p><ul>', esc_attr__( 'Search documentation…', 'institutional-email' ), esc_attr__( 'Search documentation', 'institutional-email' ) );
 		foreach ( $topics as $id => $topic ) {
-			printf( '<li><a href="#ie-doc-%1$s">%2$s</a></li>', esc_attr( $id ), esc_html( $topic['title'] ) );
+			printf( '<li><a href="#ie-doc-%1$s">%2$s%3$s</a></li>', esc_attr( $id ), Icons::svg( $topic['icon'], 16 ), esc_html( $topic['title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
 		}
-		echo '</ul>';
-		self::credits();
-		echo '</div>';
+		printf( '</ul><p class="ie-doc-search-empty" hidden>%s</p></nav>', esc_html__( 'No topic matches this search.', 'institutional-email' ) );
 
+		echo '<div class="ie-doc-topics">';
 		foreach ( $topics as $id => $topic ) {
 			printf(
 				'<div class="card ie-doc"><h2 id="ie-doc-%1$s">%2$s<span>%3$s</span></h2><p>%4$s</p>',
@@ -177,6 +184,9 @@ final class Documentation {
 			}
 			echo '</div>';
 		}
+		echo '</div></div>';
+
+		self::credits();
 	}
 
 	/**

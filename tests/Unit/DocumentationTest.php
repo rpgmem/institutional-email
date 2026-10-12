@@ -84,7 +84,7 @@ final class DocumentationTest extends TestCase {
 				self::assertNotSame( '', $item[1], $id );
 			}
 		}
-		self::assertTrue( Icons::has( 'book' ), 'The contents card uses the book icon.' );
+		self::assertTrue( Icons::has( 'search' ), 'The quick navigation uses the search icon.' );
 	}
 
 	/**
@@ -106,8 +106,28 @@ final class DocumentationTest extends TestCase {
 		preg_match_all( '/<h2 id="(ie-doc-[a-z]+)">/', $html, $cards );
 		self::assertCount( count( Documentation::topics() ), $cards[1] );
 		self::assertSame( $cards[1], $links[1] );
+		self::assertStringContainsString( '<input type="search" id="ie-doc-search"', $html );
 		self::assertStringContainsString( 'data-ie-goto="rules"', $html );
 		self::assertStringContainsString( 'Open the Address rules tab', $html );
+	}
+
+	/**
+	 * The contents and the topics share one layout element, which the
+	 * stylesheet turns into two columns on a wide screen; the credits stay
+	 * outside it, below both.
+	 */
+	public function test_the_contents_and_the_topics_share_one_layout(): void {
+		ob_start();
+		Documentation::render();
+		$html = (string) ob_get_clean();
+
+		self::assertStringStartsWith( '<div class="ie-doc-layout"><nav class="card ie-doc-contents" aria-label="Quick Navigation">', $html );
+		$nav    = strpos( $html, '</nav>' );
+		$topics = strpos( $html, '<div class="ie-doc-topics">' );
+		self::assertNotFalse( $nav );
+		self::assertNotFalse( $topics );
+		self::assertGreaterThan( $nav, $topics );
+		self::assertStringContainsString( '</div></div></div><p class="ie-doc-credits">', $html );
 	}
 
 	/**

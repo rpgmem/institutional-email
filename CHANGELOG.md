@@ -5,7 +5,28 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [1.1.0] (2026-10-11)
+## [1.2.0] (2026-10-12)
+
+The settings screen takes Free Form Certificate's look: its colours, icons and documentation navigation, and a dark mode; the Design tab warns about hard-to-read colours, and a cleared number keeps its default.
+
+### Added
+
+- **The Design tab warns about colours that are hard to read** (#41). As in Email Signature Generator, a colour pair below WCAG's 4.5:1 (button text on the accent, the accent on white and on the result, notes and errors on white) is still saved, with a warning naming it and its ratio.
+- **Dark mode for the settings screen** (#46). A Dark Mode setting on the General tab (Off, On, or Auto to follow the operating system) turns this screen dark with Free Form Certificate's dark palette, saves as soon as it changes and repaints at once. The form on the site keeps its own look.
+
+### Changed
+
+- **CI holds coverage floors and two new guards** (#42). PHP line coverage (unit and functional suites merged) and JS line coverage now have floors. Tests check the Upgrade Notice against the Stable tag, and require every PHPCS or PHPStan suppression to name its rule and give a reason. The admin script's tests now count toward coverage.
+- **The Documentation tab's contents stays in view on a wide screen** (#43). From 1100px wide the Contents card is a sticky column beside the topics, so any topic is one click away while reading another; narrower, it stays above them as before. The credits moved below the topics.
+- **The documentation's navigation matches Free Form Certificate's** (#44). The Contents card is now Quick Navigation: a search box that filters the topics and their cards, and one bordered row per topic with its icon, filled with the admin colour on hover.
+- **The settings screen takes Free Form Certificate's colours and icons** (#45). Its colours come from one palette with Free Form Certificate's light values: the accent is its blue rather than the admin colour scheme's, and borders are darker (3:1 against white). The Design tab and its topic use its palette icon, and the chart, link and key icons are its drawings.
+
+### Fixed
+
+- **A cleared number field keeps its default** (#41). Emptying the minimum middle-name length or the rounded corners stored the lowest value (1, or square corners); it now means "not set", like the form width already did.
+- **The Design tab's rows no longer flash** (#41). When the design is off they come hidden from the server instead of being hidden by the script after the page has drawn.
+
+## [1.1.0] (2026-10-11) — `ca96b924`
 
 ### Changed
 

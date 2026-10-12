@@ -11,4 +11,10 @@
             <exclude>tests/Functional/bootstrap.php</exclude>
         </testsuite>
     </testsuites>
+    <coverage processUncoveredFiles="false">
+        <include>
+            <file>institutional-email.php</file>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
 </phpunit>

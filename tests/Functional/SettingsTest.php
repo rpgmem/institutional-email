@@ -121,7 +121,7 @@ final class SettingsTest extends WP_UnitTestCase {
 		foreach ( $headings[1] as $heading ) {
 			self::assertStringStartsWith( '<svg class="ie-icon"', $heading );
 		}
-		self::assertSame( count( $headings[1] ), preg_match_all( '/<div class="card[^"]*"><h2[ >]/', $html ) );
+		self::assertSame( count( $headings[1] ), preg_match_all( '/<(?:div|nav) class="card[^"]*"[^>]*><h2[ >]/', $html ) );
 		self::assertSame( count( SettingsPage::tabs() ), preg_match_all( '/data-ie-tab="[a-z]+"><svg class="ie-icon"/', $html ) );
 
 		// A text box for every string the form shows.
@@ -135,6 +135,15 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertSame( count( Config::COLORS ), preg_match_all( '/type="color" id="ie-color-/', $html ) );
 		self::assertStringContainsString( 'name="' . Settings::OPTION . '[analytics_id]"', $html );
 		self::assertSame( count( Config::TEACHER_NETWORKS ), substr_count( $html, 'data-ie-autosave="teacher_networks"' ) );
+	}
+
+	public function test_the_design_rows_are_hidden_from_the_server_until_switched_on(): void {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$off = $this->renderScreen();
+		self::assertSame( substr_count( $off, 'data-ie-shown-by="custom_style"' ), substr_count( $off, 'data-ie-shown-by="custom_style" hidden' ), 'No row flashes before the script runs.' );
+
+		update_option( Settings::OPTION, array( 'custom_style' => '1' ) );
+		self::assertStringNotContainsString( 'data-ie-shown-by="custom_style" hidden', $this->renderScreen() );
 	}
 
 	public function test_the_tab_parameter_chooses_the_first_panel(): void {

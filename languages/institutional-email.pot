@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Institutional Email 1.0.0\n"
+"Project-Id-Version: Institutional Email 1.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-11 22:11+0000\n"
+"POT-Creation-Date: 2026-10-12 02:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: bin/build-standalone.php:91 src/admin/settings-page.php:59
-#: src/admin/settings-page.php:60 src/admin/settings-page.php:176
+#: src/admin/settings-page.php:60 src/admin/settings-page.php:182
 msgid "Institutional Email"
 msgstr ""
 
@@ -36,6 +36,10 @@ msgstr ""
 
 #: src/admin/autosave.php:73
 msgid "This setting cannot be saved on its own. Use \"Save Changes\"."
+msgstr ""
+
+#: src/admin/autosave.php:77
+msgid "This value is not one of the options."
 msgstr ""
 
 #: src/admin/documentation.php:34
@@ -78,9 +82,9 @@ msgstr ""
 msgid "Full name and date of birth."
 msgstr ""
 
-#: src/admin/documentation.php:49 src/admin/documentation.php:77
-#: src/admin/settings-page.php:353 src/admin/settings-page.php:526
-#: src/admin/settings-page.php:559 src/admin/settings-page.php:576
+#: src/admin/documentation.php:49 src/admin/documentation.php:78
+#: src/admin/settings-page.php:379 src/admin/settings-page.php:558
+#: src/admin/settings-page.php:591 src/admin/settings-page.php:608
 #: src/config.php:140
 msgid "Students"
 msgstr ""
@@ -89,9 +93,9 @@ msgstr ""
 msgid "Full name, then the network: the CPF for the partner network, the 7 digits of the RF for the direct network, or the CPF for an intern."
 msgstr ""
 
-#: src/admin/documentation.php:50 src/admin/documentation.php:78
-#: src/admin/settings-page.php:365 src/admin/settings-page.php:530
-#: src/admin/settings-page.php:563 src/config.php:141
+#: src/admin/documentation.php:50 src/admin/documentation.php:79
+#: src/admin/settings-page.php:391 src/admin/settings-page.php:562
+#: src/admin/settings-page.php:595 src/config.php:141
 msgid "Teachers"
 msgstr ""
 
@@ -115,7 +119,7 @@ msgstr ""
 msgid "Each field says what is wrong, and a status line announces it to screen readers."
 msgstr ""
 
-#: src/admin/documentation.php:53 src/admin/settings-page.php:144
+#: src/admin/documentation.php:53 src/admin/settings-page.php:150
 msgid "Errors"
 msgstr ""
 
@@ -127,7 +131,7 @@ msgstr ""
 msgid "The address and the initial password, each with a Copy button, and a link to the platform where they are used first. Changing a field hides the result until it is worked out again."
 msgstr ""
 
-#: src/admin/documentation.php:58 src/admin/settings-page.php:596
+#: src/admin/documentation.php:58 src/admin/settings-page.php:652
 msgid "General"
 msgstr ""
 
@@ -139,7 +143,7 @@ msgstr ""
 msgid "City schools (RME/SP) or state schools (SEDUC-SP). A shortcode's network=\"…\" can choose the other one for a single page."
 msgstr ""
 
-#: src/admin/documentation.php:63 src/admin/settings-page.php:208
+#: src/admin/documentation.php:63 src/admin/settings-page.php:214
 msgid "School network"
 msgstr ""
 
@@ -147,11 +151,11 @@ msgstr ""
 msgid "A shortcode that asks for a form that is not offered shows the first one that is."
 msgstr ""
 
-#: src/admin/documentation.php:64 src/admin/settings-page.php:221
+#: src/admin/documentation.php:64 src/admin/settings-page.php:227
 msgid "Forms offered"
 msgstr ""
 
-#: src/admin/documentation.php:65 src/admin/settings-page.php:238
+#: src/admin/documentation.php:65 src/admin/settings-page.php:244
 msgid "Teachers' form options"
 msgstr ""
 
@@ -159,7 +163,7 @@ msgstr ""
 msgid "Which of the partner network, the direct network and interns the city teachers' form offers. With only one, the form asks for it without a choice."
 msgstr ""
 
-#: src/admin/documentation.php:66 src/admin/settings-page.php:271
+#: src/admin/documentation.php:66 src/admin/settings-page.php:277
 msgid "Google Analytics"
 msgstr ""
 
@@ -171,208 +175,229 @@ msgstr ""
 msgid "Everyone who can see the page, or logged-in users only; the others see a link to log in."
 msgstr ""
 
-#: src/admin/documentation.php:67 src/admin/settings-page.php:255
+#: src/admin/documentation.php:67 src/admin/settings-page.php:261
 msgid "Who can use the form"
 msgstr ""
 
-#: src/admin/documentation.php:69
-msgid "The on/off switches save as soon as they are flipped. Everything else saves with \"Save Changes\"."
+#: src/admin/documentation.php:68 src/admin/settings-page.php:302
+#: src/admin/settings-page.php:306
+msgid "Dark Mode"
 msgstr ""
 
-#: src/admin/documentation.php:72 src/admin/settings-page.php:600
+#: src/admin/documentation.php:68
+msgid "Off by default. On, or Auto when the operating system is set to dark, this settings screen turns dark at once. It is this screen only: the form on the site keeps its own look."
+msgstr ""
+
+#: src/admin/documentation.php:70
+msgid "The on/off switches and Dark Mode save as soon as they change. Everything else saves with \"Save Changes\"."
+msgstr ""
+
+#: src/admin/documentation.php:73 src/admin/settings-page.php:656
 msgid "Address rules"
 msgstr ""
 
-#: src/admin/documentation.php:75
+#: src/admin/documentation.php:76
 msgid "How the address is built. In the city schools accents are dropped, and only the letters a to z of each name reach it."
 msgstr ""
 
-#: src/admin/documentation.php:77
+#: src/admin/documentation.php:78
 msgid "First name, the initial of each middle name that is long enough, last name, a dot, and the date of birth as DDMMYYYY. Maria Aparecida da Silva, born on 7 March 2012: mariaasilva.07032012."
 msgstr ""
 
-#: src/admin/documentation.php:78
+#: src/admin/documentation.php:79
 msgid "First and last name, a dot, and the RF or the CPF digits. Maria da Silva, RF 5181780: mariasilva.5181780."
 msgstr ""
 
-#: src/admin/documentation.php:79
+#: src/admin/documentation.php:80
 msgid "As a partner-network teacher, with an \"e\" before the CPF digits: mariasilva.e52998224725."
 msgstr ""
 
-#: src/admin/documentation.php:79 src/admin/settings-page.php:542
+#: src/admin/documentation.php:80 src/admin/settings-page.php:574
 msgid "Interns"
 msgstr ""
 
-#: src/admin/documentation.php:81 src/admin/settings-page.php:312
+#: src/admin/documentation.php:82 src/admin/settings-page.php:338
 msgid "Middle names that count"
 msgstr ""
 
 #. translators: 1: minimum, 2: maximum, 3: default number of letters.
-#: src/admin/documentation.php:84
+#: src/admin/documentation.php:85
 #, php-format
 msgid "From %1$d to %2$d letters (%3$d by default). Shorter middle names, such as \"da\" and \"dos\", are left out of a student's address."
 msgstr ""
 
-#: src/admin/documentation.php:90
+#: src/admin/documentation.php:91
 msgid "Domain and password"
 msgstr ""
 
-#: src/admin/documentation.php:90
+#: src/admin/documentation.php:91
 msgid "What comes after the \"@\", and the password a new account starts with. The password is public: everyone who opens the form sees it."
 msgstr ""
 
-#: src/admin/documentation.php:91 src/admin/settings-page.php:323
+#: src/admin/documentation.php:92 src/admin/settings-page.php:349
 msgid "RF check digit"
 msgstr ""
 
-#: src/admin/documentation.php:91
+#: src/admin/documentation.php:92
 msgid "The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist."
 msgstr ""
 
-#: src/admin/documentation.php:92
+#: src/admin/documentation.php:93
 msgid "A student's address is the RA padded with zeros to 12 digits, its check digit and \"sp\", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set."
 msgstr ""
 
-#: src/admin/documentation.php:92
+#: src/admin/documentation.php:93
 msgid "State schools"
 msgstr ""
 
-#: src/admin/documentation.php:96 src/admin/documentation.php:102
-#: src/admin/settings-page.php:604
+#: src/admin/documentation.php:97 src/admin/documentation.php:103
+#: src/admin/settings-page.php:660
 msgid "Texts"
 msgstr ""
 
-#: src/admin/documentation.php:99
+#: src/admin/documentation.php:100
 msgid "What the form says."
 msgstr ""
 
-#: src/admin/documentation.php:101 src/admin/settings-page.php:376
+#: src/admin/documentation.php:102 src/admin/settings-page.php:402
 msgid "Next step"
 msgstr ""
 
-#: src/admin/documentation.php:101
+#: src/admin/documentation.php:102
 msgid "The platform the form links to below the result. Without an address, no next step is shown."
 msgstr ""
 
-#: src/admin/documentation.php:102
+#: src/admin/documentation.php:103
 msgid "Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site's language."
 msgstr ""
 
-#: src/admin/documentation.php:106 src/admin/settings-page.php:434
-#: src/admin/settings-page.php:608
+#: src/admin/documentation.php:107 src/admin/settings-page.php:460
+#: src/admin/settings-page.php:664
 msgid "Design"
 msgstr ""
 
-#: src/admin/documentation.php:109
+#: src/admin/documentation.php:110
 msgid "How the form looks on the site's pages."
 msgstr ""
 
-#: src/admin/documentation.php:111 src/admin/settings-page.php:438
+#: src/admin/documentation.php:112 src/admin/settings-page.php:464
 msgid "Customise"
 msgstr ""
 
-#: src/admin/documentation.php:111
+#: src/admin/documentation.php:112
 msgid "Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switching it off clears the customisation, so the values go back to their defaults."
 msgstr ""
 
-#: src/admin/documentation.php:112
+#: src/admin/documentation.php:113
 msgid "Colours"
 msgstr ""
 
-#: src/admin/documentation.php:112
-msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result. Keep the button text readable on the button colour."
+#: src/admin/documentation.php:113
+msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it."
 msgstr ""
 
-#: src/admin/documentation.php:113 src/admin/settings-page.php:452
+#: src/admin/documentation.php:114 src/admin/settings-page.php:481
 msgid "Form width"
 msgstr ""
 
-#: src/admin/documentation.php:113
+#: src/admin/documentation.php:114
 msgid "The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has."
 msgstr ""
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "Rounded corners and font"
 msgstr ""
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "The radius of the fields, buttons and result, and either the form's own font or the site theme's."
 msgstr ""
 
-#: src/admin/documentation.php:118
+#: src/admin/documentation.php:119
 msgid "Privacy"
 msgstr ""
 
-#: src/admin/documentation.php:120
+#: src/admin/documentation.php:121
 msgid "Nothing typed in the form is sent to the site, and the plugin stores no personal data."
 msgstr ""
 
-#: src/admin/documentation.php:122
+#: src/admin/documentation.php:123
 msgid "In the browser"
 msgstr ""
 
-#: src/admin/documentation.php:122
+#: src/admin/documentation.php:123
 msgid "The address is worked out on the visitor's device, and nothing is kept after the page is closed."
 msgstr ""
 
-#: src/admin/documentation.php:123
+#: src/admin/documentation.php:124
 msgid "If an administrator switches it on, Google receives each visit to a page with a form, as on any site that uses it, and an event saying a form worked out an address. What was typed and the address are never sent."
 msgstr ""
 
-#: src/admin/documentation.php:123
+#: src/admin/documentation.php:124
 msgid "With Google Analytics"
 msgstr ""
 
-#: src/admin/documentation.php:124
+#: src/admin/documentation.php:125
 msgid "On the site"
 msgstr ""
 
-#: src/admin/documentation.php:124
+#: src/admin/documentation.php:125
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr ""
 
-#: src/admin/documentation.php:128
+#: src/admin/documentation.php:129
 msgid "Updates"
 msgstr ""
 
-#: src/admin/documentation.php:130
+#: src/admin/documentation.php:131
 msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
 msgstr ""
 
-#: src/admin/documentation.php:132
+#: src/admin/documentation.php:133
 msgid "Checked package"
 msgstr ""
 
-#: src/admin/documentation.php:132
+#: src/admin/documentation.php:133
 msgid "Each package is checked against its published SHA-256 before it is installed."
 msgstr ""
 
-#: src/admin/documentation.php:133
+#: src/admin/documentation.php:134
 msgid "Automatic updates"
 msgstr ""
 
-#: src/admin/documentation.php:133
+#: src/admin/documentation.php:134
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr ""
 
-#: src/admin/documentation.php:145
-msgid "Contents"
+#: src/admin/documentation.php:152
+msgid "Quick Navigation"
+msgstr ""
+
+#: src/admin/documentation.php:153
+msgid "Search documentation"
+msgstr ""
+
+#: src/admin/documentation.php:153
+msgid "Search documentation…"
+msgstr ""
+
+#: src/admin/documentation.php:157
+msgid "No topic matches this search."
 msgstr ""
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:172
+#: src/admin/documentation.php:179
 #, php-format
 msgid "Open the %s tab"
 msgstr ""
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:198
+#: src/admin/documentation.php:208
 #, php-format
 msgid "Developed by %s."
 msgstr ""
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:204
+#: src/admin/documentation.php:214
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr ""
@@ -381,303 +406,319 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/admin/settings-page.php:99
+#: src/admin/settings-page.php:105
 msgid "Saving…"
 msgstr ""
 
-#: src/admin/settings-page.php:100
+#: src/admin/settings-page.php:106
 msgid "Saved"
 msgstr ""
 
-#: src/admin/settings-page.php:101
+#: src/admin/settings-page.php:107
 msgid "Not saved"
 msgstr ""
 
-#: src/admin/settings-page.php:102
+#: src/admin/settings-page.php:108
 msgid "Copied"
 msgstr ""
 
-#: src/admin/settings-page.php:114
+#: src/admin/settings-page.php:120
 msgid "Students: full name and date of birth"
 msgstr ""
 
-#: src/admin/settings-page.php:115
+#: src/admin/settings-page.php:121
 msgid "Teachers: full name and CPF or RF"
 msgstr ""
 
-#: src/admin/settings-page.php:127
+#: src/admin/settings-page.php:133
 msgid "Partner network: the CPF"
 msgstr ""
 
-#: src/admin/settings-page.php:128
+#: src/admin/settings-page.php:134
 msgid "Direct network: the RF"
 msgstr ""
 
-#: src/admin/settings-page.php:129
+#: src/admin/settings-page.php:135
 msgid "Interns: the CPF, with an \"e\" before it"
 msgstr ""
 
-#: src/admin/settings-page.php:140
+#: src/admin/settings-page.php:146
 msgid "Buttons and links"
 msgstr ""
 
-#: src/admin/settings-page.php:141
+#: src/admin/settings-page.php:147
 msgid "Button text"
 msgstr ""
 
-#: src/admin/settings-page.php:142
+#: src/admin/settings-page.php:148
 msgid "Field borders"
 msgstr ""
 
-#: src/admin/settings-page.php:143
+#: src/admin/settings-page.php:149
 msgid "Hints"
 msgstr ""
 
-#: src/admin/settings-page.php:145
+#: src/admin/settings-page.php:151
 msgid "Result background"
 msgstr ""
 
-#: src/admin/settings-page.php:146
+#: src/admin/settings-page.php:152
 msgid "Result border"
 msgstr ""
 
-#: src/admin/settings-page.php:147
+#: src/admin/settings-page.php:153
 msgid "Address and password background"
 msgstr ""
 
-#: src/admin/settings-page.php:158
+#: src/admin/settings-page.php:164
 msgid "São Paulo city schools (RME/SP)"
 msgstr ""
 
-#: src/admin/settings-page.php:159
+#: src/admin/settings-page.php:165
 msgid "São Paulo state schools (SEDUC-SP)"
 msgstr ""
 
-#: src/admin/settings-page.php:177
+#: src/admin/settings-page.php:183
 msgid "These settings apply to every form on the site. The standalone HTML page keeps the built-in defaults."
 msgstr ""
 
-#: src/admin/settings-page.php:189
+#: src/admin/settings-page.php:195
 msgid "Form"
 msgstr ""
 
-#: src/admin/settings-page.php:194
+#: src/admin/settings-page.php:200
 msgid "Shortcode"
 msgstr ""
 
-#: src/admin/settings-page.php:196
+#: src/admin/settings-page.php:202
 msgid "Copy"
 msgstr ""
 
 #. translators: 1: the teachers' shortcode, 2: the state schools' shortcode.
-#: src/admin/settings-page.php:200
+#: src/admin/settings-page.php:206
 #, php-format
 msgid "Paste it into any page or post: it shows the students' form. For the teachers' form, use %1$s. To serve the other school network on one page, add network=\"state\" or network=\"city\", as in %2$s."
 msgstr ""
 
-#: src/admin/settings-page.php:218
+#: src/admin/settings-page.php:224
 msgid "Which addresses the forms work out on this site. City schools: students from name and date of birth, teachers from RF or CPF. State schools: students from the RA and its check digit; teachers are pointed to the SED, where their address is created."
 msgstr ""
 
-#: src/admin/settings-page.php:235
+#: src/admin/settings-page.php:241
 msgid "A shortcode that asks for a form that is not offered shows the first one that is. With none ticked, both are offered."
 msgstr ""
 
-#: src/admin/settings-page.php:252
+#: src/admin/settings-page.php:258
 msgid "Who the teachers' form serves in the city schools. With only one ticked, the form asks for it without a choice; with none ticked, all three are offered."
 msgstr ""
 
-#: src/admin/settings-page.php:257
+#: src/admin/settings-page.php:263
 msgid "Everyone who can see the page"
 msgstr ""
 
-#: src/admin/settings-page.php:258
+#: src/admin/settings-page.php:264
 msgid "Logged-in users only"
 msgstr ""
 
-#: src/admin/settings-page.php:275
+#: src/admin/settings-page.php:281
 msgid "Tracking"
 msgstr ""
 
-#: src/admin/settings-page.php:282
+#: src/admin/settings-page.php:288
 msgid "Load Google Analytics on the pages that show a form"
 msgstr ""
 
-#: src/admin/settings-page.php:286
+#: src/admin/settings-page.php:292
 msgid "Off, nothing of Google's reaches the page. On, the page loads Google's tag with the ID below and records each address worked out, with only the form and the school network: never a name, a number or the address. Google then receives each visit, so say so in the site's privacy policy. Leave it off if the site already loads Google Analytics on every page."
 msgstr ""
 
-#: src/admin/settings-page.php:289
+#: src/admin/settings-page.php:295
 msgid "Measurement ID"
 msgstr ""
 
-#: src/admin/settings-page.php:292
+#: src/admin/settings-page.php:298
 msgid "From Google Analytics: Admin, Data streams, the site's stream. Only the ID, not the code snippet. Without an ID nothing is loaded, even switched on."
 msgstr ""
 
-#: src/admin/settings-page.php:298 src/admin/settings-page.php:523
+#: src/admin/settings-page.php:310
+msgid "Off"
+msgstr ""
+
+#: src/admin/settings-page.php:311
+msgid "On (always dark)"
+msgstr ""
+
+#: src/admin/settings-page.php:312
+msgid "Auto (follow OS)"
+msgstr ""
+
+#: src/admin/settings-page.php:317
+msgid "Applies to this settings screen only; the form on the site keeps its own look. \"Auto\" follows your operating system preference."
+msgstr ""
+
+#: src/admin/settings-page.php:324 src/admin/settings-page.php:555
 msgid "City schools (RME/SP)"
 msgstr ""
 
-#: src/admin/settings-page.php:299
+#: src/admin/settings-page.php:325
 msgid "A student's address is the first name, the initial of each longer middle name and the last name, then a dot and the date of birth (DDMMYYYY). A teacher's is the first and the last name, then a dot and the RF or the CPF."
 msgstr ""
 
-#: src/admin/settings-page.php:303
+#: src/admin/settings-page.php:329
 msgid "Domain"
 msgstr ""
 
 #. translators: %s: the default domain.
-#: src/admin/settings-page.php:308
+#: src/admin/settings-page.php:334
 #, php-format
 msgid "What comes after the \"@\". Default: %s."
 msgstr ""
 
-#: src/admin/settings-page.php:317
+#: src/admin/settings-page.php:343
 msgid "letters or more"
 msgstr ""
 
 #. translators: %d: the default number of letters.
-#: src/admin/settings-page.php:319
+#: src/admin/settings-page.php:345
 #, php-format
 msgid "Only for students. A middle name this long or longer gives its initial to the address; shorter ones, such as \"da\" and \"dos\", are left out. Default: %d."
 msgstr ""
 
-#: src/admin/settings-page.php:330
+#: src/admin/settings-page.php:356
 msgid "Refuse an RF whose seventh digit does not match the first six"
 msgstr ""
 
-#: src/admin/settings-page.php:334
+#: src/admin/settings-page.php:360
 msgid "Catches a mistyped RF before it becomes an address that does not exist. The rule is the one Free Form Certificate uses; turn it off only if a genuine RF is refused."
 msgstr ""
 
-#: src/admin/settings-page.php:337
+#: src/admin/settings-page.php:363
 msgid "Initial password (city schools)"
 msgstr ""
 
-#: src/admin/settings-page.php:341
+#: src/admin/settings-page.php:367
 msgid "Password"
 msgstr ""
 
-#: src/admin/settings-page.php:345
+#: src/admin/settings-page.php:371
 msgid "The password a new account starts with, shown beside the address. It is public: everyone who opens the form sees it."
 msgstr ""
 
-#: src/admin/settings-page.php:349 src/admin/settings-page.php:556
+#: src/admin/settings-page.php:375 src/admin/settings-page.php:588
 msgid "State schools (SEDUC-SP)"
 msgstr ""
 
 #. translators: 1: the address suffix, 2: the domain.
-#: src/admin/settings-page.php:357
+#: src/admin/settings-page.php:383
 #, php-format
 msgid "The RA, padded with zeros to 12 digits, its check digit (0 to 9 or X), then \"%1$s\" @ %2$s. The initial password is the date of birth (DDMMYYYY)."
 msgstr ""
 
-#: src/admin/settings-page.php:366
+#: src/admin/settings-page.php:392
 msgid "No rule to apply: the address is created on the first access to the SED, with the SED password. The form explains this and links to"
 msgstr ""
 
-#: src/admin/settings-page.php:371
+#: src/admin/settings-page.php:397
 msgid "These follow the state rules and have nothing to set; their texts are on the Texts tab."
 msgstr ""
 
-#: src/admin/settings-page.php:380
+#: src/admin/settings-page.php:406
 msgid "Platform name"
 msgstr ""
 
-#: src/admin/settings-page.php:388
+#: src/admin/settings-page.php:414
 msgid "Platform address"
 msgstr ""
 
-#: src/admin/settings-page.php:392
+#: src/admin/settings-page.php:418
 msgid "Where the new account is used first; the form links to it below the result. Leave it empty to show no next step."
 msgstr ""
 
 #. translators: %d: maximum number of characters.
-#: src/admin/settings-page.php:403
+#: src/admin/settings-page.php:429
 #, php-format
 msgid "Change any text the form shows, up to %d characters. Leave a field empty to keep the built-in text, which follows the site's language."
 msgstr ""
 
-#: src/admin/settings-page.php:409
+#: src/admin/settings-page.php:435
 msgid "Built-in text"
 msgstr ""
 
-#: src/admin/settings-page.php:410
+#: src/admin/settings-page.php:436
 msgid "Text on this site"
 msgstr ""
 
-#: src/admin/settings-page.php:445
+#: src/admin/settings-page.php:471
 msgid "Use the width, colours, corners and font below"
 msgstr ""
 
-#: src/admin/settings-page.php:449
+#: src/admin/settings-page.php:475
 msgid "Off, the form keeps its own look, and the values below go back to their defaults: switching it off clears the customisation. The standalone page always keeps its own look."
 msgstr ""
 
 #. translators: 1: default width, 2: minimum, 3: maximum, in pixels.
-#: src/admin/settings-page.php:458
+#: src/admin/settings-page.php:487
 #, php-format
 msgid "The widest the form grows on a page; on a narrower screen it fills the space it has. Default: %1$d px, from %2$d to %3$d. The standalone page always fills its iframe."
 msgstr ""
 
 #. translators: %s: the default colour, #rrggbb.
-#: src/admin/settings-page.php:469
+#: src/admin/settings-page.php:499
 #, php-format
 msgid "Default: %s"
 msgstr ""
 
-#: src/admin/settings-page.php:475
+#: src/admin/settings-page.php:506
 msgid "Rounded corners"
 msgstr ""
 
 #. translators: %d: the default radius, in pixels.
-#: src/admin/settings-page.php:480
+#: src/admin/settings-page.php:511
 #, php-format
 msgid "Of the fields, the buttons and the result; 0 makes them square. Default: %d px."
 msgstr ""
 
-#: src/admin/settings-page.php:483
+#: src/admin/settings-page.php:515
 msgid "Font"
 msgstr ""
 
-#: src/admin/settings-page.php:485
+#: src/admin/settings-page.php:517
 msgid "The form's own (Arial)"
 msgstr ""
 
-#: src/admin/settings-page.php:486
+#: src/admin/settings-page.php:518
 msgid "The site theme's"
 msgstr ""
 
-#: src/admin/settings-page.php:534
+#: src/admin/settings-page.php:566
 msgid "Teachers: partner network"
 msgstr ""
 
-#: src/admin/settings-page.php:538
+#: src/admin/settings-page.php:570
 msgid "Teachers: direct network"
 msgstr ""
 
-#: src/admin/settings-page.php:546
+#: src/admin/settings-page.php:578
 msgid "CPF: partner network and interns"
 msgstr ""
 
-#: src/admin/settings-page.php:550
+#: src/admin/settings-page.php:582
 msgid "Students, teachers and interns"
 msgstr ""
 
-#: src/admin/settings-page.php:569
+#: src/admin/settings-page.php:601
 msgid "Both networks"
 msgstr ""
 
-#: src/admin/settings-page.php:572
+#: src/admin/settings-page.php:604
 msgid "Profile selector"
 msgstr ""
 
-#: src/admin/settings-page.php:580
+#: src/admin/settings-page.php:612
 msgid "Buttons and messages"
 msgstr ""
 
-#: src/admin/settings-page.php:612
+#: src/admin/settings-page.php:668
 msgid "Documentation"
 msgstr ""
 
@@ -854,21 +895,47 @@ msgid "The email is worked out in your browser: nothing you type is sent or stor
 msgstr ""
 
 #. translators: %s: the domain typed.
-#: src/settings.php:185
+#: src/settings.php:197
 #, php-format
 msgid "The domain was not saved, because it is not a domain name: %s"
 msgstr ""
 
 #. translators: %s: the address typed.
-#: src/settings.php:197
+#: src/settings.php:209
 #, php-format
 msgid "The platform address was not saved, because it is not an http or https address: %s"
 msgstr ""
 
 #. translators: %s: the ID typed.
-#: src/settings.php:209
+#: src/settings.php:221
 #, php-format
 msgid "The Google Analytics ID was not saved, because it is not a measurement ID such as G-XXXXXXXXXX: %s"
+msgstr ""
+
+#. translators: %s: the colour pairs, separated by semicolons.
+#: src/settings.php:234
+#, php-format
+msgid "The colours were saved, but some pairs are hard to read (WCAG asks for at least 4.5:1): %s"
+msgstr ""
+
+#: src/settings.php:254
+msgid "button text on the accent"
+msgstr ""
+
+#: src/settings.php:255
+msgid "accent on white"
+msgstr ""
+
+#: src/settings.php:256
+msgid "copy buttons on the result"
+msgstr ""
+
+#: src/settings.php:257
+msgid "notes on white"
+msgstr ""
+
+#: src/settings.php:258
+msgid "errors on white"
 msgstr ""
 
 #: src/shortcode.php:63

@@ -236,6 +236,45 @@ final class SettingsTest extends TestCase {
 		self::assertStringContainsString( 'not a domain', $this->notices[0][1] );
 	}
 
+	public function test_a_cleared_number_keeps_its_default(): void {
+		$saved = Settings::sanitize(
+			array(
+				'custom_style' => '1',
+				'middle_min'   => '',
+				'radius'       => '',
+			)
+		);
+		self::assertSame( Config::MIDDLE_MIN, $saved['middle_min'], 'A cleared field is not its lower bound.' );
+		self::assertSame( Config::RADIUS, $saved['radius'], 'A cleared field is not square corners.' );
+		self::assertSame( 0, Settings::sanitize( array( 'custom_style' => '1', 'radius' => '0' ) )['radius'], 'A typed 0 is a choice.' );
+		self::assertSame( Config::RADIUS, Settings::sanitize( array( 'custom_style' => '1', 'radius' => 'abc' ) )['radius'] );
+	}
+
+	public function test_contrast_follows_wcag(): void {
+		self::assertEqualsWithDelta( 21.0, Settings::contrast( '#000000', '#ffffff' ), 0.01 );
+		self::assertEqualsWithDelta( 1.0, Settings::contrast( '#777777', '#777777' ), 0.01 );
+		self::assertSame( array(), Settings::weakContrasts( Config::COLORS ), 'The built-in colours read well.' );
+	}
+
+	public function test_weak_pairs_are_named(): void {
+		Functions\when( 'number_format_i18n' )->alias( static fn( $n, $d = 0 ) => number_format( (float) $n, (int) $d ) );
+		$weak = Settings::weakContrasts( array_merge( Config::COLORS, array( 'accent' => '#ffff00' ) ) );
+		self::assertCount( 3, $weak, 'White on yellow, yellow on white, and yellow on the result.' );
+		self::assertStringContainsString( ':1)', $weak[0], 'Each pair carries its ratio.' );
+	}
+
+	public function test_save_warns_about_weak_colours_only_when_the_design_is_on(): void {
+		Functions\when( 'number_format_i18n' )->alias( static fn( $n, $d = 0 ) => number_format( (float) $n, (int) $d ) );
+		$weak = array( 'colors' => array_merge( Config::COLORS, array( 'accent' => '#ffff00' ) ) );
+
+		Settings::save( $weak );
+		self::assertSame( array(), $this->notices, 'Off, the colours are not used, so nothing is said.' );
+
+		$saved = Settings::save( array_merge( $weak, array( 'custom_style' => '1' ) ) );
+		self::assertSame( '#ffff00', $saved['colors']['accent'], 'A weak colour is still saved.' );
+		self::assertSame( array( 'weak_contrast' ), array_column( $this->notices, 0 ) );
+	}
+
 	public function test_save_is_quiet_for_good_values(): void {
 		Settings::save( array( 'domain' => 'example.org', 'platform_url' => 'https://example.org' ) );
 		self::assertSame( array(), $this->notices );

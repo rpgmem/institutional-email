@@ -1,7 +1,180 @@
 /* Settings → Institutional Email. Scoped to the screen's wrap.
    The layout follows Free Form Certificate's settings: a vertical tab menu
    with icons, and each section of a tab in a box whose heading carries the
-   icon of its subject. Colours come from the admin colour scheme. */
+   icon of its subject. Colours are Free Form Certificate's, from the tokens below. */
+
+/* The palette: Free Form Certificate's light tokens, with its values, so the
+   plugins share one look. Every colour below reads one of these. */
+:root {
+	--ie-primary: #2271b1;
+	--ie-primary-light: #e7f3ff;
+	--ie-text-on-primary: #ffffff;
+	--ie-bg-card: #ffffff;
+	--ie-bg-alt: #f6f7f7;
+	--ie-text: #1d2327;
+	--ie-text-secondary: #50575e;
+	--ie-text-muted: #646970;
+	--ie-border: #8e8f91;
+	--ie-border-light: #dcdcde;
+	--ie-success: #00801e;
+	--ie-success-light: #e7f5ec;
+	--ie-danger-text: #8a2424;
+	--ie-danger-light: #fcf0f1;
+	--ie-shadow-sm: 0 1px 3px rgb(0 0 0 / 10%);
+	--ie-primary-hover: #135e96;
+	--ie-bg: #f0f0f1;
+	--ie-bg-input: #ffffff;
+	--ie-select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E");
+	--ie-toggle-knob: #ffffff;
+}
+/* Dark mode: Free Form Certificate's dark values for the same tokens. The
+   block redefines colour tokens only; the class is put on <html> by the
+   inline script the settings page prints in the head. */
+:root.ie-dark-mode {
+	--ie-primary: #5dabde;
+	--ie-primary-hover: #7cbde8;
+	--ie-primary-light: #1a2f42;
+	--ie-text-on-primary: #213c4e;
+	--ie-bg: #1d2327;
+	--ie-bg-card: #2c3338;
+	--ie-bg-alt: #23282d;
+	--ie-bg-input: #23282d;
+	--ie-text: #e7e8ea;
+	--ie-text-secondary: #c3c4c7;
+	--ie-text-muted: #a7aaad;
+	--ie-border: #6f7c89;
+	--ie-border-light: #2c3338;
+	--ie-success: #4caf50;
+	--ie-success-light: #1a2e1a;
+	--ie-danger-text: #ef9a9a;
+	--ie-danger-light: #2e1515;
+	--ie-shadow-sm: 0 1px 3px rgb(0 0 0 / 30%);
+	--ie-select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23c3c4c7%22%2F%3E%3C%2Fsvg%3E");
+}
+
+/* The WordPress chrome inside this screen. Core paints these light whatever
+   the plugin does, so in dark mode each one is repainted from the tokens;
+   light mode needs none of this. */
+:root.ie-dark-mode body.wp-admin {
+	color: var(--ie-text);
+	background-color: var(--ie-bg);
+}
+
+:root.ie-dark-mode .ie-settings h1,
+:root.ie-dark-mode .ie-settings h2,
+:root.ie-dark-mode .ie-settings h3,
+:root.ie-dark-mode .ie-settings .form-table th,
+:root.ie-dark-mode .ie-settings .form-table td,
+:root.ie-dark-mode .ie-settings label,
+:root.ie-dark-mode .ie-settings legend,
+:root.ie-dark-mode .ie-settings > p {
+	color: var(--ie-text);
+}
+
+:root.ie-dark-mode .ie-settings .description {
+	color: var(--ie-text-muted);
+}
+
+/* Links in the panels only, and at the lowest weight: the tab menu and the
+   documentation's navigation tiles paint their own. */
+:where(:root.ie-dark-mode) .ie-tabs__panel a:not(.button) {
+	color: var(--ie-primary);
+}
+
+:where(:root.ie-dark-mode) .ie-tabs__panel a:not(.button):hover {
+	color: var(--ie-primary-hover);
+}
+
+:root.ie-dark-mode .ie-settings .widefat {
+	color: var(--ie-text);
+	background: var(--ie-bg-card);
+	border-color: var(--ie-border-light);
+}
+
+:root.ie-dark-mode .ie-settings .widefat thead th,
+:root.ie-dark-mode .ie-settings .widefat thead td {
+	color: var(--ie-text);
+	background: var(--ie-bg-alt);
+	border-color: var(--ie-border-light);
+}
+
+:root.ie-dark-mode .ie-settings .widefat td,
+:root.ie-dark-mode .ie-settings .widefat tbody th {
+	color: var(--ie-text);
+	border-color: var(--ie-border-light);
+}
+
+:root.ie-dark-mode .ie-settings .striped > tbody > :nth-child(odd) {
+	background-color: var(--ie-bg-alt);
+}
+
+:root.ie-dark-mode .ie-settings input[type="text"],
+:root.ie-dark-mode .ie-settings input[type="number"],
+:root.ie-dark-mode .ie-settings input[type="email"],
+:root.ie-dark-mode .ie-settings input[type="url"],
+:root.ie-dark-mode .ie-settings input[type="search"],
+:root.ie-dark-mode .ie-settings select,
+:root.ie-dark-mode .ie-settings textarea {
+	color: var(--ie-text);
+	background-color: var(--ie-bg-input);
+	border-color: var(--ie-border);
+}
+
+:root.ie-dark-mode .ie-settings select {
+	background-image: var(--ie-select-arrow);
+}
+
+:root.ie-dark-mode .ie-settings input:focus,
+:root.ie-dark-mode .ie-settings select:focus,
+:root.ie-dark-mode .ie-settings textarea:focus {
+	border-color: var(--ie-primary);
+	box-shadow: 0 0 0 1px var(--ie-primary);
+}
+
+:root.ie-dark-mode .ie-settings input[type="checkbox"],
+:root.ie-dark-mode .ie-settings input[type="radio"] {
+	background-color: var(--ie-bg-input);
+	border-color: var(--ie-border);
+}
+
+:root.ie-dark-mode .ie-settings .button,
+:root.ie-dark-mode .ie-settings .button-secondary {
+	color: var(--ie-text);
+	background: var(--ie-bg-alt);
+	border-color: var(--ie-border);
+}
+
+:root.ie-dark-mode .ie-settings .button:hover,
+:root.ie-dark-mode .ie-settings .button-secondary:hover {
+	color: var(--ie-text);
+	background: var(--ie-bg-card);
+	border-color: var(--ie-primary);
+}
+
+:root.ie-dark-mode .ie-settings .button-primary {
+	color: var(--ie-text-on-primary);
+	background: var(--ie-primary);
+	border-color: var(--ie-primary);
+}
+
+:root.ie-dark-mode .ie-settings .button-primary:hover {
+	color: var(--ie-text-on-primary);
+	background: var(--ie-primary-hover);
+	border-color: var(--ie-primary-hover);
+}
+
+:root.ie-dark-mode .ie-settings .notice,
+:root.ie-dark-mode .ie-settings div.updated,
+:root.ie-dark-mode .ie-settings div.error {
+	color: var(--ie-text);
+	background: var(--ie-bg-card);
+}
+
+:root.ie-dark-mode .ie-settings code {
+	color: var(--ie-text);
+	background: var(--ie-bg-alt);
+}
+
 
 .ie-settings {
 	max-width: 1500px;
@@ -13,19 +186,21 @@
 	display: flex;
 	align-items: stretch;
 	margin-top: 16px;
-	overflow: hidden;
-	border: 1px solid #c3c4c7;
+	/* clip, not hidden: hidden makes a scroll container, which would hold
+	   the documentation's sticky contents in place. */
+	overflow: clip;
+	border: 1px solid var(--ie-border);
 	border-radius: 4px;
-	background: #ffffff;
-	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: var(--ie-bg-card);
+	box-shadow: var(--ie-shadow-sm);
 }
 
 .ie-settings .ie-tabs__nav {
 	flex: 0 0 220px;
 	margin: 0;
 	padding: 0;
-	border-right: 1px solid #c3c4c7;
-	background: #f6f7f7;
+	border-right: 1px solid var(--ie-border);
+	background: var(--ie-bg-alt);
 	list-style: none;
 }
 
@@ -39,7 +214,7 @@
 	gap: 8px;
 	padding: 12px 16px;
 	border-left: 4px solid transparent;
-	color: #1d2327;
+	color: var(--ie-text);
 	line-height: 1.3;
 	text-decoration: none;
 	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -47,20 +222,20 @@
 
 .ie-settings .ie-tabs__tab:hover,
 .ie-settings .ie-tabs__tab:focus {
-	background: #f0f6fc;
-	color: var(--wp-admin-theme-color, #2271b1);
+	background: var(--ie-primary-light);
+	color: var(--ie-primary);
 	box-shadow: none;
 }
 
 .ie-settings .ie-tabs__tab:focus-visible {
-	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline: 2px solid var(--ie-primary);
 	outline-offset: -2px;
 }
 
 .ie-settings .ie-tabs.is-ready .ie-tabs__tab.is-active {
-	border-left-color: var(--wp-admin-theme-color, #2271b1);
-	background: #ffffff;
-	color: var(--wp-admin-theme-color, #2271b1);
+	border-left-color: var(--ie-primary);
+	background: var(--ie-bg-card);
+	color: var(--ie-primary);
 	font-weight: 600;
 }
 
@@ -92,10 +267,10 @@
 	max-width: none;
 	margin: 0 0 24px;
 	padding: 24px;
-	border: 1px solid #c3c4c7;
+	border: 1px solid var(--ie-border);
 	border-radius: 4px;
-	background: #ffffff;
-	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: var(--ie-bg-card);
+	box-shadow: var(--ie-shadow-sm);
 }
 
 .ie-settings .card:last-child {
@@ -108,13 +283,13 @@
 	gap: 8px;
 	margin: 0 0 16px;
 	padding-bottom: 12px;
-	border-bottom: 1px solid #f0f0f1;
+	border-bottom: 1px solid var(--ie-border-light);
 	font-size: 18px;
 	font-weight: 600;
 }
 
 .ie-settings .card h2 .ie-icon {
-	color: var(--wp-admin-theme-color, #2271b1);
+	color: var(--ie-primary);
 }
 
 .ie-settings .card h3 {
@@ -142,7 +317,7 @@
 		flex: 0 0 auto;
 		flex-wrap: wrap;
 		border-right: 0;
-		border-bottom: 1px solid #c3c4c7;
+		border-bottom: 1px solid var(--ie-border);
 	}
 
 	.ie-settings .ie-tabs__tab {
@@ -152,7 +327,7 @@
 	}
 
 	.ie-settings .ie-tabs.is-ready .ie-tabs__tab.is-active {
-		border-bottom-color: var(--wp-admin-theme-color, #2271b1);
+		border-bottom-color: var(--ie-primary);
 	}
 
 	.ie-settings .ie-tabs__panels {
@@ -165,22 +340,106 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.ie-settings .ie-tabs__tab {
+	.ie-settings .ie-tabs__tab,
+	.ie-settings .ie-doc-contents a {
 		transition: none;
 	}
 }
 
 /* Documentation tab. */
+/* Quick navigation, drawn like Free Form Certificate's: one row per topic,
+   a bordered tile with the topic's icon that fills with the admin colour on
+   hover. */
+.ie-settings .ie-doc-search {
+	margin: 0 0 12px;
+}
+
+.ie-settings .ie-doc-search input {
+	width: 100%;
+}
+
 .ie-settings .ie-doc-contents ul {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 	margin: 0;
-	columns: 2 16em;
+}
+
+.ie-settings .ie-doc-contents li {
+	margin: 0;
+}
+
+.ie-settings .ie-doc-contents li[hidden],
+.ie-settings .ie-doc[hidden] {
+	display: none;
+}
+
+.ie-settings .ie-doc-contents a {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid var(--ie-border);
+	border-radius: 4px;
+	background: var(--ie-bg-card);
+	color: var(--ie-primary);
+	font-weight: 500;
+	text-decoration: none;
+	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ie-settings .ie-doc-contents a .ie-icon {
+	flex: 0 0 auto;
+	color: var(--ie-text-muted);
+}
+
+.ie-settings .ie-doc-contents a:hover,
+.ie-settings .ie-doc-contents a:focus {
+	border-color: var(--ie-primary);
+	background: var(--ie-primary);
+	color: var(--ie-text-on-primary);
+}
+
+.ie-settings .ie-doc-contents a:hover .ie-icon,
+.ie-settings .ie-doc-contents a:focus .ie-icon {
+	color: var(--ie-text-on-primary);
+}
+
+.ie-settings .ie-doc-search-empty {
+	margin: 0;
+	color: var(--ie-text-secondary);
+}
+
+/* A topic reached from the contents lands below the admin bar. */
+.ie-settings .ie-doc h2[id] {
+	scroll-margin-top: 48px;
+}
+
+/* Wide screens: the contents is a column beside the topics and stays in
+   view while they scroll (46px clears the admin bar); a list taller than
+   the window scrolls on its own. Narrower, it stays above them. */
+@media screen and (min-width: 1100px) {
+	.ie-settings .ie-doc-layout {
+		display: grid;
+		grid-template-columns: 260px minmax(0, 1fr);
+		gap: 16px;
+		align-items: start;
+	}
+
+	.ie-settings .ie-doc-contents {
+		position: sticky;
+		top: 46px;
+		max-height: calc(100vh - 62px);
+		margin-bottom: 0;
+		overflow-y: auto;
+	}
 }
 
 .ie-settings .ie-doc-credits {
 	margin: 16px 0 0;
 	padding-top: 12px;
-	border-top: 1px solid #f0f0f1;
-	color: #50575e;
+	border-top: 1px solid var(--ie-border-light);
+	color: var(--ie-text-secondary);
 }
 
 .ie-settings .ie-doc dl {
@@ -253,7 +512,7 @@
 	width: 38px;
 	height: 22px;
 	border-radius: 11px;
-	background: #8c8f94;
+	background: var(--ie-border);
 	transition: background-color 0.15s ease;
 }
 
@@ -264,14 +523,14 @@
 	width: 18px;
 	height: 18px;
 	border-radius: 50%;
-	background: #ffffff;
+	background: var(--ie-toggle-knob);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 	content: "";
 	transition: transform 0.15s ease;
 }
 
 .ie-settings .ie-toggle input:checked + .ie-toggle-track {
-	background: var(--wp-admin-theme-color, #2271b1);
+	background: var(--ie-primary);
 }
 
 .ie-settings .ie-toggle input:checked + .ie-toggle-track::after {
@@ -279,7 +538,7 @@
 }
 
 .ie-settings .ie-toggle input:focus-visible + .ie-toggle-track {
-	outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+	outline: 2px solid var(--ie-primary);
 	outline-offset: 2px;
 }
 
@@ -326,18 +585,18 @@
 }
 
 .ie-settings .ie-autosave-badge--saving {
-	background: #f0f0f1;
-	color: #50575e;
+	background: var(--ie-bg-alt);
+	color: var(--ie-text-muted);
 }
 
 .ie-settings .ie-autosave-badge--saved {
-	background: #edfaef;
-	color: #00632b;
+	background: var(--ie-success-light);
+	color: var(--ie-success);
 }
 
 .ie-settings .ie-autosave-badge--error {
-	background: #fcf0f1;
-	color: #a00;
+	background: var(--ie-danger-light);
+	color: var(--ie-danger-text);
 }
 
 /* Regional offices: name, acronym, remove. */
@@ -359,6 +618,6 @@
 /* Each form or option of the Texts tab opens with its own heading row. */
 .ie-settings .ie-texts-table .ie-texts-group th {
 	padding-top: 16px;
-	border-bottom: 1px solid #c3c4c7;
+	border-bottom: 1px solid var(--ie-border);
 	font-weight: 600;
 }
