@@ -121,7 +121,7 @@ final class SettingsTest extends WP_UnitTestCase {
 		foreach ( $headings[1] as $heading ) {
 			self::assertStringStartsWith( '<svg class="ie-icon"', $heading );
 		}
-		self::assertSame( count( $headings[1] ), preg_match_all( '/<div class="card[^"]*"><h2[ >]/', $html ) );
+		self::assertSame( count( $headings[1] ), preg_match_all( '/<(?:div|nav) class="card[^"]*"[^>]*><h2[ >]/', $html ) );
 		self::assertSame( count( SettingsPage::tabs() ), preg_match_all( '/data-ie-tab="[a-z]+"><svg class="ie-icon"/', $html ) );
 
 		// A text box for every string the form shows.
