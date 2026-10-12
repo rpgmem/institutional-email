@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - **CI tests the declared WordPress floor, and the PHP coverage floor rises to 90%** (#52). The functional suite also runs on WordPress 6.8, the floor the readme promises, with the test library of the same branch. `composer.json` pins the PHP platform to 8.3 so no dev dependency can require more. `CLAUDE.md` records the coverage rule shared by the four plugins.
+- **Dependabot's patch and minor updates merge on their own** (#54). A workflow arms squash auto-merge on them once Dependabot opens the PR, the same as Free Form Certificate; required checks still gate the merge, and majors stay manual.
 
 ## [1.2.0] (2026-10-12) — `a8812004`
 
