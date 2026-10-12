@@ -142,14 +142,16 @@ final class Documentation {
 	public static function render(): void {
 		$topics = self::topics();
 
-		printf( '<div class="card ie-doc-contents"><h2>%1$s<span>%2$s</span></h2><ul>', Icons::svg( 'book' ), esc_html__( 'Contents', 'institutional-email' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
+		// On a wide screen the contents is a sticky column beside the topics;
+		// on a narrow one it stays above them (assets/css/admin-settings.css).
+		echo '<div class="ie-doc-layout">';
+		printf( '<nav class="card ie-doc-contents" aria-label="%3$s"><h2>%1$s<span>%2$s</span></h2><ul>', Icons::svg( 'book' ), esc_html__( 'Contents', 'institutional-email' ), esc_attr__( 'Contents', 'institutional-email' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup from the icon registry.
 		foreach ( $topics as $id => $topic ) {
 			printf( '<li><a href="#ie-doc-%1$s">%2$s</a></li>', esc_attr( $id ), esc_html( $topic['title'] ) );
 		}
-		echo '</ul>';
-		self::credits();
-		echo '</div>';
+		echo '</ul></nav>';
 
+		echo '<div class="ie-doc-topics">';
 		foreach ( $topics as $id => $topic ) {
 			printf(
 				'<div class="card ie-doc"><h2 id="ie-doc-%1$s">%2$s<span>%3$s</span></h2><p>%4$s</p>',
@@ -177,6 +179,9 @@ final class Documentation {
 			}
 			echo '</div>';
 		}
+		echo '</div></div>';
+
+		self::credits();
 	}
 
 	/**
