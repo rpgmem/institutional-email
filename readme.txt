@@ -5,8 +5,8 @@ Requires at least: 6.8
 Tested up to: 7.1.3
 Stable tag: 1.2.0
 Requires PHP: 8.3
-License: GPLv3 or later
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+License: AGPLv3 or later
+License URI: https://www.gnu.org/licenses/agpl-3.0.html
 
 Forms, placed with a shortcode, that work out the institutional email address of São Paulo city (RME/SP) and state (SEDUC-SP) students and teachers.
 
