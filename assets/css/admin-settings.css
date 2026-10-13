@@ -60,6 +60,19 @@
 	background-color: var(--ie-bg);
 }
 
+/* What the browser paints itself: scrollbars, the date and colour pickers'
+   chrome, an unstyled control. Without this they stay light on the dark
+   canvas. The class only lands on this plugin's settings screen. */
+:root.ie-dark-mode {
+	color-scheme: dark;
+}
+
+/* A link-styled button ("Reset" beside the logo) keeps core's `#2271b1`,
+   too dark to read on the dark card. Core's red delete link keeps its own. */
+:root.ie-dark-mode .button-link:not(.button-link-delete) {
+	color: var(--ie-primary);
+}
+
 :root.ie-dark-mode .ie-settings h1,
 :root.ie-dark-mode .ie-settings h2,
 :root.ie-dark-mode .ie-settings h3,
