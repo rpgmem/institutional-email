@@ -140,13 +140,13 @@ final class ShortcodeTest extends TestCase {
 	}
 
 	public function test_a_custom_design_reaches_the_stylesheet(): void {
-		$this->stored = array( 'custom_style' => '1', 'colors' => array( 'accent' => '#aa0000' ), 'radius' => 0, 'font' => 'theme' );
+		$this->stored = array( 'custom_style' => '1', 'colors' => array( 'accent' => '#aa0000' ), 'radius' => 0, 'font' => 'arial' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\expect( 'wp_add_inline_style' )->once()->with(
 			Shortcode::HANDLE,
-			\Mockery::on( static fn( string $css ): bool => str_starts_with( $css, '.ie-generator { --ie-form-width: 640px; --ie-radius: 0px; --ie-font: inherit; }' ) && str_contains( $css, ':root:not(.ie-dark-mode) .ie-generator { --ie-accent: #aa0000;' ) )
+			\Mockery::on( static fn( string $css ): bool => str_starts_with( $css, '.ie-generator { --ie-form-width: 640px; --ie-radius: 0px; --ie-font: arial, sans-serif; }' ) && str_contains( $css, ':root:not(.ie-dark-mode) .ie-generator { --ie-accent: #aa0000;' ) )
 		);
 
 		self::assertStringNotContainsString( 'style=', Shortcode::render() );

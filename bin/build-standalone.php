@@ -106,12 +106,12 @@ $ie_html = '<!DOCTYPE html>
 ' . \InstitutionalEmail\Theme::script( 'auto' ) . '
 </script>
 <style>
-body { margin: 0; padding: 16px; background: #ffffff; color: #1d2327; }
+body { margin: 0; padding: 16px; background: #f0f0f1; color: #1d2327; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
 :root.' . \InstitutionalEmail\Theme::CSS_CLASS . ' { color-scheme: dark; }
 :root.' . \InstitutionalEmail\Theme::CSS_CLASS . ' body { background: #1d2327; color: #e7e8ea; }
 ' . $ie_css . '
 /* In an iframe the embedding page decides the width. */
-.ie-generator { max-width: none; }
+.ie-generator { max-width: none; margin: 0; }
 </style>
 </head>
 <body>

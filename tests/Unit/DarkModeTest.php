@@ -89,24 +89,28 @@ final class DarkModeTest extends TestCase {
 
 	/**
 	 * The form's dark block redefines colour tokens the light block declares,
-	 * plus the three only the dark form paints with: its ground, its text and
-	 * the placeholders, which the browser's dark default draws too faint.
-	 * Nothing in the sheet keys on the operating system.
+	 * and nothing else. Nothing in the sheet keys on the operating system.
 	 */
 	public function test_the_form_dark_palette_redefines_declared_tokens_only(): void {
 		$css   = self::formCss();
 		$light = self::tokens( $css, '.ie-generator {' );
 		$dark  = self::tokens( $css, ':root.ie-dark-mode .ie-generator {' );
 
-		self::assertSame( array( 'ie-placeholder', 'ie-surface', 'ie-text' ), array_values( array_diff( $dark, $light ) ) );
+		self::assertSame( array(), array_values( array_diff( $dark, $light ) ) );
 		self::assertStringNotContainsString( 'prefers-color-scheme', $css, 'The setting decides, not the operating system.' );
 	}
 
 	/**
-	 * Every pair the dark form draws text with reads at 4.5:1 or more.
+	 * Every pair the form draws text with reads at 4.5:1 or more, in both
+	 * looks: the dark block merged over the light one, as the browser does.
+	 *
+	 * @dataProvider looks
+	 *
+	 * @param bool $dark Whether to measure the dark look.
 	 */
-	public function test_the_form_dark_pairs_read_well(): void {
-		$dark  = self::values( self::formCss(), ':root.ie-dark-mode .ie-generator {' );
+	public function test_the_form_pairs_read_well( bool $dark ): void {
+		$light = self::values( self::formCss(), '.ie-generator {' );
+		$dark  = $dark ? array_merge( $light, self::values( self::formCss(), ':root.ie-dark-mode .ie-generator {' ) ) : $light;
 		$pairs = array(
 			array( 'ie-text', 'ie-surface' ),
 			array( 'ie-muted', 'ie-surface' ),
@@ -116,11 +120,26 @@ final class DarkModeTest extends TestCase {
 			array( 'ie-text', 'ie-ok-bg' ),
 			array( 'ie-accent', 'ie-ok-bg' ),
 			array( 'ie-text', 'ie-value-bg' ),
+			array( 'ie-text', 'ie-field-bg' ),
+			array( 'ie-placeholder', 'ie-field-bg' ),
+			array( 'ie-muted', 'ie-value-bg' ),
 		);
 		foreach ( $pairs as $pair ) {
 			$ratio = Settings::contrast( $dark[ $pair[0] ], $dark[ $pair[1] ] );
 			self::assertGreaterThanOrEqual( 4.5, $ratio, sprintf( '%s on %s: %.2f:1', $pair[0], $pair[1], $ratio ) );
 		}
+	}
+
+	/**
+	 * The two looks.
+	 *
+	 * @return array<string, array{bool}>
+	 */
+	public static function looks(): array {
+		return array(
+			'light' => array( false ),
+			'dark'  => array( true ),
+		);
 	}
 
 	public function test_the_script_names_the_class_the_stylesheets_read(): void {

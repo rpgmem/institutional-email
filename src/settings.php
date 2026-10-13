@@ -166,7 +166,7 @@ final class Settings {
 			'custom_style'     => $custom,
 			'colors'           => $custom ? self::colors( $input['colors'] ?? array() ) : Config::COLORS,
 			'radius'           => $custom ? min( self::RADIUS_MAX, max( 0, self::number( $input['radius'] ?? null, Config::RADIUS ) ) ) : Config::RADIUS,
-			'font'             => $custom && in_array( $input['font'] ?? '', Config::FONTS, true ) ? (string) $input['font'] : Config::FONTS[0],
+			'font'             => $custom ? self::font( $input['font'] ?? '' ) : Config::FONTS[0],
 			'platform_name'    => mb_substr( sanitize_text_field( is_string( $input['platform_name'] ?? null ) ? $input['platform_name'] : '' ), 0, self::NAME_MAX ),
 			// Absent means "never saved": keep the default. An emptied field
 			// is a choice: the form then shows no next step.
@@ -342,8 +342,12 @@ final class Settings {
 			'--ie-form-width: ' . (int) $settings['form_width'] . 'px',
 			'--ie-radius: ' . (int) $settings['radius'] . 'px',
 		);
-		if ( 'theme' === ( $settings['font'] ?? '' ) ) {
-			$shape[] = '--ie-font: inherit';
+		$fonts = array(
+			'plugin' => Config::PLUGIN_FONT,
+			'arial'  => 'arial, sans-serif',
+		);
+		if ( isset( $fonts[ $settings['font'] ?? '' ] ) ) {
+			$shape[] = '--ie-font: ' . $fonts[ $settings['font'] ];
 		}
 		$colors = array();
 		foreach ( self::colors( $settings['colors'] ?? array() ) as $key => $color ) {
@@ -447,6 +451,18 @@ final class Settings {
 	 */
 	private static function number( $raw, int $fallback ): int {
 		return is_numeric( $raw ) ? (int) $raw : $fallback;
+	}
+
+	/**
+	 * A known font. `form` is how Arial was stored before the three options,
+	 * when it was the form's own font; it is read as Arial, so no stored row
+	 * needs a migration.
+	 *
+	 * @param mixed $raw Posted or stored value.
+	 */
+	private static function font( $raw ): string {
+		$font = 'form' === $raw ? 'arial' : $raw;
+		return in_array( $font, Config::FONTS, true ) ? (string) $font : Config::FONTS[0];
 	}
 
 	/**
