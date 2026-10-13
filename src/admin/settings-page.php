@@ -512,8 +512,9 @@ final class SettingsPage {
 		);
 		echo '<tr data-ie-shown-by="custom_style"' . esc_attr( $shown ) . '><th scope="row">' . esc_html__( 'Font', 'institutional-email' ) . '</th><td><fieldset>';
 		foreach ( array(
-			'form'  => __( 'The form\'s own (Arial)', 'institutional-email' ),
-			'theme' => __( 'The site theme\'s', 'institutional-email' ),
+			'theme'  => __( 'The site theme\'s', 'institutional-email' ),
+			'plugin' => __( 'The plugin\'s (the system font)', 'institutional-email' ),
+			'arial'  => __( 'Arial', 'institutional-email' ),
 		) as $value => $label ) {
 			printf(
 				'<label><input type="radio" name="%1$s[font]" value="%2$s" data-ie-default="%5$s"%3$s> %4$s</label><br>',

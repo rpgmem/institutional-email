@@ -112,7 +112,7 @@ final class Documentation {
 					array( __( 'Customise', 'institutional-email' ), __( 'Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switching it off clears the customisation, so the values go back to their defaults.', 'institutional-email' ) ),
 					array( __( 'Colours', 'institutional-email' ), __( 'Of the buttons and links, the button text, the field borders, the hints, the errors and the result, in the light look; in dark mode the form keeps its own dark colours. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it.', 'institutional-email' ) ),
 					array( __( 'Form width', 'institutional-email' ), __( 'The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has.', 'institutional-email' ) ),
-					array( __( 'Rounded corners and font', 'institutional-email' ), __( 'The radius of the fields, buttons and result, and either the form\'s own font or the site theme\'s.', 'institutional-email' ) ),
+					array( __( 'Rounded corners and font', 'institutional-email' ), __( 'The radius of the fields, buttons and result, and the font: the site theme\'s (the default), the plugin\'s system font, or Arial, the same three choices as Free Form Certificate\'s forms.', 'institutional-email' ) ),
 				),
 			),
 			'privacy'  => array(
