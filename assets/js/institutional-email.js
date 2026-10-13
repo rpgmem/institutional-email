@@ -367,10 +367,8 @@
 			return nav.clipboard.writeText( text );
 		}
 		return new Promise( function ( resolve, reject ) {
-			var area = el( doc, 'textarea', { 'aria-hidden': 'true', readonly: true } );
+			var area = el( doc, 'textarea', { 'aria-hidden': 'true', readonly: true, class: 'ie-copy-buffer' } );
 			area.value = text;
-			area.style.position = 'fixed';
-			area.style.opacity = '0';
 			doc.body.appendChild( area );
 			area.select();
 			var ok = false;
