@@ -122,6 +122,21 @@ final class GithubUpdaterTest extends WP_UnitTestCase {
 		self::assertObjectNotHasProperty( "response", $result, "Nothing was offered while GitHub was down." );
 	}
 
+	public function test_the_update_and_the_details_modal_carry_the_installed_icon(): void {
+		$base     = plugin_dir_url( Plugin::file() ) . 'assets/img/brand/';
+		$expected = array(
+			'1x'  => $base . 'icon-128.png',
+			'2x'  => $base . 'icon-256.png',
+			'svg' => $base . 'icon.svg',
+		);
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+		self::assertSame( $expected, $info->icons );
+
+		$older = GithubUpdater::checkForUpdate( $this->transient( '0.0.1' ) );
+		self::assertSame( $expected, current( $older->response )->icons );
+	}
+
 	public function test_the_details_modal(): void {
 		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
 		self::assertSame( 'Institutional Email', $info->name );
@@ -129,6 +144,96 @@ final class GithubUpdaterTest extends WP_UnitTestCase {
 		self::assertSame( self::ZIP, $info->download_link );
 
 		self::assertFalse( GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => 'other' ) ) );
+	}
+
+	public function test_the_details_modal_has_the_banner_and_the_readme_tabs_in_order(): void {
+		$this->responses['raw.githubusercontent.com']['body'] = "=== Institutional Email ===\nRequires PHP: 8.3\n\n== Description ==\n\nBuilds **one** address.\n\n== Frequently Asked Questions ==\n\n= Is it free? =\n\nYes.\n\n== Screenshots ==\n\nThe images live in the repository.\n\n1. The students\n2. The teachers\n\n== Installation ==\n\nActivate it.\n\n== Privacy ==\n\nNothing leaves.\n\n== Changelog ==\n\nSee CHANGELOG.md.\n";
+		$release         = $this->release();
+		$release['body'] = "### Changed\n\n- **The domain** moved (#73).";
+		$this->responses['api.github.com']['body'] = (string) wp_json_encode( $release );
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+
+		$base = plugin_dir_url( Plugin::file() ) . 'assets/img/brand/';
+		self::assertSame(
+			array(
+				'low'  => $base . 'banner-772x250.png',
+				'high' => $base . 'banner-1544x500.png',
+			),
+			$info->banners
+		);
+		self::assertSame( array( 'description', 'installation', 'faq', 'changelog', 'screenshots', 'other_notes' ), array_keys( $info->sections ) );
+		self::assertSame( '<p>Builds <strong>one</strong> address.</p>', $info->sections['description'] );
+		self::assertSame( '<h4>Is it free?</h4><p>Yes.</p>', $info->sections['faq'] );
+		self::assertSame( '<h3>Privacy</h3><p>Nothing leaves.</p>', $info->sections['other_notes'] );
+		self::assertStringContainsString( '<h4>Changed</h4><ul><li><strong>The domain</strong> moved (<a href="https://github.com/rpgmem/institutional-email/issues/73">#73</a>).</li></ul>', $info->sections['changelog'] );
+		self::assertStringContainsString( 'https://raw.githubusercontent.com/rpgmem/institutional-email/v9.0.0/docs/screenshots/1-students.png', $info->sections['screenshots'] );
+		self::assertStringNotContainsString( 'live in the repository', $info->sections['screenshots'], 'Prose before the caption list is not a caption.' );
+	}
+
+	public function test_a_release_readme_that_cannot_be_fetched_falls_back_to_the_installed_one(): void {
+		$this->responses['raw.githubusercontent.com'] = null;
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+
+		self::assertArrayHasKey( 'description', $info->sections );
+		self::assertArrayHasKey( 'screenshots', $info->sections );
+	}
+
+	public function test_a_portuguese_viewer_reads_the_translated_readme_and_banner(): void {
+		add_filter( 'locale', array( $this, 'portuguese' ) );
+		$this->responses = array(
+			'api.github.com'             => $this->responses['api.github.com'],
+			'languages/readme-pt_BR.txt' => array(
+				'code' => 200,
+				'body' => "=== Institutional Email ===\n\n== Description ==\n\nDescobre o endereço.\n\n== Screenshots ==\n\n1. O formulário de alunos\n",
+			),
+			'raw.githubusercontent.com'  => array(
+				'code' => 200,
+				'body' => "=== Institutional Email ===\n\n== Description ==\n\nWorks out the address.\n",
+			),
+		);
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+		remove_filter( 'locale', array( $this, 'portuguese' ) );
+
+		self::assertSame( '<p>Descobre o endereço.</p>', $info->sections['description'] );
+		self::assertStringContainsString( 'alt="O formulário de alunos"', $info->sections['screenshots'] );
+		self::assertStringContainsString( 'https://raw.githubusercontent.com/rpgmem/institutional-email/v9.0.0/languages/readme-pt_BR.txt', implode( ' ', $this->requested ) );
+		$base = plugin_dir_url( Plugin::file() ) . 'assets/img/brand/';
+		self::assertSame(
+			array(
+				'low'  => $base . 'banner-772x250-pt_BR.png',
+				'high' => $base . 'banner-1544x500-pt_BR.png',
+			),
+			$info->banners
+		);
+	}
+
+	public function test_a_missing_release_translation_falls_back_to_the_installed_one(): void {
+		add_filter( 'locale', array( $this, 'portuguese' ) );
+		$this->responses = array( 'languages/readme-pt_BR.txt' => array( 'code' => 404, 'body' => '' ) ) + $this->responses;
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+		remove_filter( 'locale', array( $this, 'portuguese' ) );
+
+		self::assertStringContainsString( 'navegador do visitante', $info->sections['description'], 'The installed languages/readme-pt_BR.txt is the fallback.' );
+	}
+
+	public function test_a_locale_with_no_translation_reads_english(): void {
+		$this->responses['raw.githubusercontent.com']['body'] = "=== Institutional Email ===\n\n== Description ==\n\nWorks out the address.\n";
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+
+		self::assertSame( '<p>Works out the address.</p>', $info->sections['description'] );
+		self::assertStringEndsWith( 'banner-1544x500.png', $info->banners['high'] );
+	}
+
+	/**
+	 * `locale` filter: the viewer reads Portuguese.
+	 */
+	public function portuguese(): string {
+		return 'pt_BR';
 	}
 
 	public function test_a_foreign_package_is_not_intercepted(): void {

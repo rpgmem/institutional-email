@@ -8,7 +8,9 @@
  * tests read the real configuration that way rather than a copy.
  *
  * The output is one self-contained HTML file, made to be embedded in an
- * iframe: the stylesheet and the script are inlined, and the configuration
+ * iframe: the stylesheet, the script and the dark-mode switch are inlined
+ * (with no setting to read, the page follows the operating system, as the
+ * setting's "auto" does), and the configuration
  * is the plugin's own default (`Config::defaults()`), translated into
  * <locale> (default pt_BR) from the bundled catalogue. It shows the
  * students' form, or the teachers' with `?form=teachers` in its address, for
@@ -62,6 +64,8 @@ if ( ! function_exists( '__' ) ) {
 
 define( 'ABSPATH', $ie_root . '/' );
 require $ie_root . '/src/config.php';
+require $ie_root . '/src/settings.php';
+require $ie_root . '/src/theme.php';
 
 $ie_config = \InstitutionalEmail\Config::defaults();
 
@@ -98,11 +102,16 @@ $ie_html = '<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Institutional Email ' . $ie_e( $ie_version ) . '">
 <title>' . $ie_e( $ie_title ) . '</title>
+<script>
+' . \InstitutionalEmail\Theme::script( 'auto' ) . '
+</script>
 <style>
-body { margin: 0; padding: 16px; background: #ffffff; color: #1d2327; }
+body { margin: 0; padding: 16px; background: #f0f0f1; color: #1d2327; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+:root.' . \InstitutionalEmail\Theme::CSS_CLASS . ' { color-scheme: dark; }
+:root.' . \InstitutionalEmail\Theme::CSS_CLASS . ' body { background: #1d2327; color: #e7e8ea; }
 ' . $ie_css . '
 /* In an iframe the embedding page decides the width. */
-.ie-generator { max-width: none; }
+.ie-generator { max-width: none; margin: 0; }
 </style>
 </head>
 <body>

@@ -9,6 +9,7 @@ use Brain\Monkey\Functions;
 use InstitutionalEmail\Config;
 use InstitutionalEmail\Plugin;
 use InstitutionalEmail\Shortcode;
+use InstitutionalEmail\Theme;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,6 +18,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers \InstitutionalEmail\Shortcode
  * @covers \InstitutionalEmail\Settings
+ * @covers \InstitutionalEmail\Theme
  */
 final class ShortcodeTest extends TestCase {
 
@@ -41,6 +43,22 @@ final class ShortcodeTest extends TestCase {
 		Functions\when( 'esc_url_raw' )->returnArg( 1 );
 		Functions\when( 'is_user_logged_in' )->justReturn( false );
 		Functions\when( 'plugin_dir_path' )->justReturn( dirname( __DIR__, 2 ) . '/' );
+		// The dark-mode switch and the Design rule, which every render loads.
+		Functions\when( 'wp_script_is' )->justReturn( false );
+		Functions\when( 'wp_register_script' )->justReturn( true );
+		Functions\when( 'wp_styles' )->justReturn(
+			new class() {
+				/**
+				 * Nothing added yet.
+				 *
+				 * @param string $handle Handle.
+				 * @param string $key    Key.
+				 */
+				public function get_data( string $handle, string $key ): bool {
+					return false;
+				}
+			}
+		);
 
 		$file = new \ReflectionProperty( Plugin::class, 'file' );
 		$file->setAccessible( true );
@@ -82,6 +100,7 @@ final class ShortcodeTest extends TestCase {
 	public function test_a_form_the_settings_do_not_offer_shows_the_offered_one(): void {
 		$this->stored = array( 'forms' => array( 'teachers' ) );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
 		self::assertStringContainsString( 'data-ie-form="teachers"', Shortcode::render( array( 'form' => 'students' ) ) );
@@ -90,8 +109,9 @@ final class ShortcodeTest extends TestCase {
 	public function test_analytics_off_loads_nothing_of_googles(): void {
 		$this->stored = array( 'analytics' => '0', 'analytics_id' => 'G-ABC1234' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( Theme::HANDLE );
 		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::any(), \Mockery::any(), \Mockery::any(), \Mockery::any() );
-		Functions\expect( 'wp_add_inline_script' )->never();
+		Functions\expect( 'wp_add_inline_script' )->once()->with( Theme::HANDLE, \Mockery::any() );
 
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', Shortcode::render(), $m ) );
 		self::assertFalse( json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true )['analytics'] );
@@ -100,8 +120,8 @@ final class ShortcodeTest extends TestCase {
 	public function test_analytics_on_without_an_id_loads_nothing_of_googles(): void {
 		$this->stored = array( 'analytics' => '1', 'analytics_id' => 'not-an-id' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
-		Functions\expect( 'wp_enqueue_script' )->once();
-		Functions\expect( 'wp_add_inline_script' )->never();
+		Functions\expect( 'wp_enqueue_script' )->twice();
+		Functions\expect( 'wp_add_inline_script' )->once()->with( Theme::HANDLE, \Mockery::any() );
 
 		Shortcode::render();
 	}
@@ -109,27 +129,33 @@ final class ShortcodeTest extends TestCase {
 	public function test_analytics_on_loads_googles_tag_with_the_id(): void {
 		$this->stored = array( 'analytics' => '1', 'analytics_id' => ' g-abc1234 ' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( Theme::HANDLE );
 		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::any(), \Mockery::any(), \Mockery::any(), \Mockery::any() );
 		Functions\expect( 'wp_enqueue_script' )->once()->with( Shortcode::GTAG_HANDLE, 'https://www.googletagmanager.com/gtag/js?id=G-ABC1234', array(), null, array( 'strategy' => 'async' ) );
+		Functions\expect( 'wp_add_inline_script' )->once()->with( Theme::HANDLE, \Mockery::any() );
 		Functions\expect( 'wp_add_inline_script' )->once()->with( Shortcode::GTAG_HANDLE, \Mockery::on( static fn( string $js ): bool => str_contains( $js, 'gtag("config","G-ABC1234")' ) ) );
 
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', Shortcode::render(), $m ) );
 		self::assertTrue( json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true )['analytics'] );
 	}
 
-	public function test_a_custom_design_reaches_the_container(): void {
-		$this->stored = array( 'custom_style' => '1', 'colors' => array( 'accent' => '#aa0000' ), 'radius' => 0, 'font' => 'theme' );
+	public function test_a_custom_design_reaches_the_stylesheet(): void {
+		$this->stored = array( 'custom_style' => '1', 'colors' => array( 'accent' => '#aa0000' ), 'radius' => 0, 'font' => 'arial' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
+		Functions\expect( 'wp_add_inline_style' )->once()->with(
+			Shortcode::HANDLE,
+			\Mockery::on( static fn( string $css ): bool => str_starts_with( $css, '.ie-generator { --ie-form-width: 640px; --ie-radius: 0px; --ie-font: arial, sans-serif; }' ) && str_contains( $css, ':root:not(.ie-dark-mode) .ie-generator { --ie-accent: #aa0000;' ) )
+		);
 
-		self::assertSame( 1, preg_match( '/ style="([^"]*)"/', Shortcode::render(), $m ) );
-		self::assertStringStartsWith( '--ie-form-width: 640px; --ie-accent: #aa0000; ', $m[1] );
-		self::assertStringContainsString( '--ie-radius: 0px; --ie-font: inherit', $m[1] );
+		self::assertStringNotContainsString( 'style=', Shortcode::render() );
 	}
 
 	public function test_the_settings_reach_the_configuration(): void {
 		$this->stored = array( 'domain' => 'Example.ORG', 'middle_min' => 3, 'platform_url' => '' );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
 		self::assertSame( 1, preg_match( '/data-ie-config="([^"]*)"/', Shortcode::render(), $m ) );
@@ -156,6 +182,7 @@ final class ShortcodeTest extends TestCase {
 		$this->stored = array( 'access' => 'logged_in' );
 		Functions\when( 'is_user_logged_in' )->justReturn( true );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
 		self::assertStringContainsString( 'data-ie-config', Shortcode::render() );
@@ -171,6 +198,7 @@ final class ShortcodeTest extends TestCase {
 
 	public function test_the_shortcode_can_serve_the_state_on_one_page(): void {
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
 		self::assertStringContainsString( 'data-ie-network="state"', Shortcode::render( array( 'network' => 'state' ) ) );
@@ -186,7 +214,9 @@ final class ShortcodeTest extends TestCase {
 
 	public function test_render_prints_the_container_with_the_configuration_and_enqueues_the_assets(): void {
 		Functions\expect( 'wp_enqueue_style' )->once()->with( 'institutional-email', \Mockery::type( 'string' ), array(), \Mockery::type( 'string' ) );
-		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::type( 'string' ), array(), \Mockery::type( 'string' ), array( 'in_footer' => true ) );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( Theme::HANDLE );
+		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::type( 'string' ), array( Theme::HANDLE ), \Mockery::type( 'string' ), array( 'in_footer' => true ) );
+		Functions\expect( 'wp_add_inline_script' )->once()->with( Theme::HANDLE, \Mockery::on( static fn( string $js ): bool => str_ends_with( $js, '})("off");' ) ) );
 
 		$html = Shortcode::render( array( 'form' => 'teachers' ) );
 
@@ -199,6 +229,7 @@ final class ShortcodeTest extends TestCase {
 
 	public function test_render_without_a_form_lets_the_visitor_choose(): void {
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
 		self::assertStringContainsString( 'data-ie-form=""', Shortcode::render( '' ) );
@@ -208,6 +239,7 @@ final class ShortcodeTest extends TestCase {
 	public function test_render_without_a_form_shows_the_only_one_offered(): void {
 		$this->stored = array( 'forms' => array( 'teachers' ) );
 		Functions\when( 'wp_enqueue_style' )->justReturn( null );
+		Functions\when( 'wp_add_inline_script' )->justReturn( true );
 		Functions\when( 'wp_enqueue_script' )->justReturn( null );
 
 		self::assertStringContainsString( 'data-ie-form="teachers"', Shortcode::render( '' ) );

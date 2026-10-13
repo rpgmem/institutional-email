@@ -72,12 +72,11 @@ final class Shortcode {
 		self::enqueue( $settings );
 
 		return sprintf(
-			'<div class="ie-generator" data-ie-form="%1$s" data-ie-network="%4$s"%5$s data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
+			'<div class="ie-generator" data-ie-form="%1$s" data-ie-network="%4$s" data-ie-config="%2$s"><noscript>%3$s</noscript></div>',
 			esc_attr( $form ),
 			esc_attr( (string) wp_json_encode( Settings::apply( Config::defaults(), $settings ) ) ),
 			esc_html__( 'This form needs JavaScript.', 'institutional-email' ),
-			esc_attr( $network ),
-			'' !== Settings::styleVars( $settings ) ? ' style="' . esc_attr( Settings::styleVars( $settings ) ) . '"' : ''
+			esc_attr( $network )
 		);
 	}
 
@@ -124,15 +123,27 @@ final class Shortcode {
 	}
 
 	/**
-	 * Load the script and the stylesheet, only on pages that show a form;
+	 * Load the script, the dark-mode switch and the stylesheet, with the
+	 * Design tab's rule when it is on, only on pages that show a form;
 	 * Google's tag too when the settings turn Analytics on, and nothing of
 	 * Google's otherwise.
 	 *
 	 * @param array<string, mixed> $settings Sanitized settings.
 	 */
 	private static function enqueue( array $settings ): void {
-		wp_enqueue_style( self::HANDLE, Plugin::url() . 'assets/css/institutional-email.css', array(), Plugin::assetVersion( 'assets/css/institutional-email.css' ) );
-		wp_enqueue_script( self::HANDLE, Plugin::url() . 'assets/js/institutional-email.js', array(), Plugin::assetVersion( 'assets/js/institutional-email.js' ), array( 'in_footer' => true ) );
+		wp_enqueue_style( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/css/institutional-email.css' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/css/institutional-email.css' ) ) );
+		// The Design tab's width, colours, corners and font, as custom
+		// properties the stylesheet reads. The colours are scoped to the light
+		// theme: a colour picked against white is not one to draw on the dark
+		// ground, and a property set in a style attribute could not be
+		// overridden by the dark block. A page with two forms needs it once.
+		$rule  = Settings::styleRule( $settings );
+		$added = wp_styles()->get_data( self::HANDLE, 'after' );
+		if ( '' !== $rule && ! ( is_array( $added ) && in_array( $rule, $added, true ) ) ) {
+			wp_add_inline_style( self::HANDLE, $rule );
+		}
+		Theme::enqueue( true );
+		wp_enqueue_script( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/js/institutional-email.js' ), array( Theme::HANDLE ), Plugin::assetVersion( Plugin::asset( 'assets/js/institutional-email.js' ) ), array( 'in_footer' => true ) );
 
 		if ( ! Settings::analyticsOn( $settings ) ) {
 			return;

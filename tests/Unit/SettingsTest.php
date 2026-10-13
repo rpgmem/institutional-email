@@ -114,8 +114,8 @@ final class SettingsTest extends TestCase {
 		self::assertFalse( $defaults['custom_style'] );
 		self::assertSame( Config::COLORS, $defaults['colors'] );
 		self::assertSame( Config::RADIUS, $defaults['radius'] );
-		self::assertSame( 'form', $defaults['font'] );
-		self::assertSame( '', Settings::styleVars( $defaults ), 'Off, the stylesheet keeps its own look.' );
+		self::assertSame( 'theme', $defaults['font'], 'The theme\'s font is the default.' );
+		self::assertSame( '', Settings::styleRule( $defaults ), 'Off, the stylesheet keeps its own look.' );
 
 		$saved = Settings::sanitize(
 			array(
@@ -128,24 +128,25 @@ final class SettingsTest extends TestCase {
 		self::assertSame( '#aa0000', $saved['colors']['accent'] );
 		self::assertSame( Config::COLORS['border'], $saved['colors']['border'], 'A colour name is not stored.' );
 		self::assertSame( Config::COLORS['muted'], $saved['colors']['muted'], 'Only #rrggbb is stored.' );
-		self::assertSame( Config::COLORS['error'], $saved['colors']['error'], 'Nothing can break out of the style attribute.' );
+		self::assertSame( Config::COLORS['error'], $saved['colors']['error'], 'Nothing can break out of the style element.' );
 		self::assertArrayNotHasKey( 'unknown', $saved['colors'] );
 		self::assertSame( Settings::RADIUS_MAX, $saved['radius'] );
-		self::assertSame( 'form', $saved['font'] );
+		self::assertSame( 'theme', $saved['font'], 'An unknown font falls back to the theme\'s.' );
 
-		$vars = Settings::styleVars( $saved );
-		self::assertStringStartsWith( '--ie-form-width: 640px; ', $vars );
-		self::assertStringContainsString( '--ie-accent: #aa0000', $vars );
-		self::assertStringContainsString( '--ie-accent-text: #ffffff', $vars );
-		self::assertStringContainsString( '--ie-radius: 24px', $vars );
-		self::assertStringNotContainsString( '--ie-font', $vars );
-		self::assertStringContainsString( '--ie-font: inherit', Settings::styleVars( array_merge( $saved, array( 'font' => 'theme' ) ) ) );
-		self::assertSame( '', Settings::styleVars( array_merge( $saved, array( 'custom_style' => false ) ) ), 'Switched off, nothing is applied.' );
+		$lines = explode( "\n", Settings::styleRule( $saved ) );
+		self::assertSame( '.ie-generator { --ie-form-width: 640px; --ie-radius: 24px; }', $lines[0], 'The width and the corners hold in both looks.' );
+		self::assertStringStartsWith( ':root:not(.ie-dark-mode) .ie-generator { --ie-accent: #aa0000; --ie-accent-text: #ffffff; ', $lines[1], 'The colours apply to the light look only.' );
+		self::assertStringNotContainsString( '<', implode( '', $lines ), 'Nothing can close the style element.' );
+		self::assertStringNotContainsString( '--ie-font', Settings::styleRule( array_merge( $saved, array( 'font' => 'theme' ) ) ), 'The theme\'s font is the stylesheet\'s default.' );
+		self::assertStringContainsString( '--ie-font: ' . Config::PLUGIN_FONT, Settings::styleRule( array_merge( $saved, array( 'font' => 'plugin' ) ) ) );
+		self::assertStringContainsString( '--ie-font: arial, sans-serif', Settings::styleRule( array_merge( $saved, array( 'font' => 'arial' ) ) ) );
+		self::assertSame( 'arial', Settings::sanitize( array( 'custom_style' => '1', 'font' => 'form' ) )['font'], 'Arial was stored as `form` before the three options.' );
+		self::assertSame( '', Settings::styleRule( array_merge( $saved, array( 'custom_style' => false ) ) ), 'Switched off, nothing is applied.' );
 
 		$off = Settings::sanitize( array_merge( $saved, array( 'custom_style' => '0', 'form_width' => '900' ) ) );
 		self::assertSame( Config::COLORS, $off['colors'], 'Switching off clears the colours.' );
 		self::assertSame( Config::RADIUS, $off['radius'] );
-		self::assertSame( 'form', $off['font'] );
+		self::assertSame( 'theme', $off['font'] );
 		self::assertSame( Config::FORM_WIDTH, $off['form_width'] );
 		self::assertSame( Config::COLORS, Settings::sanitize( array_merge( $off, array( 'custom_style' => '1' ) ) )['colors'], 'Switched on again, it starts from the defaults.' );
 	}

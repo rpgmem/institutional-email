@@ -5,7 +5,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [1.3.0] (2026-10-12)
+## [1.4.0] (2026-10-13)
+
+### Added
+
+- **The plugin has an icon on Dashboard → Updates and in the plugin list** (#64). A building beside an @, white on amber, replaces WordPress's grey placeholder, read from the installed copy. `assets/img/brand/` also ships black, white, dark-screen and no-background variants, each as SVG and as 128 px and 256 px PNG.
+- **"View details" shows a banner, the readme's tabs and screenshots in place, in Portuguese too** (#67, #69). Description, Installation, FAQ, Screenshots and Other notes come from the offered release's `readme.txt` (or `languages/readme-pt_BR.txt` for a pt_BR viewer), the changelog renders its Markdown, and a screenshot opens in an overlay with arrows, swipe and zoom.
+
+### Changed
+
+- **The translation files are checked against each other, and the compiler writes WP-CLI's shape** (#72, #71, #74). `bin/po-to-l10n.php`, `bin/po-catalogue.php` and a test share one `.po` reader; CI fails when the `.po`, `.mo` and `.l10n.php` disagree, the `.l10n.php` matches `wp i18n make-php` byte for byte, and a readme change carries its pt_BR copy in the same PR.
+- **CSS and JS ship minified, and the clipboard buffer uses a class** (#78). `npm run build` writes `.min` files, loaded unless `SCRIPT_DEBUG` is on, and CI fails when one is stale. The textarea the legacy copy path uses takes `.ie-copy-buffer` instead of inline styles.
+- **The form looks like Free Form Certificate's** (#82). The same type scale, field and button measures and card, the main action at full width, and the theme's font by default; the Design tab offers the theme's, the plugin's system font or Arial.
+
+### Fixed
+
+- **Dark mode reaches what the browser paints itself** (#76). The settings screen declares `color-scheme: dark`, so scrollbars and native pickers stop painting light, and link-styled buttons read the palette.
+- **Dark Mode reaches the form on the site** (#80). The shortcode loads the theme switch and the form gets its own dark palette; the Design tab's colours apply to the light look only, and the standalone HTML follows the operating system.
+
+
+## [1.3.0] (2026-10-12) — `ff0104e3`
 
 The licence moves to AGPLv3 or later. The rest is the release process catching up with Free Form Certificate: CI tests the declared WordPress floor, Dependabot's minor updates merge on their own, and every workflow runs with a read-only token. Nothing changes in what the plugin does.
 
