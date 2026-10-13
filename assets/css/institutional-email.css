@@ -2,8 +2,16 @@
  * Institutional Email: the form.
  *
  * Every rule is scoped under .ie-generator, because the form lives inside
- * someone else's theme, or inside an iframe on someone else's site.
+ * someone else's theme, or inside an iframe on someone else's site, except
+ * the copy buffer below, which the script appends to <body>.
  */
+
+/* The textarea the legacy clipboard path selects and copies from: in the
+   page, so the selection works, but never seen. It is `aria-hidden`. */
+.ie-copy-buffer {
+	position: fixed;
+	opacity: 0;
+}
 
 .ie-generator {
 	--ie-border: #8c8f94;

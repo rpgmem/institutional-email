@@ -93,8 +93,8 @@ final class SettingsPage {
 		wp_register_script( 'institutional-email-theme', false, array(), Plugin::VERSION, false );
 		wp_enqueue_script( 'institutional-email-theme' );
 		wp_add_inline_script( 'institutional-email-theme', self::darkModeScript( (string) Settings::get()['dark_mode'] ) );
-		wp_enqueue_style( 'institutional-email-admin', Plugin::url() . 'assets/css/admin-settings.css', array(), Plugin::assetVersion( 'assets/css/admin-settings.css' ) );
-		wp_enqueue_script( 'institutional-email-admin', Plugin::url() . 'assets/js/admin-settings.js', array(), Plugin::assetVersion( 'assets/js/admin-settings.js' ), array( 'in_footer' => true ) );
+		wp_enqueue_style( 'institutional-email-admin', Plugin::url() . Plugin::asset( 'assets/css/admin-settings.css' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/css/admin-settings.css' ) ) );
+		wp_enqueue_script( 'institutional-email-admin', Plugin::url() . Plugin::asset( 'assets/js/admin-settings.js' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/js/admin-settings.js' ) ), array( 'in_footer' => true ) );
 		wp_localize_script(
 			'institutional-email-admin',
 			'ieAdmin',

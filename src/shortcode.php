@@ -131,8 +131,8 @@ final class Shortcode {
 	 * @param array<string, mixed> $settings Sanitized settings.
 	 */
 	private static function enqueue( array $settings ): void {
-		wp_enqueue_style( self::HANDLE, Plugin::url() . 'assets/css/institutional-email.css', array(), Plugin::assetVersion( 'assets/css/institutional-email.css' ) );
-		wp_enqueue_script( self::HANDLE, Plugin::url() . 'assets/js/institutional-email.js', array(), Plugin::assetVersion( 'assets/js/institutional-email.js' ), array( 'in_footer' => true ) );
+		wp_enqueue_style( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/css/institutional-email.css' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/css/institutional-email.css' ) ) );
+		wp_enqueue_script( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/js/institutional-email.js' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/js/institutional-email.js' ) ), array( 'in_footer' => true ) );
 
 		if ( ! Settings::analyticsOn( $settings ) ) {
 			return;
