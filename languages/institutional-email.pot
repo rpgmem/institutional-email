@@ -953,3 +953,41 @@ msgstr ""
 #. Plugin header: Description
 msgid "Forms, placed with a shortcode, that work out the institutional email address of students and teachers of the São Paulo city schools (RME/SP), from their name and date of birth, RF or CPF, and of the state schools (SEDUC-SP), from the student's RA."
 msgstr ""
+
+#: src/update/screenshot-viewer.php
+msgid "Screenshots"
+msgstr ""
+
+#: src/update/screenshot-viewer.php
+msgid "Close"
+msgstr ""
+
+#: src/update/screenshot-viewer.php
+msgid "Previous screenshot"
+msgstr ""
+
+#: src/update/screenshot-viewer.php
+msgid "Next screenshot"
+msgstr ""
+
+#: src/update/screenshot-viewer.php
+msgid "Zoom in"
+msgstr ""
+
+#: src/update/screenshot-viewer.php
+msgid "Zoom out"
+msgstr ""
+
+#. translators: %1$s: number of the screenshot shown, %2$s: number of screenshots
+#: src/update/screenshot-viewer.php
+#, php-format
+msgid "%1$s of %2$s"
+msgstr ""
+
+#: src/admin/documentation.php
+msgid "View details"
+msgstr ""
+
+#: src/admin/documentation.php
+msgid "Shows the description, installation steps and screenshots, in your language when the plugin ships a translation of them. A screenshot opens larger without leaving the window: the arrows move between them, and the wheel, a pinch or a click zooms in."
+msgstr ""

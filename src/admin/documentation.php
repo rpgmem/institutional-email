@@ -132,6 +132,7 @@ final class Documentation {
 				'items' => array(
 					array( __( 'Checked package', 'institutional-email' ), __( 'Each package is checked against its published SHA-256 before it is installed.', 'institutional-email' ) ),
 					array( __( 'Automatic updates', 'institutional-email' ), __( 'Turned on or off with WordPress\'s own link on the Plugins screen.', 'institutional-email' ) ),
+					array( __( 'View details', 'institutional-email' ), __( 'Shows the description, installation steps and screenshots, in your language when the plugin ships a translation of them. A screenshot opens larger without leaving the window: the arrows move between them, and the wheel, a pinch or a click zooms in.', 'institutional-email' ) ),
 				),
 			),
 		);
