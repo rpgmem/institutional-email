@@ -10,13 +10,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - **The plugin has an icon on Dashboard → Updates and in the plugin list** (#64). A building beside an @, white on amber, replaces WordPress's grey placeholder, read from the installed copy. `assets/img/brand/` also ships black, white, dark-screen and no-background variants, each as SVG and as 128 px and 256 px PNG.
-- **"View details" shows a banner and the readme's tabs** (#67). Description, Installation, FAQ, Screenshots and Other notes come from the offered release's `readme.txt`, and the changelog renders its Markdown instead of printing it raw.
-- **"View details" speaks Portuguese and opens screenshots in place** (#69). The tabs and banner follow the viewer's language when the plugin ships a translation (`languages/readme-pt_BR.txt`), and a screenshot opens in an overlay with arrows, swipe and zoom instead of a new tab.
+- **"View details" shows a banner, the readme's tabs and screenshots in place, in Portuguese too** (#67, #69). Description, Installation, FAQ, Screenshots and Other notes come from the offered release's `readme.txt` (or `languages/readme-pt_BR.txt` for a pt_BR viewer), the changelog renders its Markdown, and a screenshot opens in an overlay with arrows, swipe and zoom.
 
 ### Changed
 
-- **The three translation files of each locale are checked against each other** (#72). `bin/po-to-l10n.php` and a new test share one `.po` reader, and CI fails when the `.po`, `.mo` and `.l10n.php` disagree in either direction. A readme change now carries its pt_BR copy in the same PR (#71).
-- **The translation compiler writes WP-CLI's `.l10n.php` shape, and its reader is linted** (#74). The committed catalogue is byte-identical to `wp i18n make-php`'s output, and `bin/po-catalogue.php` now runs through PHPStan and PHPCS.
+- **The translation files are checked against each other, and the compiler writes WP-CLI's shape** (#72, #71, #74). `bin/po-to-l10n.php`, `bin/po-catalogue.php` and a test share one `.po` reader; CI fails when the `.po`, `.mo` and `.l10n.php` disagree, the `.l10n.php` matches `wp i18n make-php` byte for byte, and a readme change carries its pt_BR copy in the same PR.
 - **CSS and JS ship minified, and the clipboard buffer uses a class** (#78). `npm run build` writes `.min` files, loaded unless `SCRIPT_DEBUG` is on, and CI fails when one is stale. The textarea the legacy copy path uses takes `.ie-copy-buffer` instead of inline styles.
 - **The form looks like Free Form Certificate's** (#82). The same type scale, field and button measures and card, the main action at full width, and the theme's font by default; the Design tab offers the theme's, the plugin's system font or Arial.
 
