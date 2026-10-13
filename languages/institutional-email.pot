@@ -185,7 +185,7 @@ msgid "Dark Mode"
 msgstr ""
 
 #: src/admin/documentation.php:68
-msgid "Off by default. On, or Auto when the operating system is set to dark, this settings screen turns dark at once. It is this screen only: the form on the site keeps its own look."
+msgid "Off by default. On, or Auto when the operating system is set to dark, this settings screen and the form on the site turn dark. The Design tab's colours apply to the light look only."
 msgstr ""
 
 #: src/admin/documentation.php:70
@@ -293,7 +293,7 @@ msgid "Colours"
 msgstr ""
 
 #: src/admin/documentation.php:113
-msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it."
+msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result, in the light look; in dark mode the form keeps its own dark colours. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it."
 msgstr ""
 
 #: src/admin/documentation.php:114 src/admin/settings-page.php:481
@@ -553,7 +553,7 @@ msgid "Auto (follow OS)"
 msgstr ""
 
 #: src/admin/settings-page.php:317
-msgid "Applies to this settings screen only; the form on the site keeps its own look. \"Auto\" follows your operating system preference."
+msgid "Applies to this settings screen and to the form on the site. \"Auto\" follows your operating system preference."
 msgstr ""
 
 #: src/admin/settings-page.php:324 src/admin/settings-page.php:555

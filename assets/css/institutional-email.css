@@ -4,6 +4,10 @@
  * Every rule is scoped under .ie-generator, because the form lives inside
  * someone else's theme, or inside an iframe on someone else's site, except
  * the copy buffer below, which the script appends to <body>.
+ *
+ * Colours read the tokens below. Dark mode is the `ie-dark-mode` class the
+ * plugin's theme script puts on <html>, never the operating system's media
+ * query, so the Dark Mode setting stays the one source of truth.
  */
 
 /* The textarea the legacy clipboard path selects and copies from: in the
@@ -191,4 +195,41 @@
 .ie-generator .ie-link-button {
 	display: inline-block;
 	text-decoration: none;
+}
+
+/*
+ * Dark mode. The block redefines the colour tokens only; the light values
+ * above stay as they were.
+ *
+ * The form paints its own ground and text: a theme's light page would
+ * otherwise leave dark text on the dark fields. `color-scheme` turns the
+ * browser's own parts of the controls dark (the fields' ground, the select's
+ * arrow, the radio buttons), and only inside the form, because <html>
+ * belongs to the theme.
+ */
+:root.ie-dark-mode .ie-generator {
+	--ie-border: #6f7c89;
+	--ie-muted: #c3c4c7;
+	--ie-accent: #5dabde;
+	--ie-accent-text: #1d2327;
+	--ie-error: #ef9a9a;
+	--ie-ok-bg: #1a2e1a;
+	--ie-ok-border: #4caf50;
+	--ie-value-bg: #23282d;
+	--ie-placeholder: #a7aaad;
+	--ie-surface: #2c3338;
+	--ie-text: #e7e8ea;
+
+	box-sizing: border-box;
+	padding: 16px;
+	border-radius: var(--ie-radius);
+	background: var(--ie-surface);
+	color: var(--ie-text);
+	color-scheme: dark;
+}
+
+/* The browser's dark placeholder is too faint on the dark field. */
+:root.ie-dark-mode .ie-generator ::placeholder {
+	color: var(--ie-placeholder);
+	opacity: 1;
 }

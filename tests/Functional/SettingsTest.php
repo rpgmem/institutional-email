@@ -84,11 +84,15 @@ final class SettingsTest extends WP_UnitTestCase {
 		self::assertStringContainsString( 'G-TEST1234', wp_scripts()->registered[ Shortcode::GTAG_HANDLE ]->src );
 	}
 
-	public function test_the_form_width_reaches_the_container(): void {
+	public function test_the_form_width_reaches_the_stylesheet(): void {
+		$GLOBALS['wp_styles'] = null;
 		update_option( Settings::OPTION, array( 'form_width' => '900' ) );
-		self::assertStringNotContainsString( 'style=', do_shortcode( '[institutional_email]' ), 'Without the Design switch on, the stylesheet keeps its own width.' );
+		do_shortcode( '[institutional_email]' );
+		self::assertFalse( wp_styles()->get_data( Shortcode::HANDLE, 'after' ), 'Without the Design switch on, the stylesheet keeps its own width.' );
+
 		update_option( Settings::OPTION, array( 'form_width' => '900', 'custom_style' => '1' ) );
-		self::assertStringContainsString( 'style="--ie-form-width: 900px; ', do_shortcode( '[institutional_email]' ) );
+		do_shortcode( '[institutional_email]' );
+		self::assertStringStartsWith( '.ie-generator { --ie-form-width: 900px; ', implode( '', (array) wp_styles()->get_data( Shortcode::HANDLE, 'after' ) ) );
 	}
 
 	public function test_logged_in_only_keeps_the_form_from_visitors(): void {
