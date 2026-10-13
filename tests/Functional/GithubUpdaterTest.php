@@ -146,6 +146,40 @@ final class GithubUpdaterTest extends WP_UnitTestCase {
 		self::assertFalse( GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => 'other' ) ) );
 	}
 
+	public function test_the_details_modal_has_the_banner_and_the_readme_tabs_in_order(): void {
+		$this->responses['raw.githubusercontent.com']['body'] = "=== Institutional Email ===\nRequires PHP: 8.3\n\n== Description ==\n\nBuilds **one** address.\n\n== Frequently Asked Questions ==\n\n= Is it free? =\n\nYes.\n\n== Screenshots ==\n\nThe images live in the repository.\n\n1. The students\n2. The teachers\n\n== Installation ==\n\nActivate it.\n\n== Privacy ==\n\nNothing leaves.\n\n== Changelog ==\n\nSee CHANGELOG.md.\n";
+		$release         = $this->release();
+		$release['body'] = "### Changed\n\n- **The domain** moved (#73).";
+		$this->responses['api.github.com']['body'] = (string) wp_json_encode( $release );
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+
+		$base = plugin_dir_url( Plugin::file() ) . 'assets/img/brand/';
+		self::assertSame(
+			array(
+				'low'  => $base . 'banner-772x250.png',
+				'high' => $base . 'banner-1544x500.png',
+			),
+			$info->banners
+		);
+		self::assertSame( array( 'description', 'installation', 'faq', 'changelog', 'screenshots', 'other_notes' ), array_keys( $info->sections ) );
+		self::assertSame( '<p>Builds <strong>one</strong> address.</p>', $info->sections['description'] );
+		self::assertSame( '<h4>Is it free?</h4><p>Yes.</p>', $info->sections['faq'] );
+		self::assertSame( '<h3>Privacy</h3><p>Nothing leaves.</p>', $info->sections['other_notes'] );
+		self::assertStringContainsString( '<h4>Changed</h4><ul><li><strong>The domain</strong> moved (<a href="https://github.com/rpgmem/institutional-email/issues/73">#73</a>).</li></ul>', $info->sections['changelog'] );
+		self::assertStringContainsString( 'https://raw.githubusercontent.com/rpgmem/institutional-email/v9.0.0/docs/screenshots/1-students.png', $info->sections['screenshots'] );
+		self::assertStringNotContainsString( 'live in the repository', $info->sections['screenshots'], 'Prose before the caption list is not a caption.' );
+	}
+
+	public function test_a_release_readme_that_cannot_be_fetched_falls_back_to_the_installed_one(): void {
+		$this->responses['raw.githubusercontent.com'] = null;
+
+		$info = GithubUpdater::pluginInfo( false, 'plugin_information', (object) array( 'slug' => GithubUpdater::SLUG ) );
+
+		self::assertArrayHasKey( 'description', $info->sections );
+		self::assertArrayHasKey( 'screenshots', $info->sections );
+	}
+
 	public function test_a_foreign_package_is_not_intercepted(): void {
 		self::assertFalse( GithubUpdater::verifyDownload( false, 'https://example.org/other.zip' ) );
 	}
