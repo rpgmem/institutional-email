@@ -7,8 +7,8 @@ namespace IE\Tests\Unit;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 use InstitutionalEmail\Admin\Autosave;
-use InstitutionalEmail\Admin\SettingsPage;
 use InstitutionalEmail\Settings;
+use InstitutionalEmail\Theme;
 use PHPUnit\Framework\TestCase;
 use WP_Error;
 
@@ -18,7 +18,7 @@ use WP_Error;
  *
  * @covers \InstitutionalEmail\Settings
  * @covers \InstitutionalEmail\Admin\Autosave
- * @covers \InstitutionalEmail\Admin\SettingsPage
+ * @covers \InstitutionalEmail\Theme
  */
 final class DarkModeTest extends TestCase {
 
@@ -60,13 +60,13 @@ final class DarkModeTest extends TestCase {
 	}
 
 	public function test_the_head_script_applies_the_mode_and_follows_a_save(): void {
-		$script = SettingsPage::darkModeScript( 'auto' );
+		$script = Theme::script( 'auto' );
 		self::assertStringEndsWith( '})("auto");', $script );
 		self::assertStringContainsString( 'classList.toggle("ie-dark-mode",', $script );
 		self::assertStringContainsString( 'prefers-color-scheme: dark', $script );
 		self::assertStringContainsString( 'addEventListener("ie:setting-saved"', $script );
 
-		self::assertStringEndsWith( '})("off");', SettingsPage::darkModeScript( '"); alert(1); ("' ), 'An unknown value is never printed.' );
+		self::assertStringEndsWith( '})("off");', Theme::script( '"); alert(1); ("' ), 'An unknown value is never printed.' );
 	}
 
 	/**
@@ -85,6 +85,69 @@ final class DarkModeTest extends TestCase {
 		preg_match_all( '/var\(--(ie-[a-z0-9-]+)\)/', $css, $used );
 		self::assertNotEmpty( $used[1] );
 		self::assertSame( array(), array_values( array_diff( array_unique( $used[1] ), $light ) ), 'A token read but never declared.' );
+	}
+
+	/**
+	 * The form's dark block redefines colour tokens the light block declares,
+	 * plus the three only the dark form paints with: its ground, its text and
+	 * the placeholders, which the browser's dark default draws too faint.
+	 * Nothing in the sheet keys on the operating system.
+	 */
+	public function test_the_form_dark_palette_redefines_declared_tokens_only(): void {
+		$css   = self::formCss();
+		$light = self::tokens( $css, '.ie-generator {' );
+		$dark  = self::tokens( $css, ':root.ie-dark-mode .ie-generator {' );
+
+		self::assertSame( array( 'ie-placeholder', 'ie-surface', 'ie-text' ), array_values( array_diff( $dark, $light ) ) );
+		self::assertStringNotContainsString( 'prefers-color-scheme', $css, 'The setting decides, not the operating system.' );
+	}
+
+	/**
+	 * Every pair the dark form draws text with reads at 4.5:1 or more.
+	 */
+	public function test_the_form_dark_pairs_read_well(): void {
+		$dark  = self::values( self::formCss(), ':root.ie-dark-mode .ie-generator {' );
+		$pairs = array(
+			array( 'ie-text', 'ie-surface' ),
+			array( 'ie-muted', 'ie-surface' ),
+			array( 'ie-accent', 'ie-surface' ),
+			array( 'ie-error', 'ie-surface' ),
+			array( 'ie-accent-text', 'ie-accent' ),
+			array( 'ie-text', 'ie-ok-bg' ),
+			array( 'ie-accent', 'ie-ok-bg' ),
+			array( 'ie-text', 'ie-value-bg' ),
+		);
+		foreach ( $pairs as $pair ) {
+			$ratio = Settings::contrast( $dark[ $pair[0] ], $dark[ $pair[1] ] );
+			self::assertGreaterThanOrEqual( 4.5, $ratio, sprintf( '%s on %s: %.2f:1', $pair[0], $pair[1], $ratio ) );
+		}
+	}
+
+	public function test_the_script_names_the_class_the_stylesheets_read(): void {
+		self::assertStringContainsString( '.' . Theme::CSS_CLASS . ' .ie-generator', self::formCss() );
+		self::assertStringContainsString( '"' . Theme::CSS_CLASS . '"', Theme::script( 'on' ) );
+	}
+
+	/**
+	 * The form's stylesheet.
+	 */
+	private static function formCss(): string {
+		return (string) file_get_contents( dirname( __DIR__, 2 ) . '/assets/css/institutional-email.css' );
+	}
+
+	/**
+	 * Token => value declared in the block that opens with $selector.
+	 *
+	 * @param string $css      Stylesheet.
+	 * @param string $selector Opening of the block.
+	 * @return array<string, string>
+	 */
+	private static function values( string $css, string $selector ): array {
+		$start = strpos( $css, $selector );
+		self::assertNotFalse( $start, $selector );
+		$block = substr( $css, $start, (int) strpos( $css, "\n}", $start ) - $start );
+		preg_match_all( '/--(ie-[a-z0-9-]+):\s*(#[0-9a-f]{6});/', $block, $m );
+		return array_combine( $m[1], $m[2] );
 	}
 
 	/**
