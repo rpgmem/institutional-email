@@ -18,6 +18,7 @@ export default [
 				module: 'readonly',
 				// Localized on the settings screen.
 				ieAdmin: 'readonly',
+				ieScreenshots: 'readonly',
 			},
 		},
 		rules: {
