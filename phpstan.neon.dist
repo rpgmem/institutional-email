@@ -7,6 +7,7 @@ parameters:
         - institutional-email.php
         - uninstall.php
         - src/
+        - bin/po-catalogue.php
     excludePaths:
         - tests/*
         - vendor/*
