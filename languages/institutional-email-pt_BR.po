@@ -14,6 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: institutional-email\n"
 
 #: bin/build-standalone.php:91 src/admin/settings-page.php:59
 #: src/admin/settings-page.php:60 src/admin/settings-page.php:182
