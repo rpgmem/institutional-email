@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace IE\Tests\Unit;
 
-use InstitutionalEmail\Admin\Icons;
+use InstitutionalEmail\Icons;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \InstitutionalEmail\Admin\Icons
+ * @covers \InstitutionalEmail\Icons
  */
 final class IconsTest extends TestCase {
 

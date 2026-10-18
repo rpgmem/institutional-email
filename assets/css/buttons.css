@@ -1,0 +1,125 @@
+/*
+ * Institutional Email: the buttons.
+ *
+ * A slim copy of Free Form Certificate's button family (`.ffc-btn`), with
+ * the two categories this plugin uses: `primary` completes the screen's work
+ * (one per screen or form), `neutral` opens, picks or copies. The same
+ * shape, states and order as there: a solid accent or a soft grey ground, a
+ * border on hover, a 2px focus ring, and disabled taking the colour away
+ * instead of fading, since `opacity` would multiply the contrast down.
+ *
+ * Copied rather than shared, because this plugin works without that one.
+ * The markup comes from `InstitutionalEmail\Button` (PHP) and `button()` in
+ * `institutional-email.js`; every button carries a `.ie-icon-*` class from
+ * `icons.css`.
+ *
+ * The sheet declares no colour and no size of its own: it reads the
+ * `--ie-btn-*` tokens, which the page's palette maps from its own (the
+ * settings screen's `:root`, the form's `.ie-generator`). So the context
+ * comes from tokens, as in Free Form Certificate, and the dark theme reaches
+ * the buttons through the palette's dark block.
+ */
+
+.ie-btn {
+	display: inline-flex;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+	min-height: var(--ie-btn-height);
+	margin: 0;
+	padding: 0 var(--ie-btn-padding);
+	border: 1px solid transparent;
+	border-radius: var(--ie-btn-radius);
+	font-family: inherit;
+	font-size: var(--ie-btn-font-size);
+	font-weight: 500;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+/* Core paints a focused link with a box-shadow ring; the family draws its
+   own 2px ring, so the shadow would be a second one. */
+.ie-btn:focus {
+	box-shadow: none;
+}
+
+.ie-btn:focus-visible {
+	outline: 2px solid var(--ie-btn-focus);
+	outline-offset: 2px;
+}
+
+/* A link button's colour is restated in every state: core's and a theme's
+   `a:hover` and `a:focus` outrank a single class and would repaint it. */
+.ie-btn-primary,
+.ie-btn-primary:focus,
+.ie-btn-primary:active,
+.ie-btn-primary:visited {
+	background: var(--ie-btn-primary-bg);
+	color: var(--ie-btn-primary-text);
+}
+
+.ie-btn-primary:hover {
+	background: var(--ie-btn-primary-hover);
+	color: var(--ie-btn-primary-text);
+}
+
+.ie-btn-neutral,
+.ie-btn-neutral:hover,
+.ie-btn-neutral:focus,
+.ie-btn-neutral:active,
+.ie-btn-neutral:visited {
+	background: var(--ie-btn-neutral-bg);
+	color: var(--ie-btn-neutral-text);
+}
+
+.ie-btn-neutral {
+	border-color: var(--ie-btn-neutral-border);
+}
+
+.ie-btn-neutral:hover {
+	border-color: var(--ie-btn-neutral-border-hover);
+}
+
+/* Declared after the categories, so it wins over their hover. `.disabled`
+   and `aria-disabled` cover a link button, which has no `:disabled`. */
+.ie-btn:disabled,
+.ie-btn.disabled,
+.ie-btn[aria-disabled="true"] {
+	border-color: transparent;
+	background: var(--ie-btn-disabled-bg);
+	color: var(--ie-btn-disabled-text);
+	cursor: not-allowed;
+}
+
+/* Full width: a layout modifier, not a category, as the form's main action. */
+.ie-btn-block {
+	display: flex;
+	width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ie-btn {
+		transition: none;
+	}
+}
+
+/* Without a contour a button stops looking clickable: the border is
+   transparent at rest, so each category names the system colour itself. */
+@media (forced-colors: active) {
+	.ie-btn,
+	.ie-btn-primary,
+	.ie-btn-neutral {
+		border: 1px solid ButtonText;
+	}
+
+	.ie-btn:disabled,
+	.ie-btn.disabled,
+	.ie-btn[aria-disabled="true"] {
+		border-color: GrayText;
+		color: GrayText;
+	}
+}

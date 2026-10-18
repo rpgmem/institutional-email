@@ -265,3 +265,24 @@ describe( 'a single screenshot', () => {
 		expect( viewer().querySelector( '.ie-shots__next' ).hidden ).toBe( true );
 	} );
 } );
+
+describe( 'controls', () => {
+	beforeEach( () => load( modal ) );
+
+	it( 'draw registry icons, named by their label, with no glyph', () => {
+		click( links()[ 0 ] );
+		const icons = {
+			'zoom-out': 'minus',
+			'zoom-in': 'plus',
+			close: 'x',
+			previous: 'chevron-left',
+			next: 'chevron-right',
+		};
+		Object.keys( icons ).forEach( ( name ) => {
+			const button = viewer().querySelector( '.ie-shots__' + name );
+			expect( button.classList.contains( 'ie-icon-' + icons[ name ] ) ).toBe( true );
+			expect( button.textContent ).toBe( '' );
+			expect( button.getAttribute( 'aria-label' ) ).toBeTruthy();
+		} );
+	} );
+} );

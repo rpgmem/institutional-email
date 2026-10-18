@@ -565,3 +565,44 @@ describe( 'boot', () => {
 		expect( div.querySelector( '.ie-network' ) ).not.toBeNull();
 	} );
 } );
+
+describe( 'button', () => {
+	it( 'prints the family markup, as InstitutionalEmail\\Button does', () => {
+		const submit = gen.button( document, { label: 'Go', category: 'primary', icon: 'check', type: 'submit', block: true, className: 'ie-submit' } );
+		expect( submit.outerHTML ).toBe( '<button class="ie-btn ie-btn-primary ie-btn-block ie-icon-check ie-submit" type="submit">Go</button>' );
+
+		const link = gen.button( document, { label: 'SED', category: 'primary', icon: 'external', href: 'https://example.org/', type: 'submit', attrs: { target: '_blank', rel: 'noopener' } } );
+		expect( link.tagName ).toBe( 'A' );
+		expect( link.getAttribute( 'href' ) ).toBe( 'https://example.org/' );
+		expect( link.getAttribute( 'target' ) ).toBe( '_blank' );
+		expect( link.hasAttribute( 'type' ) ).toBe( false );
+	} );
+
+	it( 'falls back to neutral, drops an unknown icon, and needs a label', () => {
+		const el = gen.button( document, { label: '<b>x</b>', category: 'danger', icon: 'nope', type: 'evil', className: ' a  a ' } );
+		expect( el.className ).toBe( 'ie-btn ie-btn-neutral a' );
+		expect( el.type ).toBe( 'button' );
+		expect( el.textContent ).toBe( '<b>x</b>' );
+		expect( el.children ).toHaveLength( 0 );
+		expect( gen.button( document, { label: '' } ) ).toBeNull();
+		expect( gen.button( document ) ).toBeNull();
+	} );
+
+	it( 'draws every button of the form from the family, with a registry icon and no glyph', () => {
+		const div = document.createElement( 'div' );
+		const ui = gen.mount( div, config, 'teachers', 'city' );
+		expect( ui.form ).toBe( 'teachers' );
+		const buttons = [ ...div.querySelectorAll( 'button' ) ];
+		expect( buttons.map( ( b ) => b.className ) ).toEqual( [
+			'ie-btn ie-btn-primary ie-btn-block ie-icon-check ie-submit',
+			'ie-btn ie-btn-neutral ie-icon-copy ie-copy',
+			'ie-btn ie-btn-neutral ie-icon-copy ie-copy',
+		] );
+
+		const state = document.createElement( 'div' );
+		gen.mount( state, config, 'teachers', 'state' );
+		const sed = state.querySelector( 'a.ie-link-button' );
+		expect( sed.className ).toBe( 'ie-btn ie-btn-primary ie-icon-external ie-link-button' );
+		expect( sed.getAttribute( 'rel' ) ).toBe( 'noopener noreferrer' );
+	} );
+} );

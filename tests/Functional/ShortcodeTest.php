@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace IE\Tests\Functional;
 
 use InstitutionalEmail\Config;
+use InstitutionalEmail\Plugin;
 use InstitutionalEmail\Settings;
 use InstitutionalEmail\Shortcode;
 use InstitutionalEmail\Theme;
@@ -40,6 +41,8 @@ final class ShortcodeTest extends WP_UnitTestCase {
 		self::assertSame( Config::defaults(), json_decode( html_entity_decode( $m[1], ENT_QUOTES ), true ) );
 		self::assertTrue( wp_script_is( Shortcode::HANDLE, 'enqueued' ) );
 		self::assertTrue( wp_style_is( Shortcode::HANDLE, 'enqueued' ) );
+		self::assertTrue( wp_style_is( Plugin::BUTTONS_HANDLE, 'enqueued' ), 'The button family the form draws.' );
+		self::assertTrue( wp_style_is( Plugin::ICONS_HANDLE, 'enqueued' ) );
 	}
 
 	public function test_an_unknown_form_falls_back_to_the_students_form(): void {
@@ -66,5 +69,24 @@ final class ShortcodeTest extends WP_UnitTestCase {
 		self::assertTrue( wp_script_is( Theme::HANDLE, 'enqueued' ) );
 		self::assertContains( Theme::HANDLE, wp_scripts()->registered[ Shortcode::HANDLE ]->deps );
 		self::assertStringEndsWith( '})("on");', implode( '', (array) wp_scripts()->get_data( Theme::HANDLE, 'after' ) ) );
+	}
+
+	/**
+	 * With Free Form Certificate active the form follows its Dark Mode.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_with_ffc_the_form_follows_its_dark_mode(): void {
+		define( 'FFC_VERSION', '6.41.0' );
+		update_option( Theme::FFC_OPTION, array( 'dark_mode' => 'auto' ) );
+		update_option( Settings::OPTION, array( 'dark_mode' => 'on' ) );
+
+		do_shortcode( '[institutional_email]' );
+
+		$script = implode( '', (array) wp_scripts()->get_data( Theme::HANDLE, 'after' ) );
+		self::assertStringEndsWith( '})("auto");', $script );
+		self::assertStringNotContainsString( 'ie:setting-saved', $script );
+		delete_option( Theme::FFC_OPTION );
 	}
 }

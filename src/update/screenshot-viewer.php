@@ -47,7 +47,9 @@ final class ScreenshotViewer {
 			return;
 		}
 
-		wp_enqueue_style( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/css/screenshots.css' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/css/screenshots.css' ) ) );
+		// The controls draw the registry's icons as masks.
+		Plugin::enqueueIconStyles();
+		wp_enqueue_style( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/css/screenshots.css' ), array( Plugin::ICONS_HANDLE ), Plugin::assetVersion( Plugin::asset( 'assets/css/screenshots.css' ) ) );
 		wp_enqueue_script( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/js/screenshots.js' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/js/screenshots.js' ) ), array( 'in_footer' => true ) );
 		wp_localize_script(
 			self::HANDLE,

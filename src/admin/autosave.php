@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace InstitutionalEmail\Admin;
 
 use InstitutionalEmail\Settings;
+use InstitutionalEmail\Theme;
 use WP_Error;
 
 /**
@@ -73,6 +74,9 @@ final class Autosave {
 			return new WP_Error( 'unknown_key', __( 'This setting cannot be saved on its own. Use "Save Changes".', 'institutional-email' ) );
 		}
 		if ( 'dark_mode' === $key ) {
+			if ( Theme::ffcActive() ) {
+				return new WP_Error( 'controlled_by_ffc', __( 'Controlled by Free Form Certificate.', 'institutional-email' ) );
+			}
 			if ( ! in_array( $value, Settings::DARK_MODES, true ) ) {
 				return new WP_Error( 'unknown_value', __( 'This value is not one of the options.', 'institutional-email' ) );
 			}

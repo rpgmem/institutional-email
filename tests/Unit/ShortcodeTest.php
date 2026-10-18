@@ -213,7 +213,9 @@ final class ShortcodeTest extends TestCase {
 	}
 
 	public function test_render_prints_the_container_with_the_configuration_and_enqueues_the_assets(): void {
-		Functions\expect( 'wp_enqueue_style' )->once()->with( 'institutional-email', \Mockery::type( 'string' ), array(), \Mockery::type( 'string' ) );
+		Functions\expect( 'wp_enqueue_style' )->once()->with( Plugin::ICONS_HANDLE, \Mockery::on( static fn( string $url ): bool => str_ends_with( $url, 'assets/css/icons.min.css' ) ), array(), \Mockery::type( 'string' ) );
+		Functions\expect( 'wp_enqueue_style' )->once()->with( Plugin::BUTTONS_HANDLE, \Mockery::on( static fn( string $url ): bool => str_ends_with( $url, 'assets/css/buttons.min.css' ) ), array( Plugin::ICONS_HANDLE ), \Mockery::type( 'string' ) );
+		Functions\expect( 'wp_enqueue_style' )->once()->with( 'institutional-email', \Mockery::type( 'string' ), array( Plugin::BUTTONS_HANDLE ), \Mockery::type( 'string' ) );
 		Functions\expect( 'wp_enqueue_script' )->once()->with( Theme::HANDLE );
 		Functions\expect( 'wp_enqueue_script' )->once()->with( 'institutional-email', \Mockery::type( 'string' ), array( Theme::HANDLE ), \Mockery::type( 'string' ), array( 'in_footer' => true ) );
 		Functions\expect( 'wp_add_inline_script' )->once()->with( Theme::HANDLE, \Mockery::on( static fn( string $js ): bool => str_ends_with( $js, '})("off");' ) ) );

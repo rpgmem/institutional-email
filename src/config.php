@@ -59,6 +59,13 @@ final class Config {
 	);
 
 	/**
+	 * The form's text colour in the light look (`--ie-text`). Not a Design
+	 * setting: it is what a copy button's label is drawn in, on the
+	 * configurable address background.
+	 */
+	public const TEXT_COLOR = '#1d2327';
+
+	/**
 	 * The corners' radius, in pixels, as the stylesheet declares it.
 	 */
 	public const RADIUS = 4;
