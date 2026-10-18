@@ -43,6 +43,27 @@
 	--ie-font-size-sm: max(13px, 0.8125rem);
 	--ie-font-size-base: max(14px, 0.875rem);
 	--ie-font-size-xl: max(18px, 1.125rem);
+	--ie-border-light: #dcdcde;
+	--ie-disabled-bg: #e7e8ea;
+
+	/* The button family (buttons.css) in the public shape: 40px tall for
+	   touch, at the body text size, with the corner the Design tab sets, as
+	   Free Form Certificate's public buttons. The primary follows the
+	   accent, so the Design tab's colours reach it. */
+	--ie-btn-height: 40px;
+	--ie-btn-padding: 16px;
+	--ie-btn-radius: var(--ie-radius);
+	--ie-btn-font-size: var(--ie-font-size-base);
+	--ie-btn-focus: var(--ie-accent);
+	--ie-btn-primary-bg: var(--ie-accent);
+	--ie-btn-primary-hover: var(--ie-accent-hover);
+	--ie-btn-primary-text: var(--ie-accent-text);
+	--ie-btn-neutral-bg: var(--ie-value-bg);
+	--ie-btn-neutral-text: var(--ie-text);
+	--ie-btn-neutral-border: var(--ie-border-light);
+	--ie-btn-neutral-border-hover: var(--ie-border);
+	--ie-btn-disabled-bg: var(--ie-disabled-bg);
+	--ie-btn-disabled-text: var(--ie-placeholder);
 
 	/* The width set on Settings → Design, printed on the container. */
 	max-width: var(--ie-form-width, 640px);
@@ -131,39 +152,6 @@
 	cursor: pointer;
 }
 
-/* The main action spans the form, as Free Form Certificate's submit does. */
-.ie-generator .ie-button {
-	box-sizing: border-box;
-	width: 100%;
-	padding: 16px;
-	border: 0;
-	border-radius: var(--ie-radius);
-	background: var(--ie-accent);
-	color: var(--ie-accent-text);
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: 600;
-	line-height: normal;
-	text-align: center;
-	cursor: pointer;
-	transition: background 0.3s ease, transform 0.1s;
-}
-
-.ie-generator .ie-button:hover {
-	background: var(--ie-accent-hover);
-}
-
-.ie-generator .ie-button:active,
-.ie-generator .ie-copy:active {
-	transform: scale(0.98);
-}
-
-.ie-generator .ie-button:focus-visible,
-.ie-generator .ie-copy:focus-visible {
-	outline: 2px solid var(--ie-accent);
-	outline-offset: 2px;
-}
-
 .ie-generator .ie-result {
 	margin: 16px 0 0;
 	padding: 12px;
@@ -197,19 +185,6 @@
 	font-family: Consolas, Monaco, monospace;
 	font-weight: 700;
 	overflow-wrap: break-word;
-}
-
-.ie-generator .ie-copy {
-	padding: 10px 16px;
-	border: 1px solid var(--ie-accent);
-	border-radius: var(--ie-radius);
-	background: transparent;
-	color: var(--ie-accent);
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: 600;
-	line-height: normal;
-	cursor: pointer;
 }
 
 .ie-generator .ie-status:empty {
@@ -256,11 +231,6 @@
 	margin-bottom: 0;
 }
 
-.ie-generator .ie-link-button {
-	display: inline-block;
-	text-decoration: none;
-}
-
 @media (max-width: 768px) {
 	.ie-generator {
 		margin: 16px auto;
@@ -292,6 +262,8 @@
 	--ie-text: #e7e8ea;
 	--ie-focus-ring: rgb(93 171 222 / 60%);
 	--ie-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+	--ie-border-light: #2c3338;
+	--ie-disabled-bg: #2c3338;
 
 	color-scheme: dark;
 }

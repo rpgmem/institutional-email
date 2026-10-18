@@ -30,7 +30,7 @@ Place a form on any page or post:
 * `[institutional_email form="teachers"]` — teachers only: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
 * Add `network="state"` for the São Paulo state schools (SEDUC-SP): students give their RA, its check digit and their date of birth; teachers are pointed to the SED.
 
-Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font, with a warning for colour pairs that are hard to read. A Dark Mode setting colours the settings screen and the form on the site. Its Documentation tab explains each option.
+Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font, with a warning for colour pairs that are hard to read. A Dark Mode setting colours the settings screen and the form on the site; where Free Form Certificate is active, its Dark Mode decides instead. Its Documentation tab explains each option.
 
 == Privacy ==
 

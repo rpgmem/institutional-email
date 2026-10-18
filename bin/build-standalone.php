@@ -8,7 +8,7 @@
  * tests read the real configuration that way rather than a copy.
  *
  * The output is one self-contained HTML file, made to be embedded in an
- * iframe: the stylesheet, the script and the dark-mode switch are inlined
+ * iframe: the stylesheets, the script and the dark-mode switch are inlined
  * (with no setting to read, the page follows the operating system, as the
  * setting's "auto" does), and the configuration
  * is the plugin's own default (`Config::defaults()`), translated into
@@ -88,7 +88,9 @@ function ie_read( string $path ): string {
 	return $contents;
 }
 
-$ie_css   = ie_read( $ie_root . '/assets/css/institutional-email.css' );
+// The icons and the button family first, as the plugin enqueues them before
+// the form's sheet, which maps the tokens the buttons read.
+$ie_css   = ie_read( $ie_root . '/assets/css/icons.css' ) . "\n" . ie_read( $ie_root . '/assets/css/buttons.css' ) . "\n" . ie_read( $ie_root . '/assets/css/institutional-email.css' );
 $ie_js    = str_ireplace( '</script', '<\/script', ie_read( $ie_root . '/assets/js/institutional-email.js' ) );
 $ie_json  = json_encode( $ie_config, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR );
 $ie_lang  = str_replace( '_', '-', $ie_locale );

@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace InstitutionalEmail\Admin;
 
+use InstitutionalEmail\Button;
 use InstitutionalEmail\Config;
+use InstitutionalEmail\Icons;
 use InstitutionalEmail\Plugin;
 use InstitutionalEmail\Settings;
 use InstitutionalEmail\Shortcode;
@@ -91,7 +93,8 @@ final class SettingsPage {
 		// The theme class must be on <html> before the page paints, or a dark
 		// screen flashes light first: the script goes in the head.
 		Theme::enqueue( false );
-		wp_enqueue_style( 'institutional-email-admin', Plugin::url() . Plugin::asset( 'assets/css/admin-settings.css' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/css/admin-settings.css' ) ) );
+		Plugin::enqueueButtonStyles();
+		wp_enqueue_style( 'institutional-email-admin', Plugin::url() . Plugin::asset( 'assets/css/admin-settings.css' ), array( Plugin::BUTTONS_HANDLE ), Plugin::assetVersion( Plugin::asset( 'assets/css/admin-settings.css' ) ) );
 		wp_enqueue_script( 'institutional-email-admin', Plugin::url() . Plugin::asset( 'assets/js/admin-settings.js' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/js/admin-settings.js' ) ), array( 'in_footer' => true ) );
 		wp_localize_script(
 			'institutional-email-admin',
@@ -193,11 +196,19 @@ final class SettingsPage {
 		self::openCard( __( 'Form', 'institutional-email' ), 'settings' );
 		echo '<table class="form-table" role="presentation"><tbody>';
 
+		$copy = Button::html(
+			array(
+				'label' => __( 'Copy', 'institutional-email' ),
+				'icon'  => 'copy',
+				'class' => 'ie-copy',
+				'attrs' => array( 'data-ie-copy' => 'ie-shortcode' ),
+			)
+		);
 		printf(
-			'<tr><th scope="row"><label for="ie-shortcode">%1$s</label></th><td><input type="text" id="ie-shortcode" class="regular-text code" value="%2$s" readonly> <button type="button" class="button ie-copy" data-ie-copy="ie-shortcode">%3$s</button><p class="description">%4$s</p></td></tr>',
+			'<tr><th scope="row"><label for="ie-shortcode">%1$s</label></th><td><input type="text" id="ie-shortcode" class="regular-text code" value="%2$s" readonly> %3$s<p class="description">%4$s</p></td></tr>',
 			esc_html__( 'Shortcode', 'institutional-email' ),
 			esc_attr( '[' . Shortcode::TAG . ']' ),
-			esc_html__( 'Copy', 'institutional-email' ),
+			$copy, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Button::html() escapes every value.
 			wp_kses(
 				sprintf(
 					/* translators: 1: the teachers' shortcode, 2: the state schools' shortcode. */
@@ -297,12 +308,16 @@ final class SettingsPage {
 		);
 		echo '</tbody></table></div>';
 
+		// Where Free Form Certificate is active, its setting decides: the field
+		// shows the mode in effect, disabled, so it neither posts nor
+		// autosaves, and Settings::save() keeps the stored choice.
+		$ffc_mode = Theme::ffcMode();
 		self::openCard( __( 'Dark Mode', 'institutional-email' ), 'theme' );
 		echo '<table class="form-table" role="presentation"><tbody>';
 		printf(
-			'<tr><th scope="row"><label for="ie-dark-mode">%1$s</label></th><td><select id="ie-dark-mode" name="%2$s[dark_mode]" data-ie-autosave="dark_mode">',
+			'<tr><th scope="row"><label for="ie-dark-mode">%1$s</label></th><td><select id="ie-dark-mode" %2$s>',
 			esc_html__( 'Dark Mode', 'institutional-email' ),
-			esc_attr( $name )
+			null === $ffc_mode ? 'name="' . esc_attr( $name ) . '[dark_mode]" data-ie-autosave="dark_mode"' : 'disabled aria-describedby="ie-dark-mode-ffc"'
 		);
 		$modes = array(
 			'off'  => __( 'Off', 'institutional-email' ),
@@ -310,9 +325,13 @@ final class SettingsPage {
 			'auto' => __( 'Auto (follow OS)', 'institutional-email' ),
 		);
 		foreach ( $modes as $value => $label ) {
-			printf( '<option value="%1$s"%2$s>%3$s</option>', esc_attr( $value ), selected( $settings['dark_mode'], $value, false ), esc_html( $label ) );
+			printf( '<option value="%1$s"%2$s>%3$s</option>', esc_attr( $value ), selected( $ffc_mode ?? $settings['dark_mode'], $value, false ), esc_html( $label ) );
 		}
-		echo '</select><p class="description">' . esc_html__( 'Applies to this settings screen and to the form on the site. "Auto" follows your operating system preference.', 'institutional-email' ) . '</p></td></tr>';
+		echo '</select>';
+		if ( null !== $ffc_mode ) {
+			echo '<p class="description" id="ie-dark-mode-ffc"><strong>' . esc_html__( 'Controlled by Free Form Certificate', 'institutional-email' ) . '</strong>. ' . esc_html__( 'Change it on that plugin\'s settings; this plugin\'s own choice comes back if that one is deactivated.', 'institutional-email' ) . '</p>';
+		}
+		echo '<p class="description">' . esc_html__( 'Applies to this settings screen and to the form on the site. "Auto" follows your operating system preference.', 'institutional-email' ) . '</p></td></tr>';
 		echo '</tbody></table></div>';
 
 		echo '</div>';
@@ -535,7 +554,20 @@ final class SettingsPage {
 
 		echo '</div></div>';
 		echo '<div class="ie-submit"' . ( 'documentation' === $active ? ' hidden' : '' ) . '>';
-		submit_button();
+		// The family's primary button, in core's `p.submit` like the
+		// submit_button() it replaces; name and id stay `submit`.
+		echo '<p class="submit">';
+		Button::render(
+			array(
+				'label'    => __( 'Save Changes', 'institutional-email' ),
+				'category' => 'primary',
+				'icon'     => 'save',
+				'type'     => 'submit',
+				'id'       => 'submit',
+				'name'     => 'submit',
+			)
+		);
+		echo '</p>';
 		echo '</div>';
 		echo '</form></div>';
 	}

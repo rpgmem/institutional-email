@@ -355,6 +355,64 @@
 	}
 
 	/**
+	 * The button categories this plugin uses, from Free Form Certificate's
+	 * family: `primary` completes the form's work, `neutral` opens or copies.
+	 */
+	var BUTTON_CATEGORIES = [ 'primary', 'neutral' ];
+
+	/**
+	 * The icons a button may carry: the `.ie-icon-*` classes of icons.css,
+	 * as `InstitutionalEmail\Icons::MASKED` lists them.
+	 */
+	var BUTTON_ICONS = [ 'check', 'chevron-left', 'chevron-right', 'copy', 'external', 'minus', 'plus', 'save', 'x' ];
+
+	/**
+	 * Build a family button: the JS twin of `InstitutionalEmail\Button`,
+	 * printing the same markup. The label lands through `textContent`, and
+	 * the icon is a class drawn on `::before`, so it survives a script that
+	 * later rewrites the label.
+	 *
+	 * @param {Document} doc              Document.
+	 * @param {Object}   opts             Options.
+	 * @param {string}   opts.label       Visible text; without it, null.
+	 * @param {string}   [opts.category]  'primary' or 'neutral' (the default, and the fallback).
+	 * @param {string}   [opts.icon]      An icon name; an unknown one is dropped.
+	 * @param {string}   [opts.href]      Makes the button a link.
+	 * @param {string}   [opts.type]      'button' (default), 'submit' or 'reset'.
+	 * @param {boolean}  [opts.block]     Fill the container.
+	 * @param {string}   [opts.className] Extra classes, the hooks scripts read.
+	 * @param {Object}   [opts.attrs]     Further attributes (target, rel…).
+	 * @return {HTMLElement|null} The button, or null without a label.
+	 */
+	function button( doc, opts ) {
+		var o = opts || {};
+		if ( 'string' !== typeof o.label || '' === o.label ) {
+			return null;
+		}
+		var category = -1 !== BUTTON_CATEGORIES.indexOf( o.category ) ? o.category : 'neutral';
+		var classes = [ 'ie-btn', 'ie-btn-' + category ];
+		if ( o.block ) {
+			classes.push( 'ie-btn-block' );
+		}
+		if ( -1 !== BUTTON_ICONS.indexOf( o.icon ) ) {
+			classes.push( 'ie-icon-' + o.icon );
+		}
+		String( o.className || '' ).split( /\s+/ ).forEach( function ( name ) {
+			if ( name && -1 === classes.indexOf( name ) ) {
+				classes.push( name );
+			}
+		} );
+		var isLink = 'string' === typeof o.href;
+		var attrs = Object.assign( {}, o.attrs || {}, { class: classes.join( ' ' ), text: o.label } );
+		if ( isLink ) {
+			attrs.href = o.href;
+		} else {
+			attrs.type = -1 !== [ 'button', 'submit', 'reset' ].indexOf( o.type ) ? o.type : 'button';
+		}
+		return el( doc, isLink ? 'a' : 'button', attrs );
+	}
+
+	/**
 	 * Copy text to the clipboard, with the old selection fallback.
 	 *
 	 * @param {Document} doc  Document.
@@ -501,7 +559,7 @@
 		container.appendChild( el( doc, 'div', { class: 'ie-info' }, [
 			el( doc, 'p', { text: s.stateTeacherIntro } ),
 			el( doc, 'p', {}, [
-				el( doc, 'a', { class: 'ie-button ie-link-button', href: config.state.teacherUrl, target: '_blank', rel: 'noopener noreferrer', text: s.stateTeacherLink } ),
+				button( doc, { label: s.stateTeacherLink, category: 'primary', icon: 'external', href: config.state.teacherUrl, className: 'ie-link-button', attrs: { target: '_blank', rel: 'noopener noreferrer' } } ),
 			] ),
 		] ) );
 		return { form: 'teachers', network: 'state', generate: function () {
@@ -599,13 +657,13 @@
 			formEl.appendChild( field( 'birthDate', s.birthDate, { type: 'date', required: true } ) );
 		}
 
-		var submit = el( doc, 'button', { type: 'submit', class: 'ie-button', text: s.submit } );
+		var submit = button( doc, { label: s.submit, category: 'primary', icon: 'check', type: 'submit', block: true, className: 'ie-submit' } );
 		formEl.appendChild( el( doc, 'p', { class: 'ie-actions' }, [ submit ] ) );
 
 		var emailOut = el( doc, 'output', { class: 'ie-value' } );
 		var passwordOut = el( doc, 'output', { class: 'ie-value', text: config.password } );
-		var copyEmail = el( doc, 'button', { type: 'button', class: 'ie-copy', text: s.copyEmail } );
-		var copyPassword = el( doc, 'button', { type: 'button', class: 'ie-copy', text: s.copyPassword } );
+		var copyEmail = button( doc, { label: s.copyEmail, icon: 'copy', className: 'ie-copy' } );
+		var copyPassword = button( doc, { label: s.copyPassword, icon: 'copy', className: 'ie-copy' } );
 		var status = el( doc, 'p', { class: 'ie-status', role: 'status' } );
 		var emailLabel = el( doc, 'p', { class: 'ie-result-label', text: 'teachers' === kind ? s.teacherResult : s.studentResult } );
 		var result = el( doc, 'div', { class: 'ie-result', hidden: true }, [
@@ -799,6 +857,7 @@
 		formOf: formOf,
 		offeredForms: offeredForms,
 		networkOf: networkOf,
+		button: button,
 		mount: mount,
 		boot: boot,
 	};

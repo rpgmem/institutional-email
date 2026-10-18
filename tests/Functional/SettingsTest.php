@@ -6,8 +6,10 @@ namespace IE\Tests\Functional;
 
 use InstitutionalEmail\Admin\SettingsPage;
 use InstitutionalEmail\Config;
+use InstitutionalEmail\Plugin;
 use InstitutionalEmail\Settings;
 use InstitutionalEmail\Shortcode;
+use InstitutionalEmail\Theme;
 use WP_UnitTestCase;
 
 /**
@@ -18,6 +20,8 @@ use WP_UnitTestCase;
  * @covers \InstitutionalEmail\Admin\SettingsPage
  * @covers \InstitutionalEmail\Admin\Documentation
  * @covers \InstitutionalEmail\Shortcode::render
+ * @covers \InstitutionalEmail\Theme
+ * @covers \InstitutionalEmail\Button
  */
 final class SettingsTest extends WP_UnitTestCase {
 
@@ -28,6 +32,7 @@ final class SettingsTest extends WP_UnitTestCase {
 
 	protected function tearDown(): void {
 		delete_option( Settings::OPTION );
+		delete_option( Theme::FFC_OPTION );
 		wp_set_current_user( 0 );
 		unset( $_GET['tab'] );
 		parent::tearDown();
@@ -192,6 +197,57 @@ final class SettingsTest extends WP_UnitTestCase {
 		SettingsPage::enqueue( 'settings_page_' . SettingsPage::SLUG );
 		self::assertTrue( wp_script_is( 'institutional-email-admin', 'enqueued' ) );
 		self::assertTrue( wp_style_is( 'institutional-email-admin', 'enqueued' ) );
+	}
+
+	public function test_the_screen_draws_its_buttons_from_the_family_and_loads_it(): void {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$html = $this->renderScreen();
+
+		self::assertStringContainsString( '<p class="submit"><button type="submit" class="ie-btn ie-btn-primary ie-icon-save" id="submit" name="submit">Save Changes</button></p>', $html );
+		self::assertStringContainsString( '<button type="button" class="ie-btn ie-btn-neutral ie-icon-copy ie-copy" data-ie-copy="ie-shortcode">Copy</button>', $html );
+		self::assertStringNotContainsString( 'class="button', $html, 'No core button is left in the plugin\'s own markup.' );
+		self::assertStringNotContainsString( 'dashicons', $html );
+
+		SettingsPage::enqueue( 'settings_page_' . SettingsPage::SLUG );
+		self::assertTrue( wp_style_is( Plugin::BUTTONS_HANDLE, 'enqueued' ) );
+		self::assertTrue( wp_style_is( Plugin::ICONS_HANDLE, 'enqueued' ) );
+	}
+
+	public function test_without_ffc_the_dark_mode_field_is_the_plugins_own(): void {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		update_option( Settings::OPTION, array( 'dark_mode' => 'auto' ) );
+		$html = $this->renderScreen();
+
+		self::assertStringContainsString( '<select id="ie-dark-mode" name="' . Settings::OPTION . '[dark_mode]" data-ie-autosave="dark_mode">', $html );
+		self::assertStringContainsString( '<option value="auto" selected=\'selected\'>', $html );
+		self::assertStringNotContainsString( 'id="ie-dark-mode-ffc"', $html );
+	}
+
+	/**
+	 * Free Form Certificate active: its value shows, disabled, with the note,
+	 * and Save Changes keeps the plugin's own stored choice. FFC_VERSION
+	 * cannot be undefined, hence the process of its own.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_with_ffc_the_field_is_disabled_and_a_save_keeps_the_stored_choice(): void {
+		define( 'FFC_VERSION', '6.41.0' );
+		update_option( Theme::FFC_OPTION, array( 'dark_mode' => 'on' ) );
+		update_option( Settings::OPTION, array( 'dark_mode' => 'auto' ) );
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$html = $this->renderScreen();
+		self::assertStringContainsString( '<select id="ie-dark-mode" disabled aria-describedby="ie-dark-mode-ffc">', $html );
+		self::assertStringContainsString( '<option value="on" selected=\'selected\'>', $html, 'The field shows the mode in effect.' );
+		self::assertStringContainsString( '<p class="description" id="ie-dark-mode-ffc"><strong>Controlled by Free Form Certificate</strong>', $html );
+		self::assertSame( 'on', Theme::mode() );
+
+		// What the form posts: everything but the disabled field.
+		update_option( Settings::OPTION, array( 'domain' => 'example.org' ) );
+		$stored = get_option( Settings::OPTION );
+		self::assertSame( 'example.org', $stored['domain'] );
+		self::assertSame( 'auto', $stored['dark_mode'], 'The disabled field did not overwrite the stored choice.' );
 	}
 
 	private function renderScreen(): string {

@@ -225,6 +225,15 @@ final class Settings {
 			);
 		}
 
+		// Where Free Form Certificate decides the theme, the Dark Mode field is
+		// disabled, and a disabled field posts nothing; that absence would
+		// read as "off" and overwrite the stored choice, which must come back
+		// as it was if that plugin is deactivated. So an absent key keeps it.
+		if ( ! array_key_exists( 'dark_mode', $input ) ) {
+			$stored             = get_option( self::OPTION, array() );
+			$input['dark_mode'] = is_array( $stored ) ? ( $stored['dark_mode'] ?? 'off' ) : 'off';
+		}
+
 		$clean = self::sanitize( $input );
 		$weak  = $clean['custom_style'] ? self::weakContrasts( $clean['colors'] ) : array();
 		if ( array() !== $weak ) {
@@ -245,7 +254,8 @@ final class Settings {
 	 * The colour pairs the form draws text with that fall short of
 	 * MIN_CONTRAST, each described with its ratio. The text the theme
 	 * colours is not ours to measure, so only pairs made of these
-	 * settings, or of a setting on white, are checked.
+	 * settings, or of a setting and a fixed colour of the form's (white, or
+	 * the form's text on a copy button), are checked.
 	 *
 	 * @param array<string, string> $colors Sanitized colours.
 	 * @return list<string>
@@ -254,13 +264,13 @@ final class Settings {
 		$pairs = array(
 			array( 'accent_text', 'accent', __( 'button text on the accent', 'institutional-email' ) ),
 			array( 'accent', '#ffffff', __( 'accent on white', 'institutional-email' ) ),
-			array( 'accent', 'ok_bg', __( 'copy buttons on the result', 'institutional-email' ) ),
+			array( Config::TEXT_COLOR, 'value_bg', __( 'copy buttons on the result', 'institutional-email' ) ),
 			array( 'muted', '#ffffff', __( 'notes on white', 'institutional-email' ) ),
 			array( 'error', '#ffffff', __( 'errors on white', 'institutional-email' ) ),
 		);
 		$weak  = array();
 		foreach ( $pairs as $pair ) {
-			$front = $colors[ $pair[0] ] ?? '#000000';
+			$front = '#' === $pair[0][0] ? $pair[0] : ( $colors[ $pair[0] ] ?? '#000000' );
 			$back  = '#' === $pair[1][0] ? $pair[1] : ( $colors[ $pair[1] ] ?? '#ffffff' );
 			$ratio = self::contrast( $front, $back );
 			if ( $ratio < self::MIN_CONTRAST ) {

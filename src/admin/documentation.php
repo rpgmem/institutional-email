@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace InstitutionalEmail\Admin;
 
 use InstitutionalEmail\Config;
+use InstitutionalEmail\Icons;
 use InstitutionalEmail\Plugin;
 use InstitutionalEmail\Settings;
 use InstitutionalEmail\Shortcode;
@@ -65,7 +66,7 @@ final class Documentation {
 					array( __( 'Teachers\' form options', 'institutional-email' ), __( 'Which of the partner network, the direct network and interns the city teachers\' form offers. With only one, the form asks for it without a choice.', 'institutional-email' ) ),
 					array( __( 'Google Analytics', 'institutional-email' ), __( 'Off by default, and then nothing of Google\'s is loaded. Switched on with a measurement ID (G-XXXXXXXXXX), the pages that show a form load Google\'s tag and record each address worked out, with only the form and the network.', 'institutional-email' ) ),
 					array( __( 'Who can use the form', 'institutional-email' ), __( 'Everyone who can see the page, or logged-in users only; the others see a link to log in.', 'institutional-email' ) ),
-					array( __( 'Dark Mode', 'institutional-email' ), __( 'Off by default. On, or Auto when the operating system is set to dark, this settings screen and the form on the site turn dark. The Design tab\'s colours apply to the light look only.', 'institutional-email' ) ),
+					array( __( 'Dark Mode', 'institutional-email' ), __( 'Off by default. On, or Auto when the operating system is set to dark, this settings screen and the form on the site turn dark. The Design tab\'s colours apply to the light look only. Where Free Form Certificate is active, its own Dark Mode decides instead, so the theme is set in one place: the field shows that plugin\'s choice, disabled, marked "Controlled by Free Form Certificate", and this plugin\'s own choice comes back if that one is deactivated.', 'institutional-email' ) ),
 				),
 				'note'  => __( 'The on/off switches and Dark Mode save as soon as they change. Everything else saves with "Save Changes".', 'institutional-email' ),
 			),
