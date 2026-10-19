@@ -26,6 +26,24 @@
 	--ie-bg-input: #ffffff;
 	--ie-select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E");
 	--ie-toggle-knob: #ffffff;
+	--ie-bg-disabled: #e7e8ea;
+
+	/* The button family (buttons.css) in the admin shape: 34px tall, the
+	   8px corner, at the panel's text size, as Free Form Certificate's. */
+	--ie-btn-height: 34px;
+	--ie-btn-padding: 12px;
+	--ie-btn-radius: 8px;
+	--ie-btn-font-size: max(13px, 0.8125rem);
+	--ie-btn-focus: var(--ie-primary);
+	--ie-btn-primary-bg: var(--ie-primary);
+	--ie-btn-primary-hover: var(--ie-primary-hover);
+	--ie-btn-primary-text: var(--ie-text-on-primary);
+	--ie-btn-neutral-bg: var(--ie-bg-alt);
+	--ie-btn-neutral-text: var(--ie-text);
+	--ie-btn-neutral-border: var(--ie-border-light);
+	--ie-btn-neutral-border-hover: var(--ie-border);
+	--ie-btn-disabled-bg: var(--ie-bg-disabled);
+	--ie-btn-disabled-text: var(--ie-text-muted);
 }
 /* Dark mode: Free Form Certificate's dark values for the same tokens. The
    block redefines colour tokens only; the class is put on <html> by the
@@ -49,6 +67,7 @@
 	--ie-danger-text: #ef9a9a;
 	--ie-danger-light: #2e1515;
 	--ie-shadow-sm: 0 1px 3px rgb(0 0 0 / 30%);
+	--ie-bg-disabled: #2c3338;
 	--ie-select-arrow: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23c3c4c7%22%2F%3E%3C%2Fsvg%3E");
 }
 

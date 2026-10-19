@@ -3,7 +3,7 @@ Contributors: rpgmem
 Tags: email, school, students, teachers, shortcode
 Requires at least: 6.8
 Tested up to: 7.1.3
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 Requires PHP: 8.3
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
@@ -30,7 +30,7 @@ Place a form on any page or post:
 * `[institutional_email form="teachers"]` — teachers only: full name and CPF (partner network) or RF (direct network); interns, on the same form, give their CPF.
 * Add `network="state"` for the São Paulo state schools (SEDUC-SP): students give their RA, its check digit and their date of birth; teachers are pointed to the SED.
 
-Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font, with a warning for colour pairs that are hard to read. A Dark Mode setting colours the settings screen and the form on the site. Its Documentation tab explains each option.
+Settings → Institutional Email chooses the school network (city or state), the forms offered, who may use them, optional Google Analytics, the domain, the initial password, the platform the result links to, every text the form shows and, on the Design tab, the form's width, colours, corners and font, with a warning for colour pairs that are hard to read. A Dark Mode setting colours the settings screen and the form on the site; where Free Form Certificate is active, its Dark Mode decides instead. Its Documentation tab explains each option.
 
 == Privacy ==
 
@@ -75,5 +75,5 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 
 == Upgrade Notice ==
 
-= 1.4.0 =
-The form on the site now looks like Free Form Certificate's and follows Dark Mode. A plugin icon on Dashboard → Updates, and "View details" with the readme tabs, Portuguese and screenshots that open in place. Assets ship minified. Details in CHANGELOG.md.
+= 1.5.0 =
+Where Free Form Certificate is active, its Dark Mode now decides this plugin's settings screen and form, and the local setting shows as controlled by it. Buttons and icons follow Free Form Certificate's families. Details in CHANGELOG.md.

@@ -22,7 +22,7 @@ Coloque um formulário em qualquer página ou post:
 * `[institutional_email form="teachers"]` — só professores: nome completo e CPF (rede parceira) ou RF (rede direta); estagiários, no mesmo formulário, informam o CPF.
 * Acrescente `network="state"` para as escolas estaduais de São Paulo (SEDUC-SP): os alunos informam o RA, seu dígito verificador e a data de nascimento; os professores são encaminhados à SED.
 
-Configurações → E-mail Institucional escolhe a rede de ensino (municipal ou estadual), os formulários oferecidos, quem pode usá-los, o Google Analytics opcional, o domínio, a senha inicial, a plataforma para onde o resultado aponta, cada texto que o formulário mostra e, na aba Design, a largura, as cores, os cantos e a fonte do formulário, com um aviso para pares de cores difíceis de ler. Uma configuração de Modo Escuro colore a tela de configurações e o formulário no site. A aba Documentação explica cada opção.
+Configurações → E-mail Institucional escolhe a rede de ensino (municipal ou estadual), os formulários oferecidos, quem pode usá-los, o Google Analytics opcional, o domínio, a senha inicial, a plataforma para onde o resultado aponta, cada texto que o formulário mostra e, na aba Design, a largura, as cores, os cantos e a fonte do formulário, com um aviso para pares de cores difíceis de ler. Uma configuração de Modo Escuro colore a tela de configurações e o formulário no site; onde o Free Form Certificate está ativo, o Modo Escuro dele decide. A aba Documentação explica cada opção.
 
 == Privacidade ==
 

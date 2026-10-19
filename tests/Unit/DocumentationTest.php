@@ -7,7 +7,7 @@ namespace IE\Tests\Unit;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 use InstitutionalEmail\Admin\Documentation;
-use InstitutionalEmail\Admin\Icons;
+use InstitutionalEmail\Icons;
 use InstitutionalEmail\Admin\SettingsPage;
 use InstitutionalEmail\Config;
 use InstitutionalEmail\Plugin;

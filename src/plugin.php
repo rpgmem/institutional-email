@@ -114,6 +114,34 @@ final class Plugin {
 	}
 
 	/**
+	 * The handle of the icon masks (`assets/css/icons.css`).
+	 */
+	public const ICONS_HANDLE = 'institutional-email-icons';
+
+	/**
+	 * The handle of the button family (`assets/css/buttons.css`), which
+	 * depends on the icons.
+	 */
+	public const BUTTONS_HANDLE = 'institutional-email-buttons';
+
+	/**
+	 * Enqueue the icon masks.
+	 */
+	public static function enqueueIconStyles(): void {
+		wp_enqueue_style( self::ICONS_HANDLE, self::url() . self::asset( 'assets/css/icons.css' ), array(), self::assetVersion( self::asset( 'assets/css/icons.css' ) ) );
+	}
+
+	/**
+	 * Enqueue the button family with the icons it carries. The sheet reads
+	 * `--ie-btn-*` tokens that the page's own palette maps, so it is always
+	 * enqueued beside one: the settings screen's or the form's.
+	 */
+	public static function enqueueButtonStyles(): void {
+		self::enqueueIconStyles();
+		wp_enqueue_style( self::BUTTONS_HANDLE, self::url() . self::asset( 'assets/css/buttons.css' ), array( self::ICONS_HANDLE ), self::assetVersion( self::asset( 'assets/css/buttons.css' ) ) );
+	}
+
+	/**
 	 * The `?ver=` of one of the plugin's own assets: the plugin version plus
 	 * the file's modification time.
 	 *

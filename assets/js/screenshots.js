@@ -43,13 +43,14 @@
 	var gesture = null;
 	var ui = null;
 
-	function button( name, text, glyph ) {
+	// An icon-only control: the drawing is a registry icon (icons.css) on
+	// `::before`, and the label is the accessible name and the tooltip.
+	function button( name, text, icon ) {
 		var el = document.createElement( 'button' );
 		el.type = 'button';
-		el.className = 'ie-shots__button ie-shots__' + name;
+		el.className = 'ie-shots__button ie-shots__' + name + ' ie-icon-' + icon;
 		el.setAttribute( 'aria-label', text );
 		el.title = text;
-		el.textContent = glyph;
 		return el;
 	}
 
@@ -80,11 +81,11 @@
 		bar.appendChild( caption );
 
 		var controls = {
-			zoomOut: button( 'zoom-out', labels.zoomOut, '−' ),
-			zoomIn: button( 'zoom-in', labels.zoomIn, '+' ),
-			close: button( 'close', labels.close, '×' ),
-			previous: button( 'previous', labels.previous, '‹' ),
-			next: button( 'next', labels.next, '›' ),
+			zoomOut: button( 'zoom-out', labels.zoomOut, 'minus' ),
+			zoomIn: button( 'zoom-in', labels.zoomIn, 'plus' ),
+			close: button( 'close', labels.close, 'x' ),
+			previous: button( 'previous', labels.previous, 'chevron-left' ),
+			next: button( 'next', labels.next, 'chevron-right' ),
 		};
 
 		var tools = document.createElement( 'div' );

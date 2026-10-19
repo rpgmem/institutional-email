@@ -33,6 +33,7 @@ final class SettingsTest extends TestCase {
 		Functions\when( 'esc_url_raw' )->alias(
 			static fn( string $url, array $protocols ): string => in_array( (string) wp_parse_url_scheme( $url ), $protocols, true ) ? $url : ''
 		);
+		Functions\when( 'get_option' )->justReturn( array() );
 		Functions\when( 'get_settings_errors' )->alias( fn(): array => array_map( static fn( array $n ): array => array( 'code' => $n[0] ), $this->notices ) );
 		Functions\when( 'add_settings_error' )->alias(
 			function ( string $setting, string $code, string $message ): void {
@@ -260,8 +261,19 @@ final class SettingsTest extends TestCase {
 	public function test_weak_pairs_are_named(): void {
 		Functions\when( 'number_format_i18n' )->alias( static fn( $n, $d = 0 ) => number_format( (float) $n, (int) $d ) );
 		$weak = Settings::weakContrasts( array_merge( Config::COLORS, array( 'accent' => '#ffff00' ) ) );
-		self::assertCount( 3, $weak, 'White on yellow, yellow on white, and yellow on the result.' );
+		self::assertCount( 2, $weak, 'White on yellow and yellow on white.' );
 		self::assertStringContainsString( ':1)', $weak[0], 'Each pair carries its ratio.' );
+	}
+
+	/**
+	 * A copy button is a neutral button: the form's text on the address
+	 * background, which the Design tab sets.
+	 */
+	public function test_a_dark_address_background_is_named_for_the_copy_buttons(): void {
+		Functions\when( 'number_format_i18n' )->alias( static fn( $n, $d = 0 ) => number_format( (float) $n, (int) $d ) );
+		$weak = Settings::weakContrasts( array_merge( Config::COLORS, array( 'value_bg' => '#333333' ) ) );
+		self::assertCount( 1, $weak );
+		self::assertStringStartsWith( 'copy buttons on the result', $weak[0] );
 	}
 
 	public function test_save_warns_about_weak_colours_only_when_the_design_is_on(): void {

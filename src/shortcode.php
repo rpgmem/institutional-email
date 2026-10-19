@@ -131,7 +131,8 @@ final class Shortcode {
 	 * @param array<string, mixed> $settings Sanitized settings.
 	 */
 	private static function enqueue( array $settings ): void {
-		wp_enqueue_style( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/css/institutional-email.css' ), array(), Plugin::assetVersion( Plugin::asset( 'assets/css/institutional-email.css' ) ) );
+		Plugin::enqueueButtonStyles();
+		wp_enqueue_style( self::HANDLE, Plugin::url() . Plugin::asset( 'assets/css/institutional-email.css' ), array( Plugin::BUTTONS_HANDLE ), Plugin::assetVersion( Plugin::asset( 'assets/css/institutional-email.css' ) ) );
 		// The Design tab's width, colours, corners and font, as custom
 		// properties the stylesheet reads. The colours are scoped to the light
 		// theme: a colour picked against white is not one to draw on the dark

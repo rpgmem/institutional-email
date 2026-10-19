@@ -5,7 +5,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [1.4.0] (2026-10-13)
+## [1.5.0] (2026-10-19)
+
+### Changed
+
+- **Dark Mode follows Free Form Certificate where it is active** (#89). Its `dark_mode` decides the settings screen and the form; the local field shows it disabled, marked "Controlled by Free Form Certificate", and the stored choice survives a save and returns if that plugin goes. Without it, nothing changes.
+- **Buttons and icons follow Free Form Certificate's families** (#89). A slim `.ie-btn` copy (primary, neutral) with its states and both themes' contrast, built by `Button` and the form's `button()`; icons come from one registry, drawn as masks, and the viewer's glyphs became registry icons.
+
+## [1.4.0] (2026-10-13) — `8224464f`
 
 ### Added
 
