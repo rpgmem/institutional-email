@@ -3,7 +3,7 @@ Contributors: rpgmem
 Tags: email, school, students, teachers, shortcode
 Requires at least: 6.8
 Tested up to: 7.1.3
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 Requires PHP: 8.3
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
@@ -75,5 +75,5 @@ The full history of every release is in [CHANGELOG.md](https://github.com/rpgmem
 
 == Upgrade Notice ==
 
-= 1.4.0 =
-The form on the site now looks like Free Form Certificate's and follows Dark Mode. A plugin icon on Dashboard → Updates, and "View details" with the readme tabs, Portuguese and screenshots that open in place. Assets ship minified. Details in CHANGELOG.md.
+= 1.5.0 =
+Where Free Form Certificate is active, its Dark Mode now decides this plugin's settings screen and form, and the local setting shows as controlled by it. Buttons and icons follow Free Form Certificate's families. Details in CHANGELOG.md.
