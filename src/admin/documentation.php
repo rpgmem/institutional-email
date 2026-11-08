@@ -89,6 +89,7 @@ final class Documentation {
 							Config::MIDDLE_MIN
 						),
 					),
+					array( __( 'Hyphens', 'institutional-email' ), __( 'A hyphen separates two names, as a space does: Maria-Aparecida-da-Silva gives the same address as Maria Aparecida da Silva, and Ana-Clara is read as Ana Clara. While a name has a hyphen, the form says so under the field.', 'institutional-email' ) ),
 					array( __( 'Domain and password', 'institutional-email' ), __( 'What comes after the "@", and the password a new account starts with. The password is public: everyone who opens the form sees it.', 'institutional-email' ) ),
 					array( __( 'RF check digit', 'institutional-email' ), __( 'The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist.', 'institutional-email' ) ),
 					array( __( 'State schools', 'institutional-email' ), __( 'A student\'s address is the RA padded with zeros to 12 digits, its check digit and "sp", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set.', 'institutional-email' ) ),

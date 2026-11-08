@@ -13,7 +13,23 @@ beforeAll( () => {
 
 describe( 'nameParts', () => {
 	it( 'lowercases, drops accents and keeps only a to z', () => {
-		expect( gen.nameParts( '  José  D\'Ávila-Conceição   Æsir ' ) ).toEqual( [ 'jose', 'davilaconceicao', 'aesir' ] );
+		expect( gen.nameParts( '  José  D\'Ávila   Æsir ' ) ).toEqual( [ 'jose', 'davila', 'aesir' ] );
+	} );
+
+	// #105: a hyphen used between names must not join them into one.
+	it.each( [
+		[ 'Maria-Aparecida-da-Silva', [ 'maria', 'aparecida', 'da', 'silva' ] ],
+		[ 'Ana-Clara Pereira-Lima', [ 'ana', 'clara', 'pereira', 'lima' ] ],
+		[ 'Ana\u2010Clara\u2011Lima', [ 'ana', 'clara', 'lima' ] ],
+		[ 'Ana\u2013Clara\u2014Lima\u2212Souza', [ 'ana', 'clara', 'lima', 'souza' ] ],
+		[ 'Ana\uff0dClara\ufe63Lima\ufe58Souza\u2015Reis', [ 'ana', 'clara', 'lima', 'souza', 'reis' ] ],
+		[ 'Ana -- Lima', [ 'ana', 'lima' ] ],
+	] )( 'reads a hyphen as a space: %j', ( name, parts ) => {
+		expect( gen.nameParts( name ) ).toEqual( parts );
+	} );
+
+	it( 'keeps a soft hyphen invisible, never a separator', () => {
+		expect( gen.nameParts( 'Sil\u00adva Lima' ) ).toEqual( [ 'silva', 'lima' ] );
 	} );
 
 	it( 'is empty for an empty or missing name', () => {
@@ -52,6 +68,26 @@ describe( 'teacherName', () => {
 	it( 'takes the first and the last name', () => {
 		expect( gen.teacherName( 'Maria Aparecida da Silva' ) ).toBe( 'mariasilva' );
 		expect( gen.teacherName( 'Maria' ) ).toBe( '' );
+	} );
+} );
+
+describe( 'hyphenated names', () => {
+	it( 'give the address the spaced name gives', () => {
+		expect( gen.studentName( 'Maria-Aparecida-da-Silva' ) ).toBe( 'mariaasilva' );
+		expect( gen.teacherName( 'Maria-Aparecida-da-Silva' ) ).toBe( 'mariasilva' );
+		expect( gen.studentName( 'Ana-Clara Pereira-Lima' ) ).toBe( 'anacplima' );
+		expect( gen.teacherName( 'Ana-Clara Pereira-Lima' ) ).toBe( 'analima' );
+	} );
+
+	it( 'are told apart from the rest', () => {
+		expect( gen.hasHyphen( 'Ana-Clara' ) ).toBe( true );
+		expect( gen.hasHyphen( 'Ana\u2013Clara' ) ).toBe( true );
+		expect( gen.hasHyphen( 'Ana Clara' ) ).toBe( false );
+		expect( gen.hasHyphen( 'Sil\u00adva' ) ).toBe( false );
+		expect( gen.hasHyphen( undefined ) ).toBe( false );
+		// The pattern is global; a second test must not resume where the first stopped.
+		expect( gen.hasHyphen( 'a-b' ) ).toBe( true );
+		expect( gen.hasHyphen( 'a-b' ) ).toBe( true );
 	} );
 } );
 
@@ -384,6 +420,32 @@ describe( 'student form', () => {
 		type( ui.inputs.name, 'Maria' );
 		expect( div.querySelector( '.ie-result' ).hidden ).toBe( true );
 		expect( ui.email() ).toBe( '' );
+	} );
+
+	it( 'says how a hyphen is read only while the name has one', () => {
+		const div = container();
+		const ui = gen.mount( div, config, 'students' );
+		const notice = div.querySelector( '[data-ie-field="name"] .ie-name-notice' );
+
+		expect( notice.getAttribute( 'role' ) ).toBe( 'status' );
+		expect( ui.inputs.name.getAttribute( 'aria-describedby' ).split( ' ' ) ).toEqual( [ ui.inputs.name.id + '-error', notice.id ] );
+		expect( notice.textContent ).toBe( '' );
+
+		type( ui.inputs.name, 'Maria-Aparecida-da-Silva' );
+		expect( notice.textContent ).toBe( config.strings.nameHyphen );
+
+		// It never blocks the form, and the error still finds its own element.
+		type( ui.inputs.birthDate, '2012-03-07' );
+		submit( div );
+		expect( ui.email() ).toBe( 'mariaasilva.07032012@edu.sme.prefeitura.sp.gov.br' );
+		expect( notice.textContent ).toBe( config.strings.nameHyphen );
+
+		type( ui.inputs.name, 'Maria Aparecida da Silva' );
+		expect( notice.textContent ).toBe( '' );
+
+		type( ui.inputs.name, '' );
+		submit( div );
+		expect( div.querySelector( '[data-ie-field="name"] .ie-field-error' ).textContent ).toBe( config.strings.error_name );
 	} );
 
 	it( 'leaves out the next step when no platform is configured', () => {

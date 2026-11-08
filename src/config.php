@@ -179,6 +179,7 @@ final class Config {
 			'ready'               => __( 'Email found. Write it down with the password.', 'institutional-email' ),
 			'fixErrors'           => __( 'Check the marked fields.', 'institutional-email' ),
 			'error_name'          => __( 'Type the full name, with at least a first and a last name.', 'institutional-email' ),
+			'nameHyphen'          => __( 'A hyphen counts as a space: "Ana-Clara" is read as "Ana Clara". Check that the address found is yours.', 'institutional-email' ),
 			'error_birthDate'     => __( 'Choose a valid date of birth.', 'institutional-email' ),
 			'error_rf'            => __( 'Type the 7 digits of the RF.', 'institutional-email' ),
 			'error_rfCheck'       => __( 'This RF\'s check digit does not match: check the number.', 'institutional-email' ),
