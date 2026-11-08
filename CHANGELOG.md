@@ -10,6 +10,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - **⚠ A hyphen in a name now separates two names, as a space does** (#105). "Maria-Aparecida-da-Silva" gives `mariaasilva` instead of failing, and a compound name changes address: "Ana-Clara Pereira-Lima" is `anacplima` / `analima`, no longer `anaclarapereiralima`. While the name has a hyphen, a notice under the field says so; its text is in Settings → Texts.
+- CI: Dependabot PRs opened against `main` (security updates, which ignore `target-branch`) are moved to `develop` before auto-merge is turned on, so none merges into production unreleased (#110).
 
 ### Security
 
