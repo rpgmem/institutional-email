@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.6.0] (2026-11-08)
+
 ### Changed
 
 - **⚠ A hyphen in a name now separates two names, as a space does** (#105). "Maria-Aparecida-da-Silva" gives `mariaasilva` instead of failing, and a compound name changes address: "Ana-Clara Pereira-Lima" is `anacplima` / `analima`, no longer `anaclarapereiralima`. While the name has a hyphen, a notice under the field says so; its text is in Settings → Texts.
