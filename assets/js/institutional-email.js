@@ -37,11 +37,21 @@
 	/**
 	 * Letters NFD does not decompose into a base letter plus a mark.
 	 */
+	/**
+	 * The dashes a name may carry: the keyboard's hyphen-minus and the ones a
+	 * paste brings (hyphen, non-breaking hyphen, figure dash, en and em dash,
+	 * horizontal bar, minus, and their small and full-width forms). Each
+	 * separates two names, as a space does (#105).
+	 */
+	var HYPHENS = /[-\u2010-\u2015\u2212\ufe58\ufe63\uff0d]/g;
+
 	var LIGATURES = { 'æ': 'ae', 'œ': 'oe', 'ø': 'o', 'ß': 's', 'ł': 'l', 'đ': 'd', 'ð': 'd', 'þ': 'th', 'ı': 'i' };
 
 	/**
 	 * The name as the address spells it: lower case, no accents, and only the
-	 * letters a to z in each part.
+	 * letters a to z in each part. A hyphen separates two parts, as a space
+	 * does, so "Maria-Aparecida-da-Silva" is read as "Maria Aparecida da
+	 * Silva" and "Ana-Clara" as "Ana Clara".
 	 *
 	 * @param {string} name Full name as typed.
 	 * @return {string[]} The parts, in order, none empty.
@@ -52,6 +62,7 @@
 		// would otherwise become the two names "sil" and "va".
 		var plain = String( name || '' )
 			.replace( /[\u00ad\u200b-\u200d\u2060\ufeff]/g, '' )
+			.replace( HYPHENS, ' ' )
 			.toLowerCase()
 			.replace( /[æœøßłđðþı]/g, function ( c ) {
 				return LIGATURES[ c ];
@@ -61,6 +72,17 @@
 		return plain.split( /\s+/ ).map( function ( part ) {
 			return part.replace( /[^a-z]/g, '' );
 		} ).filter( Boolean );
+	}
+
+	/**
+	 * Whether a name carries a hyphen, which the form then explains.
+	 *
+	 * @param {string} name Full name as typed.
+	 * @return {boolean} True with any of the dashes in HYPHENS.
+	 */
+	function hasHyphen( name ) {
+		HYPHENS.lastIndex = 0;
+		return HYPHENS.test( String( name || '' ) );
 	}
 
 	/**
@@ -364,7 +386,7 @@
 	 * The icons a button may carry: the `.ie-icon-*` classes of icons.css,
 	 * as `InstitutionalEmail\Icons::MASKED` lists them.
 	 */
-	var BUTTON_ICONS = [ 'check', 'chevron-left', 'chevron-right', 'copy', 'external', 'minus', 'plus', 'save', 'x' ];
+	var BUTTON_ICONS = [ 'check', 'chevron-left', 'chevron-right', 'copy', 'external', 'minus', 'plus', 'save', 'warning', 'x' ];
 
 	/**
 	 * Build a family button: the JS twin of `InstitutionalEmail\Button`,
@@ -588,6 +610,8 @@
 		mounted += 1;
 		var uid = 'ie-' + mounted;
 		var inputs = {};
+		var errors = {};
+		var nameNotice = null;
 
 		if ( '' === kind ) {
 			forms = offeredForms( config );
@@ -605,13 +629,22 @@
 			var id = uid + '-' + key;
 			var input = el( doc, 'input', Object.assign( { id: id, name: key, class: 'ie-input' }, attrs ) );
 			var error = el( doc, 'span', { class: 'ie-field-error', id: id + '-error', hidden: true } );
-			input.setAttribute( 'aria-describedby', error.id );
+			// The name field says how a hyphen is read, only while one is
+			// typed: a live region that stays in the page and is empty
+			// otherwise, so the text is announced when it appears (#105).
+			var notice = 'name' === key ? el( doc, 'span', { class: 'ie-name-notice ie-icon-warning', id: id + '-notice', role: 'status' } ) : null;
+			input.setAttribute( 'aria-describedby', notice ? error.id + ' ' + notice.id : error.id );
 			inputs[ key ] = input;
+			errors[ key ] = error;
+			if ( notice ) {
+				nameNotice = notice;
+			}
 			return el( doc, 'p', { class: 'ie-field', 'data-ie-field': key }, [
 				el( doc, 'label', { for: id, text: label } ),
 				hint ? el( doc, 'span', { class: 'ie-hint', text: hint } ) : null,
 				input,
 				error,
+				notice,
 			].filter( Boolean ) );
 		}
 
@@ -711,7 +744,7 @@
 		function showErrors( keys, reasons ) {
 			Object.keys( inputs ).forEach( function ( key ) {
 				var input = inputs[ key ];
-				var error = doc.getElementById( input.getAttribute( 'aria-describedby' ) );
+				var error = errors[ key ];
 				var bad = -1 !== keys.indexOf( key );
 				var checkDigit = reasons && 'checkDigit' === reasons[ key ];
 				input.setAttribute( 'aria-invalid', bad ? 'true' : 'false' );
@@ -724,6 +757,15 @@
 			} );
 			if ( keys.length ) {
 				inputs[ keys[ 0 ] ].focus();
+			}
+		}
+
+		function syncNameNotice() {
+			if ( nameNotice ) {
+				var text = hasHyphen( inputs.name.value ) ? s.nameHyphen : '';
+				if ( nameNotice.textContent !== text ) {
+					nameNotice.textContent = text;
+				}
 			}
 		}
 
@@ -802,6 +844,9 @@
 			if ( inputs.raDigit && event.target === inputs.raDigit ) {
 				inputs.raDigit.value = inputs.raDigit.value.replace( /[^0-9xX]/g, '' ).slice( 0, 1 ).toUpperCase();
 			}
+			if ( inputs.name && event.target === inputs.name ) {
+				syncNameNotice();
+			}
 			if ( ! result.hidden ) {
 				reset();
 			}
@@ -843,6 +888,7 @@
 
 	var api = {
 		nameParts: nameParts,
+		hasHyphen: hasHyphen,
 		studentName: studentName,
 		teacherName: teacherName,
 		birthDate: birthDate,

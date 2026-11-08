@@ -51,14 +51,15 @@ final class Icons {
 		'minus'         => '<path d="M5 12h14"/>',
 		'chevron-left'  => '<path d="M15 6l-6 6 6 6"/>',
 		'chevron-right' => '<path d="M9 6l6 6-6 6"/>',
+		'warning'       => '<path d="M12 3.5L2.5 20h19z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r="1.1" fill="currentColor" stroke="none"/>',
 	);
 
 	/**
 	 * The icons markup reaches through a `.ie-icon-<name>` class: the
-	 * buttons' and the screenshot viewer's. Only these are in the
+	 * buttons', the screenshot viewer's and the name field's hyphen notice. Only these are in the
 	 * stylesheet, so the form's page carries no drawing it never shows.
 	 */
-	public const MASKED = array( 'check', 'chevron-left', 'chevron-right', 'copy', 'external', 'minus', 'plus', 'save', 'x' );
+	public const MASKED = array( 'check', 'chevron-left', 'chevron-right', 'copy', 'external', 'minus', 'plus', 'save', 'warning', 'x' );
 
 	/**
 	 * The first line of `assets/css/icons.css`.

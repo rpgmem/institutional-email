@@ -32,6 +32,9 @@
 	--ie-error: #b32d2e;
 	--ie-ok-bg: #edfaef;
 	--ie-ok-border: #00a32a;
+	--ie-warn-bg: #fcf9e8;
+	--ie-warn-border: #dba617;
+	--ie-warn-text: #614a00;
 	--ie-value-bg: #f6f7f7;
 	--ie-field-bg: #ffffff;
 	--ie-placeholder: #646970;
@@ -137,6 +140,25 @@
 	margin-top: 4px;
 	color: var(--ie-error);
 	font-size: var(--ie-font-size-base);
+}
+
+/* How a hyphen in the name is read: only while one is typed, so empty
+   otherwise. The live region stays in the page, which is what makes the
+   text announced when it appears (#105). */
+.ie-generator .ie-name-notice {
+	display: flex;
+	align-items: baseline;
+	margin-top: 8px;
+	padding: 8px 12px;
+	border: 1px solid var(--ie-warn-border);
+	border-radius: var(--ie-radius);
+	background: var(--ie-warn-bg);
+	color: var(--ie-warn-text);
+	font-size: var(--ie-font-size-base);
+}
+
+.ie-generator .ie-name-notice:empty {
+	display: none;
 }
 
 .ie-generator .ie-network {
@@ -255,6 +277,9 @@
 	--ie-error: #ef9a9a;
 	--ie-ok-bg: #1a2e1a;
 	--ie-ok-border: #4caf50;
+	--ie-warn-bg: #3a2f0b;
+	--ie-warn-border: #dba617;
+	--ie-warn-text: #f5e6ab;
 	--ie-value-bg: #23282d;
 	--ie-field-bg: #23282d;
 	--ie-placeholder: #a7aaad;

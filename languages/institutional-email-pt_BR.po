@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Institutional Email 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-18 03:50+0000\n"
+"POT-Creation-Date: 2026-11-08 13:03+0000\n"
 "PO-Revision-Date: 2026-10-11 00:00+0000\n"
 "Last-Translator: Alex Meusburger\n"
 "Language-Team: Português do Brasil\n"
@@ -230,185 +230,193 @@ msgid "From %1$d to %2$d letters (%3$d by default). Shorter middle names, such a
 msgstr "De %1$d a %2$d letras (%3$d por padrão). Nomes do meio mais curtos, como \"da\" e \"dos\", ficam fora do endereço do aluno."
 
 #: src/admin/documentation.php:92
+msgid "A hyphen separates two names, as a space does: Maria-Aparecida-da-Silva gives the same address as Maria Aparecida da Silva, and Ana-Clara is read as Ana Clara. While a name has a hyphen, the form says so under the field."
+msgstr "O hífen separa dois nomes, como o espaço: Maria-Aparecida-da-Silva dá o mesmo endereço que Maria Aparecida da Silva, e Ana-Clara é lido como Ana Clara. Enquanto o nome tem hífen, o formulário avisa embaixo do campo."
+
+#: src/admin/documentation.php:92
+msgid "Hyphens"
+msgstr "Hífens"
+
+#: src/admin/documentation.php:93
 msgid "Domain and password"
 msgstr "Domínio e senha"
 
-#: src/admin/documentation.php:92
+#: src/admin/documentation.php:93
 msgid "What comes after the \"@\", and the password a new account starts with. The password is public: everyone who opens the form sees it."
 msgstr "O que vem depois do \"@\", e a senha com que uma conta nova começa. A senha é pública: todos que abrem o formulário a veem."
 
-#: src/admin/documentation.php:93 src/admin/settings-page.php:366
+#: src/admin/documentation.php:94 src/admin/settings-page.php:366
 msgid "RF check digit"
 msgstr "Dígito verificador do RF"
 
-#: src/admin/documentation.php:93
+#: src/admin/documentation.php:94
 msgid "The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist."
 msgstr "O sétimo dígito do RF é um dígito verificador. Ligado por padrão, um RF cujo dígito não confere é recusado, para que um erro de digitação não vire um endereço que não existe."
 
-#: src/admin/documentation.php:94
+#: src/admin/documentation.php:95
 msgid "A student's address is the RA padded with zeros to 12 digits, its check digit and \"sp\", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set."
 msgstr "O endereço do aluno é o RA completado com zeros até 12 dígitos, seu dígito e \"sp\", em al.educacao.sp.gov.br; a senha inicial é a data de nascimento (DDMMAAAA). Essas regras não têm o que configurar."
 
-#: src/admin/documentation.php:94
+#: src/admin/documentation.php:95
 msgid "State schools"
 msgstr "Rede estadual"
 
-#: src/admin/documentation.php:98 src/admin/documentation.php:104
+#: src/admin/documentation.php:99 src/admin/documentation.php:105
 #: src/admin/settings-page.php:667
 msgid "Texts"
 msgstr "Textos"
 
-#: src/admin/documentation.php:101
+#: src/admin/documentation.php:102
 msgid "What the form says."
 msgstr "O que o formulário diz."
 
-#: src/admin/documentation.php:103 src/admin/settings-page.php:419
+#: src/admin/documentation.php:104 src/admin/settings-page.php:419
 msgid "Next step"
 msgstr "Próximo passo"
 
-#: src/admin/documentation.php:103
+#: src/admin/documentation.php:104
 msgid "The platform the form links to below the result. Without an address, no next step is shown."
 msgstr "A plataforma para a qual o formulário aponta abaixo do resultado. Sem endereço, nenhum próximo passo é mostrado."
 
-#: src/admin/documentation.php:104
+#: src/admin/documentation.php:105
 msgid "Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site's language."
 msgstr "Qualquer rótulo, dica ou mensagem, agrupados por rede de ensino e pelo formulário ou opção que os mostra. Um campo vazio mantém o texto embutido, que acompanha o idioma do site."
 
-#: src/admin/documentation.php:108 src/admin/settings-page.php:477
+#: src/admin/documentation.php:109 src/admin/settings-page.php:477
 #: src/admin/settings-page.php:671
 msgid "Design"
 msgstr "Design"
 
-#: src/admin/documentation.php:111
+#: src/admin/documentation.php:112
 msgid "How the form looks on the site's pages."
 msgstr "Como o formulário aparece nas páginas do site."
 
-#: src/admin/documentation.php:113 src/admin/settings-page.php:481
+#: src/admin/documentation.php:114 src/admin/settings-page.php:481
 msgid "Customise"
 msgstr "Personalizar"
 
-#: src/admin/documentation.php:113
+#: src/admin/documentation.php:114
 msgid "Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switching it off clears the customisation, so the values go back to their defaults."
 msgstr "Desligado por padrão: o formulário mantém a aparência própria. Ligado, usa a largura, as cores, os cantos e a fonte definidos aqui; desligar apaga a personalização, e os valores voltam ao padrão."
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "Colours"
 msgstr "Cores"
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result, in the light look; in dark mode the form keeps its own dark colours. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it."
 msgstr "Dos botões e links, do texto dos botões, das bordas dos campos, das dicas, dos erros e do resultado, no visual claro; no modo escuro o formulário mantém as próprias cores escuras. Um par difícil de ler (abaixo de 4,5:1, como pede a WCAG) é salvo com um aviso que o nomeia."
 
-#: src/admin/documentation.php:115 src/admin/settings-page.php:498
+#: src/admin/documentation.php:116 src/admin/settings-page.php:498
 msgid "Form width"
 msgstr "Largura do formulário"
 
-#: src/admin/documentation.php:115
+#: src/admin/documentation.php:116
 msgid "The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has."
 msgstr "A largura máxima do formulário em uma página, em pixels; numa tela mais estreita ele ocupa o espaço que houver."
 
-#: src/admin/documentation.php:116
+#: src/admin/documentation.php:117
 msgid "Rounded corners and font"
 msgstr "Cantos arredondados e fonte"
 
-#: src/admin/documentation.php:116
+#: src/admin/documentation.php:117
 msgid "The radius of the fields, buttons and result, and the font: the site theme's (the default), the plugin's system font, or Arial, the same three choices as Free Form Certificate's forms."
 msgstr "O raio dos campos, botões e resultado, e a fonte: a do tema do site (padrão), a fonte do sistema do plugin ou Arial, as mesmas três opções dos formulários do Free Form Certificate."
 
-#: src/admin/documentation.php:120
+#: src/admin/documentation.php:121
 msgid "Privacy"
 msgstr "Privacidade"
 
-#: src/admin/documentation.php:122
+#: src/admin/documentation.php:123
 msgid "Nothing typed in the form is sent to the site, and the plugin stores no personal data."
 msgstr "Nada do que é digitado no formulário é enviado ao site, e o plugin não guarda dados pessoais."
 
-#: src/admin/documentation.php:124
+#: src/admin/documentation.php:125
 msgid "In the browser"
 msgstr "No navegador"
 
-#: src/admin/documentation.php:124
+#: src/admin/documentation.php:125
 msgid "The address is worked out on the visitor's device, and nothing is kept after the page is closed."
 msgstr "O endereço é calculado no dispositivo do visitante, e nada é guardado depois que a página é fechada."
 
-#: src/admin/documentation.php:125
+#: src/admin/documentation.php:126
 msgid "If an administrator switches it on, Google receives each visit to a page with a form, as on any site that uses it, and an event saying a form worked out an address. What was typed and the address are never sent."
 msgstr "Se um administrador o ligar, o Google recebe cada visita a uma página com o formulário, como em qualquer site que o usa, e um evento dizendo que um endereço foi gerado. O que foi digitado e o endereço nunca são enviados."
 
-#: src/admin/documentation.php:125
+#: src/admin/documentation.php:126
 msgid "With Google Analytics"
 msgstr "Com o Google Analytics"
 
-#: src/admin/documentation.php:126
+#: src/admin/documentation.php:127
 msgid "On the site"
 msgstr "No site"
 
-#: src/admin/documentation.php:126
+#: src/admin/documentation.php:127
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr "Só estas configurações são guardadas, em uma opção que é apagada junto com o plugin."
 
-#: src/admin/documentation.php:130
+#: src/admin/documentation.php:131
 msgid "Updates"
 msgstr "Atualizações"
 
-#: src/admin/documentation.php:132
+#: src/admin/documentation.php:133
 msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
 msgstr "As novas versões chegam pela tela de atualizações do WordPress, a partir das versões do plugin no GitHub."
 
-#: src/admin/documentation.php:134
+#: src/admin/documentation.php:135
 msgid "Checked package"
 msgstr "Pacote verificado"
 
-#: src/admin/documentation.php:134
+#: src/admin/documentation.php:135
 msgid "Each package is checked against its published SHA-256 before it is installed."
 msgstr "Cada pacote é conferido com o SHA-256 publicado antes de ser instalado."
 
-#: src/admin/documentation.php:135
+#: src/admin/documentation.php:136
 msgid "Automatic updates"
 msgstr "Atualizações automáticas"
 
-#: src/admin/documentation.php:135
+#: src/admin/documentation.php:136
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr "Ligadas ou desligadas pelo próprio link do WordPress na tela de Plugins."
 
-#: src/admin/documentation.php:136
+#: src/admin/documentation.php:137
 msgid "Shows the description, installation steps and screenshots, in your language when the plugin ships a translation of them. A screenshot opens larger without leaving the window: the arrows move between them, and the wheel, a pinch or a click zooms in."
 msgstr "Mostra a descrição, os passos de instalação e as capturas de tela, no seu idioma quando o plugin traz uma tradução deles. Uma captura abre ampliada sem sair da janela: as setas passam de uma para outra, e a roda do mouse, o gesto de pinça ou um clique aproximam a imagem."
 
-#: src/admin/documentation.php:136
+#: src/admin/documentation.php:137
 msgid "View details"
 msgstr "Ver detalhes"
 
-#: src/admin/documentation.php:154
+#: src/admin/documentation.php:155
 msgid "Quick Navigation"
 msgstr "Navegação Rápida"
 
-#: src/admin/documentation.php:155
+#: src/admin/documentation.php:156
 msgid "Search documentation"
 msgstr "Pesquisar na documentação"
 
-#: src/admin/documentation.php:155
+#: src/admin/documentation.php:156
 msgid "Search documentation…"
 msgstr "Pesquisar na documentação…"
 
-#: src/admin/documentation.php:159
+#: src/admin/documentation.php:160
 msgid "No topic matches this search."
 msgstr "Nenhum tópico corresponde a esta pesquisa."
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:181
+#: src/admin/documentation.php:182
 #, php-format
 msgid "Open the %s tab"
 msgstr "Abrir a aba %s"
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:210
+#: src/admin/documentation.php:211
 #, php-format
 msgid "Developed by %s."
 msgstr "Desenvolvido por %s."
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:216
+#: src/admin/documentation.php:217
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr "Código-fonte e registro de problemas: %s"
@@ -858,66 +866,70 @@ msgid "Type the full name, with at least a first and a last name."
 msgstr "Digite o nome completo, com pelo menos nome e sobrenome."
 
 #: src/config.php:182
+msgid "A hyphen counts as a space: \"Ana-Clara\" is read as \"Ana Clara\". Check that the address found is yours."
+msgstr "O hífen conta como espaço: \"Ana-Clara\" é lido como \"Ana Clara\". Confira se o endereço encontrado é o seu."
+
+#: src/config.php:183
 msgid "Choose a valid date of birth."
 msgstr "Informe uma data de nascimento válida."
 
-#: src/config.php:183
+#: src/config.php:184
 msgid "Type the 7 digits of the RF."
 msgstr "Digite os 7 dígitos do RF."
 
-#: src/config.php:184
+#: src/config.php:185
 msgid "This RF's check digit does not match: check the number."
 msgstr "O dígito verificador deste RF não confere: confira o número."
 
-#: src/config.php:185
+#: src/config.php:186
 msgid "Type a valid CPF."
 msgstr "Digite um CPF válido."
 
-#: src/config.php:186
+#: src/config.php:187
 msgid "Student's RA (Registro do Aluno)"
 msgstr "RA do aluno (Registro do Aluno)"
 
-#: src/config.php:187
+#: src/config.php:188
 msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr "Os dígitos antes do dígito verificador, como a SED mostra; os zeros à esquerda podem ser omitidos."
 
-#: src/config.php:188
+#: src/config.php:189
 msgid "RA check digit"
 msgstr "Dígito do RA"
 
-#: src/config.php:189
+#: src/config.php:190
 msgid "A number from 0 to 9, or X."
 msgstr "Um número de 0 a 9, ou X."
 
-#: src/config.php:190
+#: src/config.php:191
 msgid "Do not know the RA? Look it up on the SED:"
 msgstr "Não sabe o RA? Consulte na SED:"
 
-#: src/config.php:191
+#: src/config.php:192
 msgid "The initial password is the date of birth:"
 msgstr "A senha inicial é a data de nascimento:"
 
-#: src/config.php:192
+#: src/config.php:193
 msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr "Os professores da rede estadual criam o e-mail institucional no primeiro acesso à SED, e a senha é a mesma da SED."
 
-#: src/config.php:193
+#: src/config.php:194
 msgid "Get your access on the SED"
 msgstr "Obtenha seu acesso na SED"
 
-#: src/config.php:194
+#: src/config.php:195
 msgid "Type the RA's digits, up to 12."
 msgstr "Digite os dígitos do RA, até 12."
 
-#: src/config.php:195
+#: src/config.php:196
 msgid "Type the check digit: a number from 0 to 9, or X."
 msgstr "Digite o dígito: um número de 0 a 9, ou X."
 
-#: src/config.php:196
+#: src/config.php:197
 msgid "Then sign in with this email and password, not a personal account, at:"
 msgstr "Depois, entre com este e-mail e senha (não com uma conta pessoal) em:"
 
-#: src/config.php:197
+#: src/config.php:198
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr "O e-mail é gerado no seu navegador: nada do que você digita é enviado ou guardado em lugar algum."
 
