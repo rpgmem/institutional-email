@@ -1,0 +1,54 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`addresses for real-shaped input > students (city network) 1`] = `
+"Maria Aparecida da Silva → mariaasilva.07032012@edu.sme.prefeitura.sp.gov.br
+João dos Santos → joaosantos.07032012@edu.sme.prefeitura.sp.gov.br
+Ana Paula Souza → anapsouza.07032012@edu.sme.prefeitura.sp.gov.br
+Ana Rui de Souza → anasouza.07032012@edu.sme.prefeitura.sp.gov.br
+PEDRO HENRIQUE  DE   OLIVEIRA → pedroholiveira.07032012@edu.sme.prefeitura.sp.gov.br
+Lúcia Conceição → luciaconceicao.07032012@edu.sme.prefeitura.sp.gov.br
+Ana-Clara Pereira-Lima → anacplima.07032012@edu.sme.prefeitura.sp.gov.br
+Joana D'Ávila → joanadavila.07032012@edu.sme.prefeitura.sp.gov.br
+José Maria de Jesus Neto → josemjneto.07032012@edu.sme.prefeitura.sp.gov.br
+Bjørn Ærøe Strauß → bjornastraus.07032012@edu.sme.prefeitura.sp.gov.br
+Wu Li → wuli.07032012@edu.sme.prefeitura.sp.gov.br
+Ana E Souza → anasouza.07032012@edu.sme.prefeitura.sp.gov.br
+Sil<U+FEFF>via Mendes → silviamendes.07032012@edu.sme.prefeitura.sp.gov.br
+  Carlos   Eduardo   → carloseduardo.07032012@edu.sme.prefeitura.sp.gov.br
+Maria → errors: name"
+`;
+
+exports[`addresses for real-shaped input > students (state network) 1`] = `
+"RA typed whole → 0001234567895sp@al.educacao.sp.gov.br / 07032012
+RA without leading zeros → 000123456789xsp@al.educacao.sp.gov.br / 07032012
+RA with punctuation → 000123456789xsp@al.educacao.sp.gov.br / 07032012
+RA too long → errors: ra
+missing check digit → errors: raDigit"
+`;
+
+exports[`addresses for real-shaped input > teachers, direct network (RF) 1`] = `
+"Maria Aparecida da Silva → mariasilva.5181780@edu.sme.prefeitura.sp.gov.br
+João dos Santos → joaosantos.5181780@edu.sme.prefeitura.sp.gov.br
+Ana Paula Souza → anasouza.5181780@edu.sme.prefeitura.sp.gov.br
+Ana Rui de Souza → anasouza.5181780@edu.sme.prefeitura.sp.gov.br
+PEDRO HENRIQUE  DE   OLIVEIRA → pedrooliveira.5181780@edu.sme.prefeitura.sp.gov.br
+Lúcia Conceição → luciaconceicao.5181780@edu.sme.prefeitura.sp.gov.br
+Ana-Clara Pereira-Lima → analima.5181780@edu.sme.prefeitura.sp.gov.br
+Joana D'Ávila → joanadavila.5181780@edu.sme.prefeitura.sp.gov.br
+José Maria de Jesus Neto → joseneto.5181780@edu.sme.prefeitura.sp.gov.br
+Bjørn Ærøe Strauß → bjornstraus.5181780@edu.sme.prefeitura.sp.gov.br
+Wu Li → wuli.5181780@edu.sme.prefeitura.sp.gov.br
+Ana E Souza → anasouza.5181780@edu.sme.prefeitura.sp.gov.br
+Sil<U+FEFF>via Mendes → silviamendes.5181780@edu.sme.prefeitura.sp.gov.br
+  Carlos   Eduardo   → carloseduardo.5181780@edu.sme.prefeitura.sp.gov.br
+Maria → errors: name"
+`;
+
+exports[`addresses for real-shaped input > teachers, partner network and interns (CPF) 1`] = `
+"partner / Maria Aparecida da Silva → mariasilva.12345678909@edu.sme.prefeitura.sp.gov.br
+partner / João dos Santos → joaosantos.12345678909@edu.sme.prefeitura.sp.gov.br
+partner / Ana Paula Souza → anasouza.12345678909@edu.sme.prefeitura.sp.gov.br
+intern / Maria Aparecida da Silva → mariasilva.e12345678909@edu.sme.prefeitura.sp.gov.br
+intern / João dos Santos → joaosantos.e12345678909@edu.sme.prefeitura.sp.gov.br
+intern / Ana Paula Souza → anasouza.e12345678909@edu.sme.prefeitura.sp.gov.br"
+`;

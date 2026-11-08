@@ -5,7 +5,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-## [1.5.0] (2026-10-19)
+## [1.6.0] (2026-11-08)
+
+### Changed
+
+- **⚠ A hyphen in a name now separates two names, as a space does** (#105). "Maria-Aparecida-da-Silva" gives `mariaasilva` instead of failing, and a compound name changes address: "Ana-Clara Pereira-Lima" is `anacplima` / `analima`, no longer `anaclarapereiralima`. While the name has a hyphen, a notice under the field says so; its text is in Settings → Texts.
+- CI: Dependabot PRs opened against `main` (security updates, which ignore `target-branch`) are moved to `develop` before auto-merge is turned on, so none merges into production unreleased (#110).
+- Tests: a snapshot freezes the address every form builds for real-shaped names (particles, hyphens, accents, ligatures, invisible characters), so a change to the rules shows up as a diff (#103).
+
+### Security
+
+- Dev toolchain: `minimatch` is forced to `^11.0.1` through `overrides` and `fast-uri` moves to 3.1.9, clearing four moderate Dependabot alerts; nothing that ships changes (#101).
+- Dev toolchain: `undici` moves to 8.12.3 (a moderate Dependabot alert); the update merged straight to `main` and was brought back to `develop`. Nothing that ships changes (#98, #109).
+
+## [1.5.0] (2026-10-19) — `51cf3daf`
 
 ### Changed
 

@@ -611,7 +611,7 @@ final class SettingsPage {
 					),
 					array(
 						'label' => __( 'Students, teachers and interns', 'institutional-email' ),
-						'keys'  => array( 'error_name', 'passwordResult' ),
+						'keys'  => array( 'error_name', 'nameHyphen', 'passwordResult' ),
 					),
 				),
 			),

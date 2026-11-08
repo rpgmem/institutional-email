@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Institutional Email 1.4.0\n"
+"Project-Id-Version: Institutional Email 1.5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rpgmem/institutional-email/issues\n"
-"POT-Creation-Date: 2026-10-18 03:50+0000\n"
+"POT-Creation-Date: 2026-11-08 13:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,185 +231,193 @@ msgid "From %1$d to %2$d letters (%3$d by default). Shorter middle names, such a
 msgstr ""
 
 #: src/admin/documentation.php:92
-msgid "Domain and password"
+msgid "A hyphen separates two names, as a space does: Maria-Aparecida-da-Silva gives the same address as Maria Aparecida da Silva, and Ana-Clara is read as Ana Clara. While a name has a hyphen, the form says so under the field."
 msgstr ""
 
 #: src/admin/documentation.php:92
-msgid "What comes after the \"@\", and the password a new account starts with. The password is public: everyone who opens the form sees it."
-msgstr ""
-
-#: src/admin/documentation.php:93 src/admin/settings-page.php:366
-msgid "RF check digit"
+msgid "Hyphens"
 msgstr ""
 
 #: src/admin/documentation.php:93
+msgid "Domain and password"
+msgstr ""
+
+#: src/admin/documentation.php:93
+msgid "What comes after the \"@\", and the password a new account starts with. The password is public: everyone who opens the form sees it."
+msgstr ""
+
+#: src/admin/documentation.php:94 src/admin/settings-page.php:366
+msgid "RF check digit"
+msgstr ""
+
+#: src/admin/documentation.php:94
 msgid "The seventh digit of an RF is a check digit. On by default, an RF whose check digit does not match is refused, so a typo does not become an address that does not exist."
 msgstr ""
 
-#: src/admin/documentation.php:94
+#: src/admin/documentation.php:95
 msgid "A student's address is the RA padded with zeros to 12 digits, its check digit and \"sp\", at al.educacao.sp.gov.br; the initial password is the date of birth (DDMMYYYY). These rules have nothing to set."
 msgstr ""
 
-#: src/admin/documentation.php:94
+#: src/admin/documentation.php:95
 msgid "State schools"
 msgstr ""
 
-#: src/admin/documentation.php:98 src/admin/documentation.php:104
+#: src/admin/documentation.php:99 src/admin/documentation.php:105
 #: src/admin/settings-page.php:667
 msgid "Texts"
 msgstr ""
 
-#: src/admin/documentation.php:101
+#: src/admin/documentation.php:102
 msgid "What the form says."
 msgstr ""
 
-#: src/admin/documentation.php:103 src/admin/settings-page.php:419
+#: src/admin/documentation.php:104 src/admin/settings-page.php:419
 msgid "Next step"
 msgstr ""
 
-#: src/admin/documentation.php:103
+#: src/admin/documentation.php:104
 msgid "The platform the form links to below the result. Without an address, no next step is shown."
 msgstr ""
 
-#: src/admin/documentation.php:104
+#: src/admin/documentation.php:105
 msgid "Any label, hint or message, grouped by school network and by the form or option that shows it. An empty field keeps the built-in text, which follows the site's language."
 msgstr ""
 
-#: src/admin/documentation.php:108 src/admin/settings-page.php:477
+#: src/admin/documentation.php:109 src/admin/settings-page.php:477
 #: src/admin/settings-page.php:671
 msgid "Design"
 msgstr ""
 
-#: src/admin/documentation.php:111
+#: src/admin/documentation.php:112
 msgid "How the form looks on the site's pages."
 msgstr ""
 
-#: src/admin/documentation.php:113 src/admin/settings-page.php:481
+#: src/admin/documentation.php:114 src/admin/settings-page.php:481
 msgid "Customise"
 msgstr ""
 
-#: src/admin/documentation.php:113
+#: src/admin/documentation.php:114
 msgid "Off by default: the form keeps its own look. Switched on, it uses the width, colours, corners and font set here; switching it off clears the customisation, so the values go back to their defaults."
 msgstr ""
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "Colours"
 msgstr ""
 
-#: src/admin/documentation.php:114
+#: src/admin/documentation.php:115
 msgid "Of the buttons and links, the button text, the field borders, the hints, the errors and the result, in the light look; in dark mode the form keeps its own dark colours. A pair hard to read (below 4.5:1, as WCAG asks) is saved with a warning naming it."
 msgstr ""
 
-#: src/admin/documentation.php:115 src/admin/settings-page.php:498
+#: src/admin/documentation.php:116 src/admin/settings-page.php:498
 msgid "Form width"
 msgstr ""
 
-#: src/admin/documentation.php:115
+#: src/admin/documentation.php:116
 msgid "The widest the form grows on a page, in pixels; on a narrower screen it fills the space it has."
 msgstr ""
 
-#: src/admin/documentation.php:116
+#: src/admin/documentation.php:117
 msgid "Rounded corners and font"
 msgstr ""
 
-#: src/admin/documentation.php:116
+#: src/admin/documentation.php:117
 msgid "The radius of the fields, buttons and result, and the font: the site theme's (the default), the plugin's system font, or Arial, the same three choices as Free Form Certificate's forms."
 msgstr ""
 
-#: src/admin/documentation.php:120
+#: src/admin/documentation.php:121
 msgid "Privacy"
 msgstr ""
 
-#: src/admin/documentation.php:122
+#: src/admin/documentation.php:123
 msgid "Nothing typed in the form is sent to the site, and the plugin stores no personal data."
 msgstr ""
 
-#: src/admin/documentation.php:124
+#: src/admin/documentation.php:125
 msgid "In the browser"
 msgstr ""
 
-#: src/admin/documentation.php:124
+#: src/admin/documentation.php:125
 msgid "The address is worked out on the visitor's device, and nothing is kept after the page is closed."
 msgstr ""
 
-#: src/admin/documentation.php:125
+#: src/admin/documentation.php:126
 msgid "If an administrator switches it on, Google receives each visit to a page with a form, as on any site that uses it, and an event saying a form worked out an address. What was typed and the address are never sent."
 msgstr ""
 
-#: src/admin/documentation.php:125
+#: src/admin/documentation.php:126
 msgid "With Google Analytics"
 msgstr ""
 
-#: src/admin/documentation.php:126
+#: src/admin/documentation.php:127
 msgid "On the site"
 msgstr ""
 
-#: src/admin/documentation.php:126
+#: src/admin/documentation.php:127
 msgid "Only these settings are stored, in one option that is deleted when the plugin is."
 msgstr ""
 
-#: src/admin/documentation.php:130
+#: src/admin/documentation.php:131
 msgid "Updates"
 msgstr ""
 
-#: src/admin/documentation.php:132
+#: src/admin/documentation.php:133
 msgid "New versions arrive through the normal WordPress update screen, from the plugin's GitHub releases."
 msgstr ""
 
-#: src/admin/documentation.php:134
+#: src/admin/documentation.php:135
 msgid "Checked package"
 msgstr ""
 
-#: src/admin/documentation.php:134
+#: src/admin/documentation.php:135
 msgid "Each package is checked against its published SHA-256 before it is installed."
 msgstr ""
 
-#: src/admin/documentation.php:135
+#: src/admin/documentation.php:136
 msgid "Automatic updates"
 msgstr ""
 
-#: src/admin/documentation.php:135
+#: src/admin/documentation.php:136
 msgid "Turned on or off with WordPress's own link on the Plugins screen."
 msgstr ""
 
-#: src/admin/documentation.php:136
+#: src/admin/documentation.php:137
 msgid "Shows the description, installation steps and screenshots, in your language when the plugin ships a translation of them. A screenshot opens larger without leaving the window: the arrows move between them, and the wheel, a pinch or a click zooms in."
 msgstr ""
 
-#: src/admin/documentation.php:136
+#: src/admin/documentation.php:137
 msgid "View details"
 msgstr ""
 
-#: src/admin/documentation.php:154
+#: src/admin/documentation.php:155
 msgid "Quick Navigation"
 msgstr ""
 
-#: src/admin/documentation.php:155
+#: src/admin/documentation.php:156
 msgid "Search documentation"
 msgstr ""
 
-#: src/admin/documentation.php:155
+#: src/admin/documentation.php:156
 msgid "Search documentation…"
 msgstr ""
 
-#: src/admin/documentation.php:159
+#: src/admin/documentation.php:160
 msgid "No topic matches this search."
 msgstr ""
 
 #. translators: %s: settings tab name.
-#: src/admin/documentation.php:181
+#: src/admin/documentation.php:182
 #, php-format
 msgid "Open the %s tab"
 msgstr ""
 
 #. translators: %s: plugin author's name, linked to the author's page.
-#: src/admin/documentation.php:210
+#: src/admin/documentation.php:211
 #, php-format
 msgid "Developed by %s."
 msgstr ""
 
 #. translators: %s: link to the plugin's source repository.
-#: src/admin/documentation.php:216
+#: src/admin/documentation.php:217
 #, php-format
 msgid "Source code and issue tracker: %s"
 msgstr ""
@@ -859,66 +867,70 @@ msgid "Type the full name, with at least a first and a last name."
 msgstr ""
 
 #: src/config.php:182
-msgid "Choose a valid date of birth."
+msgid "A hyphen counts as a space: \"Ana-Clara\" is read as \"Ana Clara\". Check that the address found is yours."
 msgstr ""
 
 #: src/config.php:183
-msgid "Type the 7 digits of the RF."
+msgid "Choose a valid date of birth."
 msgstr ""
 
 #: src/config.php:184
-msgid "This RF's check digit does not match: check the number."
+msgid "Type the 7 digits of the RF."
 msgstr ""
 
 #: src/config.php:185
-msgid "Type a valid CPF."
+msgid "This RF's check digit does not match: check the number."
 msgstr ""
 
 #: src/config.php:186
-msgid "Student's RA (Registro do Aluno)"
+msgid "Type a valid CPF."
 msgstr ""
 
 #: src/config.php:187
-msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
+msgid "Student's RA (Registro do Aluno)"
 msgstr ""
 
 #: src/config.php:188
-msgid "RA check digit"
+msgid "The digits before the check digit, as the SED shows them; leading zeros may be left out."
 msgstr ""
 
 #: src/config.php:189
-msgid "A number from 0 to 9, or X."
+msgid "RA check digit"
 msgstr ""
 
 #: src/config.php:190
-msgid "Do not know the RA? Look it up on the SED:"
+msgid "A number from 0 to 9, or X."
 msgstr ""
 
 #: src/config.php:191
-msgid "The initial password is the date of birth:"
+msgid "Do not know the RA? Look it up on the SED:"
 msgstr ""
 
 #: src/config.php:192
-msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
+msgid "The initial password is the date of birth:"
 msgstr ""
 
 #: src/config.php:193
-msgid "Get your access on the SED"
+msgid "State teachers create their institutional email on their first access to the SED, and its password is the same as the SED one."
 msgstr ""
 
 #: src/config.php:194
-msgid "Type the RA's digits, up to 12."
+msgid "Get your access on the SED"
 msgstr ""
 
 #: src/config.php:195
-msgid "Type the check digit: a number from 0 to 9, or X."
+msgid "Type the RA's digits, up to 12."
 msgstr ""
 
 #: src/config.php:196
-msgid "Then sign in with this email and password, not a personal account, at:"
+msgid "Type the check digit: a number from 0 to 9, or X."
 msgstr ""
 
 #: src/config.php:197
+msgid "Then sign in with this email and password, not a personal account, at:"
+msgstr ""
+
+#: src/config.php:198
 msgid "The email is worked out in your browser: nothing you type is sent or stored anywhere."
 msgstr ""
 
